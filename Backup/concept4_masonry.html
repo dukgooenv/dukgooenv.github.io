@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JUNG DAEKUN | Masonry Wall</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  body { background: #080a0d; color: #fff; font-family: "Rajdhani", sans-serif; margin: 0; padding: 0; }
+  header { text-align: center; padding: 120px 20px 80px; border-bottom: 1px solid #222; }
+  h1 { font-size: 5rem; color: #d4b355; margin:0; line-height: 1; letter-spacing: 5px; text-transform: uppercase; }
+  p.sub { font-size: 1.2rem; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
+  .masonry { column-count: 3; column-gap: 20px; padding: 40px; max-width: 1600px; margin: 0 auto; }
+  @media(max-width: 1200px){ .masonry { column-count: 2; } }
+  @media(max-width: 768px){ .masonry { column-count: 1; } }
+  .item { break-inside: avoid; margin-bottom: 20px; position: relative; overflow: hidden; border-radius: 8px; border: 1px solid #222; background: #111; cursor: pointer; }
+  .item img { width: 100%; display: block; filter: grayscale(40%); transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s; }
+  .item:hover img { filter: grayscale(0%); transform: scale(1.05); }
+  .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%); opacity: 0; transition: opacity 0.4s; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
+  .item:hover .overlay { opacity: 1; }
+  .overlay h3 { margin: 0; font-size: 1.5rem; color: #fff; letter-spacing: 1px; text-transform: uppercase; transform: translateY(10px); transition: transform 0.4s; }
+  .overlay p { margin: 5px 0 0; color: #d4b355; font-size: 0.9rem; font-family: monospace; transform: translateY(10px); transition: transform 0.4s 0.05s; }
+  .item:hover h3, .item:hover p { transform: translateY(0); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Jung Daekun</h1>
+    <p class="sub">15+ Years Senior Environment Artist</p>
+  </header>
+  <div class="masonry">
+    <div class="item"><img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg"><div class="overlay"><h3>Project M</h3><p>PlayStation 5 / NCSoft</p></div></div>
+    <div class="item"><img src="https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg"><div class="overlay"><h3>ODIN</h3><p>Mobile & PC / Lionheart</p></div></div>
+    <div class="item"><img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg"><div class="overlay"><h3>창세기전</h3><p>Nintendo Switch / Line Games</p></div></div>
+    <div class="item"><img src="https://img.youtube.com/vi/mcTm2DmXd3Y/maxresdefault.jpg"><div class="overlay"><h3>Urban Hideout</h3><p>Personal / Look-dev</p></div></div>
+    <div class="item"><img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg"><div class="overlay"><h3>Ascendant One</h3><p>PC / Nexon</p></div></div>
+    <div class="item"><img src="https://img.youtube.com/vi/WehIUseB8FQ/maxresdefault.jpg"><div class="overlay"><h3>HMMWV</h3><p>Diorama / Personal</p></div></div>
+  </div>
+</body>
+</html>

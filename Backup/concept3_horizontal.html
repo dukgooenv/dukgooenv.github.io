@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JUNG DAEKUN | Horizontal 3D</title>
+<style>
+  body, html { margin: 0; padding: 0; background: #050505; color: #fff; font-family: "Rajdhani", sans-serif; overflow-x: hidden; overflow-y: hidden; }
+  .horizontal-scroll { display: flex; width: max-content; height: 100vh; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+  .horizontal-scroll::-webkit-scrollbar { height: 8px; }
+  .horizontal-scroll::-webkit-scrollbar-thumb { background: #d4b355; }
+  section { width: 100vw; height: 100vh; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0; padding: 0 10vw; box-sizing: border-box; }
+  .title-sec { flex-direction: column; align-items: flex-start; }
+  h1 { font-size: 6rem; text-transform: uppercase; line-height: 0.9; margin: 0; }
+  .gallery-item { width: 60vw; height: 70vh; position: relative; overflow: hidden; box-shadow: 20px 20px 50px rgba(0,0,0,0.8); border: 1px solid #333; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  .info { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+  .info h2 { margin: 0; font-size: 2.5rem; text-transform: uppercase; color: #d4b355; }
+  .info p { font-size: 1.2rem; color: #ccc; font-family: monospace; }
+  .hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 1rem; letter-spacing: 4px; color: #d4b355; z-index: 100; pointer-events: none; animation: pulse 2s infinite; text-transform: uppercase; }
+  @keyframes pulse { 0%,100%{opacity:0.5;} 50%{opacity:1;} }
+  /* Mouse wheel to horizontal scroll script */
+</style>
+</head>
+<body>
+<div class="hint">Scroll Right -></div>
+<div class="horizontal-scroll" id="scroll-container">
+  <section class="title-sec">
+    <div style="color:#d4b355; letter-spacing: 5px; margin-bottom: 20px;">// ENVIRONMENT ARTIST</div>
+    <h1>JUNG<br>DAEKUN</h1>
+    <p style="max-width: 500px; font-size: 1.2rem; color: #888; margin-top: 30px;">15+ Years of AAA Game Experience.<br>Building immersive worlds and optimizing pipelines.</p>
+  </section>
+  <section>
+    <div class="gallery-item">
+      <img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg">
+      <div class="info"><h2>Project M</h2><p>NCSoft / PlayStation 5</p></div>
+    </div>
+  </section>
+  <section>
+    <div class="gallery-item">
+      <img src="https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg">
+      <div class="info"><h2>ODIN: Valhalla Rising</h2><p>Lionheart Studio</p></div>
+    </div>
+  </section>
+  <section>
+    <div class="gallery-item">
+      <img src="https://img.youtube.com/vi/mcTm2DmXd3Y/maxresdefault.jpg">
+      <div class="info"><h2>The Urban Hideout</h2><p>Personal Work / Look-dev</p></div>
+    </div>
+  </section>
+</div>
+<script>
+  const container = document.getElementById("scroll-container");
+  container.addEventListener("wheel", function (e) {
+    if (e.deltaY > 0) container.scrollLeft += 100;
+    else container.scrollLeft -= 100;
+  });
+</script>
+</body>
+</html>

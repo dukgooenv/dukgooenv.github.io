@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DukGoo | Environment Artist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --as-bg: #121212;
+    --as-nav: #181818;
+    --as-panel: #202020;
+    --as-blue: #199cff;
+    --as-blue-hover: #007add;
+    --as-text: #e0e0e0;
+    --as-text-muted: #999999;
+    --as-border: #333333;
+  }
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: var(--as-bg);
+    color: var(--as-text);
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--as-bg); }
+  ::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+  /* ── 1. TOP NAV BAR ── */
+  .top-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    background-color: var(--as-nav); padding: 0 20px; height: 60px;
+    border-bottom: 1px solid #000; position: sticky; top: 0; z-index: 1000;
+  }
+  .nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
+  
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 20px; letter-spacing: -0.5px;
+    color: #fff; text-decoration: none;
+  }
+  .logo-icon {
+    width: 30px; height: 30px; background: linear-gradient(135deg, var(--as-blue), #00d2ff);
+    clip-path: polygon(0 100%, 50% 0, 100% 100%, 50% 70%);
+  }
+  
+  .nav-links { display: flex; gap: 7px; }
+  .nav-links a { color: var(--as-text-muted); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  
+  .search-bar {
+    display: flex; align-items: center; background: #2a2a2a; border: 1px solid #333;
+    border-radius: 20px; padding: 6px 15px; width: 300px; transition: border-color 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--as-text-muted); }
+  .search-bar input { background: none; border: none; color: #fff; outline: none; width: 100%; font-size: 14px; margin-left: 8px; }
+  
+  .btn-login {
+    background: var(--as-blue); color: #fff; border: none; border-radius: 4px;
+    padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-login:hover { background: var(--as-blue-hover); }
+
+  
+  .top-section {
+    flex-shrink: 0;
+    padding: 20px 20px 0 20px;
+    background: var(--as-bg);
+    z-index: 10;
+  }
+  .scroll-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 20px 20px;
+  }
+  .scroll-section::-webkit-scrollbar { width: 10px; }
+  .scroll-section::-webkit-scrollbar-track { background: var(--as-bg); }
+  .scroll-section::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+  .scroll-section::-webkit-scrollbar-thumb:hover { background: #666; }
+
+  /* ── 2. MAIN CONTAINER & BANNERS ── */
+  .main-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; max-width: 2000px; margin: 0 auto; width: 100%; }
+  
+  .banner-carousel {
+    display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 10px; width: 100%;
+  }
+  .banner-card {
+    flex: 1; height: 300px;
+    border-radius: 8px; overflow: hidden;
+    position: relative; cursor: pointer;
+    background: #222;
+  }
+  
+  .banner-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, opacity 0.4s; }
+  .banner-card:hover img { transform: scale(1.05); }
+  .banner-hover-video { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+  .banner-hover-video iframe { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); pointer-events: none; border: none; }
+  .banner-card.video-loaded:hover .banner-hover-video { opacity: 1; }
+  .banner-card.video-loaded:hover img { opacity: 0; }
+  .banner-overlay { z-index: 2; pointer-events: none; }
+
+  
+  .banner-overlay {
+    position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; pointer-events: none;
+  }
+  .banner-badge {
+    position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; color: #ccc; letter-spacing: 0.5px;
+  }
+  .banner-title { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+  .banner-sub { font-size: 13px; color: #aaa; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+
+  /* ── 3. CHANNELS BAR ── */
+  .channels-bar {
+    display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 10px 0 20px 0; margin-bottom: 10px; scrollbar-width: none;
+  }
+  .channels-bar::-webkit-scrollbar { display: none; }
+  
+  .channel-pill {
+    display: flex; align-items: center; gap: 8px; background: var(--as-panel); border: 1px solid var(--as-border);
+    padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--as-text);
+    cursor: pointer; white-space: nowrap; transition: all 0.2s;
+  }
+  .channel-pill:hover, .channel-pill.active { background: #333; color: #fff; border-color: #555; }
+  .channel-icon { width: 20px; height: 20px; border-radius: 50%; background: #444; object-fit: cover; }
+
+  /* ── 4. MAIN GRID ── */
+  .section-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 20px; letter-spacing: -0.5px; }
+  
+  .art-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: 200px;
+    gap: 7px;
+  }
+  /* Force 8 columns on desktop (above 1200px), then 6, then 4 */
+  @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
+  @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
+  
+  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; }
+  .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s; }
+  .art-card:hover img { filter: brightness(0.7); }
+  
+  .art-info {
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); opacity: 0; transition: opacity 0.2s;
+    display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;
+  }
+  .art-card:hover .art-info { opacity: 1; }
+  
+  .art-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+  .art-author { font-size: 13px; color: #bbb; display: flex; align-items: center; gap: 6px; }
+  .author-avatar { width: 18px; height: 18px; border-radius: 50%; background: #555; }
+  .art-likes { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #fff; font-weight: 600; }
+
+  /* ── 5. FLOATING FILTER ── */
+  .floating-filter {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: var(--as-panel); padding: 5px; border-radius: 30px; display: flex; gap: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--as-border); z-index: 1000;
+  }
+  .ff-btn {
+    background: transparent; color: var(--as-text-muted); border: none; padding: 10px 24px; border-radius: 25px;
+    font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  }
+  .ff-btn:hover { color: #fff; }
+  .ff-btn.active { background: #fff; color: #000; }
+
+  /* ── 6. LIGHTBOX ── */
+  #lightbox {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; flex-direction: column;
+  }
+  #lightbox.active { display: flex; }
+  .lb-header {
+    display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 1px solid #222;
+  }
+  .lb-header-info { display: flex; align-items: center; gap: 7px; }
+  .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: #333; }
+  .lb-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .lb-author { font-size: 14px; color: var(--as-blue); cursor: pointer; }
+  .lb-close { background: none; border: none; color: #888; font-size: 30px; cursor: pointer; }
+  .lb-close:hover { color: #fff; }
+  .lb-content {
+    flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden; position: relative;
+  }
+  .lb-content img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+  .lb-content iframe { width: 80vw; height: 45vw; max-height: 80vh; max-width: 1200px; border: none; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+  
+  .lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: #fff;
+    width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+  }
+  .lb-nav:hover { background: rgba(255,255,255,0.2); }
+  .lb-prev { left: 20px; }
+  .lb-next { right: 20px; }
+
+/* --- SCROLL LAYOUT OVERRIDE --- */
+body {
+    height: auto !important;
+    overflow-y: scroll !important;
+    display: block !important;
+}
+.main-container {
+    display: block !important;
+    overflow: visible !important;
+    padding: 0 20px !important;
+}
+.top-section, .scroll-section {
+    display: block !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    flex: none !important;
+}
+.top-section { padding-top: 20px !important; margin-bottom: 20px !important; }
+.channels-bar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(18, 18, 18, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 15px 0 !important;
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid #222 !important;
+}
+
+</style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  
+
+  <div class="main-container">
+    <div class="top-section">
+      <!-- HERO BANNERS -->
+      <div class="banner-carousel">
+      
+      <!-- 1. NCSoft (Project M) -->
+      <div class="banner-card" onclick="openLbVideo('liEb8B3osuY', 'PROJECT M', 0)"
+           onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
+        <img src="https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg"  alt="Project M">
+        <div class="banner-hover-video">
+          <iframe data-src="https://www.youtube.com/embed/liEb8B3osuY?autoplay=1&mute=1&loop=1&playlist=liEb8B3osuY&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
+        </div>
+        <div class="banner-overlay">
+          <div class="banner-badge">PRO PROJECT</div>
+          <div class="banner-title">NCSoft: PROJECT M</div>
+          <div class="banner-sub">Interactive Adventure & High Fidelity Lighting</div>
+        </div>
+      </div>
+
+      <!-- 2. Nexon (Ascendant One) -->
+      <div class="banner-card" onclick="openLbVideo('NOZ51TUyemo', 'ASCENDANT ONE', 0)"
+           onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
+        <img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg'" alt="Ascendant One">
+        <div class="banner-hover-video">
+          <iframe data-src="https://www.youtube.com/embed/NOZ51TUyemo?autoplay=1&mute=1&loop=1&playlist=NOZ51TUyemo&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
+        </div>
+        <div class="banner-overlay">
+          <div class="banner-badge">PRO PROJECT</div>
+          <div class="banner-title">Nexon: ASCENDANT ONE</div>
+          <div class="banner-sub">Hard Surface Modeling & PBR Texturing</div>
+        </div>
+      </div>
+
+      <!-- 3. Line Games (창세기전) -->
+      <div class="banner-card" onclick="openLbVideo('2zKdRMch0Us', 'THE WAR OF GENESIS', 0)"
+           onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
+        <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/2zKdRMch0Us/hqdefault.jpg'" alt="The War of Genesis">
+        <div class="banner-hover-video">
+          <iframe data-src="https://www.youtube.com/embed/2zKdRMch0Us?autoplay=1&mute=1&loop=1&playlist=2zKdRMch0Us&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
+        </div>
+        <div class="banner-overlay">
+          <div class="banner-badge">PRO PROJECT</div>
+          <div class="banner-title">Line Games: 창세기전 (The War of Genesis)</div>
+          <div class="banner-sub">Level Design & Engine Integration</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CHANNELS BAR -->
+    
+    </div> <!-- end top-section -->
+
+    <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
+        <div class="channel-pill active" onclick="filterData('ALL', this)">
+          <div class="channel-icon" style="background:#555;"></div> ALL Portfolio
+        </div>
+        <div class="channel-pill" onclick="filterData('PRO', this)">
+          <div class="channel-icon" style="background:#199cff;"></div> Professional
+        </div>
+        <div class="channel-pill" onclick="filterData('PERSONAL', this)">
+          <div class="channel-icon" style="background:#ff3366;"></div> Personal Works
+        </div>
+        <div class="channel-pill" onclick="filterData('RELIGHT', this)">
+          <div class="channel-icon" style="background:#ffcc00;"></div> Re:Lighting
+        </div>
+        <div class="channel-pill" onclick="filterData('SKETCH', this)">
+          <div class="channel-icon" style="background:#9933ff;"></div> Sketch Note
+        </div>
+      </div>
+      
+      <div class="channels-right" style="display: flex; gap: 25px; align-items: center; margin-left: auto; padding-right: 20px;">
+        <a href="javascript:void(0);" onclick="showAbout()" style="color: var(--as-text-muted); text-decoration: none; font-family: var(--font-head); font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--as-text-muted)'">About</a>
+        <a href="javascript:void(0);" onclick="document.querySelectorAll('.channel-pill')[2].click();" style="color: var(--as-text-muted); text-decoration: none; font-family: var(--font-head); font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--as-text-muted)'">Personal Work</a>
+      </div>
+    </div>
+
+
+    <div class="scroll-section">
+      <h2 class="section-title" id="grid-title" style="margin-top:10px;">ALL Portfolio</h2>
+      
+      
+      <!-- ABOUT SECTION -->
+      <div id="about-container" style="display: none; padding: 20px 0 60px 0; animation: fadeIn 0.5s;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px;">
+          <!-- Left: Video & Bio -->
+          <div>
+            <!-- NCSoft Project M Video -->
+            <div style="position: relative; width: 100%; aspect-ratio: 16/9; margin-bottom: 30px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333;">
+              <iframe src="https://www.youtube.com/embed/liEb8B3osuY?autoplay=1&mute=1&loop=1&playlist=liEb8B3osuY&controls=0&rel=0&modestbranding=1" style="width: 100%; height: 100%; border: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+
+            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #fff; letter-spacing: -1px; font-family: 'Inter', sans-serif; font-style: normal;">DukGoo</h1>
+            <h3 style="color: var(--as-blue); margin-bottom: 30px; font-family: var(--font-mono); font-size: 16px; font-style: normal; letter-spacing: 1px;">// Senior Environment Artist</h3>
+            
+            <p style="color: #bbb; line-height: 1.8; margin-bottom: 20px; font-size: 15px;">
+              15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
+              단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.
+            </p>
+            <p style="color: #888; line-height: 1.8; margin-bottom: 40px; font-size: 14px; font-family: var(--font-mono);">
+              I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
+            </p>
+
+            <h4 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: 'Inter', sans-serif;">Skills & Expertise</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
+              <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
+              <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
+              <div>▸ Substance Painter/Designer</div><div>▸ 3D Asset Creation</div>
+              <div>▸ SpeedTree / World Creator</div><div>▸ Look-dev & Lighting</div>
+              <div>▸ CryEngine / Unity</div><div>▸ Technical Optimization</div>
+            </div>
+          </div>
+          
+          <!-- Right: Career Timeline -->
+          <div>
+            <h2 style="font-size: 24px; color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 30px; font-family: 'Inter', sans-serif; font-style: normal; text-transform: none;">Professional Experience</h2>
+            
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid var(--as-blue); border-radius: 4px; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'" onclick="openAboutLightbox('ncsoft')">
+              <div style="color: var(--as-blue); font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2021 — 2024</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">NCSoft <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS 36</span></div>
+              <div style="font-size: 15px; color: #aaa;">Project M / Senior Environment Artist</div>
+            </div>
+            
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)'" onmouseout="this.style.borderColor='#444'">
+              <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2018 — 2020</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px;">Line Games</div>
+              <div style="font-size: 15px; color: #aaa;">창세기전: 회색의 잔영 / Lead Environment Artist</div>
+            </div>
+            
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)'" onmouseout="this.style.borderColor='#444'">
+              <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2017 — 2018</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px;">Nexon Korea</div>
+              <div style="font-size: 15px; color: #aaa;">Ascendant One / Senior Environment Artist</div>
+            </div>
+
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)'" onmouseout="this.style.borderColor='#444'">
+              <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2017</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px;">XLGames</div>
+              <div style="font-size: 15px; color: #aaa;">Civilization Online / Senior Environment Artist</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>
+
+      <!-- MAIN GRID -->
+      <div class="art-grid" id="main-grid"></div>
+    </div>
+  </div> <!-- end main-container -->
+
+  <!-- FLOATING FILTER -->
+  <div class="floating-filter">
+    <button class="ff-btn active" onclick="filterData('ALL', this, true)">Community</button>
+    <button class="ff-btn" onclick="filterData('PRO', this, true)">Trending</button>
+    <button class="ff-btn" onclick="filterData('PERSONAL', this, true)">Latest</button>
+  </div>
+
+  <!-- LIGHTBOX -->
+  
+  <!-- DETAILED PROJECT MODAL -->
+  <div id="lightbox" style="display:none; position:fixed; inset:0; background:#0e0e0e; z-index:4000; overflow-y:auto;">
+    
+    <!-- Header -->
+    <div style="position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(18,18,18,0.95); border-bottom:1px solid #333; z-index:4010; backdrop-filter:blur(10px);">
+      <div style="display:flex; align-items:center; gap:15px;">
+        <div style="width:40px; height:40px; border-radius:50%; background:var(--as-blue); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px;">JD</div>
+        <div>
+          <div id="lb-title" style="font-size:20px; font-weight:800; font-family:'Oswald', sans-serif; text-transform:uppercase; color:#fff;">PROJECT TITLE</div>
+          <div style="font-size:13px; color:#aaa; font-family:'Noto Sans KR', sans-serif;">DukGoo / Senior Environment Artist</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:15px; align-items:center;">
+        <button onclick="closeLb()" style="background:none; border:none; color:#fff; font-size:30px; cursor:pointer; font-weight:300;">&times;</button>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div style="max-width:1400px; margin:0 auto; padding:40px 20px; display:flex; flex-direction:column; gap:40px;">
+      
+      <!-- Main Media Container -->
+      <div id="lb-content" style="width:100%; background:#000; border-radius:8px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Description Area -->
+      <div style="display:flex; gap:40px; border-top:1px solid #333; padding-top:40px;">
+        <div style="flex:2;">
+          <h2 style="font-size:28px; font-family:'Oswald', sans-serif; color:#fff; margin-bottom:15px;" id="lb-sub-title">Project Details</h2>
+          <p id="lb-desc" style="font-size:16px; color:#ccc; line-height:1.8; font-family:'Noto Sans KR', sans-serif;">
+            프로젝트에 대한 상세 설명이 들어가는 공간입니다.
+          </p>
+        </div>
+        <div style="flex:1; background:#1a1a1a; padding:25px; border-radius:8px;">
+          <h3 style="font-size:16px; color:#888; text-transform:uppercase; margin-bottom:15px; letter-spacing:1px;">Software Used</h3>
+          <div id="lb-software" style="display:flex; flex-wrap:wrap; gap:10px;">
+            <span style="background:#333; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Unreal Engine</span>
+            <span style="background:#333; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">3ds Max</span>
+            <span style="background:#333; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Substance</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Thumbnails / Gallery -->
+      <div id="lb-gallery" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:15px; padding-bottom:60px;">
+        <!-- Injected via JS -->
+      </div>
+      
+    </div>
+  </div>
+
+<script>
+const portfolioData = [
+
+  { key:'lionheart', category:'PRO', tag:'ENV', title: 'ODIN: VALHALLA RISING', sub: 'Lionheart Studio', thumb: 'https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg', type:'video', id:'tvAcoxRube0' },
+  { key:'ncsoft', category:'PRO', tag:'ENV', title: 'Project M', sub: 'NCSoft', thumb: 'https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg', type:'video', id:'liEb8B3osuY' },
+  { key:'changse', category:'PRO', tag:'ENV', title: '창세기전: 회색의 잔영', sub: 'Line Games', thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg', type:'video', id:'2zKdRMch0Us' },
+  { key:'nexon', category:'PRO', tag:'HARD', title: 'Ascendant One', sub: 'Nexon Korea', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp', type:'video', id:'NOZ51TUyemo' },
+  { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp', type:'video', id:'behf7twp1bo' },
+  { key:'neptune', category:'PRO', tag:'ENV', title: 'Neppy Rush', sub: 'Neptune', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg', type:'video', id:'k4VzC93T00g' },
+  { key:'puregames', category:'PRO', tag:'ENV', title: 'Vendetta', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
+  { key:'hideout', category:'PERSONAL', tag:'ENV', title: 'The Urban Hideout', sub: 'V-Ray Scene', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp', type:'video', id: 'mcTm2DmXd3Y' },
+
+  { key: '2011_PPSH41_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 006', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_006.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_006.webp' },
+  { key: '2011_PPSH41_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 001', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_001.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_001.webp' },
+  { key: '2011_PPSH41_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 002', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_002.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_002.webp' },
+  { key: '2011_PPSH41_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 003', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_003.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_003.webp' },
+  { key: '2011_PPSH41_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 004', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_004.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_004.webp' },
+  { key: '2011_PPSH41_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 005', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_005.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_005.webp' },
+  { key: 'Ferrari_005.webp', category: 'PERSONAL', tag: 'ENV', title: 'Ferrari 005', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Ferrari_005.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_005.webp' },
+  { key: 'Ferrari_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'Ferrari 004', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Ferrari_004.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_004.webp' },
+  { key: 'Apache_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'Apache 004', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Apache_004.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Apache_004.webp' },
+  { key: 'Truck_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'Truck 002', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Truck_002.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Truck_002.webp' },
+  { key: 'Ferrari_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'Ferrari 003', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Ferrari_003.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_003.webp' },
+  { key: 'Apache_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'Apache 003', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Apache_003.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Apache_003.webp' },
+  { key: 'Apache_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'Apache 002', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Apache_002.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Apache_002.webp' },
+  { key: 'Ferrari_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'Ferrari 002', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Ferrari_002.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_002.webp' },
+  { key: 'Ferrari_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'Ferrari 001', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Ferrari_001.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_001.webp' },
+  { key: 'Apache_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'Apache 001', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Apache_001.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Apache_001.webp' },
+  { key: 'Truck_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'Truck 001', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Truck_001.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Truck_001.webp' },
+  { key: 'Ferrari_006.webp', category: 'PERSONAL', tag: 'ENV', title: 'Ferrari 006', sub: 'PERSONAL', thumb: 'images/Personal/20000101_OldWork/Ferrari_006.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_006.webp' },
+  { key: '2016_ZbrushTile_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 001', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_001.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_001.webp' },
+  { key: '2016_ZbrushTile_007.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 007', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_007.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_007.webp' },
+  { key: '2016_ZbrushTile_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 006', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_006.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_006.webp' },
+  { key: '2016_ZbrushTile_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 005', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_005.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_005.webp' },
+  { key: '2016_ZbrushTile_008.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 008', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_008.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_008.webp' },
+  { key: '2016_ZbrushTile_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 004', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_004.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_004.webp' },
+  { key: '2016_ZbrushTile_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 003', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_003.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_003.webp' },
+  { key: '2016_ZbrushTile_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2016 ZbrushTile 002', sub: 'PERSONAL', thumb: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_002.webp', type: 'image', src: 'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_002.webp' },
+  { key: '2DNormal_008.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 008', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_008.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_008.webp' },
+  { key: '2DNormal_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 004', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_004.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_004.webp' },
+  { key: '2DNormal_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 005', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_005.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_005.webp' },
+  { key: '2DNormal_009.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 009', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_009.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_009.webp' },
+  { key: '2DNormal_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 002', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_002.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_002.webp' },
+  { key: '2DNormal_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 003', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_003.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_003.webp' },
+  { key: '2DNormal_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 001', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_001.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_001.webp' },
+  { key: '2DNormal_010.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 010', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_010.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_010.webp' },
+  { key: '2DNormal_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 006', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_006.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_006.webp' },
+  { key: '2DNormal_007.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 007', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_007.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_007.webp' },
+  { key: '2DNormal_011.webp', category: 'PERSONAL', tag: 'ENV', title: '2DNormal 011', sub: 'PERSONAL', thumb: 'images/Personal/20170823_EA_Test/2DNormal_011.webp', type: 'image', src: 'images/Personal/20170823_EA_Test/2DNormal_011.webp' },
+  { key: 'Stylized_Dungeon_008.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 008', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_008.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_008.webp' },
+  { key: 'Stylized_Dungeon_012.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 012', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_012.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_012.webp' },
+  { key: 'Stylized_Dungeon_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 004', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_004.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_004.webp' },
+  { key: 'Stylized_Dungeon_005.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 005', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_005.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_005.webp' },
+  { key: 'Stylized_Dungeon_013.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 013', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_013.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_013.webp' },
+  { key: 'Stylized_Dungeon_009.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 009', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_009.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_009.webp' },
+  { key: 'Stylized_Dungeon_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 002', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_002.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_002.webp' },
+  { key: 'Stylized_Dungeon_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 003', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_003.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_003.webp' },
+  { key: 'Stylized_Dungeon_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 001', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_001.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_001.webp' },
+  { key: 'Stylized_Dungeon_006.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 006', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_006.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_006.webp' },
+  { key: 'Stylized_Dungeon_010.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 010', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_010.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_010.webp' },
+  { key: 'Stylized_Dungeon_011.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 011', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_011.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_011.webp' },
+  { key: 'Stylized_Dungeon_007.webp', category: 'PERSONAL', tag: 'ENV', title: 'Stylized Dungeon 007', sub: 'PERSONAL', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_007.webp', type: 'image', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_007.webp' },
+  { key: '2013_Bulldozer_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2013 Bulldozer 001', sub: 'PERSONAL', thumb: 'images/Personal/20130809_BullDozer/2013_Bulldozer_001.webp', type: 'image', src: 'images/Personal/20130809_BullDozer/2013_Bulldozer_001.webp' },
+  { key: '2013_Bulldozer_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2013 Bulldozer 002', sub: 'PERSONAL', thumb: 'images/Personal/20130809_BullDozer/2013_Bulldozer_002.webp', type: 'image', src: 'images/Personal/20130809_BullDozer/2013_Bulldozer_002.webp' },
+  { key: '2013_Bulldozer_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2013 Bulldozer 003', sub: 'PERSONAL', thumb: 'images/Personal/20130809_BullDozer/2013_Bulldozer_003.webp', type: 'image', src: 'images/Personal/20130809_BullDozer/2013_Bulldozer_003.webp' },
+  { key: '2013_Bulldozer_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2013 Bulldozer 004', sub: 'PERSONAL', thumb: 'images/Personal/20130809_BullDozer/2013_Bulldozer_004.webp', type: 'image', src: 'images/Personal/20130809_BullDozer/2013_Bulldozer_004.webp' },
+  { key: '2013_Bulldozer_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2013 Bulldozer 005', sub: 'PERSONAL', thumb: 'images/Personal/20130809_BullDozer/2013_Bulldozer_005.webp', type: 'image', src: 'images/Personal/20130809_BullDozer/2013_Bulldozer_005.webp' },
+  { key: '2011_UT-EX 2077_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 006', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_006.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_006.webp' },
+  { key: '2011_UT-EX 2077_010.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 010', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_010.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_010.webp' },
+  { key: '2011_UT-EX 2077_007.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 007', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_007.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_007.webp' },
+  { key: '2011_UT-EX 2077_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 001', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_001.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_001.webp' },
+  { key: '2011_UT-EX 2077_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 002', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_002.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_002.webp' },
+  { key: '2011_UT-EX 2077_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 003', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_003.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_003.webp' },
+  { key: '2011_UT-EX 2077_008.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 008', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_008.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_008.webp' },
+  { key: '2011_UT-EX 2077_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 004', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_004.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_004.webp' },
+  { key: '2011_UT-EX 2077_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 005', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_005.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_005.webp' },
+  { key: '2011_UT-EX 2077_009.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 UT-EX 2077 009', sub: 'PERSONAL', thumb: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_009.webp', type: 'image', src: 'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_009.webp' },
+  { key: '2005_Tower.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 Tower', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_Tower.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_Tower.webp' },
+  { key: '2005_HMMWV_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 HMMWV 001', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_HMMWV_001.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_HMMWV_001.webp' },
+  { key: '2005_HMMWV_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 HMMWV 004', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_HMMWV_004.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_HMMWV_004.webp' },
+  { key: '2005_HMMWV_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 HMMWV 005', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_HMMWV_005.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_HMMWV_005.webp' },
+  { key: '2005_HMMWV_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 HMMWV 002', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_HMMWV_002.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_HMMWV_002.webp' },
+  { key: '2005_Yeins.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 Yeins', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_Yeins.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_Yeins.webp' },
+  { key: '2005_HMMWV_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2005 HMMWV 003', sub: 'PERSONAL', thumb: 'images/Personal/20050101_HMMWV/2005_HMMWV_003.webp', type: 'image', src: 'images/Personal/20050101_HMMWV/2005_HMMWV_003.webp' },
+  { key: '2014_Hideout_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Hideout 004', sub: 'PERSONAL', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_004.webp', type: 'image', src: 'images/Personal/20140613_Hideout/2014_Hideout_004.webp' },
+  { key: '2014_Hideout_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Hideout 002', sub: 'PERSONAL', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_002.webp', type: 'image', src: 'images/Personal/20140613_Hideout/2014_Hideout_002.webp' },
+  { key: '2014_Hideout_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Hideout 003', sub: 'PERSONAL', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_003.webp', type: 'image', src: 'images/Personal/20140613_Hideout/2014_Hideout_003.webp' },
+  { key: '2014_Hideout_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Hideout 001', sub: 'PERSONAL', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_001.webp', type: 'image', src: 'images/Personal/20140613_Hideout/2014_Hideout_001.webp' },
+  { key: 'Rock_Final_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'Rock Final 003', sub: 'PERSONAL', thumb: 'images/Personal/20201124_RockStudy/Rock_Final_003.webp', type: 'image', src: 'images/Personal/20201124_RockStudy/Rock_Final_003.webp' },
+  { key: 'Rock_Final_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'Rock Final 002', sub: 'PERSONAL', thumb: 'images/Personal/20201124_RockStudy/Rock_Final_002.webp', type: 'image', src: 'images/Personal/20201124_RockStudy/Rock_Final_002.webp' },
+  { key: 'Rock_Final_005.webp', category: 'PERSONAL', tag: 'ENV', title: 'Rock Final 005', sub: 'PERSONAL', thumb: 'images/Personal/20201124_RockStudy/Rock_Final_005.webp', type: 'image', src: 'images/Personal/20201124_RockStudy/Rock_Final_005.webp' },
+  { key: 'Rock_Final_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'Rock Final 004', sub: 'PERSONAL', thumb: 'images/Personal/20201124_RockStudy/Rock_Final_004.webp', type: 'image', src: 'images/Personal/20201124_RockStudy/Rock_Final_004.webp' },
+  { key: 'Rock_Final_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'Rock Final 001', sub: 'PERSONAL', thumb: 'images/Personal/20201124_RockStudy/Rock_Final_001.webp', type: 'image', src: 'images/Personal/20201124_RockStudy/Rock_Final_001.webp' },
+  { key: 'M4_M203_012.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 012', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_012.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_012.webp' },
+  { key: 'M4_M203_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 004', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_004.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_004.webp' },
+  { key: 'M4_M203_008.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 008', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_008.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_008.webp' },
+  { key: 'M4_M203_009.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 009', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_009.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_009.webp' },
+  { key: 'M4_M203_005.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 005', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_005.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_005.webp' },
+  { key: 'M4_M203_013.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 013', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_013.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_013.webp' },
+  { key: 'M4_M203_014.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 014', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_014.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_014.webp' },
+  { key: 'M4_M203_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 002', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_002.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_002.webp' },
+  { key: 'M4_M203_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 003', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_003.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_003.webp' },
+  { key: 'M4_M203_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 001', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_001.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_001.webp' },
+  { key: 'M4_M203_006.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 006', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_006.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_006.webp' },
+  { key: 'M4_M203_010.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 010', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_010.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_010.webp' },
+  { key: 'M4_M203_011.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 011', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_011.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_011.webp' },
+  { key: 'M4_M203_007.webp', category: 'PERSONAL', tag: 'ENV', title: 'M4 M203 007', sub: 'PERSONAL', thumb: 'images/Personal/20190902_M4/M4_M203_007.webp', type: 'image', src: 'images/Personal/20190902_M4/M4_M203_007.webp' },
+  { key: 'Desert_Rocks_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'Desert Rocks 003', sub: 'PERSONAL', thumb: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_003.webp', type: 'image', src: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_003.webp' },
+  { key: 'Desert_Rocks_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'Desert Rocks 002', sub: 'PERSONAL', thumb: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_002.webp', type: 'image', src: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_002.webp' },
+  { key: 'Desert_Rocks_005.webp', category: 'PERSONAL', tag: 'ENV', title: 'Desert Rocks 005', sub: 'PERSONAL', thumb: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_005.webp', type: 'image', src: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_005.webp' },
+  { key: 'Desert_Rocks_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'Desert Rocks 004', sub: 'PERSONAL', thumb: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_004.webp', type: 'image', src: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_004.webp' },
+  { key: 'Desert_Rocks_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'Desert Rocks 001', sub: 'PERSONAL', thumb: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_001.webp', type: 'image', src: 'images/Personal/20180927_Desert_Rocks/Desert_Rocks_001.webp' },
+  { key: '2014_Afternoon_Break_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Afternoon Break 001', sub: 'PERSONAL', thumb: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_001.webp', type: 'image', src: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_001.webp' },
+  { key: '2014_Afternoon_Break_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Afternoon Break 002', sub: 'PERSONAL', thumb: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_002.webp', type: 'image', src: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_002.webp' },
+  { key: '2014_Afternoon_Break_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Afternoon Break 003', sub: 'PERSONAL', thumb: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_003.webp', type: 'image', src: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_003.webp' },
+  { key: '2014_Afternoon_Break_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2014 Afternoon Break 004', sub: 'PERSONAL', thumb: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_004.webp', type: 'image', src: 'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_004.webp' },
+  { key: '2015_Forsaken_Dungeon_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2015 Forsaken Dungeon 002', sub: 'PERSONAL', thumb: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_002.webp', type: 'image', src: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_002.webp' },
+  { key: '2015_Forsaken_Dungeon_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2015 Forsaken Dungeon 003', sub: 'PERSONAL', thumb: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_003.webp', type: 'image', src: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_003.webp' },
+  { key: '2015_Forsaken_Dungeon_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2015 Forsaken Dungeon 004', sub: 'PERSONAL', thumb: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_004.webp', type: 'image', src: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_004.webp' },
+  { key: '2015_Forsaken_Dungeon_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2015 Forsaken Dungeon 005', sub: 'PERSONAL', thumb: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_005.webp', type: 'image', src: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_005.webp' },
+  { key: '2015_Forsaken_Dungeon_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2015 Forsaken Dungeon 006', sub: 'PERSONAL', thumb: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_006.webp', type: 'image', src: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_006.webp' },
+  { key: '2015_Forsaken_Dungeon_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2015 Forsaken Dungeon 001', sub: 'PERSONAL', thumb: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_001.webp', type: 'image', src: 'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_001.webp' },
+  { key: 'AK-74u_Final_005.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 005', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_005.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_005.webp' },
+  { key: 'AK-74u_Final_009.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 009', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_009.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_009.webp' },
+  { key: 'AK-74u_Final_008.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 008', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_008.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_008.webp' },
+  { key: 'AK-74u_Final_004.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 004', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_004.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_004.webp' },
+  { key: 'AK-74u_Final_003.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 003', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_003.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_003.webp' },
+  { key: 'AK-74u_Final_002.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 002', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_002.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_002.webp' },
+  { key: 'AK-74u_Final_001.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 001', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_001.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_001.webp' },
+  { key: 'AK-74u_Final_007.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 007', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_007.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_007.webp' },
+  { key: 'AK-74u_Final_006.webp', category: 'PERSONAL', tag: 'ENV', title: 'AK-74u Final 006', sub: 'PERSONAL', thumb: 'images/Personal/20110227_AK-74u/AK-74u_Final_006.webp', type: 'image', src: 'images/Personal/20110227_AK-74u/AK-74u_Final_006.webp' },
+  { key: '2011_CX-420_001.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 001', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_001.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_001.webp' },
+  { key: '2011_CX-420_007.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 007', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_007.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_007.webp' },
+  { key: '2011_CX-420_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 006', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_006.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_006.webp' },
+  { key: '2011_CX-420_005.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 005', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_005.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_005.webp' },
+  { key: '2011_CX-420_004.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 004', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_004.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_004.webp' },
+  { key: '2011_CX-420_008.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 008', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_008.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_008.webp' },
+  { key: '2011_CX-420_003.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 003', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_003.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_003.webp' },
+  { key: '2011_CX-420_002.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 CX-420 002', sub: 'PERSONAL', thumb: 'images/Personal/20110722_CX-420/2011_CX-420_002.webp', type: 'image', src: 'images/Personal/20110722_CX-420/2011_CX-420_002.webp' },
+  { key: '2008_YeinsSoft_014.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 014', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_014.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_014.webp' },
+  { key: '2008_YeinsSoft_002.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 002', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_002.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_002.webp' },
+  { key: '2008_YeinsSoft_018.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 018', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_018.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_018.webp' },
+  { key: '2008_YeinsSoft_022.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 022', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_022.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_022.webp' },
+  { key: '2008_YeinsSoft_023.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 023', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_023.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_023.webp' },
+  { key: '2008_YeinsSoft_019.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 019', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_019.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_019.webp' },
+  { key: '2008_YeinsSoft_003.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 003', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_003.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_003.webp' },
+  { key: '2008_YeinsSoft_015.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 015', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_015.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_015.webp' },
+  { key: '2008_YeinsSoft_008.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 008', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_008.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_008.webp' },
+  { key: '2008_YeinsSoft_024.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 024', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_024.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_024.webp' },
+  { key: '2008_YeinsSoft_012.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 012', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_012.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_012.webp' },
+  { key: '2008_YeinsSoft_004.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 004', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_004.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_004.webp' },
+  { key: '2008_YeinsSoft_005.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 005', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_005.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_005.webp' },
+  { key: '2008_YeinsSoft_013.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 013', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_013.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_013.webp' },
+  { key: '2008_YeinsSoft_025.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 025', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_025.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_025.webp' },
+  { key: '2008_YeinsSoft_009.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 009', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_009.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_009.webp' },
+  { key: '2008_YeinsSoft_026.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 026', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_026.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_026.webp' },
+  { key: '2008_YeinsSoft_006.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 006', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_006.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_006.webp' },
+  { key: '2008_YeinsSoft_010.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 010', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_010.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_010.webp' },
+  { key: '2008_YeinsSoft_011.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 011', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_011.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_011.webp' },
+  { key: '2008_YeinsSoft_007.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 007', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_007.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_007.webp' },
+  { key: '2008_YeinsSoft_027.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 027', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_027.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_027.webp' },
+  { key: '2008_YeinsSoft_016.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 016', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_016.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_016.webp' },
+  { key: '2008_YeinsSoft_020.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 020', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_020.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_020.webp' },
+  { key: '2008_YeinsSoft_021.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 021', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_021.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_021.webp' },
+  { key: '2008_YeinsSoft_017.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 017', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_017.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_017.webp' },
+  { key: '2008_YeinsSoft_001.webp', category: 'PRO', tag: 'ENV', title: '2008 YeinsSoft 001', sub: 'PRO', thumb: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_001.webp', type: 'image', src: 'images/Professional/2008_YeinsSoft/2008_YeinsSoft_001.webp' },
+  { key: '2005_Aprilstudio_004.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 004', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_004.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_004.webp' },
+  { key: '2005_Aprilstudio_008.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 008', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_008.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_008.webp' },
+  { key: '2005_Aprilstudio_009.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 009', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_009.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_009.webp' },
+  { key: '2005_Aprilstudio_005.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 005', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_005.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_005.webp' },
+  { key: '2005_Aprilstudio_002.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 002', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_002.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_002.webp' },
+  { key: '2005_Aprilstudio_003.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 003', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_003.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_003.webp' },
+  { key: '2005_Aprilstudio_001.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 001', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_001.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_001.webp' },
+  { key: '2005_Aprilstudio_006.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 006', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_006.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_006.webp' },
+  { key: '2005_Aprilstudio_007.webp', category: 'PRO', tag: 'ENV', title: '2005 Aprilstudio 007', sub: 'PRO', thumb: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_007.webp', type: 'image', src: 'images/Professional/2005_Aprilstudio/2005_Aprilstudio_007.webp' },
+  { key: '2014_PureGamesVendetta_015.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 015', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_015.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_015.webp' },
+  { key: '2014_PureGamesVendetta_003.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 003', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_003.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_003.webp' },
+  { key: '2014_PureGamesVendetta_019.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 019', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_019.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_019.webp' },
+  { key: '2014_PureGamesVendetta_022.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 022', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_022.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_022.webp' },
+  { key: '2014_PureGamesVendetta_018.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 018', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_018.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_018.webp' },
+  { key: '2014_PureGamesVendetta_002.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 002', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_002.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_002.webp' },
+  { key: '2014_PureGamesVendetta_014.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 014', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_014.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_014.webp' },
+  { key: '2014_PureGamesVendetta_009.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 009', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_009.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_009.webp' },
+  { key: '2014_PureGamesVendetta_013.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 013', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_013.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_013.webp' },
+  { key: '2014_PureGamesVendetta_005.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 005', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_005.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_005.webp' },
+  { key: '2014_PureGamesVendetta_004.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 004', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_004.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_004.webp' },
+  { key: '2014_PureGamesVendetta_012.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 012', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_012.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_012.webp' },
+  { key: '2014_PureGamesVendetta_008.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 008', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_008.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_008.webp' },
+  { key: '2014_PureGamesVendetta_007.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 007', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_007.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_007.webp' },
+  { key: '2014_PureGamesVendetta_011.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 011', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_011.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_011.webp' },
+  { key: '2014_PureGamesVendetta_010.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 010', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_010.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_010.webp' },
+  { key: '2014_PureGamesVendetta_006.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 006', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_006.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_006.webp' },
+  { key: '2014_PureGamesVendetta_001.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 001', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_001.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_001.webp' },
+  { key: '2014_PureGamesVendetta_017.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 017', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_017.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_017.webp' },
+  { key: '2014_PureGamesVendetta_021.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 021', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_021.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_021.webp' },
+  { key: '2014_PureGamesVendetta_020.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 020', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_020.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_020.webp' },
+  { key: '2014_PureGamesVendetta_016.webp', category: 'PRO', tag: 'ENV', title: '2014 PureGamesVendetta 016', sub: 'PRO', thumb: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_016.webp', type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_016.webp' },
+  { key: '2012_PureSoft_007.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 007', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_007.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_007.webp' },
+  { key: '2012_PureSoft_011.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 011', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_011.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_011.webp' },
+  { key: '2012_PureSoft_010.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 010', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_010.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_010.webp' },
+  { key: '2012_PureSoft_006.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 006', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_006.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_006.webp' },
+  { key: '2012_PureSoft_021.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 021', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_021.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_021.webp' },
+  { key: '2012_PureSoft_017.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 017', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_017.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_017.webp' },
+  { key: '2012_PureSoft_016.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 016', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_016.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_016.webp' },
+  { key: '2012_PureSoft_020.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 020', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_020.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_020.webp' },
+  { key: '2012_PureSoft_023.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 023', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_023.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_023.webp' },
+  { key: '2012_PureSoft_015.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 015', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_015.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_015.webp' },
+  { key: '2012_PureSoft_003.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 003', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_003.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_003.webp' },
+  { key: '2012_PureSoft_002.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 002', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_002.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_002.webp' },
+  { key: '2012_PureSoft_014.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 014', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_014.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_014.webp' },
+  { key: '2012_PureSoft_022.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 022', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_022.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_022.webp' },
+  { key: '2012_PureSoft_018.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 018', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_018.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_018.webp' },
+  { key: '2012_PureSoft_013.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 013', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_013.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_013.webp' },
+  { key: '2012_PureSoft_005.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 005', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_005.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_005.webp' },
+  { key: '2012_PureSoft_009.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 009', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_009.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_009.webp' },
+  { key: '2012_PureSoft_008.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 008', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_008.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_008.webp' },
+  { key: '2012_PureSoft_004.webp', category: 'PRO', tag: 'ENV', title: '2012 PureSoft 004', sub: 'PRO', thumb: 'images/Professional/2012_PureSoft/2012_PureSoft_004.webp', type: 'image', src: 'images/Professional/2012_PureSoft/2012_PureSoft_004.webp' },
+  { key: '2016_Neptune_Baseball_001.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 001', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_001.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_001.webp' },
+  { key: '2016_Neptune_Baseball_007.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 007', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_007.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_007.webp' },
+  { key: '2016_Neptune_Baseball_011.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 011', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_011.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_011.webp' },
+  { key: '2016_Neptune_Baseball_010.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 010', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_010.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_010.webp' },
+  { key: '2016_Neptune_Baseball_006.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 006', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_006.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_006.webp' },
+  { key: '2016_Neptune_Baseball_009.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 009', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_009.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_009.webp' },
+  { key: '2016_Neptune_Baseball_013.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 013', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_013.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_013.webp' },
+  { key: '2016_Neptune_Baseball_005.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 005', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_005.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_005.webp' },
+  { key: '2016_Neptune_Baseball_004.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 004', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_004.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_004.webp' },
+  { key: '2016_Neptune_Baseball_012.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 012', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_012.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_012.webp' },
+  { key: '2016_Neptune_Baseball_008.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 008', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_008.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_008.webp' },
+  { key: '2016_Neptune_Baseball_003.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 003', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_003.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_003.webp' },
+  { key: '2016_Neptune_Baseball_002.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 002', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_002.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_002.webp' },
+  { key: '2016_Neptune_Baseball_014.webp', category: 'PRO', tag: 'ENV', title: '2016 Neptune Baseball 014', sub: 'PRO', thumb: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_014.webp', type: 'image', src: 'images/Professional/2016_Neptune/2016_Neptune_Baseball_014.webp' },
+  { key: '2009_ArtechSoft_004.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 004', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_004.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_004.webp' },
+  { key: '2009_ArtechSoft_012.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 012', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_012.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_012.webp' },
+  { key: '2009_ArtechSoft_008.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 008', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_008.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_008.webp' },
+  { key: '2009_ArtechSoft_009.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 009', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_009.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_009.webp' },
+  { key: '2009_ArtechSoft_013.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 013', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_013.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_013.webp' },
+  { key: '2009_ArtechSoft_005.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 005', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_005.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_005.webp' },
+  { key: '2009_ArtechSoft_018.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 018', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_018.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_018.webp' },
+  { key: '2009_ArtechSoft_002.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 002', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_002.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_002.webp' },
+  { key: '2009_ArtechSoft_014.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 014', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_014.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_014.webp' },
+  { key: '2009_ArtechSoft_015.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 015', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_015.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_015.webp' },
+  { key: '2009_ArtechSoft_003.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 003', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_003.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_003.webp' },
+  { key: '2009_ArtechSoft_019.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 019', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_019.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_019.webp' },
+  { key: '2009_ArtechSoft_020.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 020', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_020.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_020.webp' },
+  { key: '2009_ArtechSoft_016.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 016', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_016.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_016.webp' },
+  { key: '2009_ArtechSoft_001.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 001', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_001.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_001.webp' },
+  { key: '2009_ArtechSoft_017.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 017', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_017.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_017.webp' },
+  { key: '2009_ArtechSoft_021.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 021', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_021.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_021.webp' },
+  { key: '2009_ArtechSoft_010.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 010', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_010.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_010.webp' },
+  { key: '2009_ArtechSoft_006.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 006', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_006.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_006.webp' },
+  { key: '2009_ArtechSoft_007.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 007', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_007.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_007.webp' },
+  { key: '2009_ArtechSoft_011.webp', category: 'PRO', tag: 'ENV', title: '2009 ArtechSoft 011', sub: 'PRO', thumb: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_011.webp', type: 'image', src: 'images/Professional/2009_ArtechSoft/2009_ArtechSoft_011.webp' },
+  { key: '2006_SunwooEntertainment_007.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 007', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_007.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_007.webp' },
+  { key: '2006_SunwooEntertainment_006.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 006', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_006.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_006.webp' },
+  { key: '2006_SunwooEntertainment_010.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 010', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_010.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_010.webp' },
+  { key: '2006_SunwooEntertainment_001.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 001', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_001.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_001.webp' },
+  { key: '2006_SunwooEntertainment_003.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 003', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_003.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_003.webp' },
+  { key: '2006_SunwooEntertainment_002.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 002', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_002.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_002.webp' },
+  { key: '2006_SunwooEntertainment_005.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 005', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_005.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_005.webp' },
+  { key: '2006_SunwooEntertainment_009.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 009', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_009.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_009.webp' },
+  { key: '2006_SunwooEntertainment_008.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 008', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_008.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_008.webp' },
+  { key: '2006_SunwooEntertainment_004.webp', category: 'PRO', tag: 'ENV', title: '2006 SunwooEntertainment 004', sub: 'PRO', thumb: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_004.webp', type: 'image', src: 'images/Professional/2006_SunwooEntertainment/2006_SunwooEntertainment_004.webp' },
+  { key: '2015_Neptune_NeppyRush_020.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 020', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_020.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_020.webp' },
+  { key: '2015_Neptune_NeppyRush_016.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 016', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_016.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_016.webp' },
+  { key: '2015_Neptune_NeppyRush_001.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 001', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_001.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_001.webp' },
+  { key: '2015_Neptune_NeppyRush_017.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 017', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_017.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_017.webp' },
+  { key: '2015_Neptune_NeppyRush_021.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 021', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_021.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_021.webp' },
+  { key: '2015_Neptune_NeppyRush_010.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 010', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_010.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_010.webp' },
+  { key: '2015_Neptune_NeppyRush_006.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 006', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_006.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_006.webp' },
+  { key: '2015_Neptune_NeppyRush_007.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 007', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_007.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_007.webp' },
+  { key: '2015_Neptune_NeppyRush_011.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 011', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_011.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_011.webp' },
+  { key: '2015_Neptune_NeppyRush_004.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 004', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_004.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_004.webp' },
+  { key: '2015_Neptune_NeppyRush_012.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 012', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_012.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_012.webp' },
+  { key: '2015_Neptune_NeppyRush_008.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 008', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_008.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_008.webp' },
+  { key: '2015_Neptune_NeppyRush_009.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 009', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_009.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_009.webp' },
+  { key: '2015_Neptune_NeppyRush_013.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 013', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_013.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_013.webp' },
+  { key: '2015_Neptune_NeppyRush_005.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 005', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_005.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_005.webp' },
+  { key: '2015_Neptune_NeppyRush_018.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 018', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_018.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_018.webp' },
+  { key: '2015_Neptune_NeppyRush_002.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 002', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_002.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_002.webp' },
+  { key: '2015_Neptune_NeppyRush_014.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 014', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_014.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_014.webp' },
+  { key: '2015_Neptune_NeppyRush_015.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 015', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_015.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_015.webp' },
+  { key: '2015_Neptune_NeppyRush_003.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 003', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_003.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_003.webp' },
+  { key: '2015_Neptune_NeppyRush_019.webp', category: 'PRO', tag: 'ENV', title: '2015 Neptune NeppyRush 019', sub: 'PRO', thumb: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_019.webp', type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_019.webp' },
+  { key: '2021_NCSOFT_ProjectM_028.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 028', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_028.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_028.webp' },
+  { key: '2021_NCSOFT_ProjectM_012.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 012', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_012.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_012.webp' },
+  { key: '2021_NCSOFT_ProjectM_004.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 004', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_004.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_004.webp' },
+  { key: '2021_NCSOFT_ProjectM_024.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 024', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_024.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_024.webp' },
+  { key: '2021_NCSOFT_ProjectM_032.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 032', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_032.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_032.webp' },
+  { key: '2021_NCSOFT_ProjectM_008.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 008', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_008.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_008.webp' },
+  { key: '2021_NCSOFT_ProjectM_009.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 009', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_009.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_009.webp' },
+  { key: '2021_NCSOFT_ProjectM_033.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 033', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_033.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_033.webp' },
+  { key: '2021_NCSOFT_ProjectM_025.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 025', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_025.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_025.webp' },
+  { key: '2021_NCSOFT_ProjectM_005.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 005', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_005.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_005.webp' },
+  { key: '2021_NCSOFT_ProjectM_013.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 013', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_013.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_013.webp' },
+  { key: '2021_NCSOFT_ProjectM_029.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 029', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_029.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_029.webp' },
+  { key: '2021_NCSOFT_ProjectM_022.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 022', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_022.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_022.webp' },
+  { key: '2021_NCSOFT_ProjectM_034.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 034', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_034.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_034.webp' },
+  { key: '2021_NCSOFT_ProjectM_018.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 018', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_018.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_018.webp' },
+  { key: '2021_NCSOFT_ProjectM_014.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 014', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_014.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_014.webp' },
+  { key: '2021_NCSOFT_ProjectM_002.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 002', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_002.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_002.webp' },
+  { key: '2021_NCSOFT_ProjectM_003.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 003', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_003.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_003.webp' },
+  { key: '2021_NCSOFT_ProjectM_015.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 015', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_015.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_015.webp' },
+  { key: '2021_NCSOFT_ProjectM_019.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 019', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_019.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_019.webp' },
+  { key: '2021_NCSOFT_ProjectM_035.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 035', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_035.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_035.webp' },
+  { key: '2021_NCSOFT_ProjectM_023.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 023', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_023.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_023.webp' },
+  { key: '2021_NCSOFT_ProjectM_036.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 036', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_036.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_036.webp' },
+  { key: '2021_NCSOFT_ProjectM_020.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 020', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_020.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_020.webp' },
+  { key: '2021_NCSOFT_ProjectM_016.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 016', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_016.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_016.webp' },
+  { key: '2021_NCSOFT_ProjectM_017.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 017', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_017.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_017.webp' },
+  { key: '2021_NCSOFT_ProjectM_001.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 001', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp' },
+  { key: '2021_NCSOFT_ProjectM_021.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 021', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_021.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_021.webp' },
+  { key: '2021_NCSOFT_ProjectM_006.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 006', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_006.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_006.webp' },
+  { key: '2021_NCSOFT_ProjectM_010.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 010', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_010.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_010.webp' },
+  { key: '2021_NCSOFT_ProjectM_030.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 030', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_030.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_030.webp' },
+  { key: '2021_NCSOFT_ProjectM_026.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 026', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_026.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_026.webp' },
+  { key: '2021_NCSOFT_ProjectM_027.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 027', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_027.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_027.webp' },
+  { key: '2021_NCSOFT_ProjectM_031.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 031', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_031.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_031.webp' },
+  { key: '2021_NCSOFT_ProjectM_011.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 011', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_011.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_011.webp' },
+  { key: '2021_NCSOFT_ProjectM_007.webp', category: 'PRO', tag: 'ENV', title: '2021 NCSOFT ProjectM 007', sub: 'PRO', thumb: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_007.webp', type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_007.webp' },
+  { key: 'Cookapps_06.webp', category: 'PRO', tag: 'ENV', title: 'Cookapps 06', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_06.webp', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_06.webp' },
+  { key: 'Cookapps_07.webp', category: 'PRO', tag: 'ENV', title: 'Cookapps 07', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_07.webp', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_07.webp' },
+  { key: 'Cookapps_12.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 12', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_12.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_12.gif' },
+  { key: 'Cookapps_13.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 13', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_13.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_13.gif' },
+  { key: 'Cookapps_11.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 11', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_11.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_11.gif' },
+  { key: 'Cookapps_10.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 10', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_10.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_10.gif' },
+  { key: 'Cookapps_14.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 14', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_14.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_14.gif' },
+  { key: 'Cookapps_01.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 01', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_01.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_01.gif' },
+  { key: 'Cookapps_02.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 02', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_02.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_02.gif' },
+  { key: 'Cookapps_09.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 09', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_09.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_09.gif' },
+  { key: 'Cookapps_08.gif', category: 'PRO', tag: 'ENV', title: 'Cookapps 08', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_08.gif', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_08.gif' },
+  { key: 'Cookapps_03.webp', category: 'PRO', tag: 'ENV', title: 'Cookapps 03', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_03.webp', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_03.webp' },
+  { key: 'Cookapps_04.webp', category: 'PRO', tag: 'ENV', title: 'Cookapps 04', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_04.webp', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_04.webp' },
+  { key: 'Cookapps_05.webp', category: 'PRO', tag: 'ENV', title: 'Cookapps 05', sub: 'PRO', thumb: 'images/Professional/2020_Cookapps/Cookapps_05.webp', type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_05.webp' },
+  { key: '2006_PixelPlanet_008.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 008', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_008.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_008.webp' },
+  { key: '2006_PixelPlanet_012.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 012', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_012.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_012.webp' },
+  { key: '2006_PixelPlanet_004.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 004', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_004.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_004.webp' },
+  { key: '2006_PixelPlanet_005.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 005', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_005.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_005.webp' },
+  { key: '2006_PixelPlanet_013.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 013', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_013.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_013.webp' },
+  { key: '2006_PixelPlanet_009.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 009', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_009.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_009.webp' },
+  { key: '2006_PixelPlanet_014.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 014', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_014.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_014.webp' },
+  { key: '2006_PixelPlanet_002.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 002', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_002.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_002.webp' },
+  { key: '2006_PixelPlanet_003.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 003', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_003.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_003.webp' },
+  { key: '2006_PixelPlanet_015.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 015', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_015.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_015.webp' },
+  { key: '2006_PixelPlanet_016.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 016', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_016.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_016.webp' },
+  { key: '2006_PixelPlanet_001.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 001', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_001.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_001.webp' },
+  { key: '2006_PixelPlanet_006.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 006', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_006.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_006.webp' },
+  { key: '2006_PixelPlanet_010.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 010', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_010.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_010.webp' },
+  { key: '2006_PixelPlanet_011.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 011', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_011.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_011.webp' },
+  { key: '2006_PixelPlanet_007.webp', category: 'PRO', tag: 'ENV', title: '2006 PixelPlanet 007', sub: 'PRO', thumb: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_007.webp', type: 'image', src: 'images/Professional/2006_PixelPlanet/2006_PixelPlanet_007.webp' },
+  { key: '2018_Nexon_AscendantOne_019.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 019', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_019.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_019.webp' },
+  { key: '2018_Nexon_AscendantOne_023.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 023', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_023.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_023.webp' },
+  { key: '2018_Nexon_AscendantOne_035.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 035', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_035.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_035.webp' },
+  { key: '2018_Nexon_AscendantOne_042.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 042', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_042.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_042.webp' },
+  { key: '2018_Nexon_AscendantOne_015.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 015', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_015.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_015.webp' },
+  { key: '2018_Nexon_AscendantOne_003.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 003', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_003.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_003.webp' },
+  { key: '2018_Nexon_AscendantOne_039.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 039', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_039.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_039.webp' },
+  { key: '2018_Nexon_AscendantOne_038.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 038', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_038.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_038.webp' },
+  { key: '2018_Nexon_AscendantOne_002.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 002', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_002.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_002.webp' },
+  { key: '2018_Nexon_AscendantOne_014.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 014', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_014.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_014.webp' },
+  { key: '2018_Nexon_AscendantOne_043.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 043', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_043.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_043.webp' },
+  { key: '2018_Nexon_AscendantOne_034.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 034', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_034.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_034.webp' },
+  { key: '2018_Nexon_AscendantOne_022.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 022', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_022.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_022.webp' },
+  { key: '2018_Nexon_AscendantOne_018.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 018', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_018.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_018.webp' },
+  { key: '2018_Nexon_AscendantOne_044.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 044', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_044.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_044.webp' },
+  { key: '2018_Nexon_AscendantOne_013.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 013', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_013.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_013.webp' },
+  { key: '2018_Nexon_AscendantOne_005.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 005', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_005.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_005.webp' },
+  { key: '2018_Nexon_AscendantOne_029.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 029', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_029.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_029.webp' },
+  { key: '2018_Nexon_AscendantOne_009.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 009', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_009.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_009.webp' },
+  { key: '2018_Nexon_AscendantOne_025.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 025', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_025.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_025.webp' },
+  { key: '2018_Nexon_AscendantOne_033.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 033', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_033.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_033.webp' },
+  { key: '2018_Nexon_AscendantOne_032.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 032', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_032.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_032.webp' },
+  { key: '2018_Nexon_AscendantOne_024.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 024', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_024.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_024.webp' },
+  { key: '2018_Nexon_AscendantOne_008.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 008', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_008.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_008.webp' },
+  { key: '2018_Nexon_AscendantOne_028.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 028', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_028.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_028.webp' },
+  { key: '2018_Nexon_AscendantOne_004.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 004', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_004.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_004.webp' },
+  { key: '2018_Nexon_AscendantOne_012.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 012', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_012.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_012.webp' },
+  { key: '2018_Nexon_AscendantOne_045.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 045', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_045.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_045.webp' },
+  { key: '2018_Nexon_AscendantOne_007.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 007', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_007.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_007.webp' },
+  { key: '2018_Nexon_AscendantOne_011.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 011', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_011.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_011.webp' },
+  { key: '2018_Nexon_AscendantOne_031.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 031', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_031.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_031.webp' },
+  { key: '2018_Nexon_AscendantOne_027.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 027', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_027.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_027.webp' },
+  { key: '2018_Nexon_AscendantOne_026.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 026', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_026.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_026.webp' },
+  { key: '2018_Nexon_AscendantOne_030.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 030', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_030.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_030.webp' },
+  { key: '2018_Nexon_AscendantOne_010.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 010', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_010.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_010.webp' },
+  { key: '2018_Nexon_AscendantOne_006.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 006', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_006.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_006.webp' },
+  { key: '2018_Nexon_AscendantOne_037.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 037', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_037.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_037.webp' },
+  { key: '2018_Nexon_AscendantOne_021.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 021', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_021.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_021.webp' },
+  { key: '2018_Nexon_AscendantOne_001.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 001', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp' },
+  { key: '2018_Nexon_AscendantOne_017.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 017', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_017.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_017.webp' },
+  { key: '2018_Nexon_AscendantOne_040.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 040', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_040.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_040.webp' },
+  { key: '2018_Nexon_AscendantOne_041.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 041', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_041.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_041.webp' },
+  { key: '2018_Nexon_AscendantOne_016.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 016', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_016.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_016.webp' },
+  { key: '2018_Nexon_AscendantOne_020.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 020', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_020.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_020.webp' },
+  { key: '2018_Nexon_AscendantOne_036.webp', category: 'PRO', tag: 'ENV', title: '2018 Nexon AscendantOne 036', sub: 'PRO', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_036.webp', type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_036.webp' },
+  { key: '2017_XLGAMES_X3_031.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 031', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_031.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_031.webp' },
+  { key: '2017_XLGAMES_X3_027.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 027', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_027.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_027.webp' },
+  { key: '2017_XLGAMES_X3_007.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 007', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_007.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_007.webp' },
+  { key: '2017_XLGAMES_X3_050.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 050', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_050.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_050.webp' },
+  { key: '2017_XLGAMES_X3_046.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 046', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_046.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_046.webp' },
+  { key: '2017_XLGAMES_X3_011.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 011', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_011.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_011.webp' },
+  { key: '2017_XLGAMES_X3_010.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 010', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_010.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_010.webp' },
+  { key: '2017_XLGAMES_X3_047.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 047', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_047.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_047.webp' },
+  { key: '2017_XLGAMES_X3_051.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 051', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_051.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_051.webp' },
+  { key: '2017_XLGAMES_X3_006.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 006', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_006.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_006.webp' },
+  { key: '2017_XLGAMES_X3_026.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 026', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_026.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_026.webp' },
+  { key: '2017_XLGAMES_X3_030.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 030', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_030.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_030.webp' },
+  { key: '2017_XLGAMES_X3_001.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 001', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp' },
+  { key: '2017_XLGAMES_X3_040.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 040', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_040.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_040.webp' },
+  { key: '2017_XLGAMES_X3_017.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 017', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_017.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_017.webp' },
+  { key: '2017_XLGAMES_X3_037.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 037', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_037.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_037.webp' },
+  { key: '2017_XLGAMES_X3_021.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 021', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_021.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_021.webp' },
+  { key: '2017_XLGAMES_X3_020.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 020', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_020.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_020.webp' },
+  { key: '2017_XLGAMES_X3_036.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 036', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_036.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_036.webp' },
+  { key: '2017_XLGAMES_X3_016.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 016', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_016.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_016.webp' },
+  { key: '2017_XLGAMES_X3_041.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 041', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_041.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_041.webp' },
+  { key: '2017_XLGAMES_X3_015.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 015', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_015.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_015.webp' },
+  { key: '2017_XLGAMES_X3_042.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 042', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_042.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_042.webp' },
+  { key: '2017_XLGAMES_X3_054.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 054', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_054.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_054.webp' },
+  { key: '2017_XLGAMES_X3_003.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 003', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_003.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_003.webp' },
+  { key: '2017_XLGAMES_X3_039.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 039', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_039.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_039.webp' },
+  { key: '2017_XLGAMES_X3_019.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 019', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_019.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_019.webp' },
+  { key: '2017_XLGAMES_X3_023.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 023', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_023.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_023.webp' },
+  { key: '2017_XLGAMES_X3_035.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 035', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_035.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_035.webp' },
+  { key: '2017_XLGAMES_X3_034.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 034', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_034.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_034.webp' },
+  { key: '2017_XLGAMES_X3_022.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 022', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_022.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_022.webp' },
+  { key: '2017_XLGAMES_X3_018.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 018', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_018.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_018.webp' },
+  { key: '2017_XLGAMES_X3_038.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 038', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_038.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_038.webp' },
+  { key: '2017_XLGAMES_X3_002.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 002', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_002.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_002.webp' },
+  { key: '2017_XLGAMES_X3_055.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 055', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_055.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_055.webp' },
+  { key: '2017_XLGAMES_X3_043.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 043', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_043.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_043.webp' },
+  { key: '2017_XLGAMES_X3_014.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 014', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_014.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_014.webp' },
+  { key: '2017_XLGAMES_X3_048.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 048', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_048.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_048.webp' },
+  { key: '2017_XLGAMES_X3_009.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 009', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_009.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_009.webp' },
+  { key: '2017_XLGAMES_X3_025.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 025', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_025.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_025.webp' },
+  { key: '2017_XLGAMES_X3_033.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 033', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_033.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_033.webp' },
+  { key: '2017_XLGAMES_X3_013.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 013', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_013.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_013.webp' },
+  { key: '2017_XLGAMES_X3_044.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 044', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_044.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_044.webp' },
+  { key: '2017_XLGAMES_X3_052.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 052', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_052.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_052.webp' },
+  { key: '2017_XLGAMES_X3_005.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 005', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_005.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_005.webp' },
+  { key: '2017_XLGAMES_X3_029.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 029', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_029.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_029.webp' },
+  { key: '2017_XLGAMES_X3_028.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 028', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_028.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_028.webp' },
+  { key: '2017_XLGAMES_X3_004.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 004', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_004.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_004.webp' },
+  { key: '2017_XLGAMES_X3_053.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 053', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_053.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_053.webp' },
+  { key: '2017_XLGAMES_X3_045.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 045', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_045.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_045.webp' },
+  { key: '2017_XLGAMES_X3_012.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 012', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_012.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_012.webp' },
+  { key: '2017_XLGAMES_X3_032.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 032', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_032.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_032.webp' },
+  { key: '2017_XLGAMES_X3_024.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 024', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_024.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_024.webp' },
+  { key: '2017_XLGAMES_X3_008.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 008', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_008.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_008.webp' },
+  { key: '2017_XLGAMES_X3_049.webp', category: 'PRO', tag: 'ENV', title: '2017 XLGAMES X3 049', sub: 'PRO', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_049.webp', type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_049.webp' },
+  { key: 'GENESIS_G70_02.webp', category: 'RELIGHT', tag: 'ENV', title: 'GENESIS G70 02', sub: 'RELIGHT', thumb: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_02.webp', type: 'image', src: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_02.webp' },
+  { key: 'GENESIS_G70_03.webp', category: 'RELIGHT', tag: 'ENV', title: 'GENESIS G70 03', sub: 'RELIGHT', thumb: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_03.webp', type: 'image', src: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_03.webp' },
+  { key: 'GENESIS_G70_04.webp', category: 'RELIGHT', tag: 'ENV', title: 'GENESIS G70 04', sub: 'RELIGHT', thumb: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_04.webp', type: 'image', src: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_04.webp' },
+  { key: 'GENESIS_G70_05.webp', category: 'RELIGHT', tag: 'ENV', title: 'GENESIS G70 05', sub: 'RELIGHT', thumb: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_05.webp', type: 'image', src: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_05.webp' },
+  { key: 'GENESIS_G70_01.webp', category: 'RELIGHT', tag: 'ENV', title: 'GENESIS G70 01', sub: 'RELIGHT', thumb: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_01.webp', type: 'image', src: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_01.webp' },
+  { key: 'BMW_M4GTS_01.webp', category: 'RELIGHT', tag: 'ENV', title: 'BMW M4GTS 01', sub: 'RELIGHT', thumb: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp', type: 'image', src: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp' },
+  { key: 'BMW_M4GTS_03.webp', category: 'RELIGHT', tag: 'ENV', title: 'BMW M4GTS 03', sub: 'RELIGHT', thumb: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_03.webp', type: 'image', src: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_03.webp' },
+  { key: 'BMW_M4GTS_02.webp', category: 'RELIGHT', tag: 'ENV', title: 'BMW M4GTS 02', sub: 'RELIGHT', thumb: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_02.webp', type: 'image', src: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_02.webp' },
+  { key: '20130315_Stone_final.webp', category: 'SKETCH', tag: 'ENV', title: '20130315 Stone final', sub: 'SKETCH', thumb: 'images/SketchNote/20130315_Stone_final.webp', type: 'image', src: 'images/SketchNote/20130315_Stone_final.webp' },
+  { key: '20110721_Prop_Final.webp', category: 'SKETCH', tag: 'ENV', title: '20110721 Prop Final', sub: 'SKETCH', thumb: 'images/SketchNote/20110721_Prop_Final.webp', type: 'image', src: 'images/SketchNote/20110721_Prop_Final.webp' },
+  { key: '20160602_Box.gif', category: 'SKETCH', tag: 'ENV', title: '20160602 Box', sub: 'SKETCH', thumb: 'images/SketchNote/20160602_Box.gif', type: 'image', src: 'images/SketchNote/20160602_Box.gif' },
+  { key: '20151129_Lava_Field.gif', category: 'SKETCH', tag: 'ENV', title: '20151129 Lava Field', sub: 'SKETCH', thumb: 'images/SketchNote/20151129_Lava_Field.gif', type: 'image', src: 'images/SketchNote/20151129_Lava_Field.gif' },
+  { key: '20140912_Jewelry_Box.gif', category: 'SKETCH', tag: 'ENV', title: '20140912 Jewelry Box', sub: 'SKETCH', thumb: 'images/SketchNote/20140912_Jewelry_Box.gif', type: 'image', src: 'images/SketchNote/20140912_Jewelry_Box.gif' },
+  { key: '20050401_village.webp', category: 'SKETCH', tag: 'ENV', title: '20050401 village', sub: 'SKETCH', thumb: 'images/SketchNote/20050401_village.webp', type: 'image', src: 'images/SketchNote/20050401_village.webp' }
+];
+
+let currentFilterData = [];
+let currentRenderedItems = [];
+let lbCurrentIdx = 0;
+
+// 배열 랜덤 셔플 함수
+function shuffleArray(array) {
+  let curId = array.length, randId;
+  while (0 !== curId) {
+    randId = Math.floor(Math.random() * curId);
+    curId -= 1;
+    let tmp = array[curId];
+    array[curId] = array[randId];
+    array[randId] = tmp;
+  }
+  return array;
+}
+
+// 그리드 HTML 생성 함수
+function buildGridHTML(data, startIndex) {
+  let html = '';
+  data.forEach((p, idx) => {
+    let realIdx = startIndex + idx;
+    let likes = Math.floor(Math.random() * 500) + 50; 
+    let action = p.type === 'video' ? `openLbVideo('${p.id}', '${p.title}', ${realIdx})` : `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
+    let fallback = "this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'";
+    
+    html += `
+      <div class="art-card" onclick="${action}">
+        <img src="${p.thumb}" onerror="${fallback}">
+        <div class="art-info">
+          <div>
+            <div class="art-title">${p.title}</div>
+            <div class="art-author"><div class="author-avatar"></div> Jung Daekun</div>
+          </div>
+          <div class="art-likes">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            ${likes}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  return html;
+}
+
+// 필터링된 데이터 전체 렌더링
+function renderGrid(data) {
+  currentFilterData = [...data];
+  currentRenderedItems = [...data];
+  const container = document.getElementById('main-grid');
+  container.innerHTML = buildGridHTML(currentRenderedItems, 0);
+}
+
+// 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
+function appendGrid() {
+  if (currentFilterData.length === 0) return;
+  // 같은 데이터를 다시 셔플해서 생성
+  let moreData = shuffleArray([...currentFilterData]);
+  let startIndex = currentRenderedItems.length;
+  currentRenderedItems = currentRenderedItems.concat(moreData);
+  
+  const container = document.getElementById('main-grid');
+  // insertAdjacentHTML을 사용하여 성능 최적화 및 렌더링 깜빡임 방지
+  container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
+}
+
+window.filterData = function(category, btnEl, isFloating = false) {
+  document.getElementById('about-container').style.display = 'none';
+  document.getElementById('main-grid').style.display = 'grid';
+
+  if (isFloating) {
+    document.querySelectorAll('.ff-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.channel-pill')[0].classList.add('active'); 
+    document.getElementById('grid-title').innerText = btnEl.innerText;
+  } else {
+    document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.ff-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.ff-btn')[0].classList.add('active'); 
+    document.getElementById('grid-title').innerText = btnEl.innerText.trim();
+  }
+  btnEl.classList.add('active');
+
+  let filtered = [];
+  if (category === 'ALL') { 
+    filtered = [...portfolioData]; 
+  } else { 
+    filtered = portfolioData.filter(p => p.category === category || p.tag === category); 
+  }
+  
+  // 클릭 시 배열을 랜덤으로 섞어서 렌더링!
+  renderGrid(shuffleArray(filtered));
+  
+  // 스크롤 맨 위로 초기화
+  const scrollSec = document.querySelector('.scroll-section');
+  if (scrollSec) scrollSec.scrollTop = 0;
+}
+
+// 초기 렌더링 시 전체 데이터를 랜덤으로 섞어서 뿌림
+renderGrid(shuffleArray([...portfolioData]));
+
+// 스크롤 이벤트 (무한 스크롤)
+const scrollSec = document.querySelector('.scroll-section');
+if (scrollSec) {
+  scrollSec.addEventListener('scroll', () => {
+    // 바닥에서 300px 이내로 스크롤이 내려오면 추가 로딩
+    if (scrollSec.scrollTop + scrollSec.clientHeight >= scrollSec.scrollHeight - 300) {
+      appendGrid();
+    }
+  });
+}
+
+function setLbMedia(p) {
+  const content = document.getElementById('lb-content');
+  document.getElementById('lb-title').innerText = p.title;
+  if (p.type === 'video') {
+    content.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&playsinline=1" allow="autoplay; encrypted-media; fullscreen"></iframe>`;
+  } else {
+    content.innerHTML = `<img src="${p.src}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1920&auto=format&fit=crop'">`;
+  }
+}
+
+
+window.openLbVideo = function(id, title, idx) {
+  lbCurrentIdx = idx; 
+  let p = currentFilterData[idx];
+  document.getElementById('lb-title').innerText = p.title;
+  document.getElementById('lb-sub-title').innerText = p.title;
+  document.getElementById('lb-desc').innerHTML = p.sub + "<br><br>해당 프로젝트의 환경 아트, 레벨 디자인, 라이팅 및 최적화를 담당했습니다.";
+  
+  let content = document.getElementById('lb-content');
+  content.innerHTML = `<div style="position:relative; padding-bottom:56.25%; height:0;"><iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&mute=1&playsinline=1" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allow="autoplay; encrypted-media; fullscreen"></iframe></div>`;
+  
+  document.getElementById('lb-gallery').innerHTML = ''; // 필요 시 갤러리 이미지 추가
+  
+  document.getElementById('lightbox').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+window.openLbImage = function(src, title, idx) {
+  lbCurrentIdx = idx; 
+  let p = currentFilterData[idx];
+  document.getElementById('lb-title').innerText = p.title;
+  document.getElementById('lb-sub-title').innerText = p.title;
+  document.getElementById('lb-desc').innerHTML = p.sub;
+
+  let content = document.getElementById('lb-content');
+  content.innerHTML = `<img src="${p.src}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1920&auto=format&fit=crop'" style="width:100%; display:block;">`;
+  
+  document.getElementById('lb-gallery').innerHTML = '';
+
+  document.getElementById('lightbox').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+window.closeLb = function() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.getElementById('lb-content').innerHTML = '';
+  document.body.style.overflow = 'auto';
+}
+
+
+window.showAbout = function() {
+  document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
+  document.getElementById('grid-title').innerText = 'About DukGoo';
+  document.getElementById('main-grid').style.display = 'none';
+  document.getElementById('about-container').style.display = 'block';
+  const scrollSec = document.querySelector('.scroll-section');
+  if (scrollSec) scrollSec.scrollTop = 0;
+};
+
+
+let aboutLbData = {};
+aboutLbData['ncsoft'] = {
+  title: 'NCSoft : Project M',
+  images: Array.from({length: 36}, (_, i) => `images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_${String(i+1).padStart(3, '0')}.webp`)
+};
+
+let aboutLbCurrentImgs = [];
+let aboutLbIdx = 0;
+
+window.openAboutLightbox = function(key) {
+  aboutLbCurrentImgs = aboutLbData[key].images;
+  aboutLbIdx = 0;
+  document.getElementById('lb-title').innerText = aboutLbData[key].title;
+  setAboutLbMedia();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function setAboutLbMedia() {
+  const content = document.getElementById('lb-content');
+  content.innerHTML = `<img src="${aboutLbCurrentImgs[aboutLbIdx]}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1920&auto=format&fit=crop'" style="max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5);">`;
+}
+
+// 오버라이딩: 기존 lightbox 버튼이 about 용으로 열렸을 때 동작하게 
+window.nextMedia = function() {
+  if(aboutLbCurrentImgs.length > 0 && document.getElementById('lightbox').classList.contains('active') && document.getElementById('lb-content').innerHTML.includes('2021_NCSOFT_ProjectM')) {
+    aboutLbIdx = (aboutLbIdx + 1) % aboutLbCurrentImgs.length;
+    setAboutLbMedia();
+  } else {
+    // 기존 기능
+    lbCurrentIdx = (lbCurrentIdx + 1) % currentFilterData.length;
+    setLbMedia(currentFilterData[lbCurrentIdx]);
+  }
+}
+
+window.prevMedia = function() {
+  if(aboutLbCurrentImgs.length > 0 && document.getElementById('lightbox').classList.contains('active') && document.getElementById('lb-content').innerHTML.includes('2021_NCSOFT_ProjectM')) {
+    aboutLbIdx = (aboutLbIdx - 1 + aboutLbCurrentImgs.length) % aboutLbCurrentImgs.length;
+    setAboutLbMedia();
+  } else {
+    lbCurrentIdx = (lbCurrentIdx - 1 + currentFilterData.length) % currentFilterData.length;
+    setLbMedia(currentFilterData[lbCurrentIdx]);
+  }
+}
+
+</script>
+</body>
+</html>

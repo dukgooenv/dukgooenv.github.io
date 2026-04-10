@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUNG DAEKUN ✖ ZENLESS ZONE</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,400;0,700;1,700;1,900&family=Noto+Sans+KR:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-light: #f0f1f5;
+    --bg-dark: #111113;
+    --zzz-red: #ff3333;
+    --zzz-yellow: #dfff00;
+    --zzz-cyan: #00f0ff;
+    --zzz-black: #080808;
+    --text-main: #ffffff;
+    --text-dark: #1a1a1a;
+    --font-head: 'Oswald', sans-serif;
+    --font-body: 'Noto Sans KR', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: var(--bg-dark);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--zzz-red); }
+
+  h1, h2, h3 { font-family: var(--font-head); font-style: italic; text-transform: uppercase; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; height: 60px;
+    background: rgba(8,8,8,0.9); border-bottom: 2px solid var(--zzz-red);
+    display: flex; justify-content: center; align-items: center; z-index: 2000;
+    backdrop-filter: blur(5px);
+  }
+  nav a {
+    color: #aaa; text-decoration: none; font-family: var(--font-head);
+    font-size: 20px; font-style: italic; font-weight: 700; margin: 0 20px;
+    letter-spacing: 2px; transition: all 0.3s;
+  }
+  nav a:hover, nav a.active { color: var(--zzz-yellow); }
+
+  /* ── SECTION CONTAINER ── */
+  .section-container {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    padding-top: 60px; /* nav height */
+  }
+
+  /* ── PROFESSIONAL SECTION (Light & Red) ── */
+  #professional {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+  }
+  
+  .prof-left-block {
+    position: absolute;
+    left: 0; top: 0; width: 22%; height: 100%;
+    background: var(--zzz-red);
+    clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+    z-index: 1;
+    padding: 100px 0 0 5%;
+  }
+  .prof-left-block .ko-title { font-size: 40px; font-weight: 900; color: #000; line-height: 1; margin-bottom: 5px; }
+  .prof-left-block .en-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+  .prof-left-block .num { font-family: var(--font-head); font-size: 150px; font-weight: 900; color: #000; line-height: 0.8; opacity: 0.2; margin-top: 20px; }
+
+  /* Right Sidebar (Project List) */
+  .prof-sidebar {
+    position: absolute;
+    right: 0; top: 60px; width: 100px; height: calc(100% - 60px);
+    background: var(--zzz-black);
+    z-index: 10;
+    display: flex; flex-direction: column; align-items: center;
+    border-left: 2px solid var(--zzz-red);
+    overflow-y: auto;
+  }
+  .sidebar-item {
+    width: 80px; height: 80px;
+    margin: 15px 0;
+    border: 2px solid #333;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+    background: #111;
+    position: relative;
+    overflow: hidden;
+  }
+  .sidebar-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.3s; }
+  .sidebar-item:hover, .sidebar-item.active { border-color: var(--zzz-red); transform: scale(1.1); }
+  .sidebar-item.active img { opacity: 1; }
+  .sidebar-item-label {
+    position: absolute; bottom: 0; width: 100%;
+    background: rgba(0,0,0,0.8); color: #fff;
+    font-family: var(--font-mono); font-size: 9px;
+    text-align: center; padding: 2px 0;
+  }
+
+  /* Main Content Area */
+  .prof-content {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    margin-left: 15%; /* Overlap the red block */
+    margin-right: 100px; /* Avoid sidebar */
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Huge Background Watermark */
+  .watermark {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-head); font-size: 15vw; font-weight: 900;
+    color: rgba(0,0,0,0.03); white-space: nowrap; pointer-events: none; z-index: 0;
+  }
+
+  .main-image-wrap {
+    width: 45%;
+    height: 70%;
+    position: relative;
+    z-index: 3;
+    border: 4px solid #000;
+    box-shadow: -15px 15px 0 var(--zzz-red);
+    background: #000;
+    margin-right: 5%;
+    transform: skewX(-5deg);
+    overflow: hidden;
+  }
+  .main-image-wrap img, .main-image-wrap iframe {
+    width: 100%; height: 100%; object-fit: cover; transform: skewX(5deg) scale(1.1); /* unskew inner */
+  }
+
+  .info-wrap {
+    width: 45%;
+    z-index: 3;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .proj-title { font-size: 60px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; color: #000; text-shadow: 2px 2px 0 #fff; }
+  .proj-sub { font-family: var(--font-mono); font-size: 18px; font-weight: bold; background: #000; color: var(--zzz-red); display: inline-block; padding: 5px 15px; margin-bottom: 20px; }
+  
+  .proj-desc-box {
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    padding: 20px 0;
+    margin-bottom: 30px;
+  }
+  .proj-desc { font-size: 16px; color: #444; line-height: 1.6; margin-bottom: 10px; font-weight: bold; }
+  .proj-tags { font-family: var(--font-mono); font-size: 14px; color: #888; }
+
+  /* Bottom Thumbnail Carousel */
+  .thumb-carousel {
+    position: absolute;
+    bottom: 30px; right: 120px; width: 60%;
+    display: flex; gap: 15px; overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .thumb-item {
+    width: 160px; height: 90px; flex-shrink: 0;
+    border: 2px solid #000; cursor: pointer; transition: 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .thumb-item:hover, .thumb-item.active { border-color: var(--zzz-red); transform: translateY(-5px); box-shadow: 0 5px 10px rgba(255,51,51,0.3); }
+  .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+  .play-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); color: #fff; font-size: 24px; pointer-events: none; }
+
+
+  /* ── PERSONAL SECTION (Dark & Yellow) ── */
+  #personal {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+  }
+  .pers-left-block {
+    position: absolute;
+    left: 0; top: 0; width: 22%; height: 100%;
+    background: var(--zzz-yellow);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% calc(100% - 100px)); /* Different cut */
+    z-index: 1;
+    padding: 100px 0 0 5%;
+  }
+  .pers-left-block .ko-title { font-size: 40px; font-weight: 900; color: #000; line-height: 1; margin-bottom: 5px; }
+  .pers-left-block .en-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: #000; letter-spacing: 2px; }
+  .pers-left-block .num { font-family: var(--font-head); font-size: 150px; font-weight: 900; color: #000; line-height: 0.8; opacity: 0.2; margin-top: 20px; }
+
+  .pers-sidebar {
+    position: absolute;
+    right: 0; top: 60px; width: 100px; height: calc(100% - 60px);
+    background: #080808;
+    z-index: 10;
+    display: flex; flex-direction: column; align-items: center;
+    border-left: 2px solid var(--zzz-yellow);
+    overflow-y: auto;
+  }
+  .pers-sidebar .sidebar-item { border-color: #444; background: #000; }
+  .pers-sidebar .sidebar-item:hover, .pers-sidebar .sidebar-item.active { border-color: var(--zzz-yellow); }
+  
+  #personal .watermark { color: rgba(255,255,255,0.02); }
+  
+  #personal .main-image-wrap {
+    border-color: var(--zzz-yellow);
+    box-shadow: 15px 15px 0 var(--zzz-yellow); /* Opposite direction */
+    transform: skewX(5deg);
+  }
+  #personal .main-image-wrap img, #personal .main-image-wrap iframe { transform: skewX(-5deg) scale(1.1); }
+  
+  #personal .proj-title { color: var(--text-main); text-shadow: 2px 2px 0 var(--zzz-yellow); }
+  #personal .proj-sub { background: var(--zzz-yellow); color: #000; }
+  #personal .proj-desc-box { border-color: #333; }
+  #personal .proj-desc { color: #ccc; }
+  
+  #personal .thumb-item { border-color: #333; }
+  #personal .thumb-item:hover, #personal .thumb-item.active { border-color: var(--zzz-yellow); box-shadow: 0 5px 10px rgba(223,255,0,0.2); }
+
+  /* ── LIGHTBOX ── */
+  #lightbox {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000;
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  #lightbox.active { display: flex; }
+  .lb-close { position: absolute; top: 30px; right: 40px; background: none; border: none; color: var(--text-main); font-size: 50px; cursor: pointer; font-family: var(--font-head); z-index: 10; font-style: italic; transition: color 0.3s; }
+  .lb-close:hover { color: var(--zzz-red); }
+  .lb-content { width: 90vw; height: 80vh; display: flex; align-items: center; justify-content: center; }
+  .lb-content img { max-width: 100%; max-height: 100%; border: 4px solid var(--zzz-yellow); box-shadow: 10px 10px 0 #000; object-fit: contain; }
+  .lb-content iframe { width: 80vw; height: 45vw; max-height: 80vh; border: 4px solid var(--zzz-yellow); box-shadow: 10px 10px 0 #000; }
+
+</style>
+</head>
+<body>
+
+  <nav>
+    <a href="#professional" class="active">PROFESSIONAL</a>
+    <a href="#personal">PERSONAL / RELIGHT</a>
+  </nav>
+
+  <!-- 1. PROFESSIONAL SECTION -->
+  <section class="section-container" id="professional">
+    <div class="watermark" id="prof-watermark">NCSOFT</div>
+    
+    <div class="prof-left-block">
+      <div class="ko-title">공식 의뢰</div>
+      <div class="en-title">PROFESSIONAL</div>
+      <div class="num">01</div>
+    </div>
+
+    <div class="prof-sidebar" id="prof-sidebar">
+      <!-- JS Rendered -->
+    </div>
+
+    <div class="prof-content">
+      <div class="main-image-wrap" id="prof-main-media">
+        <!-- JS Rendered -->
+      </div>
+      
+      <div class="info-wrap">
+        <h1 class="proj-title" id="prof-title">PROJECT M</h1>
+        <div class="proj-sub" id="prof-sub">Interactive Adventure / Console</div>
+        <div class="proj-desc-box">
+          <div class="proj-desc" id="prof-desc">Senior Environment Artist<br>Integration · Lighting · Tech Doc · Outsourcing</div>
+          <div class="proj-tags" id="prof-tags">Developer: Project M | Publisher: NCSOFT</div>
+        </div>
+      </div>
+      
+      <div class="thumb-carousel" id="prof-thumbs">
+        <!-- JS Rendered -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 2. PERSONAL SECTION -->
+  <section class="section-container" id="personal">
+    <div class="watermark" id="pers-watermark" style="color: rgba(255,255,255,0.02);">ARCHIVE</div>
+    
+    <div class="pers-left-block">
+      <div class="ko-title">개인 작업</div>
+      <div class="en-title">PERSONAL WORKS</div>
+      <div class="num">02</div>
+    </div>
+
+    <div class="pers-sidebar" id="pers-sidebar">
+      <!-- JS Rendered -->
+    </div>
+
+    <div class="prof-content">
+      <div class="main-image-wrap" id="pers-main-media">
+        <!-- JS Rendered -->
+      </div>
+      
+      <div class="info-wrap">
+        <h1 class="proj-title" id="pers-title">GENESIS G70</h1>
+        <div class="proj-sub" id="pers-sub">Re:Lighting / UE5</div>
+        <div class="proj-desc-box">
+          <div class="proj-desc" id="pers-desc">Set Dressing · Look-dev · Shader & Lighting</div>
+          <div class="proj-tags" id="pers-tags">2024.10.27</div>
+        </div>
+      </div>
+      
+      <div class="thumb-carousel" id="pers-thumbs">
+        <!-- JS Rendered -->
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button class="lb-close" onclick="closeLb()">X</button>
+    <div class="lb-content" id="lb-content"></div>
+  </div>
+
+<script>
+// --- DATA ---
+const profData = [
+  { key:'lionheart', short:'LIONHEART', title: 'ODIN: VALHALLA RISING', sub: 'MMORPG / Mobile · PC', desc: 'Senior Level Artist<br>Level Design · Integration · Lighting', tags: 'Kakao Games', items: [ {type:'video', id:'tvAcoxRube0'} ] },
+  { key:'ncsoft', short:'NCSOFT', title: 'PROJECT M', sub: 'Interactive Adventure / Console', desc: 'Senior Environment Artist<br>Integration · Lighting · Tech Doc', tags: 'Developer: Project M | Publisher: NCSOFT', items: [ {type:'video', id:'bDXLAaqR_Yg'}, {type:'image', src:'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp'}, {type:'image', src:'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_002.webp'} ] },
+  { key:'changse', short:'LINE GAMES', title: '창세기전: 회색의 잔영', sub: 'SRPG / Nintendo Switch', desc: 'Lead Environment Artist<br>Level Design · Integration', tags: 'Developer: ReG Studio', items: [ {type:'video', id:'2zKdRMch0Us'} ] },
+  { key:'nexon', short:'NEXON', title: 'ASCENDANT ONE', sub: 'MOBA / PC Online', desc: 'Senior Environment Artist<br>Asset Modeling · Textures', tags: 'Developer: devCAT', items: [ {type:'video', id:'NOZ51TUyemo'}, {type:'image', src:'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp'} ] },
+  { key:'xlgames', short:'XLGAMES', title: 'Civilization Online', sub: 'MMORPG / PC', desc: 'Integration · Lighting', tags: 'Publisher: 2K', items: [ {type:'video', id:'behf7twp1bo'}, {type:'image', src:'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp'} ] },
+  { key:'neptune', short:'NEPTUNE', title: 'Neppy Rush', sub: 'Defence / Mobile', desc: 'Lead Environment Artist', tags: 'Developer: Neptune', items: [ {type:'video', id:'k4VzC93T00g'} ] },
+  { key:'puregames', short:'PURE GAMES', title: 'Vendetta', sub: 'MORPG / Mobile', desc: 'Art Direction', tags: 'Developer: Pure Games', items: [ {type:'video', id:'UjtP1k8C5yw'} ] }
+];
+
+const persData = [
+  { key:'genesis', short:'GENESIS', title: 'Genesis G70', sub: 'Re:Lighting / UE5', desc: 'Set Dressing · Look-dev · Shader & Lighting', tags: '2024.10.27', items: [ {type:'image', src:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_01.webp'}, {type:'image', src:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_02.webp'} ] },
+  { key:'m4', short:'M4', title: 'M4 Carbine', sub: 'Weapon Prop', desc: 'ZBrush / Substance Painter', tags: '2019.09.02', items: [ {type:'image', src:'images/Personal/20190902_M4/M4_M203_001.webp'}, {type:'image', src:'images/Personal/20190902_M4/M4_M203_002.webp'} ] },
+  { key:'rock', short:'ROCK', title: 'Modular Rock', sub: 'Zbrush / Substance', desc: 'Single Asset Composition', tags: '2020.11.24', items: [ {type:'image', src:'images/Personal/20201124_RockStudy/Rock_Final_001.webp'} ] },
+  { key:'hideout', short:'HIDEOUT', title: 'The Urban Hideout', sub: 'Environment Scene', desc: 'V-Ray Lighting & Texturing', tags: '2014.06.13', items: [ {type:'video', id:'mcTm2DmXd3Y'} ] },
+  { key:'bmw', short:'BMW', title: 'BMW M4 GTS', sub: 'Re:Lighting / UE5', desc: 'Set Dressing · Look-dev', tags: '2024.09.12', items: [ {type:'image', src:'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp'} ] }
+];
+
+function getThumb(item) {
+  if(item.type === 'video') return `https://img.youtube.com/vi/${item.id}/mqdefault.jpg`;
+  return item.src;
+}
+
+// --- STATE ---
+let activeProfIdx = 0;
+let activePersIdx = 0;
+
+// --- RENDER FUNCTIONS ---
+function renderSidebar(data, containerId, type) {
+  const container = document.getElementById(containerId);
+  let html = '';
+  data.forEach((p, i) => {
+    let thumb = getThumb(p.items[0]);
+    let activeClass = (i === 0) ? 'active' : '';
+    html += `
+      <div class="sidebar-item ${activeClass}" onclick="selectProject('${type}', ${i})">
+        <img src="${thumb}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=200&auto=format&fit=crop'">
+        <div class="sidebar-item-label">${p.short}</div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function selectProject(type, idx) {
+  const data = type === 'prof' ? profData : persData;
+  const p = data[idx];
+  
+  // Update sidebar active class
+  const sidebar = document.getElementById(`${type}-sidebar`);
+  const items = sidebar.querySelectorAll('.sidebar-item');
+  items.forEach(el => el.classList.remove('active'));
+  items[idx].classList.add('active');
+
+  // Update Texts
+  document.getElementById(`${type}-watermark`).innerText = p.short;
+  document.getElementById(`${type}-title`).innerText = p.title;
+  document.getElementById(`${type}-sub`).innerText = p.sub;
+  document.getElementById(`${type}-desc`).innerHTML = p.desc;
+  document.getElementById(`${type}-tags`).innerText = p.tags;
+
+  // Update Thumbs (Bottom carousel)
+  const thumbsContainer = document.getElementById(`${type}-thumbs`);
+  let thumbsHtml = '';
+  p.items.forEach((item, i) => {
+    let thumb = getThumb(item);
+    let icon = item.type === 'video' ? '<div class="play-icon">▶</div>' : '';
+    let clickAction = item.type === 'video' ? `openLbVideo('${item.id}')` : `openLbImage('${item.src}')`;
+    let activeClass = (i === 0) ? 'active' : ''; // first item active
+    
+    thumbsHtml += `
+      <div class="thumb-item ${activeClass}" onclick="setMainMedia('${type}', ${idx}, ${i}); ${clickAction}">
+        <img src="${thumb}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=400&auto=format&fit=crop'">
+        ${icon}
+      </div>
+    `;
+  });
+  thumbsContainer.innerHTML = thumbsHtml;
+
+  // Set main media to the first item
+  setMainMedia(type, idx, 0);
+}
+
+function setMainMedia(type, projIdx, itemIdx) {
+  const data = type === 'prof' ? profData : persData;
+  const item = data[projIdx].items[itemIdx];
+  const container = document.getElementById(`${type}-main-media`);
+  
+  // Update active thumb styling
+  const thumbs = document.getElementById(`${type}-thumbs`).querySelectorAll('.thumb-item');
+  thumbs.forEach(el => el.classList.remove('active'));
+  if(thumbs[itemIdx]) thumbs[itemIdx].classList.add('active');
+
+  if (item.type === 'video') {
+    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.id}?autoplay=1&mute=1&loop=1&playlist=${item.id}&controls=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>`;
+  } else {
+    container.innerHTML = `<img src="${item.src}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1920&auto=format&fit=crop'">`;
+  }
+}
+
+// --- INIT ---
+renderSidebar(profData, 'prof-sidebar', 'prof');
+selectProject('prof', 0);
+
+renderSidebar(persData, 'pers-sidebar', 'pers');
+selectProject('pers', 0);
+
+// --- LIGHTBOX ---
+function openLbVideo(id) {
+  document.getElementById('lb-content').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay; fullscreen"></iframe>`;
+  document.getElementById('lightbox').classList.add('active');
+}
+function openLbImage(src) {
+  document.getElementById('lb-content').innerHTML = `<img src="${src}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1920&auto=format&fit=crop'">`;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lb-content').innerHTML = '';
+}
+
+// Nav active state update
+window.addEventListener('scroll', () => {
+  let profTop = document.getElementById('professional').offsetTop;
+  let persTop = document.getElementById('personal').offsetTop;
+  let scrollPos = window.scrollY + 100;
+  
+  let links = document.querySelectorAll('nav a');
+  links.forEach(l => l.classList.remove('active'));
+  
+  if(scrollPos >= persTop) {
+    links[1].classList.add('active');
+  } else {
+    links[0].classList.add('active');
+  }
+});
+</script>
+
+</body>
+</html>

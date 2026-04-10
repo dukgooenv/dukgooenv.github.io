@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUNG DAEKUN | Environment Artist</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:ital,wght@0,400;0,700;1,700;1,900&family=Noto+Sans+KR:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #121212;
+    --bg-light: #f4f5f7;
+    --zzz-red: #ff3333;
+    --zzz-yellow: #ccff00; /* Hero Primary */
+    --zzz-yellow-alt: #dfff00; /* News Yellow */
+    --zzz-magenta: #ff0055;
+    --zzz-cyan: #00f0ff;
+    --zzz-black: #080808;
+    
+    --text-main: #ffffff;
+    --text-dark: #1a1a1a;
+    
+    --font-hero: "Anton", "Noto Sans KR", sans-serif;
+    --font-head: 'Oswald', sans-serif;
+    --font-body: 'Noto Sans KR', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+  }
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+  
+  /* Scanline Overlay */
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--zzz-red); }
+
+  h1, h2, h3 { font-family: var(--font-head); font-style: italic; text-transform: uppercase; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; height: 60px;
+    background: rgba(8,8,8,0.9); border-bottom: 2px solid var(--zzz-red);
+    display: flex; justify-content: center; align-items: center; z-index: 2000;
+    backdrop-filter: blur(5px);
+  }
+  nav a {
+    color: #aaa; text-decoration: none; font-family: var(--font-head);
+    font-size: 20px; font-style: italic; font-weight: 700; margin: 0 20px;
+    letter-spacing: 2px; transition: all 0.3s; text-transform: uppercase;
+  }
+  nav a:hover, nav a.active { color: var(--zzz-yellow); }
+
+  /* ── 1. HERO SECTION (VISUAL ARCHITECT) ── */
+  .hero { position: relative; height: 100vh; display: flex; align-items: center; padding-left: 10vw; overflow: hidden; background: #000; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: contrast(1.2) saturate(1.2); z-index: 0; }
+  .title-group { position: relative; z-index: 1; display: flex; flex-direction: column; }
+  .title-sub { font-size: 1.5rem; color: var(--zzz-yellow); letter-spacing: 5px; text-transform: uppercase; margin-bottom: -10px; background: #000; display: inline-block; padding: 5px 15px; transform: skewX(-10deg); width: fit-content; border-left: 5px solid var(--zzz-magenta); font-family: var(--font-head); font-style: italic; font-weight: 900;}
+  .title-main { font-family: var(--font-hero); font-size: clamp(6rem, 12vw, 12rem); line-height: 0.85; text-transform: uppercase; color: #fff; margin: 0; text-shadow: 4px 4px 0px var(--zzz-magenta); position: relative; font-style: normal; }
+  .title-main span { display: block; }
+  .btn-enter { margin-top: 40px; padding: 15px 40px; font-family: var(--font-hero); font-size: 1.5rem; color: #000; background: var(--zzz-yellow); border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transform: skewX(-15deg); transition: 0.2s; border-right: 5px solid var(--zzz-magenta); border-bottom: 5px solid var(--zzz-magenta); position: relative; z-index: 10; width: fit-content; }
+  .btn-enter:hover { transform: skewX(-15deg) translate(-5px, -5px); box-shadow: 10px 10px 0px var(--zzz-magenta); background: #fff; }
+  .btn-enter span { display: inline-block; transform: skewX(15deg); }
+  
+  .ticker { position: absolute; bottom: 50px; left: 0; width: 100%; background: var(--zzz-yellow); color: #000; font-family: var(--font-head); font-size: 1.5rem; font-weight: 900; white-space: nowrap; overflow: hidden; padding: 10px 0; z-index: 2; transform: rotate(-2deg); transform-origin: left bottom; box-shadow: 0 0 20px rgba(204,255,0,0.5); }
+  .ticker-wrap { display: inline-block; white-space: nowrap; animation: ticker 20s linear infinite; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── 2. PROFESSIONAL SECTION (RED BLOCK & SIDEBAR - FROM v2) ── */
+  #professional {
+    background-color: var(--bg-light); color: var(--text-dark);
+    height: 100vh; width: 100vw; position: relative; overflow: hidden; display: flex; padding-top: 60px;
+  }
+  /* Background grid lines like screenshot */
+  #professional::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 41px);
+  }
+  
+  .prof-left-block {
+    position: absolute; left: 0; top: 0; width: 25%; height: 100%;
+    background: var(--zzz-red); clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+    z-index: 1; padding: 100px 0 0 5%;
+  }
+  .prof-left-block .ko-title { font-size: 40px; font-weight: 900; color: #000; line-height: 1; margin-bottom: 5px; }
+  .prof-left-block .en-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+  .prof-left-block .num { font-family: var(--font-head); font-size: 150px; font-weight: 900; color: #000; line-height: 0.8; opacity: 0.2; margin-top: 20px; }
+
+  /* Right Sidebar */
+  .prof-sidebar {
+    position: absolute; right: 0; top: 60px; width: 100px; height: calc(100% - 60px);
+    background: var(--zzz-black); z-index: 10; display: flex; flex-direction: column; align-items: center;
+    border-left: 2px solid var(--zzz-red); overflow-y: auto; padding-top: 20px; padding-bottom: 20px;
+  }
+  .prof-sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-item {
+    width: 80px; height: 80px; margin: 10px 0; border: 2px solid #333; border-radius: 12px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s; background: #111; position: relative; overflow: hidden; flex-shrink: 0;
+  }
+  .sidebar-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.3s; }
+  .sidebar-item:hover, .sidebar-item.active { border-color: var(--zzz-red); transform: scale(1.1); }
+  .sidebar-item.active img { opacity: 1; }
+  .sidebar-item-label {
+    position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); color: #fff;
+    font-family: var(--font-mono); font-size: 9px; text-align: center; padding: 2px 0;
+  }
+
+  /* Main Content Area */
+  .prof-content {
+    position: relative; z-index: 5; flex: 1; margin-left: 22%; margin-right: 120px;
+    display: flex; align-items: center; justify-content: center; gap: 5%;
+  }
+  .watermark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-head); font-size: 15vw; font-weight: 900;
+    color: rgba(0,0,0,0.03); white-space: nowrap; pointer-events: none; z-index: 0;
+  }
+  
+  /* Video/Image Frame */
+  .main-media-box {
+    position: relative;
+    width: 50%;
+    aspect-ratio: 16/9;
+    z-index: 3;
+    /* The red shadow box behind */
+  }
+  .main-media-box::before {
+    content: ''; position: absolute;
+    top: 15px; left: -15px; width: 100%; height: 100%;
+    background: var(--zzz-red); z-index: -1;
+  }
+  .main-media-inner {
+    width: 100%; height: 100%;
+    background: #000; border: 4px solid #000;
+    position: relative; z-index: 2; overflow: hidden;
+  }
+  .main-media-inner iframe, .main-media-inner img {
+    width: 100%; height: 100%; object-fit: cover; border: none;
+  }
+  
+  /* Text Info */
+  .info-wrap {
+    width: 40%; z-index: 3; display: flex; flex-direction: column; justify-content: center;
+  }
+  .proj-title { font-size: 60px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; color: #000; text-shadow: 2px 2px 0 #fff; }
+  .proj-sub { font-family: var(--font-mono); font-size: 18px; font-weight: bold; background: #000; color: var(--zzz-red); display: inline-block; padding: 5px 15px; margin-bottom: 20px; width: fit-content; }
+  .proj-desc-box { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 20px 0; margin-bottom: 30px; }
+  .proj-desc { font-size: 16px; color: #444; line-height: 1.6; margin-bottom: 10px; font-weight: bold; }
+  .proj-tags { font-family: var(--font-mono); font-size: 14px; color: #888; }
+
+
+  /* ── 3. PERSONAL SECTION (YELLOW NEWS VIEW - FROM FINAL) ── */
+  #personal {
+    position: relative; background-color: var(--bg-light); color: var(--text-dark);
+    min-height: 100vh; padding: 100px 0 100px 0; overflow: hidden; border-top: 4px solid #000;
+  }
+  .watermark-light {
+    position: absolute; top: 50px; right: 5%; font-family: var(--font-head); font-size: 13vw; font-weight: 900; font-style: italic; color: rgba(0,0,0,0.03); line-height: 0.8; pointer-events: none; z-index: 0; text-align: right; white-space: nowrap;
+  }
+  .title-block-yellow {
+    position: absolute; left: 0; top: 120px; background: var(--zzz-yellow-alt); color: #000; padding: 30px 40px 30px 5%; border-radius: 0 0 60px 0; z-index: 10; box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
+  }
+  .title-block-yellow .ko-title { font-family: var(--font-body); font-size: 32px; font-weight: 900; line-height: 1; letter-spacing: -1px; }
+  .title-block-yellow .en-title { font-family: var(--font-head); font-size: 16px; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+  .title-block-yellow .num-title { font-family: var(--font-head); font-size: 80px; font-weight: 900; line-height: 0.8; letter-spacing: -2px; font-style: italic; margin-top: 10px; }
+
+  /* Carousel */
+  .carousel-container { margin-top: 150px; padding-left: 320px; padding-right: 5%; position: relative; z-index: 5; }
+  .carousel-track { display: flex; gap: 30px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; scrollbar-width: none; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .carousel-item { flex: 0 0 600px; scroll-snap-align: start; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.3s; position: relative; }
+  .carousel-item:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+  .carousel-item img { width: 100%; height: 340px; object-fit: cover; }
+  .carousel-item-info { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 30px 20px 20px 20px; color: #fff; }
+  .c-item-title { font-family: var(--font-body); font-size: 32px; font-weight: 900; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+  .c-item-sub { font-family: var(--font-mono); font-size: 16px; color: var(--zzz-yellow-alt); font-weight: bold; }
+
+  /* Filter Tabs */
+  .filter-tabs { background: #1a1a1a; border-radius: 50px; display: inline-flex; padding: 6px; margin: 40px 0 40px 320px; z-index: 5; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+  .filter-btn { background: transparent; color: #fff; border: none; padding: 12px 30px; border-radius: 50px; font-family: var(--font-body); font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+  .filter-btn.active { background: #fff; color: #000; }
+  .filter-btn:hover:not(.active) { color: var(--zzz-yellow-alt); }
+
+  /* Grid */
+  .light-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; padding-left: 320px; padding-right: 5%; z-index: 5; position: relative; }
+  .light-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; border: 1px solid #eaeaea; }
+  .light-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-color: var(--zzz-yellow-alt); }
+  .light-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+  .light-card-info { padding: 20px; }
+  .lc-title { font-family: var(--font-body); font-size: 22px; font-weight: 900; color: #000; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lc-sub { font-family: var(--font-mono); font-size: 14px; color: #666; font-weight: bold; }
+
+  /* ── LIGHTBOX ── */
+  #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; flex-direction: column; align-items: center; justify-content: center; }
+  #lightbox.active { display: flex; }
+  .lb-close { position: absolute; top: 30px; right: 40px; background: none; border: none; color: var(--zzz-yellow-alt); font-size: 50px; cursor: pointer; font-family: var(--font-head); z-index: 10; font-style: italic; }
+  .lb-content { width: 90vw; height: 80vh; display: flex; align-items: center; justify-content: center; }
+  .lb-content img { max-width: 100%; max-height: 100%; border: 4px solid var(--zzz-yellow-alt); box-shadow: 10px 10px 0 #000; object-fit: contain; }
+  .lb-content iframe { width: 80vw; height: 45vw; max-height: 80vh; border: 4px solid var(--zzz-yellow-alt); box-shadow: 10px 10px 0 #000; }
+  
+  footer { background: #000; color: var(--text-main); padding: 40px; text-align: center; font-size: 24px; font-family: var(--font-head); font-weight: 900; font-style: italic; border-top: 5px solid var(--zzz-red); }
+
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="active">START</a>
+    <a href="#professional">PROFESSIONAL</a>
+    <a href="#personal">PERSONAL / RELIGHT</a>
+  </nav>
+
+  <!-- 1. HERO (VISUAL ARCHITECT - EXACT AS REQUESTED) -->
+  <section class="hero" id="hero">
+    <img class="hero-bg" src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg" alt="Background">
+    <div class="title-group">
+      <div class="title-sub">SENIOR ENVIRONMENT ARTIST</div>
+      <h1 class="title-main">
+        <span>VISUAL</span>
+        <span>ARCHITECT.</span>
+      </h1>
+      <button class="btn-enter" onclick="document.getElementById('professional').scrollIntoView({behavior:'smooth'})"><span>ENTER HOLLOW</span></button>
+    </div>
+    <div class="ticker">
+      <div class="ticker-wrap">
+        /// 20+ YEARS EXPERIENCE /// AAA GAMES /// PROJECT M /// ODIN: VALHALLA RISING /// ASCENDANT ONE /// LEVEL DESIGN /// LIGHTING /// LOOK-DEV /// 20+ YEARS EXPERIENCE /// AAA GAMES /// PROJECT M /// ODIN: VALHALLA RISING /// ASCENDANT ONE /// LEVEL DESIGN /// LIGHTING /// LOOK-DEV ///
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PROFESSIONAL (RED AGENT VIEW - MATCHING THE V2 SCREENSHOT) -->
+  <section id="professional">
+    <div class="watermark" id="prof-watermark">LIONHEART</div>
+    
+    <div class="prof-left-block">
+      <div class="en-title">PROFESSIONAL</div>
+      <div class="ko-title">공식 의뢰</div>
+      <div class="num">01</div>
+    </div>
+
+    <div class="prof-sidebar" id="prof-sidebar">
+      <!-- JS Rendered -->
+    </div>
+
+    <div class="prof-content">
+      <div class="main-media-box">
+        <div class="main-media-inner" id="prof-main-media">
+          <!-- JS Rendered -->
+        </div>
+      </div>
+      
+      <div class="info-wrap">
+        <h1 class="proj-title" id="prof-title">ODIN: VALHALLA RISING</h1>
+        <div class="proj-sub" id="prof-sub">MMORPG / Mobile · PC</div>
+        <div class="proj-desc-box">
+          <div class="proj-desc" id="prof-desc">Senior Level Artist<br>Level Design · Integration · Lighting</div>
+          <div class="proj-tags" id="prof-tags">Kakao Games</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. PERSONAL (YELLOW NEWS VIEW) -->
+  <section id="personal">
+    <div class="watermark-light">PERSONAL</div>
+    
+    <div class="title-block-yellow">
+      <div class="en-title">PERSONAL WORKS</div>
+      <div class="ko-title">개인 아카이브</div>
+      <div class="num-title">02</div>
+    </div>
+
+    <div class="carousel-container">
+      <div class="carousel-track" id="pers-carousel"></div>
+    </div>
+
+    <div class="filter-tabs">
+      <button class="filter-btn active" onclick="filterPers('ALL', this)">전체보기</button>
+      <button class="filter-btn" onclick="filterPers('RELIGHT', this)">리라이팅 (Re:Lighting)</button>
+      <button class="filter-btn" onclick="filterPers('PROP', this)">프랍 / 에셋</button>
+      <button class="filter-btn" onclick="filterPers('SCENE', this)">레벨 씬 (Scene)</button>
+    </div>
+
+    <div class="light-grid" id="pers-grid"></div>
+  </section>
+
+  <footer>
+    INTER-KNOT SYSTEM ONLINE // JUNG DAEKUN © 2026 // END OF FILE
+  </footer>
+
+  <div id="lightbox">
+    <button class="lb-close" onclick="closeLb()">X</button>
+    <div class="lb-content" id="lb-content"></div>
+  </div>
+
+<script>
+// --- DATA ---
+const profData = [
+  { key:'lionheart', short:'LIONHEART', title: 'ODIN: VALHALLA<br>RISING', sub: 'MMORPG / Mobile · PC', desc: 'Senior Level Artist<br>Level Design · Integration · Lighting', tags: 'Kakao Games', items: [ {type:'video', id:'tvAcoxRube0'} ] },
+  { key:'ncsoft', short:'NCSOFT', title: 'PROJECT M', sub: 'Interactive Adventure / Console', desc: 'Senior Environment Artist<br>Integration · Lighting · Tech Doc', tags: 'Developer: Project M | Publisher: NCSOFT', items: [ {type:'video', id:'bDXLAaqR_Yg'}, {type:'image', src:'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp'} ] },
+  { key:'changse', short:'LINE GAMES', title: '창세기전:<br>회색의 잔영', sub: 'SRPG / Switch', desc: 'Lead Environment Artist<br>Level Design · Integration', tags: 'Developer: ReG Studio', items: [ {type:'video', id:'2zKdRMch0Us'} ] },
+  { key:'nexon', short:'NEXON', title: 'ASCENDANT ONE', sub: 'MOBA / PC', desc: 'Senior Environment Artist<br>Asset Modeling · Textures', tags: 'Developer: devCAT', items: [ {type:'video', id:'NOZ51TUyemo'}, {type:'image', src:'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp'} ] },
+  { key:'xlgames', short:'XLGAMES', title: 'Civilization Online', sub: 'MMORPG / PC', desc: 'Integration · Lighting', tags: 'Publisher: 2K', items: [ {type:'video', id:'behf7twp1bo'}, {type:'image', src:'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp'} ] },
+  { key:'neptune', short:'NEPTUNE', title: 'Neppy Rush', sub: 'Defence / Mobile', desc: 'Lead Environment Artist', tags: 'Developer: Neptune', items: [ {type:'video', id:'k4VzC93T00g'} ] },
+  { key:'puregames', short:'PURE GAMES', title: 'Vendetta', sub: 'MORPG / Mobile', desc: 'Art Direction', tags: 'Developer: Pure Games', items: [ {type:'video', id:'UjtP1k8C5yw'} ] }
+];
+
+const persData = [
+  { key:'genesis', type:'image', category:'RELIGHT', title: 'Genesis G70', sub: 'Re:Lighting / UE5', thumb: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_Thumb.webp', src: 'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_01.webp' },
+  { key:'m4', type:'image', category:'PROP', title: 'M4 Carbine', sub: 'Weapon Prop', thumb: 'images/Personal/20190902_M4/M4_M203_Thumb.webp', src: 'images/Personal/20190902_M4/M4_M203_001.webp' },
+  { key:'rock', type:'image', category:'PROP', title: 'Modular Rock', sub: 'Zbrush / Substance', thumb: 'images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp', src: 'images/Personal/20201124_RockStudy/Rock_Final_001.webp' },
+  { key:'hideout', type:'video', category:'SCENE', title: 'The Urban Hideout', sub: 'Environment Scene', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp', id: 'mcTm2DmXd3Y' },
+  { key:'bmw', type:'image', category:'RELIGHT', title: 'BMW M4 GTS', sub: 'Re:Lighting / UE5', thumb: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp', src: 'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp' },
+  { key:'stylized', type:'image', category:'SCENE', title: 'Stylized Dungeon', sub: 'Environment', thumb: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_Thumb.webp', src: 'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_001.webp' }
+];
+
+function getThumb(item) {
+  if(item.type === 'video') return `https://img.youtube.com/vi/${item.id}/mqdefault.jpg`;
+  return item.src || item.thumb;
+}
+
+// --- PROF SECTION (SIDEBAR) ---
+function renderProfSidebar() {
+  const container = document.getElementById('prof-sidebar');
+  let html = '';
+  profData.forEach((p, i) => {
+    let thumb = getThumb(p.items[0]);
+    let activeClass = (i === 0) ? 'active' : '';
+    html += `<div class="sidebar-item ${activeClass}" onclick="selectProfProject(${i})"><img src="${thumb}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=200&auto=format&fit=crop'"><div class="sidebar-item-label">${p.short}</div></div>`;
+  });
+  container.innerHTML = html;
+}
+
+window.selectProfProject = function(idx) {
+  const p = profData[idx];
+  document.querySelectorAll('#prof-sidebar .sidebar-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('#prof-sidebar .sidebar-item')[idx].classList.add('active');
+  
+  document.getElementById('prof-watermark').innerText = p.short;
+  document.getElementById('prof-title').innerHTML = p.title;
+  document.getElementById('prof-sub').innerText = p.sub;
+  document.getElementById('prof-desc').innerHTML = p.desc;
+  document.getElementById('prof-tags').innerText = p.tags;
+
+  const container = document.getElementById('prof-main-media');
+  if (p.items[0].type === 'video') {
+    // Add ?autoplay=1&mute=1&playsinline=1 to bypass YouTube embedding errors on load
+    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.items[0].id}?autoplay=1&mute=1&loop=1&playlist=${p.items[0].id}&controls=0&rel=0&playsinline=1" frameborder="0" allow="autoplay; encrypted-media"></iframe>`;
+  } else {
+    container.innerHTML = `<img src="${p.items[0].src}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1920&auto=format&fit=crop'">`;
+  }
+}
+
+// --- PERS SECTION (NEWS VIEW) ---
+function renderPersCarousel() {
+  const container = document.getElementById('pers-carousel');
+  let html = '';
+  persData.slice(0, 3).forEach(p => {
+    let action = p.type === 'video' ? `openLbVideo('${p.id}')` : `openLbImage('${p.src}')`;
+    html += `
+      <div class="carousel-item" onclick="${action}">
+        <img src="${p.thumb}" onerror="this.src='https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000&auto=format&fit=crop'">
+        <div class="carousel-item-info">
+          <div class="c-item-title">${p.title}</div>
+          <div class="c-item-sub">${p.sub}</div>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+window.filterPers = function(category, btnEl) {
+  const btns = document.querySelectorAll('#personal .filter-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  btnEl.classList.add('active');
+
+  let filtered = persData;
+  if (category !== 'ALL') {
+    filtered = persData.filter(p => p.category === category);
+  }
+  
+  const grid = document.getElementById('pers-grid');
+  let html = '';
+  filtered.forEach(p => {
+    let action = p.type === 'video' ? `openLbVideo('${p.id}')` : `openLbImage('${p.src}')`;
+    html += `
+      <div class="light-card" onclick="${action}">
+        <img src="${p.thumb}" onerror="this.src='https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=800&auto=format&fit=crop'">
+        <div class="light-card-info">
+          <div class="lc-title">${p.title}</div>
+          <div class="lc-sub">${p.sub}</div>
+        </div>
+      </div>
+    `;
+  });
+  grid.innerHTML = html;
+}
+
+// --- LIGHTBOX ---
+function openLbVideo(id) {
+  document.getElementById('lb-content').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay; fullscreen"></iframe>`;
+  document.getElementById('lightbox').classList.add('active');
+}
+function openLbImage(src) {
+  document.getElementById('lb-content').innerHTML = `<img src="${src}" onerror="this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'">`;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lb-content').innerHTML = '';
+}
+
+// Nav active state
+window.addEventListener('scroll', () => {
+  let profTop = document.getElementById('professional').offsetTop;
+  let persTop = document.getElementById('personal').offsetTop;
+  let scrollPos = window.scrollY + 100;
+  
+  let links = document.querySelectorAll('nav a');
+  links.forEach(l => l.classList.remove('active'));
+  
+  if(scrollPos >= persTop) {
+    links[2].classList.add('active');
+  } else if (scrollPos >= profTop) {
+    links[1].classList.add('active');
+  } else {
+    links[0].classList.add('active');
+  }
+});
+
+// INIT
+window.addEventListener('load', () => {
+  renderProfSidebar();
+  selectProfProject(0);
+  renderPersCarousel();
+  filterPers('ALL', document.querySelector('.filter-btn.active'));
+});
+</script>
+
+</body>
+</html>

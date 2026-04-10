@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JUNG DAEKUN | Translation LLC Style</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+  
+  body, html { margin: 0; padding: 0; background: #050505; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* Nav */
+  nav { position: fixed; top: 0; width: 100%; padding: 40px 5vw; display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100; mix-blend-mode: difference; }
+  .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+  .menu { font-size: 14px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+
+  /* Hero */
+  .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 5vw; position: relative; }
+  .hero h1 { font-size: clamp(6rem, 14vw, 15rem); font-weight: 900; line-height: 0.85; margin: 0; letter-spacing: -0.05em; text-transform: uppercase; }
+  .hero p { font-size: 1.5rem; font-weight: 400; max-width: 700px; margin-top: 40px; line-height: 1.4; color: #aaa; }
+
+  /* Work List (Agency Style) */
+  .work-list { padding: 100px 0; border-top: 1px solid #333; }
+  .work-item { display: flex; align-items: center; justify-content: space-between; padding: 6vw 5vw; border-bottom: 1px solid #333; cursor: pointer; transition: background 0.4s, color 0.4s; position: relative; overflow: hidden; }
+  
+  /* Hover Effect Invert */
+  .work-item:hover { background: #fff; color: #000; }
+  
+  .work-title { font-size: clamp(4rem, 8vw, 8rem); font-weight: 900; margin: 0; letter-spacing: -0.04em; text-transform: uppercase; position: relative; z-index: 2; line-height: 1; }
+  .work-meta { font-size: 1.2rem; font-weight: 400; text-transform: uppercase; z-index: 2; text-align: right; }
+  .work-meta span { display: block; color: #888; font-size: 1rem; margin-top: 5px; }
+
+  /* Hover Image Reveal */
+  .hover-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 45vw; height: 25vw; object-fit: cover; opacity: 0; pointer-events: none; transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+  .work-item:hover .hover-img { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  /* Footer */
+  .footer { padding: 100px 5vw; display: flex; justify-content: space-between; font-weight: 900; text-transform: uppercase; font-size: 3rem; letter-spacing: -2px; }
+  .footer a { color: #fff; text-decoration: none; }
+  .footer a:hover { color: #888; }
+</style>
+</head>
+<body>
+  <nav>
+    <div class="logo">JUNG DAEKUN</div>
+    <div class="menu">Index</div>
+  </nav>
+
+  <section class="hero">
+    <h1>Building<br>Worlds.</h1>
+    <p>Senior Environment Artist with 15+ years of experience in AAA game development. Specializing in Look-Dev, Lighting, and Environment Setup.</p>
+  </section>
+
+  <section class="work-list">
+    <div class="work-item">
+      <h2 class="work-title">Project M</h2>
+      <div class="work-meta">NCSoft<span>PlayStation 5</span></div>
+      <img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg" class="hover-img">
+    </div>
+    
+    <div class="work-item">
+      <h2 class="work-title">ODIN</h2>
+      <div class="work-meta">Lionheart Studio<span>Mobile & PC</span></div>
+      <img src="https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg" class="hover-img">
+    </div>
+    
+    <div class="work-item">
+      <h2 class="work-title">창세기전</h2>
+      <div class="work-meta">Line Games<span>Nintendo Switch</span></div>
+      <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg" class="hover-img">
+    </div>
+    
+    <div class="work-item">
+      <h2 class="work-title">Ascendant One</h2>
+      <div class="work-meta">Nexon<span>PC Online</span></div>
+      <img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg" class="hover-img">
+    </div>
+
+    <div class="work-item">
+      <h2 class="work-title">Urban Hideout</h2>
+      <div class="work-meta">Personal Work<span>Look-dev / Lighting</span></div>
+      <img src="https://img.youtube.com/vi/mcTm2DmXd3Y/maxresdefault.jpg" class="hover-img">
+    </div>
+  </section>
+
+  <div class="footer">
+    <div>Environment Artist</div>
+    <a href="mailto:jungdaekun@gmail.com">Contact</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JUNG DAEKUN | Stacking Cards</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  body { background: #050505; color: #fff; font-family: "Rajdhani", sans-serif; margin: 0; }
+  .card { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; padding-left: 10vw; box-sizing: border-box; overflow: hidden; border-top: 1px solid rgba(212,179,85,0.3); box-shadow: 0 -10px 50px rgba(0,0,0,0.8); }
+  .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; z-index: -1; transform: scale(1.1); transition: transform 0.5s; }
+  .card:hover img { transform: scale(1.0); opacity: 0.5; }
+  .content { max-width: 800px; }
+  .year { font-family: monospace; color: #d4b355; font-size: 1.5rem; letter-spacing: 5px; display: block; margin-bottom: 10px; }
+  h2 { font-size: 6rem; margin: 0; text-transform: uppercase; line-height: 0.9; text-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+  p { font-size: 1.5rem; color: #bbb; line-height: 1.6; }
+  /* Card specific backgrounds */
+  #c1 { background: #0a0a0a; z-index: 1; }
+  #c2 { background: #111; z-index: 2; }
+  #c3 { background: #1a1a1a; z-index: 3; }
+  #c4 { background: #222; z-index: 4; }
+  .intro { height: 80vh; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #050505; z-index: 0; position: relative; }
+  .intro h1 { font-size: 4rem; color: #d4b355; letter-spacing: 10px; }
+  .intro span { font-family: monospace; color: #888; }
+</style>
+</head>
+<body>
+  <div class="intro">
+    <h1>JUNG DAEKUN</h1>
+    <span>Scroll down to explore the journey</span>
+  </div>
+  <div class="card" id="c1">
+    <img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg">
+    <div class="content"><span class="year">2021-2024</span><h2>Project M</h2><p>Senior Environment Artist / NCSoft<br>PlayStation 5 / Unreal 5</p></div>
+  </div>
+  <div class="card" id="c2">
+    <img src="https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg">
+    <div class="content"><span class="year">2025-</span><h2>ODIN</h2><p>Senior Environment Artist / Lionheart Studio<br>Mobile & PC / Live Service</p></div>
+  </div>
+  <div class="card" id="c3">
+    <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg">
+    <div class="content"><span class="year">2018-2020</span><h2>창세기전</h2><p>Lead Environment Artist / Line Games<br>Nintendo Switch</p></div>
+  </div>
+  <div class="card" id="c4">
+    <img src="https://img.youtube.com/vi/mcTm2DmXd3Y/maxresdefault.jpg">
+    <div class="content"><span class="year">2014</span><h2>Urban Hideout</h2><p>Personal Project<br>Look-dev & Vray Lighting</p></div>
+  </div>
+</body>
+</html>

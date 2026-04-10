@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JUNG DAEKUN | Infinite Canvas</title>
+<style>
+  body { margin: 0; overflow: hidden; background: #080a0d; color: #fff; font-family: "Rajdhani", sans-serif; user-select: none; }
+  .fixed-title { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; text-align: center; pointer-events: none; mix-blend-mode: difference; }
+  .fixed-title h1 { font-size: 8rem; margin: 0; line-height: 0.9; letter-spacing: 10px; text-transform: uppercase; color: #fff; }
+  .fixed-title p { font-size: 1.5rem; letter-spacing: 5px; color: #d4b355; margin-top: 10px; font-family: monospace; }
+  .hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-family: monospace; color: #888; z-index: 100; pointer-events: none; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+  .canvas { position: absolute; top: -100vh; left: -100vw; width: 300vw; height: 300vh; cursor: grab; }
+  .canvas:active { cursor: grabbing; }
+  .item { position: absolute; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: transform 0.4s; background: #111; }
+  .item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%); transition: 0.4s; pointer-events: none; }
+  .item:hover { transform: scale(1.05); z-index: 50; border-color: #d4b355; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+  .item:hover img { filter: grayscale(0%); }
+  .label { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 5px 10px; font-family: monospace; font-size: 12px; color: #d4b355; opacity: 0; transition: 0.3s; }
+  .item:hover .label { opacity: 1; }
+  
+  /* Scattered Positions */
+  #i1 { width: 30vw; height: 40vh; top: 120vh; left: 120vw; }
+  #i2 { width: 40vw; height: 30vh; top: 170vh; left: 160vw; }
+  #i3 { width: 25vw; height: 35vh; top: 110vh; left: 160vw; }
+  #i4 { width: 35vw; height: 45vh; top: 150vh; left: 80vw; }
+  #i5 { width: 20vw; height: 30vh; top: 100vh; left: 90vw; }
+  #i6 { width: 40vw; height: 25vh; top: 200vh; left: 110vw; }
+</style>
+</head>
+<body>
+  <div class="fixed-title">
+    <h1>Jung<br>Daekun</h1>
+    <p>Explore The Environments</p>
+  </div>
+  <div class="hint">[ CLICK & DRAG TO EXPLORE ]</div>
+  <div class="canvas" id="canvas">
+    <div class="item" id="i1"><img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg"><div class="label">Project M</div></div>
+    <div class="item" id="i2"><img src="https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg"><div class="label">ODIN: Valhalla Rising</div></div>
+    <div class="item" id="i3"><img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg"><div class="label">창세기전</div></div>
+    <div class="item" id="i4"><img src="https://img.youtube.com/vi/mcTm2DmXd3Y/maxresdefault.jpg"><div class="label">Urban Hideout</div></div>
+    <div class="item" id="i5"><img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg"><div class="label">Ascendant One</div></div>
+    <div class="item" id="i6"><img src="https://img.youtube.com/vi/WehIUseB8FQ/maxresdefault.jpg"><div class="label">HMMWV</div></div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    let isDown = false, startX, startY, scrollLeft, scrollTop;
+    window.addEventListener("mousedown", (e) => {
+      isDown = true;
+      startX = e.pageX - canvas.offsetLeft;
+      startY = e.pageY - canvas.offsetTop;
+    });
+    window.addEventListener("mouseleave", () => isDown = false);
+    window.addEventListener("mouseup", () => isDown = false);
+    window.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - canvas.offsetLeft;
+      const y = e.pageY - canvas.offsetTop;
+      const walkX = (x - startX) * 1.5;
+      const walkY = (y - startY) * 1.5;
+      canvas.style.transform = `translate(${walkX}px, ${walkY}px)`;
+    });
+  </script>
+</body>
+</html>

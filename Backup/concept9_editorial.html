@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>JUNG DAEKUN | Editorial</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@400;600&display=swap');
+  body { margin: 0; background: #030303; color: #e0e0e0; font-family: "Rajdhani", sans-serif; overflow-x: hidden; }
+  .nav { padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: 4px; color: #fff; }
+  .logo span { color: #d4b355; }
+  .hero { padding: 100px 60px; display: flex; align-items: flex-end; justify-content: space-between; min-height: 60vh; }
+  h1 { font-family: "Playfair Display", serif; font-size: 8rem; font-weight: 400; margin: 0; line-height: 0.9; color: #fff; }
+  h1 i { color: #d4b355; font-style: italic; }
+  .hero-desc { max-width: 300px; font-size: 1.1rem; line-height: 1.6; color: #888; margin-bottom: 20px; }
+  
+  .grid-section { padding: 0 60px 100px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+  .grid-item { position: relative; background: #111; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+  .grid-item img { width: 100%; height: 100%; object-fit: cover; filter: sepia(30%) brightness(0.8); transition: 0.8s ease; }
+  .grid-item:hover img { filter: sepia(0%) brightness(1.1); transform: scale(1.03); }
+  .grid-item .info { position: absolute; bottom: 30px; left: 30px; }
+  .grid-item h3 { font-family: "Playfair Display", serif; font-size: 2.5rem; margin: 0; font-weight: 400; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.9); }
+  .grid-item p { font-family: monospace; font-size: 0.9rem; color: #d4b355; letter-spacing: 2px; margin-top: 5px; text-transform: uppercase; }
+  .num { position: absolute; top: 20px; right: 30px; font-family: "Playfair Display", serif; font-size: 4rem; color: rgba(255,255,255,0.2); font-style: italic; line-height: 1; }
+
+  /* Grid Placements */
+  .i1 { grid-column: 1 / 8; height: 600px; }
+  .i2 { grid-column: 8 / 13; height: 600px; margin-top: 150px; }
+  .i3 { grid-column: 2 / 7; height: 700px; margin-top: -100px; z-index: 2; }
+  .i4 { grid-column: 7 / 12; height: 500px; margin-top: 100px; }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="logo">JUNG<span>DAEKUN</span></div>
+    <div style="font-family:monospace; letter-spacing:2px; color:#888;">PORTFOLIO 2026</div>
+  </div>
+  
+  <div class="hero">
+    <h1>Environment<br><i>Artist.</i></h1>
+    <div class="hero-desc">Over 15 years of shaping immersive worlds and pushing the boundaries of real-time rendering.</div>
+  </div>
+
+  <div class="grid-section">
+    <div class="grid-item i1">
+      <div class="num">01</div>
+      <img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg">
+      <div class="info"><h3>Project M</h3><p>NCSoft / PS5</p></div>
+    </div>
+    <div class="grid-item i2">
+      <div class="num">02</div>
+      <img src="https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg">
+      <div class="info"><h3>ODIN</h3><p>Lionheart Studio</p></div>
+    </div>
+    <div class="grid-item i3">
+      <div class="num">03</div>
+      <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg">
+      <div class="info"><h3>창세기전</h3><p>Line Games</p></div>
+    </div>
+    <div class="grid-item i4">
+      <div class="num">04</div>
+      <img src="https://img.youtube.com/vi/mcTm2DmXd3Y/maxresdefault.jpg">
+      <div class="info"><h3>Urban Hideout</h3><p>Personal Project</p></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -171,31 +171,51 @@
   }
   .floating-filter.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-  /* ── PERSONAL WORKS ── */
+  /* ── PERSONAL WORKS PAGE ── */
   #personal-works-container { display: none; padding: 10px 0 80px 0; animation: fadeIn 0.4s; }
-  .pw-section-header { margin-bottom: 28px; }
-  .pw-section-id { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #a8893f; letter-spacing: .15em; margin-bottom: 6px; display: block; }
-  .pw-section-title { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 10px; }
-  .pw-section-desc { font-size: 14px; color: #888; line-height: 1.7; font-family: 'Share Tech Mono', monospace; }
-  .pw-project-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+
+  /* 상단 배너 캐러셀 */
+  .pw-banner-row { display: flex; gap: 14px; margin-bottom: 20px; height: 260px; }
+  .pw-banner-card { position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; flex: 1; background: #1a1a1a; transition: transform .25s; }
+  .pw-banner-card:hover { transform: scale(1.015); }
+  .pw-banner-card.large { flex: 1.7; }
+  .pw-banner-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .pw-banner-card:hover .pw-banner-img { transform: scale(1.06); }
+  .pw-banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.18) 55%, transparent 100%); }
+  .pw-banner-info { position: absolute; bottom: 18px; left: 20px; right: 20px; }
+  .pw-banner-cat { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #a8893f; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 5px; }
+  .pw-banner-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -.3px; line-height: 1.2; }
+  .pw-banner-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; font-family: 'Share Tech Mono', monospace; }
+
+  /* 서브 필터 탭 */
+  .pw-filter-bar { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; }
+  .pw-tab { background: #1e1e1e; border: 1px solid #333; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
+  .pw-tab:hover { color: #fff; border-color: #555; }
+  .pw-tab.active { background: #fff; color: #111; border-color: #fff; }
+
+  /* 카드 그리드 */
+  .pw-project-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
   @media(max-width: 1100px) { .pw-project-grid { grid-template-columns: repeat(3, 1fr); } }
   @media(max-width: 750px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width: 480px) { .pw-project-grid { grid-template-columns: 1fr; } }
-  .pw-card { background: var(--as-panel); border: 1px solid var(--as-border); cursor: pointer; transition: border-color .2s, transform .2s; border-radius: 4px; overflow: hidden; }
-  .pw-card:hover { border-color: #a8893f; transform: translateY(-4px); }
+  .pw-card { background: var(--as-panel); border: 1px solid var(--as-border); cursor: pointer; transition: border-color .2s, transform .2s; border-radius: 8px; overflow: hidden; }
+  .pw-card:hover { border-color: #a8893f; transform: translateY(-3px); }
   .pw-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
   .pw-card:hover .pw-thumb { transform: scale(1.05); }
-  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: 'Share Tech Mono', monospace; font-size: 10px; background: rgba(8,8,8,.85); border: 1px solid #a8893f; color: #a8893f; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; }
+  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: 'Share Tech Mono', monospace; font-size: 10px; background: rgba(8,8,8,.85); border: 1px solid #a8893f; color: #a8893f; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
   .pw-card:hover .pw-count-badge { opacity: 0; }
   .pw-open-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .pw-open-hint-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c8a84b; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(200,168,75,.4); }
   .pw-card:hover .pw-open-hint { opacity: 1; }
-  .pw-hover-overlay { position: absolute; inset: 0; background: rgba(8,8,8,.5); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 14px 16px; pointer-events: none; }
+  .pw-hover-overlay { position: absolute; inset: 0; background: rgba(8,8,8,.5); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
   .pw-card:hover .pw-hover-overlay { opacity: 1; }
-  .pw-hover-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #a8893f; letter-spacing: .12em; margin-bottom: 3px; transform: translateX(-16px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
-  .pw-hover-title { font-size: 14px; font-weight: 600; color: #fff; letter-spacing: .04em; transform: translateX(-16px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
+  .pw-hover-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #a8893f; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
+  .pw-hover-title { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
   .pw-card:hover .pw-hover-sub, .pw-card:hover .pw-hover-title { transform: translateX(0); opacity: 1; }
+  /* 그리드 섹션 타이틀 */
+  .pw-grid-section-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+  .pw-empty-msg { color: #555; font-family: 'Share Tech Mono', monospace; font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
   /* PERSONAL WORKS LIGHTBOX */
   #pw-lb { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0,0,0,.97); flex-direction: column; }
@@ -489,222 +509,55 @@ body {
 
       <!-- PERSONAL WORKS SECTION -->
       <div id="personal-works-container">
-        <div class="pw-section-header">
-          <span class="pw-section-id">// PERSONAL WORKS</span>
-          <h2 class="pw-section-title">Personal Works</h2>
-          <p class="pw-section-desc">프랍 제작부터 셋드레싱, 환경 셋업과 라이팅까지 — 배경 디자인의 전 과정을 밀도 있게 담아낸 개인 프로젝트</p>
+
+        <!-- 상단 배너 카드 2장 -->
+        <div class="pw-banner-row">
+          <!-- 배너 1: Rock Study (최신) -->
+          <div class="pw-banner-card large" onclick="openPwLb('pw-rock', 0)">
+            <img class="pw-banner-img" src="images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp" alt="Modular Rock Study">
+            <div class="pw-banner-overlay"></div>
+            <div class="pw-banner-info">
+              <div class="pw-banner-cat">Personal · 2020</div>
+              <div class="pw-banner-title">Modular Rock Study</div>
+              <div class="pw-banner-sub">Single Asset Composition · 5 images</div>
+            </div>
+          </div>
+          <!-- 배너 2: M4 Carbine -->
+          <div class="pw-banner-card" onclick="openPwLb('pw-m4', 0)">
+            <img class="pw-banner-img" src="images/Personal/20190902_M4/M4_M203_Thumb.webp" alt="M4 Carbine">
+            <div class="pw-banner-overlay"></div>
+            <div class="pw-banner-info">
+              <div class="pw-banner-cat">Personal · 2019</div>
+              <div class="pw-banner-title">M4 Carbine with M203</div>
+              <div class="pw-banner-sub">Weapon Model · 14 images</div>
+            </div>
+          </div>
+          <!-- 배너 3: Stylized Dungeon -->
+          <div class="pw-banner-card" onclick="openPwLb('pw-stylized', 0)">
+            <img class="pw-banner-img" src="images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_Thumb.webp" alt="Stylized Dungeon">
+            <div class="pw-banner-overlay"></div>
+            <div class="pw-banner-info">
+              <div class="pw-banner-cat">Personal · 2017</div>
+              <div class="pw-banner-title">Stylized Dungeon</div>
+              <div class="pw-banner-sub">Environment Art · 13 images</div>
+            </div>
+          </div>
         </div>
-        <div class="pw-project-grid" id="pw-project-grid">
 
-          <!-- 2020 Rock Study -->
-          <div class="pw-card" onclick="openPwLb('pw-rock', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp" alt="Modular Rock Study">
-              <div class="pw-count-badge">5 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2020.11.24</div>
-                <div class="pw-hover-title">Modular Rock Study</div>
-              </div>
-            </div>
-          </div>
+        <!-- 서브 필터 탭 -->
+        <div class="pw-filter-bar">
+          <button class="pw-tab active" onclick="pwFilterTab('ALL', this)">All</button>
+          <button class="pw-tab" onclick="pwFilterTab('PERSONAL', this)">Personal</button>
+          <button class="pw-tab" onclick="pwFilterTab('RELIGHT', this)">Re:Lighting</button>
+          <button class="pw-tab" onclick="pwFilterTab('SKETCH', this)">Sketch Note</button>
+        </div>
 
-          <!-- 2019 M4 Carbine -->
-          <div class="pw-card" onclick="openPwLb('pw-m4', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20190902_M4/M4_M203_Thumb.webp" alt="M4 Carbine">
-              <div class="pw-count-badge">14 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2019.09.02</div>
-                <div class="pw-hover-title">M4 Carbine with M203</div>
-              </div>
-            </div>
-          </div>
+        <!-- 그리드 섹션 타이틀 -->
+        <div class="pw-grid-section-title" id="pw-grid-section-label">// ALL WORKS</div>
 
-          <!-- 2018 Desert Rocks -->
-          <div class="pw-card" onclick="openPwLb('pw-desert', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20180927_Desert_Rocks/Desert_Rocks_Thumb.webp" alt="Desert Rock">
-              <div class="pw-count-badge">5 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2018.09.27</div>
-                <div class="pw-hover-title">Desert Rock</div>
-              </div>
-            </div>
-          </div>
+        <!-- 카드 그리드 (JS로 렌더링) -->
+        <div class="pw-project-grid" id="pw-project-grid"></div>
 
-          <!-- 2017 EA Test / 2D Normal -->
-          <div class="pw-card" onclick="openPwLb('pw-eatest', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20170823_EA_Test/2DNormal_Thumb.webp" alt="2D Normal Conversion">
-              <div class="pw-count-badge">11 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2017.08.23</div>
-                <div class="pw-hover-title">2D Image-to-Normal Study</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2017 Stylized Dungeon -->
-          <div class="pw-card" onclick="openPwLb('pw-stylized', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_Thumb.webp" alt="Stylized Dungeon">
-              <div class="pw-count-badge">13 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2017.03.07</div>
-                <div class="pw-hover-title">Stylized Dungeon (WIP)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2016 Zbrush Tile -->
-          <div class="pw-card" onclick="openPwLb('pw-zbrushtile', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20160930_ZbrushTile/2016_ZbrushTile_Thumb.webp" alt="Zbrush Tile">
-              <div class="pw-count-badge">8 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2016.09.30</div>
-                <div class="pw-hover-title">Zbrush Tile & Sculpting Study</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2015 Forsaken Dungeon -->
-          <div class="pw-card" onclick="openPwLb('pw-dungeon', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_Thumb.webp" alt="Forsaken Dungeon">
-              <div class="pw-count-badge">6 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2015.09.14</div>
-                <div class="pw-hover-title">Forsaken Dungeon (WIP)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2014 Afternoon Break -->
-          <div class="pw-card" onclick="openPwLb('pw-afternoon', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_Thumb.webp" alt="Afternoon Break">
-              <div class="pw-count-badge">4 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2014.05.22</div>
-                <div class="pw-hover-title">Afternoon Break</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2014 The Urban Hideout -->
-          <div class="pw-card" onclick="openPwLb('pw-hideout', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp" alt="The Urban Hideout">
-              <div class="pw-count-badge">▶ + 4 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label">▶ VIDEO + IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2014.06.13</div>
-                <div class="pw-hover-title">The Urban Hideout</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2013 Bulldozer -->
-          <div class="pw-card" onclick="openPwLb('pw-bulldozer', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20130809_BullDozer/2013_Bulldozer_Thumb.webp" alt="Bulldozer">
-              <div class="pw-count-badge">5 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2013.08.09</div>
-                <div class="pw-hover-title">MD-EX "Iron Clad" Bulldozer</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2011 PPSh-41 -->
-          <div class="pw-card" onclick="openPwLb('pw-ppsh41', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20111008_PPSh-41/2011_PPSH41_Thumb.webp" alt="PPSh-41">
-              <div class="pw-count-badge">6 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2011.10.08</div>
-                <div class="pw-hover-title">PPSh-41: Classic Soviet SMG</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2011 CX-420 -->
-          <div class="pw-card" onclick="openPwLb('pw-cx420', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20110722_CX-420/2011_CX-420_Thumb.webp" alt="CX-420 Cybernetic Micro-Uzi">
-              <div class="pw-count-badge">8 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2011.07.22</div>
-                <div class="pw-hover-title">Cybernetic Micro-Uzi CX-420</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2011 UT-EX 2077 Excavator -->
-          <div class="pw-card" onclick="openPwLb('pw-utex', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_Thumb.webp" alt="UT-EX 2077 Excavator">
-              <div class="pw-count-badge">10 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2011.04.18</div>
-                <div class="pw-hover-title">Hybrid Crawler Excavator UT-EX 2077</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2011 AK-74u -->
-          <div class="pw-card" onclick="openPwLb('pw-ak74u', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20110227_AK-74u/AK-74u_Final_Thumb.webp" alt="AK-74u">
-              <div class="pw-count-badge">9 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2011.02.27</div>
-                <div class="pw-hover-title">AK-74u Compact Assault Rifle</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2005 HMMWV -->
-          <div class="pw-card" onclick="openPwLb('pw-hmmwv', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20050101_HMMWV/2005_HMMWV_Thumb.webp" alt="HMMWV">
-              <div class="pw-count-badge">7 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2005</div>
-                <div class="pw-hover-title">HMMWV (Humvee)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2000 Old Work -->
-          <div class="pw-card" onclick="openPwLb('pw-oldwork', 0)">
-            <div class="pw-thumb-wrap">
-              <img class="pw-thumb" loading="lazy" src="images/Personal/20000101_OldWork/Apache_Thumb.webp" alt="Old Works">
-              <div class="pw-count-badge">12 images</div>
-              <div class="pw-open-hint"><div class="pw-open-hint-label"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>VIEW IMAGES</div></div>
-              <div class="pw-hover-overlay">
-                <div class="pw-hover-sub">2000 — Early Works</div>
-                <div class="pw-hover-title">Old Works Archive</div>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- end pw-project-grid -->
       </div><!-- end personal-works-container -->
 
     </div>
@@ -1383,6 +1236,7 @@ window.filterData = function(category, btnEl, isFloating = false) {
     document.getElementById('main-grid').style.display = 'none';
     document.getElementById('personal-works-container').style.display = 'block';
     if (ff) ff.classList.add('hidden');
+    pwInit();
   } else {
     // 다른 카테고리: 그리드 표시, Personal Works 숨김, 플로팅 필터 복원
     document.getElementById('main-grid').style.display = 'grid';
@@ -1566,126 +1420,157 @@ window.prevMedia = function() {
 // PERSONAL WORKS LIGHTBOX
 // ═══════════════════════════════════════════════════════════
 
+// ── PERSONAL WORKS 카드 데이터 (카테고리별 분류) ──
+var pwAllCards = [
+  // ── PERSONAL ──
+  { key:'pw-rock',     cat:'PERSONAL', date:'2020.11.24', title:'Modular Rock Study',              sub:'Single Asset Composition', count:'5 images',      thumb:'images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp' },
+  { key:'pw-m4',       cat:'PERSONAL', date:'2019.09.02', title:'M4 Carbine with M203',            sub:'Weapon Model',             count:'14 images',     thumb:'images/Personal/20190902_M4/M4_M203_Thumb.webp' },
+  { key:'pw-desert',   cat:'PERSONAL', date:'2018.09.27', title:'Desert Rock',                     sub:'Environment Asset',        count:'5 images',      thumb:'images/Personal/20180927_Desert_Rocks/Desert_Rocks_Thumb.webp' },
+  { key:'pw-eatest',   cat:'PERSONAL', date:'2017.08.23', title:'2D Image-to-Normal Study',        sub:'Technical Study',          count:'11 images',     thumb:'images/Personal/20170823_EA_Test/2DNormal_Thumb.webp' },
+  { key:'pw-stylized', cat:'PERSONAL', date:'2017.03.07', title:'Stylized Dungeon (WIP)',           sub:'Environment Art',          count:'13 images',     thumb:'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_Thumb.webp' },
+  { key:'pw-zbrushtile',cat:'PERSONAL',date:'2016.09.30', title:'Zbrush Tile & Sculpting Study',   sub:'Sculpting Study',          count:'8 images',      thumb:'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_Thumb.webp' },
+  { key:'pw-dungeon',  cat:'PERSONAL', date:'2015.09.14', title:'Forsaken Dungeon (WIP)',           sub:'Environment Art',          count:'6 images',      thumb:'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_Thumb.webp' },
+  { key:'pw-afternoon',cat:'PERSONAL', date:'2014.05.22', title:'Afternoon Break',                 sub:'Scene Art',                count:'4 images',      thumb:'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_Thumb.webp' },
+  { key:'pw-hideout',  cat:'PERSONAL', date:'2014.06.13', title:'The Urban Hideout',               sub:'Environment · Video',      count:'▶ + 4 images',  thumb:'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp' },
+  { key:'pw-bulldozer',cat:'PERSONAL', date:'2013.08.09', title:'MD-EX "Iron Clad" Bulldozer',     sub:'Vehicle Model',            count:'5 images',      thumb:'images/Personal/20130809_BullDozer/2013_Bulldozer_Thumb.webp' },
+  { key:'pw-ppsh41',   cat:'PERSONAL', date:'2011.10.08', title:'PPSh-41: Classic Soviet SMG',     sub:'Weapon Model',             count:'6 images',      thumb:'images/Personal/20111008_PPSh-41/2011_PPSH41_Thumb.webp' },
+  { key:'pw-cx420',    cat:'PERSONAL', date:'2011.07.22', title:'Cybernetic Micro-Uzi CX-420',     sub:'Weapon Model',             count:'8 images',      thumb:'images/Personal/20110722_CX-420/2011_CX-420_Thumb.webp' },
+  { key:'pw-utex',     cat:'PERSONAL', date:'2011.04.18', title:'Hybrid Crawler Excavator UT-EX 2077', sub:'Vehicle Model',        count:'10 images',     thumb:'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_Thumb.webp' },
+  { key:'pw-ak74u',    cat:'PERSONAL', date:'2011.02.27', title:'AK-74u Compact Assault Rifle',    sub:'Weapon Model',             count:'9 images',      thumb:'images/Personal/20110227_AK-74u/AK-74u_Final_Thumb.webp' },
+  { key:'pw-hmmwv',    cat:'PERSONAL', date:'2005',       title:'HMMWV (Humvee)',                  sub:'Vehicle Model',            count:'7 images',      thumb:'images/Personal/20050101_HMMWV/2005_HMMWV_Thumb.webp' },
+  { key:'pw-oldwork',  cat:'PERSONAL', date:'2000 — Early Works', title:'Old Works Archive',       sub:'Archive',                  count:'12 images',     thumb:'images/Personal/20000101_OldWork/Apache_Thumb.webp' },
+  // ── RELIGHT ──
+  { key:'pw-bmwm4',    cat:'RELIGHT',  date:'2024.09.12', title:'BMW M4 GTS Re:Lighting',          sub:'Automotive Lighting',      count:'3 images',      thumb:'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp' },
+  { key:'pw-genesis',  cat:'RELIGHT',  date:'2024.10.27', title:'GENESIS G70 Re:Lighting',         sub:'Automotive Lighting',      count:'5 images',      thumb:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_Thumb.webp' },
+  // ── SKETCH ──
+  { key:'pw-sk-village',  cat:'SKETCH', date:'2005.04.01', title:'Village Sketch',                 sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20050401_village.webp' },
+  { key:'pw-sk-prop',     cat:'SKETCH', date:'2011.07.21', title:'Prop Final Sketch',              sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20110721_Prop_Final.webp' },
+  { key:'pw-sk-stone',    cat:'SKETCH', date:'2013.03.15', title:'Stone Final Sketch',             sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20130315_Stone_final.webp' },
+  { key:'pw-sk-jewelry',  cat:'SKETCH', date:'2014.09.12', title:'Jewelry Box',                    sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20140912_Jewelry_Box.gif' },
+  { key:'pw-sk-lava',     cat:'SKETCH', date:'2015.11.29', title:'Lava Field',                     sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20151129_Lava_Field.gif' },
+  { key:'pw-sk-box',      cat:'SKETCH', date:'2016.06.02', title:'Box Study',                      sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20160602_Box.gif' },
+];
+
 var pwProjects = {
   'pw-rock': {
-    id: '// PERSONAL · 2020.11.24',
-    title: 'Modular Rock Study',
-    images: [
-      'images/Personal/20201124_RockStudy/Rock_Final_001.webp',
-      'images/Personal/20201124_RockStudy/Rock_Final_002.webp',
-      'images/Personal/20201124_RockStudy/Rock_Final_003.webp',
-      'images/Personal/20201124_RockStudy/Rock_Final_004.webp',
-      'images/Personal/20201124_RockStudy/Rock_Final_005.webp'
-    ]
+    id: '// PERSONAL · 2020.11.24', title: 'Modular Rock Study',
+    images: ['images/Personal/20201124_RockStudy/Rock_Final_001.webp','images/Personal/20201124_RockStudy/Rock_Final_002.webp','images/Personal/20201124_RockStudy/Rock_Final_003.webp','images/Personal/20201124_RockStudy/Rock_Final_004.webp','images/Personal/20201124_RockStudy/Rock_Final_005.webp']
   },
   'pw-m4': {
-    id: '// PERSONAL · 2019.09.02',
-    title: 'M4 Carbine with M203',
+    id: '// PERSONAL · 2019.09.02', title: 'M4 Carbine with M203',
     images: Array.from({length: 14}, (_, i) => `images/Personal/20190902_M4/M4_M203_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-desert': {
-    id: '// PERSONAL · 2018.09.27',
-    title: 'Desert Rock',
-    images: [
-      'images/Personal/20180927_Desert_Rocks/Desert_Rocks_001.webp',
-      'images/Personal/20180927_Desert_Rocks/Desert_Rocks_002.webp',
-      'images/Personal/20180927_Desert_Rocks/Desert_Rocks_003.webp',
-      'images/Personal/20180927_Desert_Rocks/Desert_Rocks_004.webp',
-      'images/Personal/20180927_Desert_Rocks/Desert_Rocks_005.webp'
-    ]
+    id: '// PERSONAL · 2018.09.27', title: 'Desert Rock',
+    images: Array.from({length: 5}, (_, i) => `images/Personal/20180927_Desert_Rocks/Desert_Rocks_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-eatest': {
-    id: '// PERSONAL · 2017.08.23',
-    title: '2D Image-to-Normal Conversion Study',
+    id: '// PERSONAL · 2017.08.23', title: '2D Image-to-Normal Conversion Study',
     images: Array.from({length: 11}, (_, i) => `images/Personal/20170823_EA_Test/2DNormal_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-stylized': {
-    id: '// PERSONAL · 2017.03.07',
-    title: 'Stylized Dungeon (WIP)',
+    id: '// PERSONAL · 2017.03.07', title: 'Stylized Dungeon (WIP)',
     images: Array.from({length: 13}, (_, i) => `images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-zbrushtile': {
-    id: '// PERSONAL · 2016.09.30',
-    title: 'Zbrush Tile & Sculpting Study',
+    id: '// PERSONAL · 2016.09.30', title: 'Zbrush Tile & Sculpting Study',
     images: Array.from({length: 8}, (_, i) => `images/Personal/20160930_ZbrushTile/2016_ZbrushTile_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-dungeon': {
-    id: '// PERSONAL · 2015.09.14',
-    title: 'Forsaken Dungeon (WIP)',
+    id: '// PERSONAL · 2015.09.14', title: 'Forsaken Dungeon (WIP)',
     images: Array.from({length: 6}, (_, i) => `images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-afternoon': {
-    id: '// PERSONAL · 2014.05.22',
-    title: 'Afternoon Break',
+    id: '// PERSONAL · 2014.05.22', title: 'Afternoon Break',
     images: Array.from({length: 4}, (_, i) => `images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-hideout': {
-    id: '// PERSONAL · 2014.06.13',
-    title: 'The Urban Hideout',
-    images: [
-      'images/Personal/20140613_Hideout/2014_Hideout_001.webp',
-      'images/Personal/20140613_Hideout/2014_Hideout_002.webp',
-      'images/Personal/20140613_Hideout/2014_Hideout_003.webp',
-      'images/Personal/20140613_Hideout/2014_Hideout_004.webp'
-    ]
+    id: '// PERSONAL · 2014.06.13', title: 'The Urban Hideout',
+    images: ['images/Personal/20140613_Hideout/2014_Hideout_001.webp','images/Personal/20140613_Hideout/2014_Hideout_002.webp','images/Personal/20140613_Hideout/2014_Hideout_003.webp','images/Personal/20140613_Hideout/2014_Hideout_004.webp']
   },
   'pw-bulldozer': {
-    id: '// PERSONAL · 2013.08.09',
-    title: 'MD-EX "Iron Clad" Bulldozer',
+    id: '// PERSONAL · 2013.08.09', title: 'MD-EX "Iron Clad" Bulldozer',
     images: Array.from({length: 5}, (_, i) => `images/Personal/20130809_BullDozer/2013_Bulldozer_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-ppsh41': {
-    id: '// PERSONAL · 2011.10.08',
-    title: 'PPSh-41: Classic Soviet SMG',
+    id: '// PERSONAL · 2011.10.08', title: 'PPSh-41: Classic Soviet SMG',
     images: Array.from({length: 6}, (_, i) => `images/Personal/20111008_PPSh-41/2011_PPSH41_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-cx420': {
-    id: '// PERSONAL · 2011.07.22',
-    title: 'Cybernetic Micro-Uzi CX-420',
+    id: '// PERSONAL · 2011.07.22', title: 'Cybernetic Micro-Uzi CX-420',
     images: Array.from({length: 8}, (_, i) => `images/Personal/20110722_CX-420/2011_CX-420_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-utex': {
-    id: '// PERSONAL · 2011.04.18',
-    title: 'Hybrid Crawler Excavator UT-EX 2077',
+    id: '// PERSONAL · 2011.04.18', title: 'Hybrid Crawler Excavator UT-EX 2077',
     images: Array.from({length: 10}, (_, i) => `images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-ak74u': {
-    id: '// PERSONAL · 2011.02.27',
-    title: 'AK-74u Compact Assault Rifle',
+    id: '// PERSONAL · 2011.02.27', title: 'AK-74u Compact Assault Rifle',
     images: Array.from({length: 9}, (_, i) => `images/Personal/20110227_AK-74u/AK-74u_Final_${String(i+1).padStart(3,'0')}.webp`)
   },
   'pw-hmmwv': {
-    id: '// PERSONAL · 2005',
-    title: 'HMMWV (Humvee)',
-    images: [
-      'images/Personal/20050101_HMMWV/2005_HMMWV_001.webp',
-      'images/Personal/20050101_HMMWV/2005_HMMWV_002.webp',
-      'images/Personal/20050101_HMMWV/2005_HMMWV_003.webp',
-      'images/Personal/20050101_HMMWV/2005_HMMWV_004.webp',
-      'images/Personal/20050101_HMMWV/2005_HMMWV_005.webp',
-      'images/Personal/20050101_HMMWV/2005_Tower.webp',
-      'images/Personal/20050101_HMMWV/2005_Yeins.webp'
-    ]
+    id: '// PERSONAL · 2005', title: 'HMMWV (Humvee)',
+    images: ['images/Personal/20050101_HMMWV/2005_HMMWV_001.webp','images/Personal/20050101_HMMWV/2005_HMMWV_002.webp','images/Personal/20050101_HMMWV/2005_HMMWV_003.webp','images/Personal/20050101_HMMWV/2005_HMMWV_004.webp','images/Personal/20050101_HMMWV/2005_HMMWV_005.webp','images/Personal/20050101_HMMWV/2005_Tower.webp','images/Personal/20050101_HMMWV/2005_Yeins.webp']
   },
   'pw-oldwork': {
-    id: '// PERSONAL · EARLY WORKS',
-    title: 'Old Works Archive',
-    images: [
-      'images/Personal/20000101_OldWork/Apache_001.webp',
-      'images/Personal/20000101_OldWork/Apache_002.webp',
-      'images/Personal/20000101_OldWork/Apache_003.webp',
-      'images/Personal/20000101_OldWork/Apache_004.webp',
-      'images/Personal/20000101_OldWork/Ferrari_001.webp',
-      'images/Personal/20000101_OldWork/Ferrari_002.webp',
-      'images/Personal/20000101_OldWork/Ferrari_003.webp',
-      'images/Personal/20000101_OldWork/Ferrari_004.webp',
-      'images/Personal/20000101_OldWork/Ferrari_005.webp',
-      'images/Personal/20000101_OldWork/Ferrari_006.webp',
-      'images/Personal/20000101_OldWork/Truck_001.webp',
-      'images/Personal/20000101_OldWork/Truck_002.webp'
-    ]
-  }
+    id: '// PERSONAL · EARLY WORKS', title: 'Old Works Archive',
+    images: ['images/Personal/20000101_OldWork/Apache_001.webp','images/Personal/20000101_OldWork/Apache_002.webp','images/Personal/20000101_OldWork/Apache_003.webp','images/Personal/20000101_OldWork/Apache_004.webp','images/Personal/20000101_OldWork/Ferrari_001.webp','images/Personal/20000101_OldWork/Ferrari_002.webp','images/Personal/20000101_OldWork/Ferrari_003.webp','images/Personal/20000101_OldWork/Ferrari_004.webp','images/Personal/20000101_OldWork/Ferrari_005.webp','images/Personal/20000101_OldWork/Ferrari_006.webp','images/Personal/20000101_OldWork/Truck_001.webp','images/Personal/20000101_OldWork/Truck_002.webp']
+  },
+  'pw-bmwm4': {
+    id: '// RELIGHT · 2024.09.12', title: 'BMW M4 GTS Re:Lighting',
+    images: ['images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp','images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_02.webp','images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_03.webp']
+  },
+  'pw-genesis': {
+    id: '// RELIGHT · 2024.10.27', title: 'GENESIS G70 Re:Lighting',
+    images: Array.from({length: 5}, (_, i) => `images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_${String(i+1).padStart(2,'0')}.webp`)
+  },
+  'pw-sk-village':  { id:'// SKETCH · 2005', title:'Village Sketch',     images:['images/SketchNote/20050401_village.webp'] },
+  'pw-sk-prop':     { id:'// SKETCH · 2011', title:'Prop Final Sketch',   images:['images/SketchNote/20110721_Prop_Final.webp'] },
+  'pw-sk-stone':    { id:'// SKETCH · 2013', title:'Stone Final Sketch',  images:['images/SketchNote/20130315_Stone_final.webp'] },
+  'pw-sk-jewelry':  { id:'// SKETCH · 2014', title:'Jewelry Box',         images:['images/SketchNote/20140912_Jewelry_Box.gif'] },
+  'pw-sk-lava':     { id:'// SKETCH · 2015', title:'Lava Field',          images:['images/SketchNote/20151129_Lava_Field.gif'] },
+  'pw-sk-box':      { id:'// SKETCH · 2016', title:'Box Study',           images:['images/SketchNote/20160602_Box.gif'] },
 };
+
+// ── 카드 그리드 렌더링 ──
+function pwRenderGrid(cat) {
+  var cards = cat === 'ALL' ? pwAllCards : pwAllCards.filter(function(c) { return c.cat === cat; });
+  var grid = document.getElementById('pw-project-grid');
+  var label = document.getElementById('pw-grid-section-label');
+  var labelMap = { ALL: '// ALL WORKS', PERSONAL: '// PERSONAL WORKS', RELIGHT: '// RE:LIGHTING', SKETCH: '// SKETCH NOTE' };
+  if (label) label.textContent = labelMap[cat] || '// ALL WORKS';
+  if (!grid) return;
+  if (cards.length === 0) {
+    grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
+    return;
+  }
+  var svgIcon = '<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>';
+  grid.innerHTML = cards.map(function(c) {
+    return '<div class="pw-card" onclick="openPwLb(\'' + c.key + '\', 0)">' +
+      '<div class="pw-thumb-wrap">' +
+        '<img class="pw-thumb" loading="lazy" src="' + c.thumb + '" alt="' + c.title + '">' +
+        '<div class="pw-count-badge">' + c.count + '</div>' +
+        '<div class="pw-open-hint"><div class="pw-open-hint-label">' + svgIcon + 'VIEW IMAGES</div></div>' +
+        '<div class="pw-hover-overlay">' +
+          '<div class="pw-hover-sub">' + c.date + '</div>' +
+          '<div class="pw-hover-title">' + c.title + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── 서브 필터 탭 클릭 ──
+window.pwFilterTab = function(cat, btnEl) {
+  document.querySelectorAll('.pw-tab').forEach(function(b) { b.classList.remove('active'); });
+  btnEl.classList.add('active');
+  pwRenderGrid(cat);
+};
+
+// ── Personal Works 페이지 열릴 때 초기 렌더링 ──
+function pwInit() {
+  pwRenderGrid('ALL');
+}
 
 var pwLbCurrentKey = '';
 var pwLbCurrentIdx = 0;

@@ -129,7 +129,7 @@
 
   /* ── 3. CHANNELS BAR ── */
   .channels-bar {
-    display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 10px 0 20px 0; margin-bottom: 10px; scrollbar-width: none;
+    display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 4px 0 8px 0; margin-bottom: 6px; scrollbar-width: none;
   }
   .channels-bar::-webkit-scrollbar { display: none; }
   
@@ -143,8 +143,8 @@
   .channel-pill:hover, .channel-pill.active { background: transparent; color: #e7e3d4; border: none; }
   
     .channel-icon-img {
-    width: 55px; 
-    height: 55px; 
+    width: 40px; 
+    height: 40px; 
     object-fit: contain; 
     display: flex; 
     align-items: center; 
@@ -167,6 +167,7 @@
     object-fit: cover; flex-shrink: 0;
   }
   /* Force 8 columns on desktop (above 1200px), then 6, then 4 */
+  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
   @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
   @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -424,8 +425,6 @@ body {
     </div>
 
     <!-- CHANNELS BAR -->
-    
-    </div> <!-- end top-section -->
 
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
@@ -450,11 +449,11 @@ body {
       </div>
       
       <div class="channels-right" style="display: flex; gap: 25px; align-items: center; margin-left: auto; padding-right: 20px;">
-        <a href="javascript:void(0);" onclick="filterData('ABOUT', this)" style="color: #e7e3d4; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s; background: linear-gradient(90deg, #FF006E 0%, #FF006E 25%, #FFD700 25%, #FFD700 50%, #FF0000 50%, #FF0000 75%, #00FF00 75%, #00FF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" onmouseover="this.style.color='#e7e3d4'" onmouseout="this.style.color='#a69e92'">ABOUT</a>
+        <a href="javascript:void(0);" onclick="showAboutSection()" style="color: #e7e3d4; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s; background: linear-gradient(90deg, #FF006E 0%, #FF006E 25%, #FFD700 25%, #FFD700 50%, #FF0000 50%, #FF0000 75%, #00FF00 75%, #00FF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">ABOUT</a>
         <a href="javascript:void(0);" onclick="document.querySelectorAll('.channel-pill')[2].click();" style="color: #e7e3d4; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#e7e3d4'" onmouseout="this.style.color='#a69e92'">PERSONAL WORK</a>
       </div>
     </div>
-
+    </div> <!-- end top-section -->
 
     <div class="scroll-section">
       <h2 class="section-title" id="grid-title" style="margin-top:10px;">ALL Portfolio</h2>
@@ -1276,6 +1275,17 @@ function appendGrid() {
   // insertAdjacentHTML을 사용하여 성능 최적화 및 렌더링 깜빡임 방지
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
 }
+
+window.showAboutSection = function() {
+  document.getElementById('about-container').style.display = 'block';
+  document.getElementById('main-grid').style.display = 'none';
+  document.getElementById('personal-works-container').style.display = 'none';
+  document.getElementById('grid-title').innerText = 'About';
+  document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
+  const scrollSec = document.querySelector('.scroll-section');
+  if (scrollSec) scrollSec.scrollTop = 0;
+  initAboutBgVideo();
+};
 
 window.filterData = function(category, btnEl, isFloating = false) {
   document.getElementById('about-container').style.display = 'none';

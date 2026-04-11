@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --as-bg: #0A0A12;
-    --as-nav: #0D0D15;
-    --as-panel: #1A1A22;
+    --as-bg: #0A0A12; /* 모든 배경 통일 */
+    --as-nav: #0A0A12;
+    --as-panel: #0A0A12;
     --as-blue: #00D4FF;
     --as-blue-hover: #FF006E;
     --as-accent: #00D4FF;
@@ -19,7 +19,7 @@
     --as-border: #2A2A3E;
     --as-text-portfolio: #e7e3d4;
     --font-mono: 'Space Mono', monospace;
-    --font-head: 'Orbitron', sans-serif;
+    --font-head: 'Poppins', sans-serif;
     --font-num: 'IBM Plex Mono', monospace;
   }
 
@@ -37,7 +37,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background-color: var(--as-bg);
+    background-color: #0A0A12;
     color: #e7e3d4;
     font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
     height: 100vh;
@@ -47,15 +47,15 @@
   }
   
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: var(--as-bg); }
+  ::-webkit-scrollbar-track { background: #0A0A12; }
   ::-webkit-scrollbar-thumb { background: #32324a; border-radius: 5px; }
   ::-webkit-scrollbar-thumb:hover { background: #666; }
 
   /* ── 1. TOP NAV BAR ── */
   .top-nav {
     display: flex; align-items: center; justify-content: space-between;
-    background-color: var(--as-nav); padding: 0 20px; height: 60px;
-    border-bottom: 1px solid #000; position: sticky; top: 0; z-index: 1000;
+    background-color: #0A0A12; padding: 0 20px; height: 60px;
+    border-bottom: none; position: sticky; top: 0; z-index: 1000;
   }
   .nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
   
@@ -87,19 +87,14 @@
   .btn-login:hover { background: #FF006E; box-shadow: 0 0 15px rgba(255, 0, 110, 0.6); }
 
   
-  .top-section {
-    flex-shrink: 0;
-    padding: 20px 20px 0 20px;
-    background: var(--as-bg);
-    z-index: 10;
-  }
+  .top-section { flex-shrink: 0; padding: 20px 20px 0 20px; background: #0A0A12; z-index: 10; }
   .scroll-section {
     flex: 1;
     overflow-y: auto;
     padding: 0 20px 20px 20px;
   }
   .scroll-section::-webkit-scrollbar { width: 10px; }
-  .scroll-section::-webkit-scrollbar-track { background: var(--as-bg); }
+  .scroll-section::-webkit-scrollbar-track { background: #0A0A12; }
   .scroll-section::-webkit-scrollbar-thumb { background: #32324a; border-radius: 5px; }
   .scroll-section::-webkit-scrollbar-thumb:hover { background: #666; }
 
@@ -144,16 +139,17 @@
   
   /* Channel Pill with Icon Image */
   .channel-pill {
-    display: flex; align-items: center; gap: 8px; background: rgba(26, 26, 34, 0.8); 
-    border: 1px solid rgba(0, 212, 255, 0.3); padding: 6px 14px; border-radius: 20px; 
+    display: flex; align-items: center; gap: 8px; background: transparent; 
+    border: none; padding: 6px 14px; border-radius: 20px; 
     font-size: 13px; font-weight: 600; color: #e7e3d4; cursor: pointer; white-space: nowrap; 
     transition: all 0.3s; position: relative;
   }
   .channel-pill:hover, .channel-pill.active { 
-    background: rgba(0, 212, 255, 0.15); 
+    background: rgba(26, 26, 34, 0.9); 
     color: #e7e3d4; 
-    border-color: #00D4FF; 
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); 
+    border: none; 
+    border-radius: 12px;
+    box-shadow: none; 
   }
   .channel-icon-img {
     width: 18px; height: 18px; object-fit: contain; display: flex; align-items: center; justify-content: center;
@@ -200,7 +196,7 @@
 
   /* 상단 배너 캐러셀 */
   .pw-banner-row { display: flex; gap: 14px; margin-bottom: 20px; height: 260px; }
-  .pw-banner-card { position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; flex: 1; background: #1A1A22; transition: transform .25s; }
+  .pw-banner-card { position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; flex: 1; background: #0A0A12; transition: transform .25s; }
   .pw-banner-card:hover { transform: scale(1.015); }
   .pw-banner-card.large { flex: 1.7; }
   .pw-banner-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
@@ -435,28 +431,28 @@ body {
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
         <div class="channel-pill active" onclick="filterData('ALL', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_003.png" alt="ALL"></div> ALL Portfolio
+          <div class="channel-icon-img"><img src="images/Icon/Icon_001.jpg" alt="ALL"></div> ALL Portfolio
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_002.png" alt="Pro"></div> Professional
+          <div class="channel-icon-img"><img src="images/Icon/Icon_002.jpg" alt="Pro"></div> Professional
         </div>
         <div class="channel-pill" onclick="filterData('PERSONAL', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_005.png" alt="Personal"></div> Personal Works
+          <div class="channel-icon-img"><img src="images/Icon/Icon_005.jpg" alt="Personal"></div> Personal Works
         </div>
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_007.png" alt="Relight"></div> Re:Lighting
+          <div class="channel-icon-img"><img src="images/Icon/Icon_007.jpg" alt="Relight"></div> Re:Lighting
         </div>
         <div class="channel-pill" onclick="filterData('SKETCH', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_009.png" alt="Sketch"></div> Sketch Note
+          <div class="channel-icon-img"><img src="images/Icon/Icon_009.jpg" alt="Sketch"></div> Sketch Note
         </div>
         <div class="channel-pill" onclick="filterData('DESIGNER', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_010.png" alt="Designer"></div> Designer
+          <div class="channel-icon-img"><img src="images/Icon/Icon_010.jpg" alt="Designer"></div> Designer
         </div>
       </div>
       
       <div class="channels-right" style="display: flex; gap: 25px; align-items: center; margin-left: auto; padding-right: 20px;">
-        <a href="javascript:void(0);" onclick="showAbout()" style="color: var(--as-text-muted); text-decoration: none; font-family: var(--font-head); font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--as-text-muted)'">About</a>
-        <a href="javascript:void(0);" onclick="document.querySelectorAll('.channel-pill')[2].click();" style="color: var(--as-text-muted); text-decoration: none; font-family: var(--font-head); font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--as-text-muted)'">Personal Work</a>
+        <a href="javascript:void(0);" onclick="filterData('ABOUT', this)" style="color: #e7e3d4; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#e7e3d4'" onmouseout="this.style.color='#a69e92'">ABOUT</a>
+        <a href="javascript:void(0);" onclick="document.querySelectorAll('.channel-pill')[2].click();" style="color: #e7e3d4; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#e7e3d4'" onmouseout="this.style.color='#a69e92'">PERSONAL WORK</a>
       </div>
     </div>
 
@@ -1255,7 +1251,7 @@ function buildGridHTML(data, startIndex) {
             <div class="art-author"><div class="author-avatar"></div> Jung Daekun</div>
           </div>
           <div class="art-likes">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            
             ${likes}
           </div>
         </div>
@@ -1291,7 +1287,14 @@ window.filterData = function(category, btnEl, isFloating = false) {
 
   const ff = document.getElementById('floating-filter');
 
-  if (category === 'PERSONAL') {
+  if (category === 'ABOUT') {
+    // About 페이지 표시
+    document.getElementById('main-grid').style.display = 'none';
+    document.getElementById('personal-works-container').style.display = 'none';
+    document.getElementById('about-container').style.display = 'block';
+    if (ff) ff.classList.add('hidden');
+    initAboutBgVideo();
+  } else if (category === 'PERSONAL') {
     // Personal Works: 별도 컨테이너 표시, 그리드 숨김, 플로팅 필터 숨김
     document.getElementById('main-grid').style.display = 'none';
     document.getElementById('personal-works-container').style.display = 'block';
@@ -1317,7 +1320,7 @@ window.filterData = function(category, btnEl, isFloating = false) {
   }
   btnEl.classList.add('active');
 
-  if (category !== 'PERSONAL') {
+  if (category !== 'PERSONAL' && category !== 'ABOUT') {
     let filtered = [];
     if (category === 'ALL') {
       filtered = [...portfolioData];
@@ -1604,7 +1607,7 @@ function pwRenderGrid(cat) {
     grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
     return;
   }
-  var svgIcon = '<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/></svg>';
+  var svgIcon = '';
   grid.innerHTML = cards.map(function(c) {
     return '<div class="pw-card" onclick="openPwLb(\'' + c.key + '\', 0)">' +
       '<div class="pw-thumb-wrap">' +

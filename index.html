@@ -159,8 +159,8 @@
   }
   /* 아이콘 */
   .channel-icon-img {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     flex-shrink: 0;
     border-radius: 10px;
     overflow: hidden;
@@ -1346,16 +1346,11 @@ window.filterData = function(category, btnEl, isFloating = false) {
     document.getElementById('about-container').style.display = 'block';
     if (ff) ff.classList.add('hidden');
     initAboutBgVideo();
-  } else if (category === 'PERSONAL') {
-    // Personal Works: 별도 컨테이너 표시, 그리드 숨김, 플로팅 필터 숨김
-    document.getElementById('main-grid').style.display = 'none';
-    document.getElementById('personal-works-container').style.display = 'block';
-    if (ff) ff.classList.add('hidden');
-    pwInit();
   } else {
-    // 다른 카테고리: 그리드 표시, Personal Works 숨김, 플로팅 필터 복원
+    // 모든 카테고리: main-grid 표시, 나머지 숨김
     document.getElementById('main-grid').style.display = 'grid';
     document.getElementById('personal-works-container').style.display = 'none';
+    document.getElementById('about-container').style.display = 'none';
     if (ff) ff.classList.remove('hidden');
   }
 
@@ -1372,7 +1367,7 @@ window.filterData = function(category, btnEl, isFloating = false) {
   }
   btnEl.classList.add('active');
 
-  if (category !== 'PERSONAL' && category !== 'ABOUT') {
+  if (category !== 'ABOUT') {
     let filtered = [];
     if (category === 'ALL') {
       filtered = [...portfolioData];

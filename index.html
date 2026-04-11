@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --as-bg: #0A0A12;
@@ -14,17 +14,31 @@
     --as-blue-hover: #FF006E;
     --as-accent: #00D4FF;
     --as-accent2: #FF006E;
-    --as-text: #F0F0F8;
+    --as-text: #e7e3d4;
     --as-text-muted: #A0A0B0;
     --as-border: #2A2A3E;
+    --as-text-portfolio: #e7e3d4;
     --font-mono: 'Space Mono', monospace;
     --font-head: 'Orbitron', sans-serif;
+    --font-num: 'IBM Plex Mono', monospace;
+  }
+
+  /* Numeric Font Styles - CG Magazine */
+  .numeric-text {
+    font-family: 'IBM Plex Mono', 'Space Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #e7e3d4;
+  }
+  .numeric-accent {
+    font-family: 'IBM Plex Mono', monospace;
+    color: #00D4FF;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background-color: var(--as-bg);
-    color: var(--as-text);
+    color: #e7e3d4;
     font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
     height: 100vh;
     overflow: hidden;
@@ -48,7 +62,7 @@
   .logo {
     display: flex; align-items: center; gap: 10px;
     font-weight: 800; font-size: 20px; letter-spacing: -0.5px;
-    color: #fff; text-decoration: none;
+    color: #ffffff; text-decoration: none;
   }
   .logo-icon {
     width: 30px; height: 30px; background: linear-gradient(135deg, var(--as-blue), #FF006E);
@@ -56,18 +70,18 @@
   }
   
   .nav-links { display: flex; gap: 7px; }
-  .nav-links a { color: var(--as-text-muted); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
-  .nav-links a:hover { color: #fff; }
+  .nav-links a { color: #a69e92; text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
+  .nav-links a:hover { color: #e7e3d4; }
   
   .search-bar {
     display: flex; align-items: center; background: #1F1F23; border: 1px solid #F0F0F8;
     border-radius: 20px; padding: 6px 15px; width: 300px; transition: border-color 0.2s;
   }
   .search-bar:focus-within { border-color: var(--as-text-muted); }
-  .search-bar input { background: none; border: none; color: #fff; outline: none; width: 100%; font-size: 14px; margin-left: 8px; }
+  .search-bar input { background: none; border: none; color: #e7e3d4; outline: none; width: 100%; font-size: 14px; margin-left: 8px; }
   
   .btn-login {
-    background: var(--as-blue); color: #fff; border: none; border-radius: 4px;
+    background: var(--as-blue); color: #e7e3d4; border: none; border-radius: 4px;
     padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;
   }
   .btn-login:hover { background: #FF006E; box-shadow: 0 0 15px rgba(255, 0, 110, 0.6); }
@@ -117,10 +131,10 @@
   }
   .banner-badge {
     position: absolute; top: 15px; left: 15px; background: rgba(0, 212, 255, 0.08); padding: 4px 10px; border-radius: 4px;
-    font-size: 11px; font-weight: 700; color: #ccc; letter-spacing: 0.5px;
+    font-size: 11px; font-weight: 700; color: #d2ceba; letter-spacing: 0.5px;
   }
-  .banner-title { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-  .banner-sub { font-size: 13px; color: #aaa; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+  .banner-title { font-size: 18px; font-weight: 700; color: #e7e3d4; line-height: 1.3; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+  .banner-sub { font-size: 13px; color: #c6bca2; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
 
   /* ── 3. CHANNELS BAR ── */
   .channels-bar {
@@ -128,22 +142,28 @@
   }
   .channels-bar::-webkit-scrollbar { display: none; }
   
+  /* Channel Pill with Icon Image */
   .channel-pill {
-    display: flex; align-items: center; gap: 8px; background: var(--as-panel); border: 1px solid var(--as-border);
-    padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--as-text);
-    cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px; background: rgba(26, 26, 34, 0.8); 
+    border: 1px solid rgba(0, 212, 255, 0.3); padding: 6px 14px; border-radius: 20px; 
+    font-size: 13px; font-weight: 600; color: #e7e3d4; cursor: pointer; white-space: nowrap; 
+    transition: all 0.3s; position: relative;
   }
-  .channel-pill:hover, .channel-pill.active { background: #F0F0F8; color: #fff; border-color: #555; }
-  .channel-icon { width: 20px; height: 20px; border-radius: 50%; background: #32324a; object-fit: cover; }
-
-  /* ── 4. MAIN GRID ── */
-  .section-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 20px; letter-spacing: -0.5px; }
-  
-  .art-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-auto-rows: 200px;
-    gap: 7px;
+  .channel-pill:hover, .channel-pill.active { 
+    background: rgba(0, 212, 255, 0.15); 
+    color: #e7e3d4; 
+    border-color: #00D4FF; 
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); 
+  }
+  .channel-icon-img {
+    width: 18px; height: 18px; object-fit: contain; display: flex; align-items: center; justify-content: center;
+  }
+  .channel-icon-img img {
+    width: 100%; height: 100%; object-fit: contain;
+  }
+  .channel-icon { 
+    width: 10px; height: 10px; border-radius: 50%; background: var(--as-blue); 
+    object-fit: cover; flex-shrink: 0;
   }
   /* Force 8 columns on desktop (above 1200px), then 6, then 4 */
   @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
@@ -161,10 +181,10 @@
   }
   .art-card:hover .art-info { opacity: 1; }
   
-  .art-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 3px; }
-  .art-author { font-size: 13px; color: #bbb; display: flex; align-items: center; gap: 6px; }
+  .art-title { font-size: 15px; font-weight: 700; color: #e7e3d4; margin-bottom: 3px; }
+  .art-author { font-size: 13px; color: #d2ceba; display: flex; align-items: center; gap: 6px; }
   .author-avatar { width: 18px; height: 18px; border-radius: 50%; background: #555; }
-  .art-likes { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #fff; font-weight: 600; }
+  .art-likes { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #e7e3d4; font-weight: 600; }
 
   /* ── 5. FLOATING FILTER ── */
   .floating-filter {
@@ -188,14 +208,14 @@
   .pw-banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.18) 55%, transparent 100%); }
   .pw-banner-info { position: absolute; bottom: 18px; left: 20px; right: 20px; }
   .pw-banner-cat { font-family: var(--font-mono); font-size: 10px; color: #00D4FF; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 5px; }
-  .pw-banner-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -.3px; line-height: 1.2; }
+  .pw-banner-title { font-size: 20px; font-weight: 800; color: #e7e3d4; letter-spacing: -.3px; line-height: 1.2; }
   .pw-banner-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; font-family: var(--font-mono); }
 
   /* 서브 필터 탭 */
   .pw-filter-bar { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; }
   .pw-tab { background: #0A0A12; border: 1px solid #F0F0F8; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
-  .pw-tab:hover { color: #fff; border-color: #555; }
-  .pw-tab.active { background: #fff; color: #111; border-color: #fff; }
+  .pw-tab:hover { color: #e7e3d4; border-color: #555; }
+  .pw-tab.active { background: #fff; color: #111; border-color: #e7e3d4; }
 
   /* 카드 그리드 */
   .pw-project-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
@@ -207,7 +227,7 @@
   .pw-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
   .pw-card:hover .pw-thumb { transform: scale(1.05); }
-  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
+  .pw-count-badge { font-family: \'IBM Plex Mono\', \'Space Mono\', monospace; font-weight: 600; position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
   .pw-card:hover .pw-count-badge { opacity: 0; }
   .pw-open-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .pw-open-hint-label { font-family: var(--font-mono); font-size: 11px; color: #FF006E; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(124,106,247,.4); }
@@ -215,7 +235,7 @@
   .pw-hover-overlay { position: absolute; inset: 0; background: rgba(15,15,15,.6); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
   .pw-card:hover .pw-hover-overlay { opacity: 1; }
   .pw-hover-sub { font-family: var(--font-mono); font-size: 10px; color: #00D4FF; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
-  .pw-hover-title { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
+  .pw-hover-title { font-size: 13px; font-weight: 700; color: #e7e3d4; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
   .pw-card:hover .pw-hover-sub, .pw-card:hover .pw-hover-title { transform: translateX(0); opacity: 1; }
   /* 그리드 섹션 타이틀 */
   .pw-grid-section-title { font-family: var(--font-mono); font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #14141c; }
@@ -227,16 +247,16 @@
   .pw-lb-wrap { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
   .pw-lb-img { display: block; max-width: 96vw; max-height: 92vh; object-fit: contain; transition: opacity .18s ease; cursor: zoom-in; }
   .pw-lb-img.zoomed { cursor: zoom-out; }
-  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #aaa; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
+  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #c6bca2; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
   .pw-lb-close:hover { border-color: #00D4FF; color: #00D4FF; }
-  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #aaa; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
+  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #c6bca2; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
   .pw-lb-nav-prev { left: 16px; }
   .pw-lb-nav-next { right: 16px; }
   .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #00D4FF; color: #00D4FF; }
   .pw-lb-overlay-info { position: absolute; top: 0; left: 0; right: 0; padding: 20px 28px; pointer-events: none; z-index: 3; }
   .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 12px; color: #00D4FF; letter-spacing: .15em; margin-bottom: 5px; }
-  .pw-lb-overlay-title { font-size: 18px; font-weight: 600; color: #dde0e8; letter-spacing: .06em; text-transform: uppercase; }
-  .pw-lb-counter { position: absolute; top: 18px; right: 66px; font-family: var(--font-mono); font-size: 11px; color: #888; z-index: 4; line-height: 36px; }
+  .pw-lb-overlay-title { font-size: 18px; font-weight: 600; color: #e7e3d4; letter-spacing: .06em; text-transform: uppercase; }
+  .pw-lb-counter { font-family: \'IBM Plex Mono\', monospace; font-weight: 600; position: absolute; top: 18px; right: 66px; font-family: var(--font-mono); font-size: 11px; color: #888; z-index: 4; line-height: 36px; }
   .pw-lb-zoom-badge { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
   .pw-lb-zoom-badge.visible { opacity: 1; }
   .pw-lb-hud { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; align-items: center; z-index: 4; pointer-events: none; }
@@ -245,7 +265,7 @@
     background: transparent; color: var(--as-text-muted); border: none; padding: 10px 24px; border-radius: 25px;
     font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
   }
-  .ff-btn:hover { color: #fff; }
+  .ff-btn:hover { color: #e7e3d4; }
   .ff-btn.active { background: #fff; color: #000; }
 
   /* ── 6. LIGHTBOX ── */
@@ -271,7 +291,7 @@
   .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#9aa0b0; border:1px solid #F0F0F8; padding:3px 10px; letter-spacing:.08em; background:rgba(124,106,247,.06); white-space:nowrap; }
   .prof-lb-tag.dev { color:#FF006E; border-color:rgba(124,106,247,.35); background:rgba(124,106,247,.1); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; padding-top:4px; }
-  .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
+  .prof-lb-counter { font-family: \'IBM Plex Mono\', \'Space Mono\', monospace; font-weight: 600;var(--font-mono); font-size:11px; color:#555580; }
   .prof-lb-btn { background:none; border:1px solid #21213a; color:#9aa0b0; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
   .prof-lb-btn:hover { border-color:rgba(124,106,247,0.3); color:#FF006E; }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
@@ -305,10 +325,10 @@
   }
   .lb-header-info { display: flex; align-items: center; gap: 7px; }
   .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: #F0F0F8; }
-  .lb-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .lb-title { font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 2px; }
   .lb-author { font-size: 14px; color: var(--as-blue); cursor: pointer; }
   .lb-close { background: none; border: none; color: #888; font-size: 30px; cursor: pointer; }
-  .lb-close:hover { color: #fff; }
+  .lb-close:hover { color: #e7e3d4; }
   .lb-content {
     flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden; position: relative;
   }
@@ -316,7 +336,7 @@
   .lb-content iframe { width: 80vw; height: 45vw; max-height: 80vh; max-width: 1200px; border: none; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
   
   .lb-nav {
-    position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: #fff;
+    position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: #e7e3d4;
     width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
   }
   .lb-nav:hover { background: rgba(255,255,255,0.2); }
@@ -415,19 +435,22 @@ body {
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
         <div class="channel-pill active" onclick="filterData('ALL', this)">
-          <div class="channel-icon" style="background:#32324a;"></div> ALL Portfolio
+          <div class="channel-icon-img"><img src="images/Icon/Icon_003.png" alt="ALL"></div> ALL Portfolio
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
-          <div class="channel-icon" style="background:#00D4FF;"></div> Professional
+          <div class="channel-icon-img"><img src="images/Icon/Icon_002.png" alt="Pro"></div> Professional
         </div>
         <div class="channel-pill" onclick="filterData('PERSONAL', this)">
-          <div class="channel-icon" style="background:#e05599;"></div> Personal Works
+          <div class="channel-icon-img"><img src="images/Icon/Icon_005.png" alt="Personal"></div> Personal Works
         </div>
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
-          <div class="channel-icon" style="background:#00D4FF;"></div> Re:Lighting
+          <div class="channel-icon-img"><img src="images/Icon/Icon_007.png" alt="Relight"></div> Re:Lighting
         </div>
         <div class="channel-pill" onclick="filterData('SKETCH', this)">
-          <div class="channel-icon" style="background:#FF006E;"></div> Sketch Note
+          <div class="channel-icon-img"><img src="images/Icon/Icon_009.png" alt="Sketch"></div> Sketch Note
+        </div>
+        <div class="channel-pill" onclick="filterData('DESIGNER', this)">
+          <div class="channel-icon-img"><img src="images/Icon/Icon_010.png" alt="Designer"></div> Designer
         </div>
       </div>
       
@@ -464,10 +487,10 @@ body {
         <div style="position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; padding: 40px 0 20px 0;">
           <!-- Left: Bio -->
           <div>
-            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #fff; letter-spacing: -1px; font-family: var(--font-head); font-style: normal;">DukGoo</h1>
+            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #e7e3d4; letter-spacing: -1px; font-family: var(--font-head); font-style: normal;">DukGoo</h1>
             <h3 style="color: var(--as-accent); margin-bottom: 30px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 1px;">// Senior Environment Artist</h3>
             
-            <p style="color: #bbb; line-height: 1.8; margin-bottom: 20px; font-size: 15px;">
+            <p style="color: #d2ceba; line-height: 1.8; margin-bottom: 20px; font-size: 15px;">
               15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
               단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.
             </p>
@@ -475,7 +498,7 @@ body {
               I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
             </p>
 
-            <h4 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #F0F0F8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head);">Skills & Expertise</h4>
+            <h4 style="color: #e7e3d4; margin-bottom: 15px; border-bottom: 1px solid #F0F0F8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head);">Skills & Expertise</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
               <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
               <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
@@ -492,7 +515,7 @@ body {
             <!-- NCSoft -->
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('ncsoft')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_015 · 2021—2024</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">NCSoft</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">NCSoft</div>
               <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
@@ -504,7 +527,7 @@ body {
             <!-- Line Games -->
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('changse')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_014 · 2018—2020</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Line Games</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Line Games</div>
               <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Lighting · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
@@ -515,7 +538,7 @@ body {
             <!-- Nexon Korea -->
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('nexon')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_013 · 2017—2018</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Nexon Korea</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Nexon Korea</div>
               <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · PC Online / Alpha</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Hard Surface Modeling · PBR Texturing · Integration</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
@@ -526,7 +549,7 @@ body {
             <!-- XLGames -->
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('xlgames')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_012 · 2017</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">XLGames</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">XLGames</div>
               <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · PC Online / Open Beta</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Shader · Lighting · Optimization</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
@@ -2011,7 +2034,11 @@ function profLbPrevProject() {
 }
 
 function renderProfLb() {
-  var item = profCurrent.items[profIdx];
+  var item = profCurrent.items[profIdx
+  // Designer Category
+  { key:'designer_1', category:'DESIGNER', tag:'DESIGN', title: 'Coming Soon', sub: 'Designer Works', thumb: 'images/Personal/20000101_OldWork/Ferrari_005.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_005.webp' },
+
+];
   var main = document.getElementById('prof-lb-main');
   var prev = main.querySelector('.prof-lb-video-wrap, .prof-lb-img-el');
   if (prev) {

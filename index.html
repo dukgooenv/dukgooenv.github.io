@@ -140,17 +140,11 @@
     font-size: 13px; font-weight: 600; color: #e7e3d4; cursor: pointer; white-space: nowrap; 
     transition: all 0.3s; position: relative;
   }
-  .channel-pill:hover, .channel-pill.active { 
-    background: rgba(100, 100, 120, 0.6); 
-    color: #e7e3d4; 
-    border: none; 
-    border-radius: 12px;
-    box-shadow: none; 
-  }
+  .channel-pill:hover, .channel-pill.active { background: transparent; color: #e7e3d4; border: none; }
   
     .channel-icon-img {
-    width: 70px; 
-    height: 70px; 
+    width: 55px; 
+    height: 55px; 
     object-fit: contain; 
     display: flex; 
     align-items: center; 
@@ -194,13 +188,7 @@
   .art-likes { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #e7e3d4; font-weight: 600; }
 
   /* ── 5. FLOATING FILTER ── */
-  .floating-filter {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-    background: var(--as-panel); padding: 5px; border-radius: 30px; display: flex; gap: 5px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--as-border); z-index: 1000;
-    transition: opacity 0.2s, visibility 0.2s;
-  }
-  .floating-filter.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
 
   /* ── PERSONAL WORKS PAGE ── */
   #personal-works-container { display: none; padding: 10px 0 80px 0; animation: fadeIn 0.4s; }
@@ -660,11 +648,7 @@ body {
   </div>
 
   <!-- FLOATING FILTER -->
-  <div class="floating-filter" id="floating-filter">
-    <button class="ff-btn active" onclick="filterData('ALL', this, true)">Community</button>
-    <button class="ff-btn" onclick="filterData('PRO', this, true)">Trending</button>
-    <button class="ff-btn" onclick="filterData('PERSONAL', this, true)">Latest</button>
-  </div>
+
 
   <!-- PERSONAL WORKS LIGHTBOX -->
   <div id="pw-lb" onclick="if(event.target===this)closePwLb()">
@@ -1296,7 +1280,7 @@ function appendGrid() {
 window.filterData = function(category, btnEl, isFloating = false) {
   document.getElementById('about-container').style.display = 'none';
 
-  const ff = document.getElementById('floating-filter');
+  const ff = null; // floating-filter 제거됨
 
   if (category === 'ABOUT') {
     // About 페이지 표시
@@ -1438,7 +1422,7 @@ window.showAbout = function() {
   document.getElementById('personal-works-container').style.display = 'none';
   document.getElementById('about-container').style.display = 'block';
   // About 페이지에서 플로팅 필터 숨기기
-  const ff = document.getElementById('floating-filter');
+  const ff = null; // floating-filter 제거됨
   if (ff) ff.classList.add('hidden');
   initAboutBgVideo();
   const scrollSec = document.querySelector('.scroll-section');

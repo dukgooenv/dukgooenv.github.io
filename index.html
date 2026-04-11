@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
-<link href="https://fonts.googleapis.com/css2?family=Sodo+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --as-bg: #0A0A0C;
-    --as-nav: #0F0F12;
-    --as-panel: #151519;
-    --as-blue: #00704A;
-    --as-blue-hover: #00975B;
-    --as-accent: #00704A;
-    --as-accent2: #00975B;
-    --as-text: #E8E8E8;
-    --as-text-muted: #909099;
-    --as-border: #2A2A2E;
-    --font-mono: 'Sodo Sans', sans-serif;
-    --font-head: 'Sodo Sans', sans-serif;
+    --as-bg: #0A0A12;
+    --as-nav: #0D0D15;
+    --as-panel: #1A1A22;
+    --as-blue: #00D4FF;
+    --as-blue-hover: #FF006E;
+    --as-accent: #00D4FF;
+    --as-accent2: #FF006E;
+    --as-text: #F0F0F8;
+    --as-text-muted: #A0A0B0;
+    --as-border: #2A2A3E;
+    --font-mono: 'Space Mono', monospace;
+    --font-head: 'Orbitron', sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,7 +51,7 @@
     color: #fff; text-decoration: none;
   }
   .logo-icon {
-    width: 30px; height: 30px; background: linear-gradient(135deg, var(--as-blue), #00975B);
+    width: 30px; height: 30px; background: linear-gradient(135deg, var(--as-blue), #FF006E);
     clip-path: polygon(0 100%, 50% 0, 100% 100%, 50% 70%);
   }
   
@@ -60,7 +60,7 @@
   .nav-links a:hover { color: #fff; }
   
   .search-bar {
-    display: flex; align-items: center; background: #1F1F23; border: 1px solid #E8E8E8;
+    display: flex; align-items: center; background: #1F1F23; border: 1px solid #F0F0F8;
     border-radius: 20px; padding: 6px 15px; width: 300px; transition: border-color 0.2s;
   }
   .search-bar:focus-within { border-color: var(--as-text-muted); }
@@ -70,7 +70,7 @@
     background: var(--as-blue); color: #fff; border: none; border-radius: 4px;
     padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;
   }
-  .btn-login:hover { background: var(--as-blue-hover); }
+  .btn-login:hover { background: #FF006E; box-shadow: 0 0 15px rgba(255, 0, 110, 0.6); }
 
   
   .top-section {
@@ -99,7 +99,7 @@
     flex: 1; height: 300px;
     border-radius: 8px; overflow: hidden;
     position: relative; cursor: pointer;
-    background: #0A0A0C;
+    background: #0A0A12;
   }
   
   .banner-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, opacity 0.4s; }
@@ -116,7 +116,7 @@
     display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; pointer-events: none;
   }
   .banner-badge {
-    position: absolute; top: 15px; left: 15px; background: rgba(0, 112, 74, 0.08); padding: 4px 10px; border-radius: 4px;
+    position: absolute; top: 15px; left: 15px; background: rgba(0, 212, 255, 0.08); padding: 4px 10px; border-radius: 4px;
     font-size: 11px; font-weight: 700; color: #ccc; letter-spacing: 0.5px;
   }
   .banner-title { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
@@ -133,7 +133,7 @@
     padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--as-text);
     cursor: pointer; white-space: nowrap; transition: all 0.2s;
   }
-  .channel-pill:hover, .channel-pill.active { background: #E8E8E8; color: #fff; border-color: #555; }
+  .channel-pill:hover, .channel-pill.active { background: #F0F0F8; color: #fff; border-color: #555; }
   .channel-icon { width: 20px; height: 20px; border-radius: 50%; background: #32324a; object-fit: cover; }
 
   /* ── 4. MAIN GRID ── */
@@ -180,20 +180,20 @@
 
   /* 상단 배너 캐러셀 */
   .pw-banner-row { display: flex; gap: 14px; margin-bottom: 20px; height: 260px; }
-  .pw-banner-card { position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; flex: 1; background: #151519; transition: transform .25s; }
+  .pw-banner-card { position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; flex: 1; background: #1A1A22; transition: transform .25s; }
   .pw-banner-card:hover { transform: scale(1.015); }
   .pw-banner-card.large { flex: 1.7; }
   .pw-banner-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
   .pw-banner-card:hover .pw-banner-img { transform: scale(1.06); }
   .pw-banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.18) 55%, transparent 100%); }
   .pw-banner-info { position: absolute; bottom: 18px; left: 20px; right: 20px; }
-  .pw-banner-cat { font-family: var(--font-mono); font-size: 10px; color: #00704A; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 5px; }
+  .pw-banner-cat { font-family: var(--font-mono); font-size: 10px; color: #00D4FF; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 5px; }
   .pw-banner-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -.3px; line-height: 1.2; }
   .pw-banner-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; font-family: var(--font-mono); }
 
   /* 서브 필터 탭 */
   .pw-filter-bar { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; }
-  .pw-tab { background: #0A0A0C; border: 1px solid #E8E8E8; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
+  .pw-tab { background: #0A0A12; border: 1px solid #F0F0F8; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
   .pw-tab:hover { color: #fff; border-color: #555; }
   .pw-tab.active { background: #fff; color: #111; border-color: #fff; }
 
@@ -203,18 +203,18 @@
   @media(max-width: 750px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width: 480px) { .pw-project-grid { grid-template-columns: 1fr; } }
   .pw-card { background: var(--as-panel); border: 1px solid var(--as-border); cursor: pointer; transition: border-color .2s, transform .2s; border-radius: 8px; overflow: hidden; }
-  .pw-card:hover { border-color: #00704A; transform: translateY(-3px); }
+  .pw-card:hover { border-color: #00D4FF; transform: translateY(-3px); }
   .pw-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
   .pw-card:hover .pw-thumb { transform: scale(1.05); }
-  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00704A; color: #00704A; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
+  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
   .pw-card:hover .pw-count-badge { opacity: 0; }
   .pw-open-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .pw-open-hint-label { font-family: var(--font-mono); font-size: 11px; color: #00975B; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(124,106,247,.4); }
+  .pw-open-hint-label { font-family: var(--font-mono); font-size: 11px; color: #FF006E; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(124,106,247,.4); }
   .pw-card:hover .pw-open-hint { opacity: 1; }
   .pw-hover-overlay { position: absolute; inset: 0; background: rgba(15,15,15,.6); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
   .pw-card:hover .pw-hover-overlay { opacity: 1; }
-  .pw-hover-sub { font-family: var(--font-mono); font-size: 10px; color: #00704A; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
+  .pw-hover-sub { font-family: var(--font-mono); font-size: 10px; color: #00D4FF; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
   .pw-hover-title { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
   .pw-card:hover .pw-hover-sub, .pw-card:hover .pw-hover-title { transform: translateX(0); opacity: 1; }
   /* 그리드 섹션 타이틀 */
@@ -227,17 +227,17 @@
   .pw-lb-wrap { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
   .pw-lb-img { display: block; max-width: 96vw; max-height: 92vh; object-fit: contain; transition: opacity .18s ease; cursor: zoom-in; }
   .pw-lb-img.zoomed { cursor: zoom-out; }
-  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(15,15,15,.75); border: 1px solid #E8E8E8; color: #aaa; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
-  .pw-lb-close:hover { border-color: #00704A; color: #00704A; }
-  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15,15,15,.75); border: 1px solid #E8E8E8; color: #aaa; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
+  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #aaa; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
+  .pw-lb-close:hover { border-color: #00D4FF; color: #00D4FF; }
+  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #aaa; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
   .pw-lb-nav-prev { left: 16px; }
   .pw-lb-nav-next { right: 16px; }
-  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #00704A; color: #00704A; }
+  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #00D4FF; color: #00D4FF; }
   .pw-lb-overlay-info { position: absolute; top: 0; left: 0; right: 0; padding: 20px 28px; pointer-events: none; z-index: 3; }
-  .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 12px; color: #00704A; letter-spacing: .15em; margin-bottom: 5px; }
+  .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 12px; color: #00D4FF; letter-spacing: .15em; margin-bottom: 5px; }
   .pw-lb-overlay-title { font-size: 18px; font-weight: 600; color: #dde0e8; letter-spacing: .06em; text-transform: uppercase; }
   .pw-lb-counter { position: absolute; top: 18px; right: 66px; font-family: var(--font-mono); font-size: 11px; color: #888; z-index: 4; line-height: 36px; }
-  .pw-lb-zoom-badge { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(15,15,15,.9); border: 1px solid #00704A; color: #00704A; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
+  .pw-lb-zoom-badge { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
   .pw-lb-zoom-badge.visible { opacity: 1; }
   .pw-lb-hud { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; align-items: center; z-index: 4; pointer-events: none; }
   .pw-sz-hint { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .08em; }
@@ -261,19 +261,19 @@
   .prof-lb-header { display:flex; align-items:flex-start; justify-content:space-between; padding:16px 28px 14px; background:rgba(15,15,15,.98); border-bottom:1px solid #21213a; flex-shrink:0; gap:20px; }
   .prof-lb-title-area { display:flex; flex-direction:column; gap:4px; min-width:0; }
   /* PROJ_015 · 2021—2024 */
-  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#00704A; letter-spacing:.2em; text-transform:uppercase; }
+  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#00D4FF; letter-spacing:.2em; text-transform:uppercase; }
   /* NCSOFT 대제목 */
   .prof-lb-title-text { font-family:var(--font-head); font-size:22px; font-weight:700; color:#ffffff; letter-spacing:-.3px; line-height:1.1; margin-top:2px; }
   /* Project M / Interactive Adventure · Alpha / PlayStation 5 */
-  .prof-lb-sub-text { font-family:var(--font-mono); font-size:11px; color:#00975B; letter-spacing:.05em; margin-top:2px; }
+  .prof-lb-sub-text { font-family:var(--font-mono); font-size:11px; color:#FF006E; letter-spacing:.05em; margin-top:2px; }
   /* 태그 배지 행 */
   .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#9aa0b0; border:1px solid #E8E8E8; padding:3px 10px; letter-spacing:.08em; background:rgba(124,106,247,.06); white-space:nowrap; }
-  .prof-lb-tag.dev { color:#00975B; border-color:rgba(124,106,247,.35); background:rgba(124,106,247,.1); }
+  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#9aa0b0; border:1px solid #F0F0F8; padding:3px 10px; letter-spacing:.08em; background:rgba(124,106,247,.06); white-space:nowrap; }
+  .prof-lb-tag.dev { color:#FF006E; border-color:rgba(124,106,247,.35); background:rgba(124,106,247,.1); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; padding-top:4px; }
   .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
   .prof-lb-btn { background:none; border:1px solid #21213a; color:#9aa0b0; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .prof-lb-btn:hover { border-color:rgba(124,106,247,0.3); color:#00975B; }
+  .prof-lb-btn:hover { border-color:rgba(124,106,247,0.3); color:#FF006E; }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
   .prof-lb-video-wrap iframe { width:min(100%,calc(100vh*16/9)); height:min(100%,calc(100vw*9/16)); max-width:96vw; max-height:92vh; border:0; }
@@ -282,29 +282,29 @@
   .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(15,15,15,.75); border:1px solid #21213a; color:#9aa0b0; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .prof-lb-nav-prev { left:16px; }
   .prof-lb-nav-next { right:16px; }
-  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(124,106,247,0.3); color:#00975B; }
+  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(124,106,247,0.3); color:#FF006E; }
   .prof-lb-dots { position:absolute; bottom:16px; right:20px; display:flex; flex-direction:column; gap:4px; z-index:2; }
   .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(124,106,247,0.3); cursor:pointer; transition:all .2s; }
-  .prof-lb-dot.active { background:#00975B; transform:scale(1.4); }
-  .prof-lb-type-badge { position:absolute; top:16px; right:20px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(15,15,15,.8); border:1px solid rgba(124,106,247,0.3); color:#00975B; letter-spacing:.12em; z-index:4; }
+  .prof-lb-dot.active { background:#FF006E; transform:scale(1.4); }
+  .prof-lb-type-badge { position:absolute; top:16px; right:20px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(15,15,15,.8); border:1px solid rgba(124,106,247,0.3); color:#FF006E; letter-spacing:.12em; z-index:4; }
   .prof-lb-hud { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
   .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(124,106,247,0.5); display:flex; align-items:center; gap:6px; }
-  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(15,15,15,.9); border:1px solid rgba(124,106,247,0.3); color:#00975B; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(15,15,15,.9); border:1px solid rgba(124,106,247,0.3); color:#FF006E; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
   .prof-lb-thumbs { display:flex; gap:6px; padding:10px 16px; background:rgba(8,10,13,.95); border-top:1px solid #21213a; overflow-x:auto; flex-shrink:0; min-height:68px; align-items:center; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
   .prof-lb-thumbs::-webkit-scrollbar { height:4px; }
   .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(124,106,247,0.3); border-radius:2px; }
   .prof-lb-thumb-item { flex-shrink:0; width:96px; height:54px; border:1px solid #21213a; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
-  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#00975B; }
+  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#FF006E; }
   .prof-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
-  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#00975B; }
+  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#FF006E; }
   #lightbox.active { display: flex; }
   .lb-header {
     display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 1px solid #14141c;
   }
   .lb-header-info { display: flex; align-items: center; gap: 7px; }
-  .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: #E8E8E8; }
+  .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: #F0F0F8; }
   .lb-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 2px; }
   .lb-author { font-size: 14px; color: var(--as-blue); cursor: pointer; }
   .lb-close { background: none; border: none; color: #888; font-size: 30px; cursor: pointer; }
@@ -418,16 +418,16 @@ body {
           <div class="channel-icon" style="background:#32324a;"></div> ALL Portfolio
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
-          <div class="channel-icon" style="background:#00704A;"></div> Professional
+          <div class="channel-icon" style="background:#00D4FF;"></div> Professional
         </div>
         <div class="channel-pill" onclick="filterData('PERSONAL', this)">
           <div class="channel-icon" style="background:#e05599;"></div> Personal Works
         </div>
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
-          <div class="channel-icon" style="background:#00704A;"></div> Re:Lighting
+          <div class="channel-icon" style="background:#00D4FF;"></div> Re:Lighting
         </div>
         <div class="channel-pill" onclick="filterData('SKETCH', this)">
-          <div class="channel-icon" style="background:#00975B;"></div> Sketch Note
+          <div class="channel-icon" style="background:#FF006E;"></div> Sketch Note
         </div>
       </div>
       
@@ -475,7 +475,7 @@ body {
               I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
             </p>
 
-            <h4 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #E8E8E8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head);">Skills & Expertise</h4>
+            <h4 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #F0F0F8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head);">Skills & Expertise</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
               <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
               <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
@@ -493,11 +493,11 @@ body {
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('ncsoft')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_015 · 2021—2024</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">NCSoft</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #00975B; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #00975B; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Project M</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #00975B; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : NCSoft</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Project M</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : NCSoft</span>
               </div>
             </div>
 
@@ -505,10 +505,10 @@ body {
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('changse')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_014 · 2018—2020</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Line Games</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #00975B; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Lighting · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #00975B; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Line Games</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Line Games</span>
               </div>
             </div>
 
@@ -516,10 +516,10 @@ body {
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('nexon')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_013 · 2017—2018</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Nexon Korea</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #00975B; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · PC Online / Alpha</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · PC Online / Alpha</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Hard Surface Modeling · PBR Texturing · Integration</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #00975B; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Nexon Korea</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Nexon Korea</span>
               </div>
             </div>
 
@@ -527,11 +527,11 @@ body {
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('xlgames')">
               <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_012 · 2017</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">XLGames</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #00975B; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · PC Online / Open Beta</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · PC Online / Open Beta</div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Shader · Lighting · Optimization</div>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #00975B; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : XLGames</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #00975B; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : 2K</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : XLGames</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : 2K</span>
               </div>
             </div>
           </div>
@@ -665,7 +665,7 @@ body {
   <div id="lightbox" style="display:none; position:fixed; inset:0; background:#0e0e0e; z-index:4000; overflow-y:auto;">
     
     <!-- Header -->
-    <div style="position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(18,18,18,0.95); border-bottom:1px solid #E8E8E8; z-index:4010; backdrop-filter:blur(10px);">
+    <div style="position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(18,18,18,0.95); border-bottom:1px solid #F0F0F8; z-index:4010; backdrop-filter:blur(10px);">
       <div style="display:flex; align-items:center; gap:15px;">
         <div style="width:40px; height:40px; border-radius:50%; background:var(--as-blue); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px;">JD</div>
         <div>
@@ -687,7 +687,7 @@ body {
       </div>
 
       <!-- Description Area -->
-      <div style="display:flex; gap:40px; border-top:1px solid #E8E8E8; padding-top:40px;">
+      <div style="display:flex; gap:40px; border-top:1px solid #F0F0F8; padding-top:40px;">
         <div style="flex:2;">
           <h2 style="font-size:28px; font-family:'Oswald', sans-serif; color:#fff; margin-bottom:15px;" id="lb-sub-title">Project Details</h2>
           <p id="lb-desc" style="font-size:16px; color:#ccc; line-height:1.8; font-family:'Noto Sans KR', sans-serif;">
@@ -697,9 +697,9 @@ body {
         <div style="flex:1; background:#0f0f18; padding:25px; border-radius:8px;">
           <h3 style="font-size:16px; color:#888; text-transform:uppercase; margin-bottom:15px; letter-spacing:1px;">Software Used</h3>
           <div id="lb-software" style="display:flex; flex-wrap:wrap; gap:10px;">
-            <span style="background:#E8E8E8; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Unreal Engine</span>
-            <span style="background:#E8E8E8; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">3ds Max</span>
-            <span style="background:#E8E8E8; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Substance</span>
+            <span style="background:#F0F0F8; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Unreal Engine</span>
+            <span style="background:#F0F0F8; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">3ds Max</span>
+            <span style="background:#F0F0F8; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Substance</span>
           </div>
         </div>
       </div>

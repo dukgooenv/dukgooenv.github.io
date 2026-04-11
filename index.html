@@ -1377,7 +1377,7 @@ window.filterData = function(category, btnEl, isFloating = false) {
     if (category === 'ALL') {
       filtered = [...portfolioData];
     } else {
-      filtered = portfolioData.filter(p => p.category === category || p.tag === category);
+      filtered = portfolioData.filter(p => p.category === category);
     }
     renderGrid(shuffleArray(filtered));
   }
@@ -1662,6 +1662,7 @@ var pwProjects = {
 // ── 카드 그리드 렌더링 ──
 function pwRenderGrid(cat) {
   var cards = cat === 'ALL' ? pwAllCards : pwAllCards.filter(function(c) { return c.cat === cat; });
+  cards = shuffleArray([...cards]);
   var grid = document.getElementById('pw-project-grid');
   var label = document.getElementById('pw-grid-section-label');
   var labelMap = { ALL: '// ALL WORKS', PERSONAL: '// PERSONAL WORKS', RELIGHT: '// RE:LIGHTING', SKETCH: '// SKETCH NOTE' };

@@ -2374,12 +2374,37 @@ function makeViewKey(src) {
 }
 
 // 조회수 +1 기록
+// 카드 카운터 엘리먼트 찾기 (src 기준)
+function findCardBySrc(src) {
+  var cards = document.querySelectorAll('.art-card');
+  var found = null;
+  cards.forEach(function(card) {
+    var img = card.querySelector('img');
+    if (!img) return;
+    var imgSrc = img.getAttribute('src') || '';
+    if (imgSrc === src || imgSrc.includes(src) || src.includes(imgSrc)) found = card;
+  });
+  return found;
+}
+
+// 카드 카운터 숫자만 즉시 +1 (UI 즉시 반영)
+function bumpCardCounter(src) {
+  var card = findCardBySrc(src);
+  if (!card) return;
+  var counterEl = card.querySelector('.art-counter');
+  if (!counterEl) return;
+  var current = parseInt(counterEl.textContent.replace(/\D/g, ''), 10) || 0;
+  counterEl.innerHTML = '<span class="art-counter-check">✓</span>' + (current + 1);
+}
+
 function recordView(src) {
   if (!src) return;
   const key = makeViewKey(src);
   const ref = db.collection('imageViews').doc(key);
   ref.set({ count: firebase.firestore.FieldValue.increment(1), src: src }, { merge: true })
     .catch(function(e) { console.warn('Firestore write error:', e); });
+  // UI 즉시 반영
+  bumpCardCounter(src);
 }
 
 // 조회수 읽어서 카드 카운터 업데이트
@@ -2411,14 +2436,6 @@ function loadAllViewCounts() {
   window.openLbImage = function(src, title, idx) {
     _origOpenLbImage(src, title, idx);
     recordView(src);
-    // 해당 카드 카운터 즉시 갱신
-    var cards = document.querySelectorAll('.art-card');
-    cards.forEach(function(card) {
-      var img = card.querySelector('img');
-      if (img && (img.getAttribute('src') === src || img.src.includes(src))) {
-        loadViewCount(src, card);
-      }
-    });
   };
 
   // Professional 라이트박스 — renderProfLb 후크

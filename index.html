@@ -133,34 +133,62 @@
   }
   .channels-bar::-webkit-scrollbar { display: none; }
   
-  /* Channel Pill with Icon Image */
+  /* Channel Pill with Overlapping Icon */
   .channel-pill {
-    display: flex; align-items: center; gap: 8px; background: transparent; 
-    border: none; padding: 8px 16px; border-radius: 20px; 
-    font-size: 13px; font-weight: 600; color: #e7e3d4; cursor: pointer; white-space: nowrap; 
-    transition: all 0.3s; position: relative;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s;
   }
-  .channel-pill:hover, .channel-pill.active { background: transparent; color: #e7e3d4; border: none; }
-  
-    .channel-icon-img {
-    width: 40px; 
-    height: 40px; 
-    object-fit: contain; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    border-radius: 8px;
+  /* 아이콘 */
+  .channel-icon-img {
+    width: 50px;
+    height: 50px;
     flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
     transition: all 0.3s;
   }
   .channel-icon-img img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    border-radius: 8px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
   }
-  .channel-icon-img img {
-    width: 100%; height: 100%; object-fit: contain;
+  /* 텍스트 라벨 - 기본 숨김, 호버시 슬라이드 */
+  .channel-pill .pill-label {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 14px 0 22px;
+    margin-left: -18px;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    background: rgba(60, 60, 70, 0.88);
+    border-radius: 0 20px 20px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e7e3d4;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 0;
+    transition: max-width 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+    pointer-events: none;
+  }
+  .channel-pill:hover .pill-label,
+  .channel-pill.active .pill-label {
+    max-width: 160px;
+    opacity: 1;
+    pointer-events: auto;
   }
   .channel-icon { 
     width: 10px; height: 10px; border-radius: 8px; background: var(--as-blue); 
@@ -429,22 +457,22 @@ body {
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
         <div class="channel-pill active" onclick="filterData('ALL', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_001.jpg" alt="ALL"></div> ALL Portfolio
+          <div class="channel-icon-img"><img src="images/Icon/Icon_001.jpg" alt="ALL"></div><span class="pill-label">ALL Portfolio</span>
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_002.jpg" alt="Pro"></div> Professional
+          <div class="channel-icon-img"><img src="images/Icon/Icon_002.jpg" alt="Pro"></div><span class="pill-label">Professional</span>
         </div>
         <div class="channel-pill" onclick="filterData('PERSONAL', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_005.jpg" alt="Personal"></div> Personal Works
+          <div class="channel-icon-img"><img src="images/Icon/Icon_005.jpg" alt="Personal"></div><span class="pill-label">Personal Works</span>
         </div>
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_007.jpg" alt="Relight"></div> Re:Lighting
+          <div class="channel-icon-img"><img src="images/Icon/Icon_007.jpg" alt="Relight"></div><span class="pill-label">Re:Lighting</span>
         </div>
         <div class="channel-pill" onclick="filterData('SKETCH', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_009.jpg" alt="Sketch"></div> Sketch Note
+          <div class="channel-icon-img"><img src="images/Icon/Icon_009.jpg" alt="Sketch"></div><span class="pill-label">Sketch Note</span>
         </div>
         <div class="channel-pill" onclick="filterData('DESIGNER', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_010.jpg" alt="Designer"></div> Designer
+          <div class="channel-icon-img"><img src="images/Icon/Icon_010.jpg" alt="Designer"></div><span class="pill-label">Designer</span>
         </div>
       </div>
       
@@ -1341,9 +1369,20 @@ window.filterData = function(category, btnEl, isFloating = false) {
   if (scrollSec) scrollSec.scrollTop = 0;
 }
 
-// 초기 렌더링 시 전체 데이터를 랜덤으로 섞어서 뿌림
-renderGrid(shuffleArray([...portfolioData]));
-document.getElementById("main-grid").style.display = "grid";
+// 초기 렌더링
+function initGrid() {
+  const mg = document.getElementById('main-grid');
+  if (!mg) { console.error('main-grid not found!'); return; }
+  renderGrid(shuffleArray([...portfolioData]));
+  mg.style.display = 'grid';
+  console.log('Grid initialized:', mg.children.length, 'cards');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initGrid);
+} else {
+  initGrid();
+}
 
 // 스크롤 이벤트 (무한 스크롤)
 const scrollSec = document.querySelector('.scroll-section');

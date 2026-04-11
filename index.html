@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root {
     --as-bg: #121212;
@@ -179,6 +179,44 @@
   #lightbox {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; flex-direction: column;
   }
+
+  /* ── PROF-LB (참고 사이트와 동일한 상세 프로젝트 모달) ── */
+  #prof-lb { display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,.97); flex-direction:column; }
+  #prof-lb.active { display:flex; }
+  .prof-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
+  .prof-lb-header { display:flex; align-items:center; justify-content:space-between; padding:12px 24px; background:rgba(14,14,14,.95); border-bottom:1px solid #1e2330; flex-shrink:0; }
+  .prof-lb-title-area { display:flex; align-items:center; gap:14px; }
+  .prof-lb-id { font-family:'Share Tech Mono',monospace; font-size:10px; color:#a8893f; letter-spacing:.15em; }
+  .prof-lb-title-text { font-size:16px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#dde0e8; }
+  .prof-lb-controls { display:flex; align-items:center; gap:16px; }
+  .prof-lb-counter { font-family:'Share Tech Mono',monospace; font-size:12px; color:#9aa0b0; }
+  .prof-lb-btn { background:none; border:1px solid #1e2330; color:#9aa0b0; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .prof-lb-btn:hover { border-color:rgba(200,168,75,0.25); color:#d4b355; }
+  .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
+  .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+  .prof-lb-video-wrap iframe { width:min(100%,calc(100vh*16/9)); height:min(100%,calc(100vw*9/16)); max-width:96vw; max-height:92vh; border:0; }
+  .prof-lb-wheel-overlay { position:absolute; inset:0; z-index:1; background:transparent; cursor:default; }
+  .prof-lb-img-el { display:block; max-width:96vw; max-height:92vh; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; }
+  .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(8,10,13,.7); border:1px solid #1e2330; color:#9aa0b0; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
+  .prof-lb-nav-prev { left:16px; }
+  .prof-lb-nav-next { right:16px; }
+  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(200,168,75,0.25); color:#d4b355; }
+  .prof-lb-dots { position:absolute; bottom:16px; right:20px; display:flex; flex-direction:column; gap:4px; z-index:2; }
+  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(200,168,75,0.25); cursor:pointer; transition:all .2s; }
+  .prof-lb-dot.active { background:#d4b355; transform:scale(1.4); }
+  .prof-lb-type-badge { position:absolute; top:16px; right:20px; font-family:'Share Tech Mono',monospace; font-size:10px; padding:4px 10px; background:rgba(8,10,13,.75); border:1px solid rgba(200,168,75,0.25); color:#d4b355; letter-spacing:.12em; z-index:4; }
+  .prof-lb-hud { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
+  .prof-lb-hud .sz-hint { font-family:'Share Tech Mono',monospace; font-size:11px; color:rgba(200,168,75,0.5); display:flex; align-items:center; gap:6px; }
+  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:'Share Tech Mono',monospace; font-size:11px; padding:4px 12px; background:rgba(8,10,13,.85); border:1px solid rgba(200,168,75,0.25); color:#d4b355; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .prof-lb-zoom-badge.visible { opacity:1; }
+  .prof-lb-thumbs { display:flex; gap:6px; padding:10px 16px; background:rgba(8,10,13,.95); border-top:1px solid #1e2330; overflow-x:auto; flex-shrink:0; min-height:68px; align-items:center; }
+  .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
+  .prof-lb-thumbs::-webkit-scrollbar { height:4px; }
+  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(200,168,75,0.25); border-radius:2px; }
+  .prof-lb-thumb-item { flex-shrink:0; width:96px; height:54px; border:1px solid #1e2330; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
+  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#d4b355; }
+  .prof-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
+  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#d4b355; }
   #lightbox.active { display: flex; }
   .lb-header {
     display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 1px solid #222;
@@ -245,7 +283,7 @@ body {
       <div class="banner-carousel">
       
       <!-- 1. NCSoft (Project M) -->
-      <div class="banner-card" onclick="openLbVideo('liEb8B3osuY', 'PROJECT M', 0)"
+      <div class="banner-card" onclick="openProfLb('ncsoft')"
            onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
         <img src="https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg"  alt="Project M">
         <div class="banner-hover-video">
@@ -259,7 +297,7 @@ body {
       </div>
 
       <!-- 2. Nexon (Ascendant One) -->
-      <div class="banner-card" onclick="openLbVideo('NOZ51TUyemo', 'ASCENDANT ONE', 0)"
+      <div class="banner-card" onclick="openProfLb('nexon')"
            onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
         <img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg'" alt="Ascendant One">
         <div class="banner-hover-video">
@@ -273,7 +311,7 @@ body {
       </div>
 
       <!-- 3. Line Games (창세기전) -->
-      <div class="banner-card" onclick="openLbVideo('2zKdRMch0Us', 'THE WAR OF GENESIS', 0)"
+      <div class="banner-card" onclick="openProfLb('changse')"
            onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
         <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/2zKdRMch0Us/hqdefault.jpg'" alt="The War of Genesis">
         <div class="banner-hover-video">
@@ -357,7 +395,7 @@ body {
           <div>
             <h2 style="font-size: 24px; color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 30px; font-family: 'Inter', sans-serif; font-style: normal; text-transform: none;">Professional Experience</h2>
             
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid var(--as-blue); border-radius: 4px; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'" onclick="openAboutLightbox('ncsoft')">
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid var(--as-blue); border-radius: 4px; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'" onclick="openProfLb('ncsoft')">
               <div style="color: var(--as-blue); font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2021 — 2024</div>
               <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">NCSoft <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS 36</span></div>
               <div style="font-size: 15px; color: #aaa;">Project M / Senior Environment Artist</div>
@@ -389,6 +427,35 @@ body {
       <div class="art-grid" id="main-grid"></div>
     </div>
   </div> <!-- end main-container -->
+
+  <!-- PROF-LB MODAL -->
+  <div id="prof-lb">
+    <div class="prof-lb-wrap">
+      <div class="prof-lb-header">
+        <div class="prof-lb-title-area">
+          <span class="prof-lb-id" id="prof-lb-id"></span>
+          <span class="prof-lb-title-text" id="prof-lb-title-text"></span>
+        </div>
+        <div class="prof-lb-controls">
+          <span class="prof-lb-counter" id="prof-lb-counter"></span>
+          <button class="prof-lb-btn" onclick="closeProfLb()">✕</button>
+        </div>
+      </div>
+      <div class="prof-lb-main" id="prof-lb-main">
+        <button class="prof-lb-nav-prev" onclick="profLbStep(-1)">‹</button>
+        <button class="prof-lb-nav-next" onclick="profLbStep(1)">›</button>
+        <div class="prof-lb-dots" id="prof-lb-dots"></div>
+        <div class="prof-lb-zoom-badge" id="prof-lb-zoom-badge">🔍 100%</div>
+        <div class="prof-lb-type-badge" id="prof-lb-type-badge"></div>
+        <div class="prof-lb-hud">
+          <div class="sz-hint">🖱 Click zoom in/out</div>
+          <div class="sz-hint" style="color:rgba(255,255,255,.15)">|</div>
+          <div class="sz-hint">ESC close</div>
+        </div>
+      </div>
+      <div class="prof-lb-thumbs" id="prof-lb-thumbs"></div>
+    </div>
+  </div>
 
   <!-- FLOATING FILTER -->
   <div class="floating-filter">
@@ -932,13 +999,33 @@ function shuffleArray(array) {
   return array;
 }
 
+// PRO 비디오 카드 key → profProjects key 매핑
+var profKeyMap = {
+  'lionheart': 'lionheart',
+  'ncsoft': 'ncsoft',
+  'changse': 'changse',
+  'nexon': 'nexon',
+  'xlgames': 'xlgames',
+  'neptune': 'neptune',
+  'puregames': 'puregames',
+  'hideout': null
+};
+
 // 그리드 HTML 생성 함수
 function buildGridHTML(data, startIndex) {
   let html = '';
   data.forEach((p, idx) => {
     let realIdx = startIndex + idx;
-    let likes = Math.floor(Math.random() * 500) + 50; 
-    let action = p.type === 'video' ? `openLbVideo('${p.id}', '${p.title}', ${realIdx})` : `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
+    let likes = Math.floor(Math.random() * 500) + 50;
+    // PRO 카드 중 profProjects에 있는 key는 openProfLb로 연결
+    let action;
+    if (p.category === 'PRO' && p.type === 'video' && profKeyMap.hasOwnProperty(p.key)) {
+      action = `openProfLb('${p.key}')`;
+    } else if (p.type === 'video') {
+      action = `openLbVideo('${p.id}', '${p.title}', ${realIdx})`;
+    } else {
+      action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
+    }
     let fallback = "this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'";
     
     html += `
@@ -1131,6 +1218,468 @@ window.prevMedia = function() {
     setLbMedia(currentFilterData[lbCurrentIdx]);
   }
 }
+
+// ═══════════════════════════════════════════════════════════
+// PROF-LB : 참고 사이트와 동일한 상세 프로젝트 라이트박스
+// ═══════════════════════════════════════════════════════════
+
+var profProjects = {
+  'lionheart': {
+    id: '// PROFESSIONAL · LIONHEART STUDIO · 2025—',
+    title: 'ODIN: VALHALLA RISING',
+    sub: 'MMORPG / Mobile · PC / Live Service',
+    tags: ['Level Design · Integration · Optimization', 'Developer : Lionheart Studio', 'Publisher : Kakao Games'],
+    items: [
+      { type: 'video', videoId: 'tvAcoxRube0' }
+    ]
+  },
+  'ncsoft': {
+    id: '// PROFESSIONAL · NCSOFT · 2021—2024',
+    title: 'Project M',
+    sub: 'Interactive Adventure / Console / Alpha Version',
+    tags: ['3D Environment Integration Art', 'Developer : Project M', 'Publisher : NCSOFT'],
+    items: [
+      { type: 'video', videoId: 'bDXLAaqR_Yg' },
+      { type: 'video', videoId: 'aMYvommxKiw' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_002.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_003.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_004.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_005.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_006.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_007.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_008.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_009.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_010.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_011.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_012.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_013.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_014.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_015.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_016.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_017.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_018.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_019.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_020.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_021.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_022.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_023.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_024.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_025.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_026.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_027.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_028.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_029.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_030.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_031.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_032.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_033.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_034.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_035.webp' },
+      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_036.webp' }
+    ]
+  },
+  'changse': {
+    id: '// PROFESSIONAL · LINE GAMES · 2018—2020',
+    title: '창세기전: 회색의 잔영',
+    sub: 'SRPG / Nintendo Switch / Alpha Version',
+    tags: ['Level Design · Lighting · Outsourcing', 'Developer : Line Games'],
+    items: [
+      { type: 'video', videoId: '2zKdRMch0Us' },
+      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_001.webp' },
+      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_002.webp' },
+      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_003.webp' },
+      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_004.webp' },
+      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_005.webp' },
+      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_006.webp' }
+    ]
+  },
+  'nexon': {
+    id: '// PROFESSIONAL · NEXON KOREA · 2017—2018',
+    title: 'Ascendant One',
+    sub: 'MOBA / PC Online / Alpha Version',
+    tags: ['Hard Surface Modeling · PBR Texturing', 'Developer : Nexon Korea'],
+    items: [
+      { type: 'video', videoId: 'NOZ51TUyemo' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_002.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_003.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_004.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_005.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_006.webp' }
+    ]
+  },
+  'xlgames': {
+    id: '// PROFESSIONAL · XLGAMES · 2017',
+    title: 'Civilization Online',
+    sub: 'MMORPG / PC Online / Open Beta',
+    tags: ['Level Design', 'Shader', 'Lighting', 'Developer : XLGAMES', 'Publisher : 2K'],
+    items: [
+      { type: 'video', videoId: 'behf7twp1bo', start: 30 },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_002.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_003.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_004.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_005.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_006.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_007.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_008.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_009.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_010.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_011.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_012.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_013.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_014.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_015.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_016.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_017.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_018.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_019.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_020.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_021.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_022.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_023.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_024.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_025.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_026.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_027.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_028.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_029.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_030.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_031.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_032.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_033.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_034.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_035.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_036.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_037.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_038.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_039.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_040.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_041.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_042.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_043.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_044.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_045.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_046.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_047.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_048.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_049.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_050.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_051.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_052.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_053.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_054.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_055.webp' }
+    ]
+  },
+  'neptune': {
+    id: '// PROFESSIONAL · NEPTUNE · 2015—2016',
+    title: 'Neppy Rush',
+    sub: 'Neppy Rush · Defence / Mobile / Alpha Version',
+    tags: ['Level Design', 'Shader', 'Lighting', 'Modeling', 'Textures'],
+    items: [
+      { type: 'video', videoId: 'k4VzC93T00g' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_001.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_002.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_003.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_004.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_005.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_006.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_007.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_008.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_009.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_010.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_011.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_012.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_013.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_014.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_015.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_016.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_017.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_018.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_019.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_020.webp' },
+      { type: 'image', src: 'images/Professional/2015_Neptune/2015_Neptune_NeppyRush_021.webp' }
+    ]
+  },
+  'puregames': {
+    id: '// PROFESSIONAL · PURE GAMES · 2014—2015',
+    title: 'Vendetta',
+    sub: 'Vendetta · MORPG / Mobile / Service',
+    tags: ['Art Direction', 'Character & Background Creation', 'Developer : Pure Games'],
+    items: [
+      { type: 'video', videoId: 'UjtP1k8C5yw' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_001.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_002.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_003.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_004.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_005.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_006.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_007.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_008.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_009.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_010.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_011.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_012.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_013.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_014.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_015.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_016.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_017.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_018.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_019.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_020.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_021.webp' },
+      { type: 'image', src: 'images/Professional/2014_PureGames/2014_PureGamesVendetta_022.webp' }
+    ]
+  },
+  'cookapps': {
+    id: '// PROFESSIONAL · COOKAPPS · OUTSOURCING · 2019—2020',
+    title: 'CookApps',
+    sub: 'Outsourcing / SNG / Mobile',
+    tags: ['Modeling', 'Textures', 'Shader', 'Vray Lighting', 'Developer : CookApps'],
+    items: [
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_01.gif' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_06.webp' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_07.webp' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_10.gif' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_11.gif' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_12.gif' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_13.gif' },
+      { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_14.gif' }
+    ]
+  }
+};
+
+// profLb 상태 변수
+var profCurrent = null;
+var profIdx = 0;
+var currentProfId = null;
+var profProjectOrder = ['lionheart', 'ncsoft', 'changse', 'nexon', 'xlgames', 'neptune', 'puregames', 'cookapps'];
+
+window.openProfLb = function(key, idx) {
+  profCurrent = profProjects[key];
+  if (!profCurrent) return;
+  currentProfId = key;
+  profIdx = idx || 0;
+  document.getElementById('prof-lb-id').textContent = profCurrent.id;
+  document.getElementById('prof-lb-title-text').textContent = profCurrent.title;
+  renderProfLb();
+  document.getElementById('prof-lb').classList.add('active');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeProfLb = function() {
+  document.getElementById('prof-lb').classList.remove('active');
+  document.body.style.overflow = '';
+  var main = document.getElementById('prof-lb-main');
+  main.querySelectorAll('iframe').forEach(function(f) { f.src = ''; });
+  var prev = main.querySelector('.prof-lb-video-wrap, .prof-lb-img-el');
+  if (prev) prev.remove();
+};
+
+window.profLbStep = function(dir) {
+  profIdx = (profIdx + dir + profCurrent.items.length) % profCurrent.items.length;
+  renderProfLb();
+};
+
+function profLbNextProject() {
+  var idx = profProjectOrder.indexOf(currentProfId);
+  var nextId = profProjectOrder[(idx + 1) % profProjectOrder.length];
+  openProfLb(nextId, 0);
+}
+function profLbPrevProject() {
+  var idx = profProjectOrder.indexOf(currentProfId);
+  var prevId = profProjectOrder[(idx - 1 + profProjectOrder.length) % profProjectOrder.length];
+  openProfLb(prevId, 0);
+}
+
+function renderProfLb() {
+  var item = profCurrent.items[profIdx];
+  var main = document.getElementById('prof-lb-main');
+  var prev = main.querySelector('.prof-lb-video-wrap, .prof-lb-img-el');
+  if (prev) {
+    var oldIframe = prev.querySelector('iframe');
+    if (oldIframe) oldIframe.src = '';
+    prev.remove();
+  }
+  if (item.type === 'video') {
+    var wrap = document.createElement('div');
+    wrap.className = 'prof-lb-video-wrap';
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + item.videoId +
+      '?autoplay=1&mute=1&rel=0&modestbranding=1' + (item.start ? '&start=' + item.start : '');
+    iframe.allow = 'autoplay; encrypted-media';
+    iframe.allowFullscreen = true;
+    iframe.frameBorder = '0';
+    var overlay = document.createElement('div');
+    overlay.className = 'prof-lb-wheel-overlay';
+    wrap.appendChild(iframe);
+    wrap.appendChild(overlay);
+    main.insertBefore(wrap, main.querySelector('.prof-lb-nav-prev'));
+    document.getElementById('prof-lb-type-badge').textContent = '▶ VIDEO';
+  } else {
+    var img = document.createElement('img');
+    img.className = 'prof-lb-img-el';
+    img.src = item.src;
+    img.style.opacity = '0';
+    img.style.cursor = 'zoom-in';
+    main.insertBefore(img, main.querySelector('.prof-lb-nav-prev'));
+    requestAnimationFrame(function() { img.style.opacity = '1'; });
+    document.getElementById('prof-lb-type-badge').textContent = '■ IMAGE';
+  }
+  document.getElementById('prof-lb-counter').textContent = (profIdx + 1) + ' / ' + profCurrent.items.length;
+
+  // Dots
+  var dots = document.getElementById('prof-lb-dots');
+  var maxDots = Math.min(profCurrent.items.length, 20);
+  dots.innerHTML = profCurrent.items.slice(0, maxDots).map(function(it, i) {
+    return '<div class="prof-lb-dot' + (i === profIdx ? ' active' : '') +
+      '" onclick="profIdx=' + i + ';renderProfLb()"></div>';
+  }).join('');
+
+  // 썸네일 스트립
+  var thumbs = document.getElementById('prof-lb-thumbs');
+  var thumbsHtml = profCurrent.items.map(function(it, i) {
+    var thumbSrc = it.type === 'video'
+      ? 'https://img.youtube.com/vi/' + it.videoId + '/mqdefault.jpg'
+      : it.src;
+    var playIcon = it.type === 'video' ? '<div class="prof-lb-thumb-play">▶</div>' : '';
+    return '<div class="prof-lb-thumb-item' + (i === profIdx ? ' active' : '') +
+      '" onclick="profIdx=' + i + ';renderProfLb()">' +
+      '<img src="' + thumbSrc + '" loading="lazy">' +
+      playIcon + '</div>';
+  }).join('');
+  thumbs.innerHTML = '<div class="prof-lb-thumbs-inner">' + thumbsHtml + '</div>';
+
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      var activeThumb = thumbs.querySelector('.prof-lb-thumb-item.active');
+      if (!activeThumb) return;
+      var tRect = activeThumb.getBoundingClientRect();
+      var cRect = thumbs.getBoundingClientRect();
+      var tCenter = tRect.left - cRect.left + thumbs.scrollLeft + tRect.width / 2;
+      thumbs.scrollLeft = tCenter - thumbs.clientWidth / 2;
+    });
+  });
+
+  var showNav = profCurrent.items.length > 1;
+  main.querySelector('.prof-lb-nav-prev').style.display = showNav ? 'flex' : 'none';
+  main.querySelector('.prof-lb-nav-next').style.display = showNav ? 'flex' : 'none';
+
+  if (window.profZoomReset) window.profZoomReset();
+}
+
+// 키보드 단축키
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('prof-lb').classList.contains('active')) return;
+  if (e.key === 'Escape') closeProfLb();
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') profLbStep(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') profLbStep(-1);
+});
+
+// 배경 클릭으로 닫기
+document.getElementById('prof-lb').addEventListener('click', function(e) {
+  if (e.target === this) closeProfLb();
+});
+
+// 마우스 휠로 이미지 넘기기
+var profScrollAcc = 0, profScrollTimer = null, profIsAnimating = false;
+document.addEventListener('wheel', function(e) {
+  if (!document.getElementById('prof-lb').classList.contains('active')) return;
+  e.preventDefault();
+  profScrollAcc += e.deltaY;
+  clearTimeout(profScrollTimer);
+  if (Math.abs(profScrollAcc) > 80) {
+    if (!profIsAnimating) {
+      profIsAnimating = true;
+      profLbStep(profScrollAcc > 0 ? 1 : -1);
+      setTimeout(function() { profIsAnimating = false; }, 350);
+    }
+    profScrollAcc = 0;
+  }
+  profScrollTimer = setTimeout(function() { profScrollAcc = 0; }, 300);
+}, { passive: false });
+
+// 이미지 줌 & 드래그
+(function() {
+  var isZoomed = false, isDragging = false, didDrag = false;
+  var startX = 0, startY = 0, transX = 0, transY = 0;
+  var ZOOM = 2.0;
+  var currentImg = null;
+
+  function showZoomBadge(pct) {
+    var badge = document.getElementById('prof-lb-zoom-badge');
+    if (!badge) return;
+    badge.textContent = '🔍 ' + Math.round(pct) + '%';
+    badge.classList.add('visible');
+    clearTimeout(badge._zt);
+    badge._zt = setTimeout(function() { badge.classList.remove('visible'); }, 1500);
+  }
+
+  function resetZoom() {
+    if (!currentImg) return;
+    isZoomed = false; isDragging = false; didDrag = false;
+    transX = 0; transY = 0;
+    currentImg.style.cursor = 'zoom-in';
+    currentImg.style.transform = '';
+    var badge = document.getElementById('prof-lb-zoom-badge');
+    if (badge) badge.classList.remove('visible');
+  }
+
+  window.profZoomReset = function() {
+    resetZoom();
+    var main = document.getElementById('prof-lb-main');
+    if (!main) return;
+    var img = main.querySelector('.prof-lb-img-el');
+    if (img) { currentImg = img; img.style.cursor = 'zoom-in'; }
+    else { currentImg = null; }
+  };
+
+  document.addEventListener('click', function(e) {
+    var main = document.getElementById('prof-lb-main');
+    if (!main) return;
+    var img = main.querySelector('.prof-lb-img-el');
+    if (!img || e.target !== img) return;
+    if (didDrag) { didDrag = false; return; }
+    if (isZoomed) {
+      resetZoom();
+      showZoomBadge(100);
+    } else {
+      isZoomed = true;
+      transX = 0; transY = 0;
+      img.style.cursor = 'grab';
+      img.style.transform = 'scale(' + ZOOM + ')';
+      showZoomBadge(ZOOM * 100);
+    }
+  });
+
+  document.addEventListener('mousedown', function(e) {
+    var main = document.getElementById('prof-lb-main');
+    if (!main) return;
+    var img = main.querySelector('.prof-lb-img-el');
+    if (!img || e.target !== img || !isZoomed) return;
+    isDragging = true; didDrag = false;
+    startX = e.clientX - transX;
+    startY = e.clientY - transY;
+    img.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging || !currentImg) return;
+    didDrag = true;
+    transX = e.clientX - startX;
+    transY = e.clientY - startY;
+    currentImg.style.transform = 'scale(' + ZOOM + ') translate(' + (transX/ZOOM) + 'px,' + (transY/ZOOM) + 'px)';
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!isDragging) return;
+    isDragging = false;
+    if (currentImg) currentImg.style.cursor = isZoomed ? 'grab' : 'zoom-in';
+  });
+})();
 
 </script>
 </body>

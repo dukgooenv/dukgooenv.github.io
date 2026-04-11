@@ -361,12 +361,22 @@ body {
       
       
       <!-- ABOUT SECTION -->
-      <div id="about-container" style="display: none; padding: 0 0 60px 0; animation: fadeIn 0.5s; position: relative;">
+      <div id="about-container" style="display: none; padding: 0 0 60px 0; animation: fadeIn 0.5s; position: relative; min-height: 600px;">
 
-        <!-- 백그라운드 유튜브 영상 (엔씨/넥슨 랜덤) -->
-        <div id="about-bg-video" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: 8px;">
-          <iframe id="about-bg-iframe" style="position: absolute; top: 50%; left: 50%; width: calc(100vh * 16/9 + 200px); height: calc(100vw * 9/16 + 200px); min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); border: none; pointer-events: none; opacity: 0.18; filter: blur(2px);" allow="autoplay; encrypted-media"></iframe>
-          <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.7) 50%, rgba(18,18,18,0.92) 100%);"></div>
+        <!-- 백그라운드 유튜브 영상 (엔씨/넥슨 랜덤) — 히어로 수준 -->
+        <div id="about-bg-video" style="position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; overflow: hidden; pointer-events: none; z-index: 0;">
+          <iframe id="about-bg-iframe"
+            style="position: absolute; top: 50%; left: 50%;
+                   width: calc(177.78vh + 200px);
+                   height: calc(56.25vw + 200px);
+                   min-width: calc(100% + 40px); min-height: calc(100% + 40px);
+                   transform: translate(-50%, -50%);
+                   border: none; pointer-events: none;"
+            allow="autoplay; encrypted-media"></iframe>
+          <!-- 어두운 오버레이: 상/하/좌/우 그라디언트 + 전체 dim -->
+          <div style="position: absolute; inset: 0; background: rgba(18,18,18,0.45);"></div>
+          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,18,18,0.6) 0%, transparent 20%, transparent 80%, rgba(18,18,18,0.8) 100%);"></div>
+          <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,18,18,0.5) 0%, transparent 30%, transparent 70%, rgba(18,18,18,0.5) 100%);"></div>
         </div>
 
         <div style="position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; padding: 40px 0 20px 0;">
@@ -1308,13 +1318,7 @@ var profProjects = {
     sub: 'SRPG / Nintendo Switch / Alpha Version',
     tags: ['Level Design · Lighting · Outsourcing', 'Developer : Line Games'],
     items: [
-      { type: 'video', videoId: '2zKdRMch0Us' },
-      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_001.webp' },
-      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_002.webp' },
-      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_003.webp' },
-      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_004.webp' },
-      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_005.webp' },
-      { type: 'image', src: 'images/Professional/2018_LineGames/2018_LineGames_Changse_006.webp' }
+      { type: 'video', videoId: '2zKdRMch0Us' }
     ]
   },
   'nexon': {
@@ -1329,7 +1333,46 @@ var profProjects = {
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_003.webp' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_004.webp' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_005.webp' },
-      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_006.webp' }
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_006.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_007.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_008.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_009.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_010.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_011.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_012.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_013.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_014.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_015.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_016.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_017.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_018.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_019.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_020.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_021.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_022.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_023.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_024.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_025.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_026.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_027.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_028.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_029.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_030.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_031.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_032.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_033.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_034.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_035.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_036.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_037.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_038.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_039.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_040.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_041.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_042.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_043.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_044.webp' },
+      { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_045.webp' }
     ]
   },
   'xlgames': {

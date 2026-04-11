@@ -480,6 +480,9 @@
     100% { background-position: -100% 0; }
   }
 </style>
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -2351,6 +2354,119 @@ document.addEventListener('wheel', function(e) {
     if (currentImg) currentImg.style.cursor = isZoomed ? 'grab' : 'zoom-in';
   });
 })();
+
+// ─── Firebase 이미지 조회수 카운터 ───────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyD0PU_SJZdvG9TfgxJO3XsSToyxHTWxG5k",
+  authDomain: "dukgoo-env.firebaseapp.com",
+  projectId: "dukgoo-env",
+  storageBucket: "dukgoo-env.firebasestorage.app",
+  messagingSenderId: "918082314771",
+  appId: "1:918082314771:web:cc83ff95d9342b5c2415e6",
+  measurementId: "G-GR5N8DDHGX"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// 이미지 키 생성 (src 경로 → 영숫자+언더스코어)
+function makeViewKey(src) {
+  return src.replace(/^.*images\//i, '').replace(/[^a-zA-Z0-9_\-]/g, '_').substring(0, 120);
+}
+
+// 조회수 +1 기록
+function recordView(src) {
+  if (!src) return;
+  const key = makeViewKey(src);
+  const ref = db.collection('imageViews').doc(key);
+  ref.set({ count: firebase.firestore.FieldValue.increment(1), src: src }, { merge: true })
+    .catch(function(e) { console.warn('Firestore write error:', e); });
+}
+
+// 조회수 읽어서 카드 카운터 업데이트
+function loadViewCount(src, cardEl) {
+  if (!src || !cardEl) return;
+  const key = makeViewKey(src);
+  db.collection('imageViews').doc(key).get().then(function(doc) {
+    const count = doc.exists ? (doc.data().count || 0) : 0;
+    const counterEl = cardEl.querySelector('.art-counter');
+    if (counterEl) {
+      counterEl.innerHTML = '<span class="art-counter-check">✓</span>' + count;
+    }
+  }).catch(function(e) { console.warn('Firestore read error:', e); });
+}
+
+// 그리드 렌더 후 모든 카드 카운터 로드
+function loadAllViewCounts() {
+  const cards = document.querySelectorAll('.art-card');
+  cards.forEach(function(card) {
+    const img = card.querySelector('img');
+    if (img && img.src) loadViewCount(img.getAttribute('src') || img.src, card);
+  });
+}
+
+// openLbImage, openProfLb, openLbVideo 후크 — 뷰 카운트 기록
+(function() {
+  // Personal/일반 이미지 라이트박스
+  var _origOpenLbImage = window.openLbImage;
+  window.openLbImage = function(src, title, idx) {
+    _origOpenLbImage(src, title, idx);
+    recordView(src);
+    // 해당 카드 카운터 즉시 갱신
+    var cards = document.querySelectorAll('.art-card');
+    cards.forEach(function(card) {
+      var img = card.querySelector('img');
+      if (img && (img.getAttribute('src') === src || img.src.includes(src))) {
+        loadViewCount(src, card);
+      }
+    });
+  };
+
+  // Professional 라이트박스 — renderProfLb 후크
+  var _origRenderProfLb = window.renderProfLb || null;
+  var renderHooked = false;
+  function hookRenderProfLb() {
+    if (renderHooked || typeof renderProfLb === 'undefined') return;
+    renderHooked = true;
+    var orig = renderProfLb;
+    renderProfLb = function() {
+      orig.apply(this, arguments);
+      if (profCurrent && profCurrent.items && profIdx !== undefined) {
+        var item = profCurrent.items[profIdx];
+        if (item && item.src) recordView(item.src);
+      }
+    };
+  }
+  // openProfLb 시점에 후킹
+  var _origOpenProfLb = window.openProfLb;
+  window.openProfLb = function(key, idx) {
+    hookRenderProfLb();
+    _origOpenProfLb(key, idx);
+  };
+})();
+
+// 그리드 렌더 완료 후 카운터 로드 (renderGrid, appendGrid 후크)
+(function() {
+  var _origRenderGrid = window.renderGrid;
+  if (typeof _origRenderGrid === 'function') {
+    window.renderGrid = function(data) {
+      _origRenderGrid(data);
+      setTimeout(loadAllViewCounts, 300);
+    };
+  }
+  var _origAppendGrid = window.appendGrid;
+  if (typeof _origAppendGrid === 'function') {
+    window.appendGrid = function() {
+      _origAppendGrid();
+      setTimeout(loadAllViewCounts, 300);
+    };
+  }
+})();
+
+// 초기 로드 시 카운터 로드
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(loadAllViewCounts, 500);
+});
+// ─────────────────────────────────────────────────────────────────────────────
 
 </script>
 </body>

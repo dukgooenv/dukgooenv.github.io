@@ -189,20 +189,46 @@
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
   
   .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 1 / 1; }
-  .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s; display: block; }
-  .art-card:hover img { filter: brightness(0.7); }
-  
+  .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s, transform 0.3s; display: block; }
+  .art-card:hover img { filter: brightness(0.5); transform: scale(1.04); }
+
+  /* 상단 날짜 + 카운터 뱃지 - 항상 보임 */
+  .art-top-bar {
+    position: absolute; top: 0; left: 0; width: 100%;
+    padding: 8px 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+    pointer-events: none;
+  }
+  .art-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    color: #c8a84b; letter-spacing: 0.08em;
+  }
+  .art-counter {
+    display: flex; align-items: center; gap: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; font-weight: 600; color: #a0a8b0;
+  }
+  .art-counter-check { color: #c8a84b; font-size: 11px; }
+
+  /* 하단 타이틀 오버레이 - 호버 시 보임 */
   .art-info {
-    position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); opacity: 0; transition: opacity 0.2s;
-    display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 10px 10px 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 60%, transparent);
+    opacity: 0; transition: opacity 0.2s; pointer-events: none;
   }
   .art-card:hover .art-info { opacity: 1; }
-  
-  .art-title { font-size: 15px; font-weight: 700; color: #e7e3d4; margin-bottom: 3px; }
-  .art-author { font-size: 13px; color: #d2ceba; display: flex; align-items: center; gap: 6px; }
-  .author-avatar { width: 18px; height: 18px; border-radius: 8px; background: #555; }
-  .art-likes { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #e7e3d4; font-weight: 600; }
+
+  .art-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 800;
+    color: #e7e3d4; line-height: 1.25;
+    text-transform: uppercase; letter-spacing: 0.02em;
+  }
+  .art-author { display: none; }
+  .art-likes { display: none; }
+  .author-avatar { display: none; }
 
   /* ── 5. FLOATING FILTER ── */
 
@@ -411,11 +437,7 @@
         <div class="banner-hover-video">
           <iframe data-src="https://www.youtube.com/embed/liEb8B3osuY?autoplay=1&mute=1&loop=1&playlist=liEb8B3osuY&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
         </div>
-        <div class="banner-overlay">
-          <div class="banner-badge">PRO PROJECT</div>
-          <div class="banner-title">NCSoft: PROJECT M</div>
-          <div class="banner-sub">Interactive Adventure & High Fidelity Lighting</div>
-        </div>
+        <div class="banner-overlay"></div>
       </div>
 
       <!-- 2. Nexon (Ascendant One) -->
@@ -425,11 +447,7 @@
         <div class="banner-hover-video">
           <iframe data-src="https://www.youtube.com/embed/NOZ51TUyemo?autoplay=1&mute=1&loop=1&playlist=NOZ51TUyemo&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
         </div>
-        <div class="banner-overlay">
-          <div class="banner-badge">PRO PROJECT</div>
-          <div class="banner-title">Nexon: ASCENDANT ONE</div>
-          <div class="banner-sub">Hard Surface Modeling & PBR Texturing</div>
-        </div>
+        <div class="banner-overlay"></div>
       </div>
 
       <!-- 3. Line Games (창세기전) -->
@@ -439,11 +457,7 @@
         <div class="banner-hover-video">
           <iframe data-src="https://www.youtube.com/embed/2zKdRMch0Us?autoplay=1&mute=1&loop=1&playlist=2zKdRMch0Us&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
         </div>
-        <div class="banner-overlay">
-          <div class="banner-badge">PRO PROJECT</div>
-          <div class="banner-title">Line Games: 창세기전 (The War of Genesis)</div>
-          <div class="banner-sub">Level Design & Engine Integration</div>
-        </div>
+        <div class="banner-overlay"></div>
       </div>
 
     </div>
@@ -1270,8 +1284,6 @@ function buildGridHTML(data, startIndex) {
   let html = '';
   data.forEach((p, idx) => {
     let realIdx = startIndex + idx;
-    let likes = Math.floor(Math.random() * 500) + 50;
-    // PRO 카드 중 profProjects에 있는 key는 openProfLb로 연결
     let action;
     if (p.category === 'PRO' && p.type === 'video' && profKeyMap.hasOwnProperty(p.key)) {
       action = `openProfLb('${p.key}')`;
@@ -1281,19 +1293,25 @@ function buildGridHTML(data, startIndex) {
       action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
     }
     let fallback = "this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'";
-    
+
+    // 날짜 추출: key나 thumb 경로에서 YYYYMMDD 패턴
+    let dateStr = '';
+    let dateMatch = (p.key || '').match(/^(\d{4})(\d{2})(\d{2})/) || (p.thumb || '').match(/\/(\d{4})(\d{2})(\d{2})_/);
+    if (dateMatch) {
+      dateStr = `${dateMatch[1]}.${dateMatch[2]}.${dateMatch[3]}`;
+    }
+
+    let counter = realIdx + 1;
+
     html += `
       <div class="art-card" onclick="${action}">
-        <img src="${p.thumb}" onerror="${fallback}">
+        <img src="${p.thumb}" onerror="${fallback}" loading="lazy">
+        <div class="art-top-bar">
+          <span class="art-date">${dateStr}</span>
+          <span class="art-counter"><span class="art-counter-check">✓</span>${counter}</span>
+        </div>
         <div class="art-info">
-          <div>
-            <div class="art-title">${p.title}</div>
-            <div class="art-author"><div class="author-avatar"></div> Jung Daekun</div>
-          </div>
-          <div class="art-likes">
-            
-            ${likes}
-          </div>
+          <div class="art-title">${p.title}</div>
         </div>
       </div>
     `;
@@ -1311,26 +1329,21 @@ function renderGrid(data) {
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
 function appendGrid() {
-  if (currentFilterData.length === 0) return;
-  // 같은 데이터를 다시 셔플해서 생성
-  let moreData = shuffleArray([...currentFilterData]);
+  const source = currentFilterData.length > 0 ? currentFilterData : portfolioData;
+  let moreData = shuffleArray([...source]);
   let startIndex = currentRenderedItems.length;
   currentRenderedItems = currentRenderedItems.concat(moreData);
-  
   const container = document.getElementById('main-grid');
-  // insertAdjacentHTML을 사용하여 성능 최적화 및 렌더링 깜빡임 방지
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
 }
 
 window.showAboutSection = function() {
-  aboutBgLoaded = false; // 매번 새로 로드 허용
+  aboutBgLoaded = false;
   document.getElementById('about-container').style.display = 'block';
   document.getElementById('main-grid').style.display = 'none';
   document.getElementById('personal-works-container').style.display = 'none';
   document.getElementById('grid-title').innerText = 'About';
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
-  const scrollSec = document.querySelector('.scroll-section');
-  if (scrollSec) scrollSec.scrollTop = 0;
   initAboutBgVideo();
 };
 
@@ -1354,9 +1367,6 @@ window.filterData = function(category, btnEl) {
       : portfolioData.filter(p => p.category === category);
     renderGrid(shuffleArray(filtered));
   }
-
-  const scrollSec = document.querySelector('.scroll-section');
-  if (scrollSec) scrollSec.scrollTop = 0;
 }
 
 // 초기 렌더링
@@ -1374,12 +1384,19 @@ if (document.readyState === 'loading') {
   initGrid();
 }
 
-// 스크롤 이벤트 (무한 스크롤)
+// 무한 스크롤 - window 기준으로 감지
+window.addEventListener('scroll', () => {
+  if (document.getElementById('main-grid').style.display === 'none') return;
+  if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 500) {
+    appendGrid();
+  }
+});
+
+// scroll-section 기준도 함께 감지 (레이아웃에 따라)
 const scrollSec = document.querySelector('.scroll-section');
 if (scrollSec) {
   scrollSec.addEventListener('scroll', () => {
-    // 바닥에서 300px 이내로 스크롤이 내려오면 추가 로딩
-    if (scrollSec.scrollTop + scrollSec.clientHeight >= scrollSec.scrollHeight - 300) {
+    if (scrollSec.scrollTop + scrollSec.clientHeight >= scrollSec.scrollHeight - 500) {
       appendGrid();
     }
   });
@@ -1461,12 +1478,7 @@ window.showAbout = function() {
   document.getElementById('main-grid').style.display = 'none';
   document.getElementById('personal-works-container').style.display = 'none';
   document.getElementById('about-container').style.display = 'block';
-  // About 페이지에서 플로팅 필터 숨기기
-  const ff = null; // floating-filter 제거됨
-  if (ff) ff.classList.add('hidden');
   initAboutBgVideo();
-  const scrollSec = document.querySelector('.scroll-section');
-  if (scrollSec) scrollSec.scrollTop = 0;
 };
 
 

@@ -133,62 +133,47 @@
   }
   .channels-bar::-webkit-scrollbar { display: none; }
   
-  /* Channel Pill with Overlapping Icon */
+  /* Channel Pill - 항상 아이콘+텍스트, 호버 시 전체 박스로 감쌈 */
   .channel-pill {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    position: relative;
-    padding: 0;
+    gap: 8px;
+    padding: 5px 12px 5px 5px;
     border: none;
     background: transparent;
+    border-radius: 14px;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.3s;
+    transition: background 0.2s ease;
+    font-size: 13px;
+    font-weight: 600;
+    color: #c8c8c8;
+  }
+  .channel-pill:hover,
+  .channel-pill.active {
+    background: rgba(90, 90, 100, 0.75);
+    color: #ffffff;
   }
   /* 아이콘 */
   .channel-icon-img {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s;
   }
   .channel-icon-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 12px;
     display: block;
   }
-  /* 텍스트 라벨 - 기본 숨김, 호버시 슬라이드 */
+  /* pill-label: 항상 보임 */
   .channel-pill .pill-label {
-    display: flex;
-    align-items: center;
-    height: 36px;
-    padding: 0 14px 0 22px;
-    margin-left: -18px;
-    max-width: 0;
-    overflow: hidden;
-    opacity: 0;
-    background: rgba(60, 60, 70, 0.88);
-    border-radius: 0 20px 20px 0;
     font-size: 13px;
     font-weight: 600;
-    color: #e7e3d4;
-    letter-spacing: 0.02em;
-    position: relative;
-    z-index: 0;
-    transition: max-width 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
-    pointer-events: none;
-  }
-  .channel-pill:hover .pill-label,
-  .channel-pill.active .pill-label {
-    max-width: 160px;
-    opacity: 1;
-    pointer-events: auto;
+    color: inherit;
+    letter-spacing: 0.01em;
   }
   .channel-icon { 
     width: 10px; height: 10px; border-radius: 8px; background: var(--as-blue); 
@@ -456,7 +441,7 @@ body {
 
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
-        <div class="channel-pill active" onclick="filterData('ALL', this)">
+        <div class="channel-pill" onclick="filterData('ALL', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_001.jpg" alt="ALL"></div><span class="pill-label">ALL Portfolio</span>
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
@@ -2083,11 +2068,7 @@ function profLbPrevProject() {
 }
 
 function renderProfLb() {
-  var item = profCurrent.items[profIdx
-  // Designer Category
-  { key:'designer_1', category:'DESIGNER', tag:'DESIGN', title: 'Coming Soon', sub: 'Designer Works', thumb: 'images/Personal/20000101_OldWork/Ferrari_005.webp', type: 'image', src: 'images/Personal/20000101_OldWork/Ferrari_005.webp' },
-
-];
+  var item = profCurrent.items[profIdx];
   var main = document.getElementById('prof-lb-main');
   var prev = main.querySelector('.prof-lb-video-wrap, .prof-lb-img-el');
   if (prev) {

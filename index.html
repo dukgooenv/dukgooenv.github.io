@@ -172,8 +172,8 @@
   @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
   
-  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; }
-  .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s; }
+  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 1 / 1; }
+  .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s; display: block; }
   .art-card:hover img { filter: brightness(0.7); }
   
   .art-info {
@@ -1277,6 +1277,7 @@ function appendGrid() {
 }
 
 window.showAboutSection = function() {
+  aboutBgLoaded = false; // 매번 새로 로드 허용
   document.getElementById('about-container').style.display = 'block';
   document.getElementById('main-grid').style.display = 'none';
   document.getElementById('personal-works-container').style.display = 'none';

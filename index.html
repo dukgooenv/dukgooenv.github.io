@@ -1348,6 +1348,7 @@ window.filterData = function(category, btnEl, isFloating = false) {
 
 // 초기 렌더링 시 전체 데이터를 랜덤으로 섞어서 뿌림
 renderGrid(shuffleArray([...portfolioData]));
+document.getElementById("main-grid").style.display = "grid";
 
 // 스크롤 이벤트 (무한 스크롤)
 const scrollSec = document.querySelector('.scroll-section');

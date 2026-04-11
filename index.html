@@ -4,24 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --as-bg: #121212;
-    --as-nav: #181818;
-    --as-panel: #202020;
-    --as-blue: #199cff;
-    --as-blue-hover: #007add;
-    --as-text: #e0e0e0;
-    --as-text-muted: #999999;
-    --as-border: #333333;
+    --as-bg: #0d0d0f;
+    --as-nav: #111115;
+    --as-panel: #16161a;
+    --as-blue: #7c6af7;
+    --as-blue-hover: #6355d4;
+    --as-accent: #7c6af7;
+    --as-accent2: #9f8fff;
+    --as-text: #d8d8e8;
+    --as-text-muted: #7070a0;
+    --as-border: #26263a;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-head: 'Syne', sans-serif;
   }
-  
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background-color: var(--as-bg);
     color: var(--as-text);
-    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -30,7 +34,7 @@
   
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track { background: var(--as-bg); }
-  ::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+  ::-webkit-scrollbar-thumb { background: #32324a; border-radius: 5px; }
   ::-webkit-scrollbar-thumb:hover { background: #666; }
 
   /* ── 1. TOP NAV BAR ── */
@@ -56,7 +60,7 @@
   .nav-links a:hover { color: #fff; }
   
   .search-bar {
-    display: flex; align-items: center; background: #2a2a2a; border: 1px solid #333;
+    display: flex; align-items: center; background: #2a2a2a; border: 1px solid #26263a;
     border-radius: 20px; padding: 6px 15px; width: 300px; transition: border-color 0.2s;
   }
   .search-bar:focus-within { border-color: var(--as-text-muted); }
@@ -82,7 +86,7 @@
   }
   .scroll-section::-webkit-scrollbar { width: 10px; }
   .scroll-section::-webkit-scrollbar-track { background: var(--as-bg); }
-  .scroll-section::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+  .scroll-section::-webkit-scrollbar-thumb { background: #32324a; border-radius: 5px; }
   .scroll-section::-webkit-scrollbar-thumb:hover { background: #666; }
 
   /* ── 2. MAIN CONTAINER & BANNERS ── */
@@ -95,7 +99,7 @@
     flex: 1; height: 300px;
     border-radius: 8px; overflow: hidden;
     position: relative; cursor: pointer;
-    background: #222;
+    background: #14141c;
   }
   
   .banner-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, opacity 0.4s; }
@@ -129,8 +133,8 @@
     padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--as-text);
     cursor: pointer; white-space: nowrap; transition: all 0.2s;
   }
-  .channel-pill:hover, .channel-pill.active { background: #333; color: #fff; border-color: #555; }
-  .channel-icon { width: 20px; height: 20px; border-radius: 50%; background: #444; object-fit: cover; }
+  .channel-pill:hover, .channel-pill.active { background: #26263a; color: #fff; border-color: #555; }
+  .channel-icon { width: 20px; height: 20px; border-radius: 50%; background: #32324a; object-fit: cover; }
 
   /* ── 4. MAIN GRID ── */
   .section-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 20px; letter-spacing: -0.5px; }
@@ -183,13 +187,13 @@
   .pw-banner-card:hover .pw-banner-img { transform: scale(1.06); }
   .pw-banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.18) 55%, transparent 100%); }
   .pw-banner-info { position: absolute; bottom: 18px; left: 20px; right: 20px; }
-  .pw-banner-cat { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #a8893f; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 5px; }
+  .pw-banner-cat { font-family: var(--font-mono); font-size: 10px; color: #7c6af7; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 5px; }
   .pw-banner-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -.3px; line-height: 1.2; }
-  .pw-banner-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; font-family: 'Share Tech Mono', monospace; }
+  .pw-banner-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 4px; font-family: var(--font-mono); }
 
   /* 서브 필터 탭 */
   .pw-filter-bar { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; }
-  .pw-tab { background: #1e1e1e; border: 1px solid #333; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
+  .pw-tab { background: #14141c; border: 1px solid #26263a; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
   .pw-tab:hover { color: #fff; border-color: #555; }
   .pw-tab.active { background: #fff; color: #111; border-color: #fff; }
 
@@ -199,23 +203,23 @@
   @media(max-width: 750px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width: 480px) { .pw-project-grid { grid-template-columns: 1fr; } }
   .pw-card { background: var(--as-panel); border: 1px solid var(--as-border); cursor: pointer; transition: border-color .2s, transform .2s; border-radius: 8px; overflow: hidden; }
-  .pw-card:hover { border-color: #a8893f; transform: translateY(-3px); }
+  .pw-card:hover { border-color: #7c6af7; transform: translateY(-3px); }
   .pw-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
   .pw-card:hover .pw-thumb { transform: scale(1.05); }
-  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: 'Share Tech Mono', monospace; font-size: 10px; background: rgba(8,8,8,.85); border: 1px solid #a8893f; color: #a8893f; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
+  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 10px; background: rgba(8,8,18,.9); border: 1px solid #7c6af7; color: #7c6af7; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
   .pw-card:hover .pw-count-badge { opacity: 0; }
   .pw-open-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .pw-open-hint-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c8a84b; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(200,168,75,.4); }
+  .pw-open-hint-label { font-family: var(--font-mono); font-size: 11px; color: #9f8fff; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(124,106,247,.4); }
   .pw-card:hover .pw-open-hint { opacity: 1; }
-  .pw-hover-overlay { position: absolute; inset: 0; background: rgba(8,8,8,.5); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
+  .pw-hover-overlay { position: absolute; inset: 0; background: rgba(8,8,18,.6); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
   .pw-card:hover .pw-hover-overlay { opacity: 1; }
-  .pw-hover-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #a8893f; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
+  .pw-hover-sub { font-family: var(--font-mono); font-size: 10px; color: #7c6af7; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
   .pw-hover-title { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
   .pw-card:hover .pw-hover-sub, .pw-card:hover .pw-hover-title { transform: translateX(0); opacity: 1; }
   /* 그리드 섹션 타이틀 */
-  .pw-grid-section-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #222; }
-  .pw-empty-msg { color: #555; font-family: 'Share Tech Mono', monospace; font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
+  .pw-grid-section-title { font-family: var(--font-mono); font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #14141c; }
+  .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
   /* PERSONAL WORKS LIGHTBOX */
   #pw-lb { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0,0,0,.97); flex-direction: column; }
@@ -223,20 +227,20 @@
   .pw-lb-wrap { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
   .pw-lb-img { display: block; max-width: 96vw; max-height: 92vh; object-fit: contain; transition: opacity .18s ease; cursor: zoom-in; }
   .pw-lb-img.zoomed { cursor: zoom-out; }
-  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(8,10,13,.7); border: 1px solid #333; color: #aaa; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
-  .pw-lb-close:hover { border-color: #a8893f; color: #a8893f; }
-  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(8,10,13,.7); border: 1px solid #333; color: #aaa; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
+  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(8,8,18,.75); border: 1px solid #26263a; color: #aaa; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
+  .pw-lb-close:hover { border-color: #7c6af7; color: #7c6af7; }
+  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(8,8,18,.75); border: 1px solid #26263a; color: #aaa; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
   .pw-lb-nav-prev { left: 16px; }
   .pw-lb-nav-next { right: 16px; }
-  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #a8893f; color: #a8893f; }
+  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #7c6af7; color: #7c6af7; }
   .pw-lb-overlay-info { position: absolute; top: 0; left: 0; right: 0; padding: 20px 28px; pointer-events: none; z-index: 3; }
-  .pw-lb-overlay-id { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #a8893f; letter-spacing: .15em; margin-bottom: 5px; }
+  .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 12px; color: #7c6af7; letter-spacing: .15em; margin-bottom: 5px; }
   .pw-lb-overlay-title { font-size: 18px; font-weight: 600; color: #dde0e8; letter-spacing: .06em; text-transform: uppercase; }
-  .pw-lb-counter { position: absolute; top: 18px; right: 66px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #888; z-index: 4; line-height: 36px; }
-  .pw-lb-zoom-badge { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: 'Share Tech Mono', monospace; font-size: 11px; padding: 4px 14px; background: rgba(8,10,13,.85); border: 1px solid #a8893f; color: #a8893f; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
+  .pw-lb-counter { position: absolute; top: 18px; right: 66px; font-family: var(--font-mono); font-size: 11px; color: #888; z-index: 4; line-height: 36px; }
+  .pw-lb-zoom-badge { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(8,8,18,.9); border: 1px solid #7c6af7; color: #7c6af7; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
   .pw-lb-zoom-badge.visible { opacity: 1; }
   .pw-lb-hud { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; align-items: center; z-index: 4; pointer-events: none; }
-  .pw-sz-hint { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .08em; }
+  .pw-sz-hint { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .08em; }
   .ff-btn {
     background: transparent; color: var(--as-text-muted); border: none; padding: 10px 24px; border-radius: 25px;
     font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
@@ -249,49 +253,58 @@
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; flex-direction: column;
   }
 
-  /* ── PROF-LB (참고 사이트와 동일한 상세 프로젝트 모달) ── */
+  /* ── PROF-LB ── */
   #prof-lb { display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,.97); flex-direction:column; }
   #prof-lb.active { display:flex; }
   .prof-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
-  .prof-lb-header { display:flex; align-items:center; justify-content:space-between; padding:12px 24px; background:rgba(14,14,14,.95); border-bottom:1px solid #1e2330; flex-shrink:0; }
-  .prof-lb-title-area { display:flex; align-items:center; gap:14px; }
-  .prof-lb-id { font-family:'Share Tech Mono',monospace; font-size:10px; color:#a8893f; letter-spacing:.15em; }
-  .prof-lb-title-text { font-size:16px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#dde0e8; }
-  .prof-lb-controls { display:flex; align-items:center; gap:16px; }
-  .prof-lb-counter { font-family:'Share Tech Mono',monospace; font-size:12px; color:#9aa0b0; }
-  .prof-lb-btn { background:none; border:1px solid #1e2330; color:#9aa0b0; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .prof-lb-btn:hover { border-color:rgba(200,168,75,0.25); color:#d4b355; }
+  /* 헤더: 좌측 정보 + 우측 컨트롤 */
+  .prof-lb-header { display:flex; align-items:flex-start; justify-content:space-between; padding:16px 28px 14px; background:rgba(10,10,16,.98); border-bottom:1px solid #21213a; flex-shrink:0; gap:20px; }
+  .prof-lb-title-area { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  /* PROJ_015 · 2021—2024 */
+  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#7c6af7; letter-spacing:.2em; text-transform:uppercase; }
+  /* NCSOFT 대제목 */
+  .prof-lb-title-text { font-family:var(--font-head); font-size:22px; font-weight:700; color:#ffffff; letter-spacing:-.3px; line-height:1.1; margin-top:2px; }
+  /* Project M / Interactive Adventure · Alpha / PlayStation 5 */
+  .prof-lb-sub-text { font-family:var(--font-mono); font-size:11px; color:#9f8fff; letter-spacing:.05em; margin-top:2px; }
+  /* 태그 배지 행 */
+  .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#9aa0b0; border:1px solid #26263a; padding:3px 10px; letter-spacing:.08em; background:rgba(124,106,247,.06); white-space:nowrap; }
+  .prof-lb-tag.dev { color:#9f8fff; border-color:rgba(124,106,247,.35); background:rgba(124,106,247,.1); }
+  .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; padding-top:4px; }
+  .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
+  .prof-lb-btn { background:none; border:1px solid #21213a; color:#9aa0b0; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .prof-lb-btn:hover { border-color:rgba(124,106,247,0.3); color:#9f8fff; }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
   .prof-lb-video-wrap iframe { width:min(100%,calc(100vh*16/9)); height:min(100%,calc(100vw*9/16)); max-width:96vw; max-height:92vh; border:0; }
   .prof-lb-wheel-overlay { position:absolute; inset:0; z-index:1; background:transparent; cursor:default; }
   .prof-lb-img-el { display:block; max-width:96vw; max-height:92vh; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; }
-  .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(8,10,13,.7); border:1px solid #1e2330; color:#9aa0b0; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
+  .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(8,8,18,.75); border:1px solid #21213a; color:#9aa0b0; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .prof-lb-nav-prev { left:16px; }
   .prof-lb-nav-next { right:16px; }
-  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(200,168,75,0.25); color:#d4b355; }
+  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(124,106,247,0.3); color:#9f8fff; }
   .prof-lb-dots { position:absolute; bottom:16px; right:20px; display:flex; flex-direction:column; gap:4px; z-index:2; }
-  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(200,168,75,0.25); cursor:pointer; transition:all .2s; }
-  .prof-lb-dot.active { background:#d4b355; transform:scale(1.4); }
-  .prof-lb-type-badge { position:absolute; top:16px; right:20px; font-family:'Share Tech Mono',monospace; font-size:10px; padding:4px 10px; background:rgba(8,10,13,.75); border:1px solid rgba(200,168,75,0.25); color:#d4b355; letter-spacing:.12em; z-index:4; }
+  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(124,106,247,0.3); cursor:pointer; transition:all .2s; }
+  .prof-lb-dot.active { background:#9f8fff; transform:scale(1.4); }
+  .prof-lb-type-badge { position:absolute; top:16px; right:20px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(8,8,18,.8); border:1px solid rgba(124,106,247,0.3); color:#9f8fff; letter-spacing:.12em; z-index:4; }
   .prof-lb-hud { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
-  .prof-lb-hud .sz-hint { font-family:'Share Tech Mono',monospace; font-size:11px; color:rgba(200,168,75,0.5); display:flex; align-items:center; gap:6px; }
-  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:'Share Tech Mono',monospace; font-size:11px; padding:4px 12px; background:rgba(8,10,13,.85); border:1px solid rgba(200,168,75,0.25); color:#d4b355; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(124,106,247,0.5); display:flex; align-items:center; gap:6px; }
+  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(8,8,18,.9); border:1px solid rgba(124,106,247,0.3); color:#9f8fff; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
-  .prof-lb-thumbs { display:flex; gap:6px; padding:10px 16px; background:rgba(8,10,13,.95); border-top:1px solid #1e2330; overflow-x:auto; flex-shrink:0; min-height:68px; align-items:center; }
+  .prof-lb-thumbs { display:flex; gap:6px; padding:10px 16px; background:rgba(8,10,13,.95); border-top:1px solid #21213a; overflow-x:auto; flex-shrink:0; min-height:68px; align-items:center; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
   .prof-lb-thumbs::-webkit-scrollbar { height:4px; }
-  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(200,168,75,0.25); border-radius:2px; }
-  .prof-lb-thumb-item { flex-shrink:0; width:96px; height:54px; border:1px solid #1e2330; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
-  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#d4b355; }
+  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(124,106,247,0.3); border-radius:2px; }
+  .prof-lb-thumb-item { flex-shrink:0; width:96px; height:54px; border:1px solid #21213a; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
+  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#9f8fff; }
   .prof-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
-  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#d4b355; }
+  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#9f8fff; }
   #lightbox.active { display: flex; }
   .lb-header {
-    display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 1px solid #222;
+    display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 1px solid #14141c;
   }
   .lb-header-info { display: flex; align-items: center; gap: 7px; }
-  .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: #333; }
+  .lb-avatar { width: 40px; height: 40px; border-radius: 50%; background: #26263a; }
   .lb-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 2px; }
   .lb-author { font-size: 14px; color: var(--as-blue); cursor: pointer; }
   .lb-close { background: none; border: none; color: #888; font-size: 30px; cursor: pointer; }
@@ -336,7 +349,7 @@ body {
     backdrop-filter: blur(10px) !important;
     padding: 15px 0 !important;
     margin-bottom: 20px !important;
-    border-bottom: 1px solid #222 !important;
+    border-bottom: 1px solid #14141c !important;
 }
 
 </style>
@@ -402,19 +415,19 @@ body {
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
         <div class="channel-pill active" onclick="filterData('ALL', this)">
-          <div class="channel-icon" style="background:#555;"></div> ALL Portfolio
+          <div class="channel-icon" style="background:#32324a;"></div> ALL Portfolio
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
-          <div class="channel-icon" style="background:#199cff;"></div> Professional
+          <div class="channel-icon" style="background:#7c6af7;"></div> Professional
         </div>
         <div class="channel-pill" onclick="filterData('PERSONAL', this)">
-          <div class="channel-icon" style="background:#ff3366;"></div> Personal Works
+          <div class="channel-icon" style="background:#e05599;"></div> Personal Works
         </div>
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
-          <div class="channel-icon" style="background:#ffcc00;"></div> Re:Lighting
+          <div class="channel-icon" style="background:#7c6af7;"></div> Re:Lighting
         </div>
         <div class="channel-pill" onclick="filterData('SKETCH', this)">
-          <div class="channel-icon" style="background:#9933ff;"></div> Sketch Note
+          <div class="channel-icon" style="background:#9f8fff;"></div> Sketch Note
         </div>
       </div>
       
@@ -451,8 +464,8 @@ body {
         <div style="position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; padding: 40px 0 20px 0;">
           <!-- Left: Bio -->
           <div>
-            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #fff; letter-spacing: -1px; font-family: 'Inter', sans-serif; font-style: normal;">DukGoo</h1>
-            <h3 style="color: var(--as-blue); margin-bottom: 30px; font-family: var(--font-mono); font-size: 16px; font-style: normal; letter-spacing: 1px;">// Senior Environment Artist</h3>
+            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #fff; letter-spacing: -1px; font-family: var(--font-head); font-style: normal;">DukGoo</h1>
+            <h3 style="color: var(--as-accent); margin-bottom: 30px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 1px;">// Senior Environment Artist</h3>
             
             <p style="color: #bbb; line-height: 1.8; margin-bottom: 20px; font-size: 15px;">
               15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
@@ -462,7 +475,7 @@ body {
               I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
             </p>
 
-            <h4 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: 'Inter', sans-serif;">Skills & Expertise</h4>
+            <h4 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #26263a; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head);">Skills & Expertise</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
               <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
               <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
@@ -473,31 +486,53 @@ body {
           </div>
 
           <!-- Right: Career Timeline -->
-          <div>
-            <h2 style="font-size: 24px; color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 30px; font-family: 'Inter', sans-serif; font-style: normal; text-transform: none;">Professional Experience</h2>
-            
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid var(--as-blue); border-radius: 4px; cursor: pointer; transition: background 0.3s;" onmouseover="this.style.background='#222'" onmouseout="this.style.background='#1a1a1a'" onclick="openProfLb('ncsoft')">
-              <div style="color: var(--as-blue); font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2021 — 2024</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">NCSoft <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS 36</span></div>
-              <div style="font-size: 15px; color: #aaa;">Project M / Senior Environment Artist</div>
-            </div>
-            
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; cursor: pointer; transition: background 0.3s, border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)';this.style.background='#222'" onmouseout="this.style.borderColor='#444';this.style.background='#1a1a1a'" onclick="openProfLb('changse')">
-              <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2018 — 2020</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">Line Games <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS</span></div>
-              <div style="font-size: 15px; color: #aaa;">창세기전: 회색의 잔영 / Lead Environment Artist</div>
+          <div style="max-width: 520px;">
+            <h2 style="font-size: 11px; color: var(--as-accent); font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #21213a;">// Professional Experience</h2>
+
+            <!-- NCSoft -->
+            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('ncsoft')">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_015 · 2021—2024</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">NCSoft</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #9f8fff; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #9f8fff; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Project M</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #9f8fff; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : NCSoft</span>
+              </div>
             </div>
 
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; cursor: pointer; transition: background 0.3s, border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)';this.style.background='#222'" onmouseout="this.style.borderColor='#444';this.style.background='#1a1a1a'" onclick="openProfLb('nexon')">
-              <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2017 — 2018</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">Nexon Korea <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS</span></div>
-              <div style="font-size: 15px; color: #aaa;">Ascendant One / Senior Environment Artist</div>
+            <!-- Line Games -->
+            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('changse')">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_014 · 2018—2020</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Line Games</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #9f8fff; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Lighting · Outsourcing · Feedback</div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #9f8fff; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Line Games</span>
+              </div>
             </div>
 
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; cursor: pointer; transition: background 0.3s, border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)';this.style.background='#222'" onmouseout="this.style.borderColor='#444';this.style.background='#1a1a1a'" onclick="openProfLb('xlgames')">
-              <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2017</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">XLGames <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS</span></div>
-              <div style="font-size: 15px; color: #aaa;">Civilization Online / Senior Environment Artist</div>
+            <!-- Nexon Korea -->
+            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('nexon')">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_013 · 2017—2018</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">Nexon Korea</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #9f8fff; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · PC Online / Alpha</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Hard Surface Modeling · PBR Texturing · Integration</div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #9f8fff; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Nexon Korea</span>
+              </div>
+            </div>
+
+            <!-- XLGames -->
+            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('xlgames')">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_012 · 2017</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;">XLGames</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #9f8fff; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · PC Online / Open Beta</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Shader · Lighting · Optimization</div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #9f8fff; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : XLGames</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #9f8fff; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : 2K</span>
+              </div>
             </div>
           </div>
         </div>
@@ -570,6 +605,8 @@ body {
         <div class="prof-lb-title-area">
           <span class="prof-lb-id" id="prof-lb-id"></span>
           <span class="prof-lb-title-text" id="prof-lb-title-text"></span>
+          <span class="prof-lb-sub-text" id="prof-lb-sub-text"></span>
+          <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
         </div>
         <div class="prof-lb-controls">
           <span class="prof-lb-counter" id="prof-lb-counter"></span>
@@ -628,7 +665,7 @@ body {
   <div id="lightbox" style="display:none; position:fixed; inset:0; background:#0e0e0e; z-index:4000; overflow-y:auto;">
     
     <!-- Header -->
-    <div style="position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(18,18,18,0.95); border-bottom:1px solid #333; z-index:4010; backdrop-filter:blur(10px);">
+    <div style="position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(18,18,18,0.95); border-bottom:1px solid #26263a; z-index:4010; backdrop-filter:blur(10px);">
       <div style="display:flex; align-items:center; gap:15px;">
         <div style="width:40px; height:40px; border-radius:50%; background:var(--as-blue); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px;">JD</div>
         <div>
@@ -650,19 +687,19 @@ body {
       </div>
 
       <!-- Description Area -->
-      <div style="display:flex; gap:40px; border-top:1px solid #333; padding-top:40px;">
+      <div style="display:flex; gap:40px; border-top:1px solid #26263a; padding-top:40px;">
         <div style="flex:2;">
           <h2 style="font-size:28px; font-family:'Oswald', sans-serif; color:#fff; margin-bottom:15px;" id="lb-sub-title">Project Details</h2>
           <p id="lb-desc" style="font-size:16px; color:#ccc; line-height:1.8; font-family:'Noto Sans KR', sans-serif;">
             프로젝트에 대한 상세 설명이 들어가는 공간입니다.
           </p>
         </div>
-        <div style="flex:1; background:#1a1a1a; padding:25px; border-radius:8px;">
+        <div style="flex:1; background:#0f0f18; padding:25px; border-radius:8px;">
           <h3 style="font-size:16px; color:#888; text-transform:uppercase; margin-bottom:15px; letter-spacing:1px;">Software Used</h3>
           <div id="lb-software" style="display:flex; flex-wrap:wrap; gap:10px;">
-            <span style="background:#333; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Unreal Engine</span>
-            <span style="background:#333; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">3ds Max</span>
-            <span style="background:#333; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Substance</span>
+            <span style="background:#26263a; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Unreal Engine</span>
+            <span style="background:#26263a; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">3ds Max</span>
+            <span style="background:#26263a; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:bold;">Substance</span>
           </div>
         </div>
       </div>
@@ -678,13 +715,13 @@ body {
 <script>
 const portfolioData = [
 
-  { key:'lionheart', category:'PRO', tag:'ENV', title: 'ODIN: VALHALLA RISING', sub: 'Lionheart Studio', thumb: 'https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg', type:'video', id:'tvAcoxRube0' },
+  { key:'lionheart', category:'PRO', tag:'ENV', title: 'Lionheart Studio', sub: 'Lionheart Studio', thumb: 'https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg', type:'video', id:'tvAcoxRube0' },
   { key:'ncsoft', category:'PRO', tag:'ENV', title: 'Project M', sub: 'NCSoft', thumb: 'https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg', type:'video', id:'liEb8B3osuY' },
   { key:'changse', category:'PRO', tag:'ENV', title: '창세기전: 회색의 잔영', sub: 'Line Games', thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg', type:'video', id:'2zKdRMch0Us' },
   { key:'nexon', category:'PRO', tag:'HARD', title: 'Ascendant One', sub: 'Nexon Korea', thumb: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp', type:'video', id:'NOZ51TUyemo' },
   { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp', type:'video', id:'behf7twp1bo' },
-  { key:'neptune', category:'PRO', tag:'ENV', title: 'Neppy Rush', sub: 'Neptune', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg', type:'video', id:'k4VzC93T00g' },
-  { key:'puregames', category:'PRO', tag:'ENV', title: 'Vendetta', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
+  { key:'neptune', category:'PRO', tag:'ENV', title: 'Neptune', sub: 'Neptune', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg', type:'video', id:'k4VzC93T00g' },
+  { key:'puregames', category:'PRO', tag:'ENV', title: 'Pure Games', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
   { key:'hideout', category:'PERSONAL', tag:'ENV', title: 'The Urban Hideout', sub: 'V-Ray Scene', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp', type:'video', id: 'mcTm2DmXd3Y' },
 
   { key: '2011_PPSH41_006.webp', category: 'PERSONAL', tag: 'ENV', title: '2011 PPSH41 006', sub: 'PERSONAL', thumb: 'images/Personal/20111008_PPSh-41/2011_PPSH41_006.webp', type: 'image', src: 'images/Personal/20111008_PPSh-41/2011_PPSH41_006.webp' },
@@ -1659,19 +1696,19 @@ document.addEventListener('keydown', function(e) {
 
 var profProjects = {
   'lionheart': {
-    id: '// PROFESSIONAL · LIONHEART STUDIO · 2025—',
-    title: 'ODIN: VALHALLA RISING',
-    sub: 'MMORPG / Mobile · PC / Live Service',
+    id: 'PROJ_016 · 2025—',
+    title: 'Lionheart Studio',
+    sub: 'ODIN: Valhalla Rising / MMORPG · Mobile · PC / Live Service',
     tags: ['Level Design · Integration · Optimization', 'Developer : Lionheart Studio', 'Publisher : Kakao Games'],
     items: [
       { type: 'video', videoId: 'tvAcoxRube0' }
     ]
   },
   'ncsoft': {
-    id: '// PROFESSIONAL · NCSOFT · 2021—2024',
-    title: 'Project M',
-    sub: 'Interactive Adventure / Console / Alpha Version',
-    tags: ['3D Environment Integration Art', 'Developer : Project M', 'Publisher : NCSOFT'],
+    id: 'PROJ_015 · 2021—2024',
+    title: 'NCSoft',
+    sub: 'Project M / Interactive Adventure · Alpha / PlayStation 5',
+    tags: ['Integration · Lighting · Tech Doc · Outsourcing · Feedback', 'Developer : Project M', 'Publisher : NCSoft'],
     items: [
       { type: 'video', videoId: 'bDXLAaqR_Yg' },
       { type: 'video', videoId: 'aMYvommxKiw' },
@@ -1714,19 +1751,19 @@ var profProjects = {
     ]
   },
   'changse': {
-    id: '// PROFESSIONAL · LINE GAMES · 2018—2020',
-    title: '창세기전: 회색의 잔영',
-    sub: 'SRPG / Nintendo Switch / Alpha Version',
-    tags: ['Level Design · Lighting · Outsourcing', 'Developer : Line Games'],
+    id: 'PROJ_014 · 2018—2020',
+    title: 'Line Games',
+    sub: '창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha',
+    tags: ['Level Design · Lighting · Outsourcing · Feedback', 'Developer : Line Games'],
     items: [
       { type: 'video', videoId: '2zKdRMch0Us' }
     ]
   },
   'nexon': {
-    id: '// PROFESSIONAL · NEXON KOREA · 2017—2018',
-    title: 'Ascendant One',
-    sub: 'MOBA / PC Online / Alpha Version',
-    tags: ['Hard Surface Modeling · PBR Texturing', 'Developer : Nexon Korea'],
+    id: 'PROJ_013 · 2017—2018',
+    title: 'Nexon Korea',
+    sub: 'Ascendant One / MOBA · PC Online / Alpha',
+    tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'Developer : Nexon Korea'],
     items: [
       { type: 'video', videoId: 'NOZ51TUyemo' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp' },
@@ -1777,10 +1814,10 @@ var profProjects = {
     ]
   },
   'xlgames': {
-    id: '// PROFESSIONAL · XLGAMES · 2017',
-    title: 'Civilization Online',
-    sub: 'MMORPG / PC Online / Open Beta',
-    tags: ['Level Design', 'Shader', 'Lighting', 'Developer : XLGAMES', 'Publisher : 2K'],
+    id: 'PROJ_012 · 2017',
+    title: 'XLGames',
+    sub: 'Civilization Online / MMORPG · PC Online / Open Beta',
+    tags: ['Level Design · Shader · Lighting · Optimization', 'Developer : XLGames', 'Publisher : 2K'],
     items: [
       { type: 'video', videoId: 'behf7twp1bo', start: 30 },
       { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp' },
@@ -1841,9 +1878,9 @@ var profProjects = {
     ]
   },
   'neptune': {
-    id: '// PROFESSIONAL · NEPTUNE · 2015—2016',
-    title: 'Neppy Rush',
-    sub: 'Neppy Rush · Defence / Mobile / Alpha Version',
+    id: 'PROJ_011 · 2015—2016',
+    title: 'Neptune',
+    sub: 'Neppy Rush / Tower Defence · Mobile / Alpha',
     tags: ['Level Design', 'Shader', 'Lighting', 'Modeling', 'Textures'],
     items: [
       { type: 'video', videoId: 'k4VzC93T00g' },
@@ -1871,9 +1908,9 @@ var profProjects = {
     ]
   },
   'puregames': {
-    id: '// PROFESSIONAL · PURE GAMES · 2014—2015',
-    title: 'Vendetta',
-    sub: 'Vendetta · MORPG / Mobile / Service',
+    id: 'PROJ_010 · 2014—2015',
+    title: 'Pure Games',
+    sub: 'Vendetta / MORPG · Mobile / Service',
     tags: ['Art Direction', 'Character & Background Creation', 'Developer : Pure Games'],
     items: [
       { type: 'video', videoId: 'UjtP1k8C5yw' },
@@ -1902,9 +1939,9 @@ var profProjects = {
     ]
   },
   'cookapps': {
-    id: '// PROFESSIONAL · COOKAPPS · OUTSOURCING · 2019—2020',
+    id: 'PROJ_009 · 2019—2020',
     title: 'CookApps',
-    sub: 'Outsourcing / SNG / Mobile',
+    sub: 'Outsourcing / SNG · Mobile',
     tags: ['Modeling', 'Textures', 'Shader', 'Vray Lighting', 'Developer : CookApps'],
     items: [
       { type: 'image', src: 'images/Professional/2020_Cookapps/Cookapps_01.gif' },
@@ -1932,6 +1969,17 @@ window.openProfLb = function(key, idx) {
   profIdx = idx || 0;
   document.getElementById('prof-lb-id').textContent = profCurrent.id;
   document.getElementById('prof-lb-title-text').textContent = profCurrent.title;
+  // sub 텍스트
+  var subEl = document.getElementById('prof-lb-sub-text');
+  if (subEl) subEl.textContent = profCurrent.sub || '';
+  // tags 배지
+  var tagsRow = document.getElementById('prof-lb-tags-row');
+  if (tagsRow && profCurrent.tags) {
+    tagsRow.innerHTML = profCurrent.tags.map(function(t, i) {
+      var isDev = t.toLowerCase().indexOf('developer') !== -1 || t.toLowerCase().indexOf('publisher') !== -1;
+      return '<span class="prof-lb-tag' + (isDev ? ' dev' : '') + '">' + t + '</span>';
+    }).join('');
+  }
   renderProfLb();
   document.getElementById('prof-lb').classList.add('active');
   document.body.style.overflow = 'hidden';

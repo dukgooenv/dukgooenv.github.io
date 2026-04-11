@@ -1334,50 +1334,27 @@ window.showAboutSection = function() {
   initAboutBgVideo();
 };
 
-window.filterData = function(category, btnEl, isFloating = false) {
-  document.getElementById('about-container').style.display = 'none';
+window.filterData = function(category, btnEl) {
+  // 컨테이너 전환
+  document.getElementById('about-container').style.display = category === 'ABOUT' ? 'block' : 'none';
+  document.getElementById('main-grid').style.display = category === 'ABOUT' ? 'none' : 'grid';
+  document.getElementById('personal-works-container').style.display = 'none';
 
-  const ff = null; // floating-filter 제거됨
+  if (category === 'ABOUT') { initAboutBgVideo(); }
 
-  if (category === 'ABOUT') {
-    // About 페이지 표시
-    document.getElementById('main-grid').style.display = 'none';
-    document.getElementById('personal-works-container').style.display = 'none';
-    document.getElementById('about-container').style.display = 'block';
-    if (ff) ff.classList.add('hidden');
-    initAboutBgVideo();
-  } else {
-    // 모든 카테고리: main-grid 표시, 나머지 숨김
-    document.getElementById('main-grid').style.display = 'grid';
-    document.getElementById('personal-works-container').style.display = 'none';
-    document.getElementById('about-container').style.display = 'none';
-    if (ff) ff.classList.remove('hidden');
-  }
-
-  if (isFloating) {
-    document.querySelectorAll('.ff-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.channel-pill')[0].classList.add('active');
-    document.getElementById('grid-title').innerText = btnEl.innerText;
-  } else {
-    document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.ff-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.ff-btn')[0].classList.add('active');
-    document.getElementById('grid-title').innerText = btnEl.innerText.trim();
-  }
+  // 탭 active 상태
+  document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
   btnEl.classList.add('active');
+  document.getElementById('grid-title').innerText = btnEl.innerText.trim();
 
+  // 그리드 렌더링
   if (category !== 'ABOUT') {
-    let filtered = [];
-    if (category === 'ALL') {
-      filtered = [...portfolioData];
-    } else {
-      filtered = portfolioData.filter(p => p.category === category);
-    }
+    const filtered = category === 'ALL'
+      ? [...portfolioData]
+      : portfolioData.filter(p => p.category === category);
     renderGrid(shuffleArray(filtered));
   }
 
-  // 스크롤 맨 위로 초기화
   const scrollSec = document.querySelector('.scroll-section');
   if (scrollSec) scrollSec.scrollTop = 0;
 }

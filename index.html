@@ -361,15 +361,17 @@ body {
       
       
       <!-- ABOUT SECTION -->
-      <div id="about-container" style="display: none; padding: 20px 0 60px 0; animation: fadeIn 0.5s;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px;">
-          <!-- Left: Video & Bio -->
-          <div>
-            <!-- NCSoft Project M Video -->
-            <div style="position: relative; width: 100%; aspect-ratio: 16/9; margin-bottom: 30px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333;">
-              <iframe src="https://www.youtube.com/embed/liEb8B3osuY?autoplay=1&mute=1&loop=1&playlist=liEb8B3osuY&controls=0&rel=0&modestbranding=1" style="width: 100%; height: 100%; border: none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
+      <div id="about-container" style="display: none; padding: 0 0 60px 0; animation: fadeIn 0.5s; position: relative;">
 
+        <!-- 백그라운드 유튜브 영상 (엔씨/넥슨 랜덤) -->
+        <div id="about-bg-video" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: 8px;">
+          <iframe id="about-bg-iframe" style="position: absolute; top: 50%; left: 50%; width: calc(100vh * 16/9 + 200px); height: calc(100vw * 9/16 + 200px); min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); border: none; pointer-events: none; opacity: 0.18; filter: blur(2px);" allow="autoplay; encrypted-media"></iframe>
+          <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.7) 50%, rgba(18,18,18,0.92) 100%);"></div>
+        </div>
+
+        <div style="position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; padding: 40px 0 20px 0;">
+          <!-- Left: Bio -->
+          <div>
             <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #fff; letter-spacing: -1px; font-family: 'Inter', sans-serif; font-style: normal;">DukGoo</h1>
             <h3 style="color: var(--as-blue); margin-bottom: 30px; font-family: var(--font-mono); font-size: 16px; font-style: normal; letter-spacing: 1px;">// Senior Environment Artist</h3>
             
@@ -390,7 +392,7 @@ body {
               <div>▸ CryEngine / Unity</div><div>▸ Technical Optimization</div>
             </div>
           </div>
-          
+
           <!-- Right: Career Timeline -->
           <div>
             <h2 style="font-size: 24px; color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 30px; font-family: 'Inter', sans-serif; font-style: normal; text-transform: none;">Professional Experience</h2>
@@ -401,21 +403,21 @@ body {
               <div style="font-size: 15px; color: #aaa;">Project M / Senior Environment Artist</div>
             </div>
             
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)'" onmouseout="this.style.borderColor='#444'">
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; cursor: pointer; transition: background 0.3s, border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)';this.style.background='#222'" onmouseout="this.style.borderColor='#444';this.style.background='#1a1a1a'" onclick="openProfLb('changse')">
               <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2018 — 2020</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px;">Line Games</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">Line Games <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS</span></div>
               <div style="font-size: 15px; color: #aaa;">창세기전: 회색의 잔영 / Lead Environment Artist</div>
             </div>
-            
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)'" onmouseout="this.style.borderColor='#444'">
+
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; cursor: pointer; transition: background 0.3s, border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)';this.style.background='#222'" onmouseout="this.style.borderColor='#444';this.style.background='#1a1a1a'" onclick="openProfLb('nexon')">
               <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2017 — 2018</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px;">Nexon Korea</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">Nexon Korea <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS</span></div>
               <div style="font-size: 15px; color: #aaa;">Ascendant One / Senior Environment Artist</div>
             </div>
 
-            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)'" onmouseout="this.style.borderColor='#444'">
+            <div style="margin-bottom: 25px; padding: 20px; background: #1a1a1a; border-left: 3px solid #444; border-radius: 4px; cursor: pointer; transition: background 0.3s, border-color 0.3s;" onmouseover="this.style.borderColor='var(--as-blue)';this.style.background='#222'" onmouseout="this.style.borderColor='#444';this.style.background='#1a1a1a'" onclick="openProfLb('xlgames')">
               <div style="color: #888; font-family: var(--font-mono); font-size: 13px; margin-bottom: 5px;">2017</div>
-              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px;">XLGames</div>
+              <div style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">XLGames <span style="font-size:12px; color:#666; font-family:var(--font-mono); border:1px solid #444; padding:2px 8px; border-radius:20px;">VIEW WORKS</span></div>
               <div style="font-size: 15px; color: #aaa;">Civilization Online / Senior Environment Artist</div>
             </div>
           </div>
@@ -1164,11 +1166,32 @@ window.closeLb = function() {
 }
 
 
+// About 배경 비디오 랜덤 재생 (엔씨/넥슨 랜덤)
+var aboutBgVideos = [
+  { id: 'bDXLAaqR_Yg', list: 'bDXLAaqR_Yg' },  // NCSoft Project M 트레일러
+  { id: 'aMYvommxKiw', list: 'aMYvommxKiw' },  // NCSoft Project M 인게임
+  { id: 'NOZ51TUyemo', list: 'NOZ51TUyemo' }   // Nexon Ascendant One
+];
+var aboutBgLoaded = false;
+
+function initAboutBgVideo() {
+  if (aboutBgLoaded) return;
+  aboutBgLoaded = true;
+  var pick = aboutBgVideos[Math.floor(Math.random() * aboutBgVideos.length)];
+  var iframe = document.getElementById('about-bg-iframe');
+  if (iframe) {
+    iframe.src = 'https://www.youtube.com/embed/' + pick.id +
+      '?autoplay=1&mute=1&loop=1&playlist=' + pick.list +
+      '&controls=0&rel=0&modestbranding=1&playsinline=1';
+  }
+}
+
 window.showAbout = function() {
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
   document.getElementById('grid-title').innerText = 'About DukGoo';
   document.getElementById('main-grid').style.display = 'none';
   document.getElementById('about-container').style.display = 'block';
+  initAboutBgVideo();
   const scrollSec = document.querySelector('.scroll-section');
   if (scrollSec) scrollSec.scrollTop = 0;
 };

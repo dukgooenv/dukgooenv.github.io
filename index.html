@@ -1163,9 +1163,15 @@ function buildGridHTML(data, startIndex) {
     let realIdx = startIndex + idx;
     let action;
 
+    // ALL 포트폴리오에서 랜덤 이미지인 경우 원래 키로 액션 연결
+    var origKey = p._origKey || p.key;
+
     if (p.category === 'PRO') {
-      // PRO: profProjects 직접 키 또는 썸네일 키 매핑 우선
-      if (profKeyMap.hasOwnProperty(p.key)) {
+      if (profKeyMap.hasOwnProperty(origKey)) {
+        action = `openProfLb('${origKey}')`;
+      } else if (proThumbKeyMap.hasOwnProperty(origKey)) {
+        action = `openProfLb('${proThumbKeyMap[origKey]}')`;
+      } else if (profKeyMap.hasOwnProperty(p.key)) {
         action = `openProfLb('${p.key}')`;
       } else if (proThumbKeyMap.hasOwnProperty(p.key)) {
         action = `openProfLb('${proThumbKeyMap[p.key]}')`;
@@ -1183,10 +1189,12 @@ function buildGridHTML(data, startIndex) {
         action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
       }
     } else if (p.category === 'PERSONAL' || p.category === 'RELIGHT') {
-      // PERSONAL/RELIGHT: pwProjects 키 매핑 우선, 없으면 폴더 갤러리
-      if (pwProjects.hasOwnProperty(p.key)) {
+      // PERSONAL/RELIGHT: _origKey 우선, 없으면 pwProjects 키 매핑
+      if (pwProjects.hasOwnProperty(origKey)) {
+        action = `openPwLb('${origKey}', 0)`;
+      } else if (pwProjects.hasOwnProperty(p.key)) {
         action = `openPwLb('${p.key}', 0)`;
-      } else if (p.type === 'video' && p.key === 'hideout') {
+      } else if (p.type === 'video' && (p.key === 'hideout' || origKey === 'hideout')) {
         action = `openPwLb('pw-hideout', 0)`;
       } else if (p.src) {
         var folderKey2 = getFolderKey(p.src);
@@ -1241,6 +1249,50 @@ function buildGridHTML(data, startIndex) {
   return html;
 }
 
+// ALL 포트폴리오용 데이터 생성 - 프로젝트당 이미지 1장씩
+function buildAllData() {
+  var result = [];
+
+  // PRO: profProjects에서 썸네일 1장씩 (video는 그대로)
+  portfolioData.filter(function(p) { return p.category === 'PRO'; }).forEach(function(p) {
+    // profProjects에 이미지가 있는 경우 랜덤 1장
+    var profKey = p.key in profKeyMap ? p.key : (proThumbKeyMap[p.key] || null);
+    if (profKey && profProjects[profKey] && profProjects[profKey].items) {
+      var imgItems = profProjects[profKey].items.filter(function(it) { return it.type === 'image'; });
+      if (imgItems.length > 0) {
+        var randItem = imgItems[Math.floor(Math.random() * imgItems.length)];
+        result.push({ key: p.key + '_rand', category: 'PRO', tag: p.tag, title: p.title, sub: p.sub, thumb: randItem.src, type: 'image', src: randItem.src, _origKey: p.key });
+        return;
+      }
+    }
+    result.push(p);
+  });
+
+  // PERSONAL/RELIGHT: pwProjects에서 랜덤 이미지 1장씩
+  portfolioData.filter(function(p) { return p.category === 'PERSONAL' || p.category === 'RELIGHT'; }).forEach(function(p) {
+    var pwKey = p.key;
+    if (!pwProjects[pwKey]) {
+      // folderToPwKey로 찾기
+      var folder = typeof getFolderKey === 'function' && p.src ? getFolderKey(p.src) : null;
+      pwKey = folder ? (folderToPwKey[folder] || null) : null;
+    }
+    if (pwKey && pwProjects[pwKey] && pwProjects[pwKey].images && pwProjects[pwKey].images.length > 0) {
+      var imgs = pwProjects[pwKey].images;
+      var randImg = imgs[Math.floor(Math.random() * imgs.length)];
+      result.push({ key: p.key + '_rand', category: p.category, tag: p.tag, title: p.title, sub: p.sub, thumb: randImg, type: 'image', src: randImg, _origKey: p.key });
+    } else {
+      result.push(p);
+    }
+  });
+
+  // SKETCH, DESIGNER: 그대로
+  portfolioData.filter(function(p) { return p.category === 'SKETCH' || p.category === 'DESIGNER'; }).forEach(function(p) {
+    result.push(p);
+  });
+
+  return shuffleArray(result);
+}
+
 // 필터링된 데이터 전체 렌더링
 function renderGrid(data) {
   currentFilterData = [...data];
@@ -1251,16 +1303,16 @@ function renderGrid(data) {
   var bottomContainer = document.getElementById('main-grid-bottom');
   var sp = document.getElementById('spotlight-section');
 
-  if (isAll && data.length > 24) {
-    // 앞 24장 → top, 나머지 → bottom, 스포트라이트 표시
-    topContainer.innerHTML = buildGridHTML(data.slice(0, 24), 0);
-    bottomContainer.innerHTML = buildGridHTML(data.slice(24), 24);
+  var renderData = isAll ? buildAllData() : data;
+
+  if (isAll && renderData.length > 24) {
+    topContainer.innerHTML = buildGridHTML(renderData.slice(0, 24), 0);
+    bottomContainer.innerHTML = buildGridHTML(renderData.slice(24), 24);
     if (sp) sp.style.display = 'block';
   } else {
-    // ALL 아니거나 데이터 적으면 top에 전부, bottom 비우기, 스포트라이트 숨김
-    topContainer.innerHTML = buildGridHTML(data, 0);
+    topContainer.innerHTML = buildGridHTML(renderData, 0);
     bottomContainer.innerHTML = '';
-    if (sp) sp.style.display = 'none';
+    if (sp) sp.style.display = isAll ? 'block' : 'none';
   }
 }
 
@@ -2335,9 +2387,17 @@ function loadAllViewCounts() {
       counterEl.setAttribute('data-rank', rank);
       counterEl.innerHTML = buildCounterHTML(r.count, rank);
 
-      // 랭크별 그리드 크기 (임시 비활성화)
+      // 랭크별 그리드 크기
       r.card.style.gridColumn = '';
       r.card.style.gridRow = '';
+      if (rank === 1) {
+        r.card.style.gridColumn = 'span 2';
+        r.card.style.gridRow = 'span 2';
+      } else if (rank === 2 || rank === 3) {
+        r.card.style.gridRow = 'span 2';
+      } else if (rank === 4 || rank === 5) {
+        r.card.style.gridColumn = 'span 2';
+      }
     });
   });
 }
@@ -2418,3 +2478,4 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- updated Sun Apr 12 10:06:03 UTC 2026 -->
 <!-- Sun Apr 12 13:08:38 UTC 2026 -->
 <!-- Sun Apr 12 13:15:37 UTC 2026 -->
+<!-- Sun Apr 12 13:22:25 UTC 2026 -->

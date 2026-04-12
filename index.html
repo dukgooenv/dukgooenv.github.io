@@ -490,12 +490,16 @@
   }
   .spotlight-badge {
     font-family: var(--font-mono);
-    font-size: 15px; font-weight: 700;
+    font-size: 13px; font-weight: 700;
     letter-spacing: 0.1em;
-    padding: 3px 12px;
-    border: 2px solid #8fce30;
+    padding: 4px 12px;
+    position: relative;
+    display: inline-block;
+    background: #8fce30;
+  }
+  .spotlight-badge span {
     background: linear-gradient(90deg,
-      #E8232A 0%, #F5C400 25%, #3DBF4B 50%, #1A6BB5 75%, #E8232A 100%
+      #E8232A 0%, #F5C400 33%, #1A6BB5 66%, #E8232A 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -721,7 +725,7 @@
           <!-- 좌측 레이블 -->
           <div style="flex-shrink: 0; width: 400px; padding-top: 6px;">
             <div style="display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px;">
-              <span class="spotlight-badge">SPOTLIGHT</span>
+              <span class="spotlight-badge"><span>SPOTLIGHT</span></span>
             </div>
             <div style="font-family: 'Teko', sans-serif; font-size: 30px; font-weight: 600; color: #e0dfdf; line-height: 1.2; margin-bottom: 10px; white-space: nowrap; letter-spacing: 0.15em; text-transform: uppercase;">Featured Works</div>
             <div style="font-family: 'Noto Sans KR', sans-serif; font-size: 12px; color: #a1a09c; line-height: 1.7; margin-bottom: 4px;">최근 작업과 주요 프로젝트를 모은 섹션입니다.<br>개인 및 상업 프로젝트를 포함합니다.</div>

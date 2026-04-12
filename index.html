@@ -1291,7 +1291,7 @@ window.filterData = function(category, btnEl) {
   document.getElementById('main-grid').style.display = category === 'ABOUT' ? 'none' : 'grid';
   document.getElementById('personal-works-container').style.display = 'none';
   var sp = document.getElementById('spotlight-section');
-  if (sp) sp.style.display = (category === 'ALL') ? 'block' : 'none';
+  if (sp && category !== 'ALL') sp.style.display = 'none';
 
   if (category === 'ABOUT') { initAboutBgVideo(); }
 
@@ -1306,6 +1306,7 @@ window.filterData = function(category, btnEl) {
       ? [...portfolioData]
       : portfolioData.filter(p => p.category === category);
     renderGrid(shuffleArray(filtered));
+    if (category === 'ALL') setTimeout(injectSpotlight, 100);
   }
 }
 

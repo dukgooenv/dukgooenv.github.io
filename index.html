@@ -715,10 +715,10 @@
       <style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>
 
       <!-- MAIN GRID -->
-      <div class="art-grid" id="main-grid" style="padding: 0 20px; min-height: 100vh;"></div>
+      <div class="art-grid" id="main-grid-top" style="padding: 0 20px;"></div>
 
       <!-- SPOTLIGHT SECTION -->
-      <div id="spotlight-section" style="margin: 0; padding: 20px 10px 18px; background: #1c1c20; border: none; display: none; grid-column: 1 / -1; width: 100%">
+      <div id="spotlight-section" style="margin: 0; padding: 20px 10px 18px; background: #1c1c20; border: none; display: none; width: 100%">
         <div style="display: flex; align-items: flex-start; gap: 40px;">
           <!-- 좌측 세로 라인 -->
           <div style="flex-shrink: 0; width: 3px; background: #b8ff3a; align-self: stretch; min-height: 100%;"></div>
@@ -794,6 +794,9 @@
         .spotlight-card:hover { border-color: #8fce30 !important; }
         .spotlight-card:hover img { transform: scale(1.04); }
       </style>
+
+      <!-- MAIN GRID BOTTOM (스포트라이트 이후) -->
+      <div class="art-grid" id="main-grid-bottom" style="padding: 0 20px; min-height: 50vh;"></div>
 
       <!-- PERSONAL WORKS SECTION -->
       <div id="personal-works-container">
@@ -1244,8 +1247,23 @@ function buildGridHTML(data, startIndex) {
 function renderGrid(data) {
   currentFilterData = [...data];
   currentRenderedItems = [...data];
-  const container = document.getElementById('main-grid');
-  container.innerHTML = buildGridHTML(currentRenderedItems, 0);
+
+  var isAll = data.length === portfolioData.length;
+  var topContainer = document.getElementById('main-grid-top');
+  var bottomContainer = document.getElementById('main-grid-bottom');
+  var sp = document.getElementById('spotlight-section');
+
+  if (isAll && data.length > 24) {
+    // 앞 24장 → top, 나머지 → bottom, 스포트라이트 표시
+    topContainer.innerHTML = buildGridHTML(data.slice(0, 24), 0);
+    bottomContainer.innerHTML = buildGridHTML(data.slice(24), 24);
+    if (sp) sp.style.display = 'block';
+  } else {
+    // ALL 아니거나 데이터 적으면 top에 전부, bottom 비우기, 스포트라이트 숨김
+    topContainer.innerHTML = buildGridHTML(data, 0);
+    bottomContainer.innerHTML = '';
+    if (sp) sp.style.display = 'none';
+  }
 }
 
 // 스포트라이트 표시/숨김 (DOM 이동 없음)
@@ -1267,14 +1285,15 @@ function appendGrid() {
   let moreData = shuffleArray([...source]);
   let startIndex = currentRenderedItems.length;
   currentRenderedItems = currentRenderedItems.concat(moreData);
-  const container = document.getElementById('main-grid');
+  const container = document.getElementById('main-grid-bottom');
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
 }
 
 window.showAboutSection = function() {
   aboutBgLoaded = false;
   document.getElementById('about-container').style.display = 'block';
-  document.getElementById('main-grid').style.display = 'none';
+  document.getElementById('main-grid-top').style.display = 'none';
+  document.getElementById('main-grid-bottom').style.display = 'none';
   document.getElementById('personal-works-container').style.display = 'none';
   var sp = document.getElementById('spotlight-section');
   if (sp) sp.style.display = 'none';
@@ -1285,7 +1304,8 @@ window.showAboutSection = function() {
 
 window.filterData = function(category, btnEl) {
   document.getElementById('about-container').style.display = category === 'ABOUT' ? 'block' : 'none';
-  document.getElementById('main-grid').style.display = category === 'ABOUT' ? 'none' : 'grid';
+  document.getElementById('main-grid-top').style.display = category === 'ABOUT' ? 'none' : 'grid';
+  document.getElementById('main-grid-bottom').style.display = category === 'ABOUT' ? 'none' : 'grid';
   document.getElementById('personal-works-container').style.display = 'none';
 
   if (category === 'ABOUT') { initAboutBgVideo(); }
@@ -1305,12 +1325,12 @@ window.filterData = function(category, btnEl) {
 
 // 초기 렌더링
 function initGrid() {
-  const mg = document.getElementById('main-grid');
+  const mg = document.getElementById('main-grid-top');
   if (!mg) { console.error('main-grid not found!'); return; }
   renderGrid(shuffleArray([...portfolioData]));
   mg.style.display = 'grid';
-  injectSpotlight(true);
-  console.log('Grid initialized:', mg.children.length, 'cards');
+  document.getElementById('main-grid-bottom').style.display = 'grid';
+  console.log('Grid initialized');
 }
 
 if (document.readyState === 'loading') {
@@ -1328,7 +1348,7 @@ function isAllCategory() {
 }
 
 window.addEventListener('scroll', () => {
-  if (document.getElementById('main-grid').style.display === 'none') return;
+  if (document.getElementById('main-grid-top').style.display === 'none') return;
   if (!isAllCategory()) return;
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 500) {
     appendGrid();
@@ -1419,7 +1439,7 @@ function initAboutBgVideo() {
 window.showAbout = function() {
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
   document.getElementById('grid-title').innerText = 'About DukGoo';
-  document.getElementById('main-grid').style.display = 'none';
+  document.getElementById('main-grid-top').style.display = 'none';
   document.getElementById('personal-works-container').style.display = 'none';
   document.getElementById('about-container').style.display = 'block';
   initAboutBgVideo();
@@ -2398,3 +2418,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </html>
 
 <!-- updated Sun Apr 12 10:06:03 UTC 2026 -->
+<!-- Sun Apr 12 13:08:38 UTC 2026 -->

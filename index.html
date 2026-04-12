@@ -1241,7 +1241,9 @@ function renderGrid(data) {
   currentRenderedItems = [...data];
   const container = document.getElementById('main-grid');
   container.innerHTML = buildGridHTML(currentRenderedItems, 0);
-  injectSpotlight();
+  // 전체 데이터면 스포트라이트 강제 표시
+  var isAll = data.length === portfolioData.length;
+  setTimeout(function(){ injectSpotlight(isAll); }, 50);
 }
 
 // 스포트라이트를 그리드 안 24번째 카드 뒤에 직접 삽입
@@ -2335,6 +2337,20 @@ function loadAllViewCounts() {
       counterEl.setAttribute('data-count', r.count);
       counterEl.setAttribute('data-rank', rank);
       counterEl.innerHTML = buildCounterHTML(r.count, rank);
+
+      // 랭크별 그리드 크기 적용
+      r.card.style.gridColumn = '';
+      r.card.style.gridRow = '';
+      if (rank === 1) {
+        r.card.style.gridColumn = 'span 2';
+        r.card.style.gridRow = 'span 2';
+      } else if (rank === 2 || rank === 3) {
+        r.card.style.gridColumn = '';
+        r.card.style.gridRow = 'span 2';
+      } else if (rank === 4 || rank === 5) {
+        r.card.style.gridColumn = 'span 2';
+        r.card.style.gridRow = '';
+      }
     });
   });
 }

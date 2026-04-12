@@ -686,7 +686,7 @@
       <div class="art-grid" id="main-grid" style="padding: 0 20px;"></div>
 
       <!-- SPOTLIGHT SECTION -->
-      <div id="spotlight-section" style="margin: 0; padding: 40px 20px 36px; background: linear-gradient(135deg, #0d0d1a 0%, #111128 60%, #0a0a18 100%); border-top: 1px solid #1a1a2e; border-bottom: 1px solid #1a1a2e; display: none;">
+      <div id="spotlight-section" style="margin: 0; padding: 40px 20px 36px; background: linear-gradient(135deg, #0d0d1a 0%, #111128 60%, #0a0a18 100%); border-top: 1px solid #1a1a2e; border-bottom: 1px solid #1a1a2e; display: none; grid-column: 1 / -1; width: 100%">
         <div style="display: flex; align-items: flex-start; gap: 40px;">
           <!-- 좌측 레이블 -->
           <div style="flex-shrink: 0; width: 160px; padding-top: 6px;">
@@ -1187,7 +1187,28 @@ function renderGrid(data) {
   currentRenderedItems = [...data];
   const container = document.getElementById('main-grid');
   container.innerHTML = buildGridHTML(currentRenderedItems, 0);
-  updateSpotlightVisibility();
+  injectSpotlight();
+}
+
+// 스포트라이트를 그리드 40번째 카드 뒤에 직접 삽입
+function injectSpotlight() {
+  var sp = document.getElementById('spotlight-section');
+  if (!sp) return;
+  var isAll = !currentFilterData.length || currentFilterData.length === portfolioData.length;
+  if (!isAll) { sp.style.display = 'none'; return; }
+
+  var container = document.getElementById('main-grid');
+  var cards = container.querySelectorAll('.art-card');
+
+  // 카드가 40장 이상이면 40번째 뒤에, 아니면 마지막 카드 뒤에 삽입
+  var insertAfterCard = cards[Math.min(39, cards.length - 1)];
+  if (!insertAfterCard) { sp.style.display = 'none'; return; }
+
+  // grid를 잠시 display:block으로 풀어서 중간 삽입 허용
+  // spotlight를 grid 안에 full-width로 삽입
+  sp.style.display = 'block';
+  sp.style.gridColumn = '1 / -1'; // 그리드 전체 너비 차지
+  insertAfterCard.after(sp);
 }
 
 // 스포트라이트 표시 제어 (ALL 카테고리일 때만 표시)
@@ -1196,14 +1217,7 @@ function updateSpotlightVisibility() {
   if (!sp) return;
   var isAll = !currentFilterData.length || currentFilterData.length === portfolioData.length;
   if (!isAll) { sp.style.display = 'none'; return; }
-  // 그리드 컨테이너 기준 5번째 줄(8열 그리드 → 40번째 카드) 다음에 삽입
-  var container = document.getElementById('main-grid');
-  var cards = container.querySelectorAll('.art-card');
-  var insertAfter = Math.min(39, cards.length - 1); // 40번째(index 39) 카드 이후
-  if (cards[insertAfter] && cards[insertAfter].nextSibling !== sp) {
-    container.parentNode.insertBefore(sp, container.nextSibling);
-  }
-  sp.style.display = 'block';
+  injectSpotlight();
 }
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
@@ -1267,9 +1281,17 @@ if (document.readyState === 'loading') {
   initGrid();
 }
 
-// 무한 스크롤 - window 기준으로 감지
+// 무한 스크롤 - ALL 탭일 때만 작동
+function isAllCategory() {
+  var active = document.querySelector('.channel-pill.active');
+  if (!active) return true; // 초기 상태 = ALL
+  var label = active.innerText.trim().toUpperCase();
+  return label.includes('ALL') || label.includes('PORTFOLIO');
+}
+
 window.addEventListener('scroll', () => {
   if (document.getElementById('main-grid').style.display === 'none') return;
+  if (!isAllCategory()) return;
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 500) {
     appendGrid();
   }
@@ -1279,6 +1301,7 @@ window.addEventListener('scroll', () => {
 const scrollSec = document.querySelector('.scroll-section');
 if (scrollSec) {
   scrollSec.addEventListener('scroll', () => {
+    if (!isAllCategory()) return;
     if (scrollSec.scrollTop + scrollSec.clientHeight >= scrollSec.scrollHeight - 500) {
       appendGrid();
     }

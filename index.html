@@ -1254,39 +1254,17 @@ function renderGrid(data) {
   }
 }
 
-// 스포트라이트를 main-grid 다음에 삽입
+// 스포트라이트 표시/숨김 (DOM 이동 없음)
 function injectSpotlight(forceShow) {
   var sp = document.getElementById('spotlight-section');
   if (!sp) return;
-  if (!forceShow) { sp.style.display = 'none'; return; }
-
-  var container = document.getElementById('main-grid');
-  var cards = container.querySelectorAll('.art-card');
-  if (!cards.length) { sp.style.display = 'none'; return; }
-
-  // main-grid를 24번째 카드에서 분리해서 스포트라이트 삽입
-  // main-grid 전체를 앞뒤로 나눠서 중간에 삽입
-  var parent = container.parentNode;
-  var allCards = Array.from(cards);
-  var splitIdx = Math.min(23, allCards.length - 1);
-  var afterCard = allCards[splitIdx];
-
-  // 스포트라이트를 main-grid 바로 뒤에 위치시키되
-  // 앞 그리드/스포트라이트/뒷 그리드 구조 대신
-  // 스포트라이트를 main-grid 안의 24번째 카드 뒤에 삽입
-  sp.style.display = 'block';
-  sp.style.gridColumn = '1 / -1';
-  sp.style.width = '100%';
-  afterCard.after(sp);
+  sp.style.display = forceShow ? 'block' : 'none';
 }
 
 // 스포트라이트 표시 제어 (ALL 카테고리일 때만 표시)
 function updateSpotlightVisibility() {
-  var sp = document.getElementById('spotlight-section');
-  if (!sp) return;
-  var isAll = !currentFilterData.length || currentFilterData.length === portfolioData.length;
-  if (!isAll) { sp.style.display = 'none'; return; }
-  injectSpotlight();
+  var isAll = currentFilterData.length === portfolioData.length;
+  injectSpotlight(isAll);
 }
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)

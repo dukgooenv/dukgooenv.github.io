@@ -1233,24 +1233,23 @@ function renderGrid(data) {
   injectSpotlight();
 }
 
-// 스포트라이트를 그리드 40번째 카드 뒤에 직접 삽입
+// 스포트라이트를 그리드 안 24번째 카드 뒤에 직접 삽입
 function injectSpotlight() {
   var sp = document.getElementById('spotlight-section');
   if (!sp) return;
-  var isAll = !currentFilterData.length || currentFilterData.length === portfolioData.length;
+
+  // 현재 활성 탭이 ALL인지 확인
+  var activeBtn = document.querySelector('.channel-pill.active');
+  var isAll = !activeBtn || activeBtn.innerText.toUpperCase().includes('ALL');
   if (!isAll) { sp.style.display = 'none'; return; }
 
   var container = document.getElementById('main-grid');
   var cards = container.querySelectorAll('.art-card');
+  if (!cards.length) { sp.style.display = 'none'; return; }
 
-  // 카드가 40장 이상이면 40번째 뒤에, 아니면 마지막 카드 뒤에 삽입
   var insertAfterCard = cards[Math.min(23, cards.length - 1)];
-  if (!insertAfterCard) { sp.style.display = 'none'; return; }
-
-  // grid를 잠시 display:block으로 풀어서 중간 삽입 허용
-  // spotlight를 grid 안에 full-width로 삽입
   sp.style.display = 'block';
-  sp.style.gridColumn = '1 / -1'; // 그리드 전체 너비 차지
+  sp.style.gridColumn = '1 / -1';
   insertAfterCard.after(sp);
 }
 

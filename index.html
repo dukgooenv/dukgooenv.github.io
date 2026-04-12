@@ -1253,40 +1253,40 @@ function buildGridHTML(data, startIndex) {
 function buildAllData() {
   var result = [];
 
-  // PRO: profProjects에서 썸네일 1장씩 (video는 그대로)
+  // PRO: profProjects에서 랜덤 이미지 1장씩
   portfolioData.filter(function(p) { return p.category === 'PRO'; }).forEach(function(p) {
-    // profProjects에 이미지가 있는 경우 랜덤 1장
-    var profKey = p.key in profKeyMap ? p.key : (proThumbKeyMap[p.key] || null);
+    var profKey = profKeyMap.hasOwnProperty(p.key) ? p.key
+      : (proThumbKeyMap.hasOwnProperty(p.key) ? proThumbKeyMap[p.key] : null);
     if (profKey && profProjects[profKey] && profProjects[profKey].items) {
-      var imgItems = profProjects[profKey].items.filter(function(it) { return it.type === 'image'; });
+      var imgItems = profProjects[profKey].items.filter(function(it) { return it.type === 'image' && it.src; });
       if (imgItems.length > 0) {
         var randItem = imgItems[Math.floor(Math.random() * imgItems.length)];
         result.push({ key: p.key + '_rand', category: 'PRO', tag: p.tag, title: p.title, sub: p.sub, thumb: randItem.src, type: 'image', src: randItem.src, _origKey: p.key });
         return;
       }
     }
-    result.push(p);
+    // 이미지 없으면 원래 썸네일 사용 (video 카드 등)
+    if (p.thumb) result.push(p);
   });
 
   // PERSONAL/RELIGHT: pwProjects에서 랜덤 이미지 1장씩
   portfolioData.filter(function(p) { return p.category === 'PERSONAL' || p.category === 'RELIGHT'; }).forEach(function(p) {
-    var pwKey = p.key;
-    if (!pwProjects[pwKey]) {
-      // folderToPwKey로 찾기
+    var pwKey = pwProjects.hasOwnProperty(p.key) ? p.key : null;
+    if (!pwKey) {
       var folder = typeof getFolderKey === 'function' && p.src ? getFolderKey(p.src) : null;
       pwKey = folder ? (folderToPwKey[folder] || null) : null;
     }
     if (pwKey && pwProjects[pwKey] && pwProjects[pwKey].images && pwProjects[pwKey].images.length > 0) {
-      var imgs = pwProjects[pwKey].images;
+      var imgs = pwProjects[pwKey].images.filter(function(img) { return !!img; });
       var randImg = imgs[Math.floor(Math.random() * imgs.length)];
       result.push({ key: p.key + '_rand', category: p.category, tag: p.tag, title: p.title, sub: p.sub, thumb: randImg, type: 'image', src: randImg, _origKey: p.key });
-    } else {
+    } else if (p.thumb) {
       result.push(p);
     }
   });
 
-  // SKETCH, DESIGNER: 그대로
-  portfolioData.filter(function(p) { return p.category === 'SKETCH' || p.category === 'DESIGNER'; }).forEach(function(p) {
+  // SKETCH, DESIGNER: 그대로 (thumb 있는 것만)
+  portfolioData.filter(function(p) { return (p.category === 'SKETCH' || p.category === 'DESIGNER') && p.thumb; }).forEach(function(p) {
     result.push(p);
   });
 
@@ -2377,7 +2377,14 @@ function loadAllViewCounts() {
   Promise.all(promises).then(function(results) {
     var sorted = results.slice().sort(function(a, b) { return b.count - a.count; });
     var rankMap = new Map();
-    sorted.forEach(function(r, i) { if (i < 5) rankMap.set(r.card, i + 1); });
+    // 카운트가 1 이상인 것만 랭크 부여
+    var rankIdx = 0;
+    sorted.forEach(function(r) {
+      if (r.count > 0 && rankIdx < 5) {
+        rankMap.set(r.card, rankIdx + 1);
+        rankIdx++;
+      }
+    });
 
     results.forEach(function(r) {
       var counterEl = r.card.querySelector('.art-counter');
@@ -2387,17 +2394,9 @@ function loadAllViewCounts() {
       counterEl.setAttribute('data-rank', rank);
       counterEl.innerHTML = buildCounterHTML(r.count, rank);
 
-      // 랭크별 그리드 크기
+      // 랭크별 그리드 크기 - 추후 적용
       r.card.style.gridColumn = '';
       r.card.style.gridRow = '';
-      if (rank === 1) {
-        r.card.style.gridColumn = 'span 2';
-        r.card.style.gridRow = 'span 2';
-      } else if (rank === 2 || rank === 3) {
-        r.card.style.gridRow = 'span 2';
-      } else if (rank === 4 || rank === 5) {
-        r.card.style.gridColumn = 'span 2';
-      }
     });
   });
 }
@@ -2479,3 +2478,5 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Sun Apr 12 13:08:38 UTC 2026 -->
 <!-- Sun Apr 12 13:15:37 UTC 2026 -->
 <!-- Sun Apr 12 13:22:25 UTC 2026 -->
+<!-- Sun Apr 12 13:26:34 UTC 2026 -->
+<!-- Sun Apr 12 13:32:00 UTC 2026 -->

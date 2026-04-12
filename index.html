@@ -1246,12 +1246,6 @@ function renderGrid(data) {
   currentRenderedItems = [...data];
   const container = document.getElementById('main-grid');
   container.innerHTML = buildGridHTML(currentRenderedItems, 0);
-  var isAll = data.length === portfolioData.length;
-  if (isAll) setTimeout(function(){ injectSpotlight(true); }, 100);
-  else {
-    var sp = document.getElementById('spotlight-section');
-    if (sp) sp.style.display = 'none';
-  }
 }
 
 // 스포트라이트 표시/숨김 (DOM 이동 없음)
@@ -1294,10 +1288,6 @@ window.filterData = function(category, btnEl) {
   document.getElementById('main-grid').style.display = category === 'ABOUT' ? 'none' : 'grid';
   document.getElementById('personal-works-container').style.display = 'none';
 
-  // ALL 아니면 스포트라이트 숨김
-  var sp = document.getElementById('spotlight-section');
-  if (sp && category !== 'ALL') sp.style.display = 'none';
-
   if (category === 'ABOUT') { initAboutBgVideo(); }
 
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
@@ -1309,6 +1299,7 @@ window.filterData = function(category, btnEl) {
       ? [...portfolioData]
       : portfolioData.filter(p => p.category === category);
     renderGrid(shuffleArray(filtered));
+    injectSpotlight(category === 'ALL');
   }
 }
 
@@ -1318,7 +1309,7 @@ function initGrid() {
   if (!mg) { console.error('main-grid not found!'); return; }
   renderGrid(shuffleArray([...portfolioData]));
   mg.style.display = 'grid';
-  setTimeout(function(){ injectSpotlight(true); }, 200);
+  injectSpotlight(true);
   console.log('Grid initialized:', mg.children.length, 'cards');
 }
 

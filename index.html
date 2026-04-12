@@ -208,7 +208,7 @@
   .art-date {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px; font-weight: 600;
-    color: #b8ff3a; letter-spacing: 0.08em;
+    color: #8fce30; letter-spacing: 0.08em;
   }
   .art-counter {
     display: flex; align-items: center; gap: 5px;
@@ -220,7 +220,7 @@
   .art-new-badge {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 9px; font-weight: 700;
-    color: #141418; background: #b8ff3a;
+    color: #141418; background: #8fce30;
     padding: 2px 6px; letter-spacing: 0.12em;
   }
 
@@ -2212,7 +2212,7 @@ function getCountStyle(count) {
   if (count >= 100)  return { emoji: '😆', color: '#e79c16', bold: false };
   if (count >= 50)   return { emoji: '😊', color: '#d4b355', bold: false };
   if (count >= 10)   return { emoji: '😂', color: '#d0cbbe', bold: false };
-  return                    { emoji: 'NEW', color: '#b8ff3a', bold: true };
+  return                    { emoji: 'NEW', color: '#8fce30', bold: true };
 }
 
 function getRankEmoji(rank) {

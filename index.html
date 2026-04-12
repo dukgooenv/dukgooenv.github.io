@@ -386,48 +386,43 @@
   #prof-lb { display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,.97); flex-direction:column; }
   #prof-lb.active { display:flex; }
   .prof-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
-  /* 헤더: 좌측 정보 + 우측 컨트롤 */
-  .prof-lb-header { display:flex; align-items:flex-start; justify-content:space-between; padding:16px 28px 14px; background:rgba(15,15,15,.98); border-bottom:1px solid #21213a; flex-shrink:0; gap:20px; }
+  .prof-lb-header { display:flex; align-items:center; justify-content:flex-end; padding:10px 20px; background:#141418; border-bottom:1px solid #2a2a3e; flex-shrink:0; gap:12px; }
   .prof-lb-title-area { display:flex; flex-direction:column; gap:4px; min-width:0; }
-  /* PROJ_015 · 2021—2024 */
-  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#00D4FF; letter-spacing:.2em; text-transform:uppercase; }
-  /* NCSOFT 대제목 */
-  .prof-lb-title-text { font-family:var(--font-head); font-size:22px; font-weight:700; color:#ffffff; letter-spacing:-.3px; line-height:1.1; margin-top:2px; }
-  /* Project M / Interactive Adventure · Alpha / PlayStation 5 */
-  .prof-lb-sub-text { font-family:var(--font-mono); font-size:11px; color:#FF006E; letter-spacing:.05em; margin-top:2px; }
-  /* 태그 배지 행 */
+  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#6c9f27; letter-spacing:.2em; text-transform:uppercase; }
+  .prof-lb-title-text { font-family:'Rajdhani', sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; line-height:1.1; margin-top:2px; }
+  .prof-lb-sub-text { font-family:'Outfit', sans-serif; font-size:13px; color:#8fce30; letter-spacing:.02em; margin-top:2px; }
   .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#9aa0b0; border:1px solid #F0F0F8; padding:3px 10px; letter-spacing:.08em; background:rgba(124,106,247,.06); white-space:nowrap; }
-  .prof-lb-tag.dev { color:#FF006E; border-color:rgba(124,106,247,.35); background:rgba(124,106,247,.1); }
-  .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; padding-top:4px; }
-  .prof-lb-counter { font-family: \'IBM Plex Mono\', \'Space Mono\', monospace; font-weight: 600;var(--font-mono); font-size:11px; color:#555580; }
-  .prof-lb-btn { background:none; border:1px solid #21213a; color:#9aa0b0; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .prof-lb-btn:hover { border-color:rgba(124,106,247,0.3); color:#FF006E; }
+  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:1px solid #2a2a3e; padding:3px 10px; letter-spacing:.08em; background:rgba(20,20,24,.6); white-space:nowrap; }
+  .prof-lb-tag.dev { color:#8fce30; border-color:rgba(143,206,48,.3); background:rgba(143,206,48,.06); }
+  .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
+  .prof-lb-btn { background:none; border:1px solid #2a2a3e; color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .prof-lb-btn:hover { border-color:#8fce30; color:#8fce30; }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
   .prof-lb-video-wrap iframe { width:min(100%,calc(100vh*16/9)); height:min(100%,calc(100vw*9/16)); max-width:96vw; max-height:92vh; border:0; }
   .prof-lb-wheel-overlay { position:absolute; inset:0; z-index:1; background:transparent; cursor:default; }
-  .prof-lb-img-el { display:block; max-width:96vw; max-height:92vh; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; }
-  .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(15,15,15,.75); border:1px solid #21213a; color:#9aa0b0; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
+  .prof-lb-img-el { display:block; max-width:100%; max-height:100%; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; }
+  .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .prof-lb-nav-prev { left:16px; }
   .prof-lb-nav-next { right:16px; }
-  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(124,106,247,0.3); color:#FF006E; }
+  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:#8fce30; color:#8fce30; }
   .prof-lb-dots { position:absolute; bottom:16px; right:20px; display:flex; flex-direction:column; gap:4px; z-index:2; }
-  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(124,106,247,0.3); cursor:pointer; transition:all .2s; }
-  .prof-lb-dot.active { background:#FF006E; transform:scale(1.4); }
-  .prof-lb-type-badge { position:absolute; top:16px; right:20px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(15,15,15,.8); border:1px solid rgba(124,106,247,0.3); color:#FF006E; letter-spacing:.12em; z-index:4; }
-  .prof-lb-hud { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
-  .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(124,106,247,0.5); display:flex; align-items:center; gap:6px; }
-  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(15,15,15,.9); border:1px solid rgba(124,106,247,0.3); color:#FF006E; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(143,206,48,0.2); cursor:pointer; transition:all .2s; }
+  .prof-lb-dot.active { background:#8fce30; transform:scale(1.4); }
+  .prof-lb-type-badge { position:absolute; top:16px; left:16px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#6c9f27; letter-spacing:.12em; z-index:4; }
+  .prof-lb-hud { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
+  .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(143,206,48,0.4); display:flex; align-items:center; gap:6px; }
+  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#8fce30; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
-  .prof-lb-thumbs { display:flex; gap:6px; padding:10px 16px; background:rgba(8,10,13,.95); border-top:1px solid #21213a; overflow-x:auto; flex-shrink:0; min-height:68px; align-items:center; }
+  .prof-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
-  .prof-lb-thumbs::-webkit-scrollbar { height:4px; }
-  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(124,106,247,0.3); border-radius:2px; }
-  .prof-lb-thumb-item { flex-shrink:0; width:96px; height:54px; border:1px solid #21213a; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
-  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#FF006E; }
+  .prof-lb-thumbs::-webkit-scrollbar { width:4px; }
+  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(143,206,48,0.3); border-radius:2px; }
+  .prof-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
+  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#8fce30; }
   .prof-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
-  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#FF006E; }
+  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#8fce30; }
   #lightbox.active { display: flex; }
   .lb-header {
     display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #141418; border-bottom: 1px solid #14141c;
@@ -859,31 +854,45 @@
   <!-- PROF-LB MODAL -->
   <div id="prof-lb">
     <div class="prof-lb-wrap">
+      <!-- 상단 닫기 바 -->
       <div class="prof-lb-header">
-        <div class="prof-lb-title-area">
-          <span class="prof-lb-id" id="prof-lb-id"></span>
-          <span class="prof-lb-title-text" id="prof-lb-title-text"></span>
-          <span class="prof-lb-sub-text" id="prof-lb-sub-text"></span>
-          <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
-        </div>
         <div class="prof-lb-controls">
           <span class="prof-lb-counter" id="prof-lb-counter"></span>
           <button class="prof-lb-btn" onclick="closeProfLb()">✕</button>
         </div>
       </div>
-      <div class="prof-lb-main" id="prof-lb-main">
-        <button class="prof-lb-nav-prev" onclick="profLbStep(-1)">‹</button>
-        <button class="prof-lb-nav-next" onclick="profLbStep(1)">›</button>
-        <div class="prof-lb-dots" id="prof-lb-dots"></div>
-        <div class="prof-lb-zoom-badge" id="prof-lb-zoom-badge">🔍 100%</div>
-        <div class="prof-lb-type-badge" id="prof-lb-type-badge"></div>
-        <div class="prof-lb-hud">
-          <div class="sz-hint">🖱 Click zoom in/out</div>
-          <div class="sz-hint" style="color:rgba(255,255,255,.15)">|</div>
-          <div class="sz-hint">ESC close</div>
+      <!-- 메인 콘텐츠: 이미지(좌) + 정보(우) -->
+      <div style="display:flex; flex:1; overflow:hidden;">
+        <!-- 좌측 이미지 영역 -->
+        <div class="prof-lb-main" id="prof-lb-main" style="flex:1;">
+          <button class="prof-lb-nav-prev" onclick="profLbStep(-1)">‹</button>
+          <button class="prof-lb-nav-next" onclick="profLbStep(1)">›</button>
+          <div class="prof-lb-dots" id="prof-lb-dots"></div>
+          <div class="prof-lb-zoom-badge" id="prof-lb-zoom-badge">🔍 100%</div>
+          <div class="prof-lb-type-badge" id="prof-lb-type-badge"></div>
+          <div class="prof-lb-hud">
+            <div class="sz-hint">🖱 Click zoom in/out</div>
+            <div class="sz-hint" style="color:rgba(255,255,255,.15)">|</div>
+            <div class="sz-hint">ESC close</div>
+          </div>
+        </div>
+        <!-- 우측 정보 패널 -->
+        <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto;">
+          <div style="padding:24px 20px; border-bottom:1px solid #2a2a3e;">
+            <span class="prof-lb-id" id="prof-lb-id" style="display:block; margin-bottom:8px;"></span>
+            <span class="prof-lb-title-text" id="prof-lb-title-text" style="display:block; margin-bottom:6px;"></span>
+            <span class="prof-lb-sub-text" id="prof-lb-sub-text" style="display:block; margin-bottom:12px;"></span>
+            <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
+          </div>
+          <!-- 프로젝트 이전/다음 -->
+          <div style="display:flex; justify-content:space-between; padding:12px 20px; border-bottom:1px solid #2a2a3e;">
+            <button class="prof-lb-btn" onclick="profLbPrevProject()" style="width:auto; padding:0 12px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em;">‹ PREV</button>
+            <button class="prof-lb-btn" onclick="profLbNextProject()" style="width:auto; padding:0 12px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em;">NEXT ›</button>
+          </div>
+          <!-- 썸네일 -->
+          <div class="prof-lb-thumbs" id="prof-lb-thumbs" style="flex-direction:column; flex:1; overflow-y:auto; padding:12px;"></div>
         </div>
       </div>
-      <div class="prof-lb-thumbs" id="prof-lb-thumbs"></div>
     </div>
   </div>
 
@@ -1236,14 +1245,17 @@ function renderGrid(data) {
 }
 
 // 스포트라이트를 그리드 안 24번째 카드 뒤에 직접 삽입
-function injectSpotlight() {
+function injectSpotlight(forceShow) {
   var sp = document.getElementById('spotlight-section');
   if (!sp) return;
 
-  // 현재 활성 탭이 ALL인지 확인
-  var activeBtn = document.querySelector('.channel-pill.active');
-  var isAll = !activeBtn || activeBtn.innerText.toUpperCase().includes('ALL');
-  if (!isAll) { sp.style.display = 'none'; return; }
+  var show = forceShow === true;
+  if (!show) {
+    // active 탭 없으면 ALL(초기상태)로 간주
+    var activeBtn = document.querySelector('.channel-pill.active');
+    show = !activeBtn || activeBtn.innerText.toUpperCase().includes('ALL');
+  }
+  if (!show) { sp.style.display = 'none'; return; }
 
   var container = document.getElementById('main-grid');
   var cards = container.querySelectorAll('.art-card');
@@ -1307,7 +1319,7 @@ window.filterData = function(category, btnEl) {
       ? [...portfolioData]
       : portfolioData.filter(p => p.category === category);
     renderGrid(shuffleArray(filtered));
-    if (category === 'ALL') setTimeout(injectSpotlight, 100);
+    if (category === 'ALL') setTimeout(function(){ injectSpotlight(true); }, 150);
   }
 }
 
@@ -1317,6 +1329,7 @@ function initGrid() {
   if (!mg) { console.error('main-grid not found!'); return; }
   renderGrid(shuffleArray([...portfolioData]));
   mg.style.display = 'grid';
+  setTimeout(function(){ injectSpotlight(true); }, 200);
   console.log('Grid initialized:', mg.children.length, 'cards');
 }
 
@@ -2092,7 +2105,7 @@ function renderProfLb() {
       '<img src="' + thumbSrc + '" loading="lazy">' +
       playIcon + '</div>';
   }).join('');
-  thumbs.innerHTML = '<div class="prof-lb-thumbs-inner">' + thumbsHtml + '</div>';
+  thumbs.innerHTML = thumbsHtml;
 
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
@@ -2100,8 +2113,8 @@ function renderProfLb() {
       if (!activeThumb) return;
       var tRect = activeThumb.getBoundingClientRect();
       var cRect = thumbs.getBoundingClientRect();
-      var tCenter = tRect.left - cRect.left + thumbs.scrollLeft + tRect.width / 2;
-      thumbs.scrollLeft = tCenter - thumbs.clientWidth / 2;
+      var tCenter = tRect.top - cRect.top + thumbs.scrollTop + tRect.height / 2;
+      thumbs.scrollTop = tCenter - thumbs.clientHeight / 2;
     });
   });
 

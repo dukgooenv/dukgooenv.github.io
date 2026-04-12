@@ -475,8 +475,7 @@
   }
   .about-link:hover {
     background: linear-gradient(90deg,
-      #4CAF50, #F5C400, #E8660A, #D42B2B, #1A6BB5,
-      #4CAF50, #F5C400, #E8660A, #D42B2B, #1A6BB5
+      #E8232A, #F5C400, #3DBF4B, #1A6BB5, #E8232A
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -499,13 +498,17 @@
   }
   .spotlight-badge span {
     background: linear-gradient(90deg,
-      #E8232A 0%, #F5C400 33%, #1A6BB5 66%, #E8232A 100%
+      #e0dfdf 0%, #ffffff 40%, #f5f5f5 60%, #e0dfdf 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: spotlightLoop 2s linear infinite;
+    animation: spotlightLoop 1.5s linear infinite;
+  }
+  @keyframes spotlightLoop {
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
   }
   @keyframes spotlightLoop {
     0%   { background-position: 100% 0; }

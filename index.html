@@ -685,6 +685,81 @@
       <!-- MAIN GRID -->
       <div class="art-grid" id="main-grid" style="padding: 0 20px;"></div>
 
+      <!-- SPOTLIGHT SECTION -->
+      <div id="spotlight-section" style="margin: 0; padding: 40px 20px 36px; background: linear-gradient(135deg, #0d0d1a 0%, #111128 60%, #0a0a18 100%); border-top: 1px solid #1a1a2e; border-bottom: 1px solid #1a1a2e; display: none;">
+        <div style="display: flex; align-items: flex-start; gap: 40px;">
+          <!-- 좌측 레이블 -->
+          <div style="flex-shrink: 0; width: 160px; padding-top: 6px;">
+            <div style="display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px;">
+              <span style="background: #00D4FF; color: #000; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 3px;">SPOTLIGHT</span>
+            </div>
+            <div style="font-family: var(--font-sans); font-size: 22px; font-weight: 700; color: #e7e3d4; line-height: 1.2; margin-bottom: 10px;">Featured<br>Works</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: #555580; line-height: 1.6;">최근 주목할만한<br>작업물을<br>소개합니다.</div>
+          </div>
+
+          <!-- 우측 카드 3장 -->
+          <div style="flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+
+            <!-- 카드 1: BMW M4 GTS Re:Lighting -->
+            <div class="spotlight-card" onclick="openLbImage('images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp', 'BMW M4 GTS Re:Lighting', 0)" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #0a0a18; border: 1px solid #1e1e35; transition: border-color 0.2s; position: relative;">
+              <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
+                <img src="images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp"
+                  onerror="this.src='images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp'"
+                  style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;">
+              </div>
+              <div style="padding: 10px 12px 12px;">
+                <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">BMW M4 GTS Re:Lighting</div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #00D4FF; border: 1px solid rgba(0,212,255,0.3); padding: 1px 6px; border-radius: 2px;">RELIGHT</span>
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #555580;">2024.09.12</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 카드 2: M4 Carbine Personal -->
+            <div class="spotlight-card" onclick="openLbImage('images/Personal/20190902_M4/M4_M203_001.webp', 'M4 Carbine with M203', 0)" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #0a0a18; border: 1px solid #1e1e35; transition: border-color 0.2s; position: relative;">
+              <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
+                <img src="images/Personal/20190902_M4/M4_M203_Thumb.webp"
+                  onerror="this.src='images/Personal/20190902_M4/M4_M203_001.webp'"
+                  style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;">
+              </div>
+              <div style="padding: 10px 12px 12px;">
+                <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">M4 Carbine with M203</div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #b8ff3a; border: 1px solid rgba(184,255,58,0.3); padding: 1px 6px; border-radius: 2px;">PERSONAL</span>
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #555580;">2019.09.02</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 카드 3: NCSoft Project M -->
+            <div class="spotlight-card" onclick="openProfLb('ncsoft')" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #0a0a18; border: 1px solid #1e1e35; transition: border-color 0.2s; position: relative;">
+              <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
+                <img src="https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg"
+                  style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;">
+                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 36px; height: 36px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 12px solid #fff; margin-left: 3px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div style="padding: 10px 12px 12px;">
+                <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Project M</div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #7c6af7; border: 1px solid rgba(124,106,247,0.3); padding: 1px 6px; border-radius: 2px;">PRO</span>
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #555580;">NCSoft</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <style>
+        .spotlight-card:hover { border-color: #00D4FF !important; }
+        .spotlight-card:hover img { transform: scale(1.04); }
+      </style>
+
       <!-- PERSONAL WORKS SECTION -->
       <div id="personal-works-container">
 
@@ -1371,14 +1446,116 @@ var profKeyMap = {
   'hideout': null
 };
 
+// ── 폴더 기반 프로젝트 갤러리 오픈 ──────────────────────────────────────────
+// src 경로에서 폴더명 추출
+function getFolderKey(src) {
+  if (!src) return null;
+  var parts = src.replace(/\\/g, '/').split('/');
+  // images/Personal/20190902_M4/xxx.webp → '20190902_M4'
+  // images/ReLighting/20240912_BMW_M4GTS/xxx.webp → '20240912_BMW_M4GTS'
+  // images/Professional/2021_NCSOFT/xxx.webp → '2021_NCSOFT'
+  return parts.length >= 3 ? parts[parts.length - 2] : null;
+}
+
+// 폴더명 → pwProjects 키 매핑 테이블
+var folderToPwKey = {
+  '20201124_RockStudy':   'pw-rock',
+  '20190902_M4':          'pw-m4',
+  '20180927_Desert_Rocks':'pw-desert',
+  '20170823_EA_Test':     'pw-eatest',
+  '20170307_Stylized_Dungeon':'pw-stylized',
+  '20160930_ZbrushTile':  'pw-zbrushtile',
+  '20150914_Dungeon':     'pw-dungeon',
+  '20140522_Afternoon_Break':'pw-afternoon',
+  '20140613_Hideout':     'pw-hideout',
+  '20130809_BullDozer':   'pw-bulldozer',
+  '20111008_PPSh-41':     'pw-ppsh41',
+  '20110722_CX-420':      'pw-cx420',
+  '20110418_UT-EX 2077':  'pw-utex',
+  '20110227_AK-74u':      'pw-ak74u',
+  '20050101_HMMWV':       'pw-hmmwv',
+  '20000101_OldWork':     'pw-oldwork',
+  '20240912_BMW_M4GTS':   'pw-bmwm4',
+  '20241027_GENESIS_G70': 'pw-genesis',
+};
+
+// 폴더명 → profProjects 키 매핑 테이블
+var folderToProfKey = {
+  '2021_NCSOFT':      'ncsoft',
+  '2018_NexonKorea':  'nexon',
+  '2017_XLGAMES':     'xlgames',
+  '2014_PureGames':   'puregames',
+  '2008_YeinsSoft':   'yeinssoft',
+  '2005_Aprilstudio': 'aprilstudio',
+};
+
+// 폴더 기준으로 동적 갤러리 오픈 (pwProjects에 없는 PRO 폴더용)
+function openFolderGallery(src, title) {
+  var folder = getFolderKey(src);
+  if (!folder) { openLbImage(src, title, 0); return; }
+
+  // portfolioData에서 같은 폴더 이미지 전부 수집
+  var folderImages = portfolioData
+    .filter(function(p) { return p.src && getFolderKey(p.src) === folder; })
+    .map(function(p) { return p.src; });
+
+  // 중복 제거 & 정렬
+  folderImages = folderImages.filter(function(v, i, a) { return a.indexOf(v) === i; }).sort();
+
+  if (folderImages.length <= 1) { openLbImage(src, title, 0); return; }
+
+  // 임시 pwProjects 항목으로 등록 후 오픈
+  var tmpKey = '__folder__' + folder;
+  pwProjects[tmpKey] = {
+    id: '// ' + folder,
+    title: title,
+    images: folderImages
+  };
+  openPwLb(tmpKey, folderImages.indexOf(src) >= 0 ? folderImages.indexOf(src) : 0);
+}
+// ────────────────────────────────────────────────────────────────────────────
+
 // 그리드 HTML 생성 함수
 function buildGridHTML(data, startIndex) {
   let html = '';
   data.forEach((p, idx) => {
     let realIdx = startIndex + idx;
     let action;
-    if (p.category === 'PRO' && p.type === 'video' && profKeyMap.hasOwnProperty(p.key)) {
-      action = `openProfLb('${p.key}')`;
+
+    if (p.category === 'PRO') {
+      // PRO: profProjects 키가 있으면 profLb, 없으면 폴더 갤러리
+      if (profKeyMap.hasOwnProperty(p.key)) {
+        action = `openProfLb('${p.key}')`;
+      } else if (p.src) {
+        var folderKey = getFolderKey(p.src);
+        var profKey = folderKey ? folderToProfKey[folderKey] : null;
+        if (profKey) {
+          action = `openProfLb('${profKey}')`;
+        } else {
+          action = `openFolderGallery('${p.src}', '${p.title.replace(/'/g,"\\'")}')`;
+        }
+      } else if (p.type === 'video') {
+        action = `openLbVideo('${p.id}', '${p.title}', ${realIdx})`;
+      } else {
+        action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
+      }
+    } else if (p.category === 'PERSONAL' || p.category === 'RELIGHT') {
+      // PERSONAL/RELIGHT: pwProjects 키 매핑 우선, 없으면 폴더 갤러리
+      if (pwProjects.hasOwnProperty(p.key)) {
+        action = `openPwLb('${p.key}', 0)`;
+      } else if (p.type === 'video' && p.key === 'hideout') {
+        action = `openPwLb('pw-hideout', 0)`;
+      } else if (p.src) {
+        var folderKey2 = getFolderKey(p.src);
+        var pwKey = folderKey2 ? folderToPwKey[folderKey2] : null;
+        if (pwKey) {
+          action = `openPwLb('${pwKey}', 0)`;
+        } else {
+          action = `openFolderGallery('${p.src}', '${p.title.replace(/'/g,"\\'")}')`;
+        }
+      } else {
+        action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
+      }
     } else if (p.type === 'video') {
       action = `openLbVideo('${p.id}', '${p.title}', ${realIdx})`;
     } else {
@@ -1417,6 +1594,23 @@ function renderGrid(data) {
   currentRenderedItems = [...data];
   const container = document.getElementById('main-grid');
   container.innerHTML = buildGridHTML(currentRenderedItems, 0);
+  updateSpotlightVisibility();
+}
+
+// 스포트라이트 표시 제어 (ALL 카테고리일 때만 표시)
+function updateSpotlightVisibility() {
+  var sp = document.getElementById('spotlight-section');
+  if (!sp) return;
+  var isAll = !currentFilterData.length || currentFilterData.length === portfolioData.length;
+  if (!isAll) { sp.style.display = 'none'; return; }
+  // 그리드 컨테이너 기준 5번째 줄(8열 그리드 → 40번째 카드) 다음에 삽입
+  var container = document.getElementById('main-grid');
+  var cards = container.querySelectorAll('.art-card');
+  var insertAfter = Math.min(39, cards.length - 1); // 40번째(index 39) 카드 이후
+  if (cards[insertAfter] && cards[insertAfter].nextSibling !== sp) {
+    container.parentNode.insertBefore(sp, container.nextSibling);
+  }
+  sp.style.display = 'block';
 }
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
@@ -1434,6 +1628,8 @@ window.showAboutSection = function() {
   document.getElementById('about-container').style.display = 'block';
   document.getElementById('main-grid').style.display = 'none';
   document.getElementById('personal-works-container').style.display = 'none';
+  var sp = document.getElementById('spotlight-section');
+  if (sp) sp.style.display = 'none';
   document.getElementById('grid-title').innerText = 'About';
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
   initAboutBgVideo();
@@ -1444,6 +1640,8 @@ window.filterData = function(category, btnEl) {
   document.getElementById('about-container').style.display = category === 'ABOUT' ? 'block' : 'none';
   document.getElementById('main-grid').style.display = category === 'ABOUT' ? 'none' : 'grid';
   document.getElementById('personal-works-container').style.display = 'none';
+  var sp = document.getElementById('spotlight-section');
+  if (sp) sp.style.display = (category === 'ALL') ? 'block' : 'none';
 
   if (category === 'ABOUT') { initAboutBgVideo(); }
 

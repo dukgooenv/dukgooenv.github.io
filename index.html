@@ -351,24 +351,24 @@
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
   /* PERSONAL WORKS LIGHTBOX */
-  #pw-lb { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0,0,0,.97); flex-direction: column; }
-  #pw-lb.active { display: flex; }
-  .pw-lb-wrap { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
-  .pw-lb-img { display: block; max-width: 96vw; max-height: 92vh; object-fit: contain; transition: opacity .18s ease; cursor: zoom-in; }
+  #pw-lb { display: none; width: 100%; background: #0e0e0e; border-bottom: 1px solid #2a2a3e; }
+  #pw-lb.active { display: block; }
+  .pw-lb-wrap { width: 100%; position: relative; display: flex; align-items: stretch; min-height: 500px; max-height: 80vh; }
+  .pw-lb-img { display: block; width: 100%; height: 100%; object-fit: contain; max-height: 80vh; transition: opacity .18s ease; cursor: zoom-in; }
   .pw-lb-img.zoomed { cursor: zoom-out; }
-  .pw-lb-close { position: absolute; top: 18px; right: 18px; background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #c6bca2; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
-  .pw-lb-close:hover { border-color: #00D4FF; color: #00D4FF; }
-  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15,15,15,.75); border: 1px solid #F0F0F8; color: #c6bca2; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
+  .pw-lb-close { position: absolute; top: 12px; right: 12px; background: rgba(15,15,15,.85); border: 1px solid #2a2a3e; color: #a1a09c; width: 32px; height: 32px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
+  .pw-lb-close:hover { border-color: #8fce30; color: #8fce30; }
+  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15,15,15,.85); border: 1px solid #2a2a3e; color: #a1a09c; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
   .pw-lb-nav-prev { left: 16px; }
   .pw-lb-nav-next { right: 16px; }
-  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #00D4FF; color: #00D4FF; }
-  .pw-lb-overlay-info { position: absolute; top: 0; left: 0; right: 0; padding: 20px 28px; pointer-events: none; z-index: 3; }
-  .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 12px; color: #00D4FF; letter-spacing: .15em; margin-bottom: 5px; }
-  .pw-lb-overlay-title { font-size: 18px; font-weight: 600; color: #e7e3d4; letter-spacing: .06em; text-transform: uppercase; }
-  .pw-lb-counter { font-family: \'IBM Plex Mono\', monospace; font-weight: 600; position: absolute; top: 18px; right: 66px; font-family: var(--font-mono); font-size: 11px; color: #888; z-index: 4; line-height: 36px; }
-  .pw-lb-zoom-badge { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
+  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #8fce30; color: #8fce30; }
+  .pw-lb-overlay-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px; pointer-events: none; z-index: 3; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+  .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 11px; color: #6c9f27; letter-spacing: .15em; margin-bottom: 4px; }
+  .pw-lb-overlay-title { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 600; color: #e0dfdf; letter-spacing: .05em; text-transform: uppercase; }
+  .pw-lb-counter { font-family: var(--font-mono); font-weight: 600; position: absolute; top: 12px; right: 52px; font-size: 11px; color: #555580; z-index: 4; line-height: 32px; }
+  .pw-lb-zoom-badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(15,15,15,.9); border: 1px solid #2a2a3e; color: #8fce30; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
   .pw-lb-zoom-badge.visible { opacity: 1; }
-  .pw-lb-hud { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; align-items: center; z-index: 4; pointer-events: none; }
+  .pw-lb-hud { display: none; }
   .pw-sz-hint { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .08em; }
   .ff-btn {
     background: transparent; color: var(--as-text-muted); border: none; padding: 10px 24px; border-radius: 25px;
@@ -605,6 +605,22 @@
         <a href="javascript:void(0);" onclick="document.querySelectorAll('.channel-pill')[2].click();" style="color: #e7e3d4; text-decoration: none; font-family: 'Teko', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.2s;" onmouseover="this.style.color='#e7e3d4'" onmouseout="this.style.color='#e7e3d4'">PERSONAL WORK</a>
       </div>
     </div>
+
+      <!-- INLINE VIEWER (Personal/Relight/Sketch) -->
+      <div id="pw-lb">
+        <div class="pw-lb-wrap">
+          <img id="pw-lb-img" class="pw-lb-img" src="" alt="">
+          <div class="pw-lb-overlay-info">
+            <div class="pw-lb-overlay-id" id="pw-lb-overlay-id">// PERSONAL</div>
+            <div class="pw-lb-overlay-title" id="pw-lb-overlay-title"></div>
+          </div>
+          <span class="pw-lb-counter" id="pw-lb-counter"></span>
+          <div class="pw-lb-zoom-badge" id="pw-lb-zoom-badge">🔍 100%</div>
+          <button class="pw-lb-close" onclick="closePwLb()">✕</button>
+          <button class="pw-lb-nav-prev" onclick="pwLbPrev()">‹</button>
+          <button class="pw-lb-nav-next" onclick="pwLbNext()">›</button>
+        </div>
+      </div>
 
       <div class="section-header">
         <div class="section-header-top">
@@ -901,29 +917,6 @@
 
   <!-- FLOATING FILTER -->
 
-
-  <!-- PERSONAL WORKS LIGHTBOX -->
-  <div id="pw-lb" onclick="if(event.target===this)closePwLb()">
-    <div class="pw-lb-wrap">
-      <img id="pw-lb-img" class="pw-lb-img" src="" alt="">
-      <div class="pw-lb-overlay-info">
-        <div class="pw-lb-overlay-id" id="pw-lb-overlay-id">// PERSONAL</div>
-        <div class="pw-lb-overlay-title" id="pw-lb-overlay-title"></div>
-      </div>
-      <span class="pw-lb-counter" id="pw-lb-counter"></span>
-      <div class="pw-lb-zoom-badge" id="pw-lb-zoom-badge">🔍 100%</div>
-      <button class="pw-lb-close" onclick="closePwLb()">✕</button>
-      <button class="pw-lb-nav-prev" onclick="pwLbPrev()">‹</button>
-      <button class="pw-lb-nav-next" onclick="pwLbNext()">›</button>
-      <div class="pw-lb-hud">
-        <span class="pw-sz-hint">🖱 Click zoom in/out</span>
-        <span class="pw-sz-hint" style="color:rgba(255,255,255,.1)">|</span>
-        <span class="pw-sz-hint">← → navigate</span>
-        <span class="pw-sz-hint" style="color:rgba(255,255,255,.1)">|</span>
-        <span class="pw-sz-hint">ESC close</span>
-      </div>
-    </div>
-  </div>
 
   <!-- LIGHTBOX -->
   
@@ -1711,8 +1704,17 @@ window.openPwLb = function(key, startIdx) {
   document.getElementById('pw-lb-overlay-id').textContent = proj.id;
   document.getElementById('pw-lb-overlay-title').textContent = proj.title;
   _pwLbRender();
-  document.getElementById('pw-lb').classList.add('active');
-  document.body.style.overflow = 'hidden';
+
+  // 채널바 아래, 섹션헤더 위에 인라인으로 삽입
+  var pwlb = document.getElementById('pw-lb');
+  var scrollSection = document.querySelector('.scroll-section');
+  var sectionHeader = document.querySelector('.section-header');
+  if (scrollSection && sectionHeader) {
+    scrollSection.insertBefore(pwlb, sectionHeader);
+  }
+  pwlb.classList.add('active');
+  // 뷰어 위치로 스크롤
+  pwlb.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
 function _pwLbRender() {
@@ -1732,7 +1734,6 @@ function _pwLbRender() {
 
 window.closePwLb = function() {
   document.getElementById('pw-lb').classList.remove('active');
-  document.body.style.overflow = '';
   pwLbCurrentKey = '';
 };
 
@@ -2480,3 +2481,4 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Sun Apr 12 13:22:25 UTC 2026 -->
 <!-- Sun Apr 12 13:26:34 UTC 2026 -->
 <!-- Sun Apr 12 13:32:00 UTC 2026 -->
+<!-- Sun Apr 12 13:56:41 UTC 2026 -->

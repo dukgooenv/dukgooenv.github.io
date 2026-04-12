@@ -585,7 +585,7 @@
           <div class="channel-icon-img"><img src="images/Icon/Icon_011.jpg" alt="About"></div><span class="pill-label">About</span>
         </div>
         <div class="channel-pill" onclick="filterData('PRO', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_002.jpg" alt="Pro"></div><span class="pill-label">Professional</span>
+          <div class="channel-icon-img"><img src="images/Icon/Icon_003.jpg" alt="Pro"></div><span class="pill-label">Professional</span>
         </div>
         <div class="channel-pill" onclick="filterData('PERSONAL', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_005.jpg" alt="Personal"></div><span class="pill-label">Personal Works</span>
@@ -1247,25 +1247,37 @@ function renderGrid(data) {
   const container = document.getElementById('main-grid');
   container.innerHTML = buildGridHTML(currentRenderedItems, 0);
   var isAll = data.length === portfolioData.length;
-  if (isAll) injectSpotlight(true);
+  if (isAll) setTimeout(function(){ injectSpotlight(true); }, 100);
+  else {
+    var sp = document.getElementById('spotlight-section');
+    if (sp) sp.style.display = 'none';
+  }
 }
 
-// 스포트라이트를 그리드 24번째 카드 뒤에 삽입
+// 스포트라이트를 main-grid 다음에 삽입
 function injectSpotlight(forceShow) {
   var sp = document.getElementById('spotlight-section');
   if (!sp) return;
-
   if (!forceShow) { sp.style.display = 'none'; return; }
 
   var container = document.getElementById('main-grid');
   var cards = container.querySelectorAll('.art-card');
   if (!cards.length) { sp.style.display = 'none'; return; }
 
-  var target = cards[Math.min(23, cards.length - 1)];
+  // main-grid를 24번째 카드에서 분리해서 스포트라이트 삽입
+  // main-grid 전체를 앞뒤로 나눠서 중간에 삽입
+  var parent = container.parentNode;
+  var allCards = Array.from(cards);
+  var splitIdx = Math.min(23, allCards.length - 1);
+  var afterCard = allCards[splitIdx];
+
+  // 스포트라이트를 main-grid 바로 뒤에 위치시키되
+  // 앞 그리드/스포트라이트/뒷 그리드 구조 대신
+  // 스포트라이트를 main-grid 안의 24번째 카드 뒤에 삽입
   sp.style.display = 'block';
   sp.style.gridColumn = '1 / -1';
   sp.style.width = '100%';
-  target.after(sp);
+  afterCard.after(sp);
 }
 
 // 스포트라이트 표시 제어 (ALL 카테고리일 때만 표시)
@@ -2336,17 +2348,9 @@ function loadAllViewCounts() {
       counterEl.setAttribute('data-rank', rank);
       counterEl.innerHTML = buildCounterHTML(r.count, rank);
 
-      // 랭크별 그리드 크기
+      // 랭크별 그리드 크기 (임시 비활성화)
       r.card.style.gridColumn = '';
       r.card.style.gridRow = '';
-      if (rank === 1) {
-        r.card.style.gridColumn = 'span 2';
-        r.card.style.gridRow = 'span 2';
-      } else if (rank === 2 || rank === 3) {
-        r.card.style.gridRow = 'span 2';
-      } else if (rank === 4 || rank === 5) {
-        r.card.style.gridColumn = 'span 2';
-      }
     });
   });
 }

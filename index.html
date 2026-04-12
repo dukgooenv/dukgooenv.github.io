@@ -234,7 +234,7 @@
 
   .art-title {
     font-family: 'Teko', sans-serif;
-    font-size: 16px; font-weight: 600;
+    font-size: 20px; font-weight: 600;
     color: #e0dfdf; line-height: 1.2;
     text-transform: uppercase; letter-spacing: 0.08em;
   }
@@ -488,6 +488,22 @@
     0%   { background-position: 0% 0; }
     100% { background-position: -100% 0; }
   }
+  .spotlight-badge {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: linear-gradient(90deg,
+      #E8232A, #F5C400, #3DBF4B, #1A6BB5,
+      #E8232A, #F5C400, #3DBF4B, #1A6BB5
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: arcLoop 1.5s linear infinite;
+  }
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JWJLBB7V5W"></script>
@@ -702,7 +718,7 @@
           <!-- 좌측 레이블 -->
           <div style="flex-shrink: 0; width: 400px; padding-top: 6px;">
             <div style="display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px;">
-              <span style="background: rgba(184,255,58,0.12); color: #b8ff3a; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; border: 1px solid rgba(184,255,58,0.3);">SPOTLIGHT</span>
+              <span class="spotlight-badge">SPOTLIGHT</span>
             </div>
             <div style="font-family: 'Teko', sans-serif; font-size: 26px; font-weight: 600; color: #e0dfdf; line-height: 1.2; margin-bottom: 10px; white-space: nowrap; letter-spacing: 0.15em; text-transform: uppercase;">Featured Works</div>
             <div style="font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: #a1a09c; line-height: 1.7; margin-bottom: 4px;">최근 작업과 주요 프로젝트를 모은 섹션입니다. 개인 및 상업 프로젝트를 포함합니다.</div>
@@ -768,7 +784,7 @@
         </div>
       </div>
       <style>
-        .spotlight-card:hover { border-color: #00D4FF !important; }
+        .spotlight-card:hover { border-color: #8fce30 !important; }
         .spotlight-card:hover img { transform: scale(1.04); }
       </style>
 
@@ -1213,7 +1229,7 @@ function injectSpotlight() {
   var cards = container.querySelectorAll('.art-card');
 
   // 카드가 40장 이상이면 40번째 뒤에, 아니면 마지막 카드 뒤에 삽입
-  var insertAfterCard = cards[Math.min(39, cards.length - 1)];
+  var insertAfterCard = cards[Math.min(31, cards.length - 1)];
   if (!insertAfterCard) { sp.style.display = 'none'; return; }
 
   // grid를 잠시 display:block으로 풀어서 중간 삽입 허용

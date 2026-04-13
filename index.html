@@ -73,12 +73,7 @@
   .nav-links a { color: #a69e92; text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
   .nav-links a:hover { color: #e7e3d4; }
   
-  .search-bar {
-    display: flex; align-items: center; background: #141418; border: 1px solid #F0F0F8;
-    border-radius: 20px; padding: 6px 15px; width: 300px; transition: border-color 0.2s;
-  }
-  .search-bar:focus-within { border-color: var(--as-text-muted); }
-  .search-bar input { background: none; border: none; color: #e7e3d4; outline: none; width: 100%; font-size: 14px; margin-left: 8px; }
+  /* search-bar removed per request */
   
   .btn-login {
     background: var(--as-blue); color: #e7e3d4; border: none; border-radius: 4px;
@@ -256,6 +251,21 @@
   .prof-section-header .section-num { color: #00D4FF; }
   .prof-section-header .section-header-line { background: linear-gradient(to right, #0077aa, transparent); }
 
+  /* Ensure professional header matches global header layout exactly */
+  .prof-section-header {
+    padding: 18px 20px 12px 20px;
+    margin-top: 4px;
+    position: relative;
+  }
+  .prof-section-header .section-header-top {
+    display: flex; align-items: center; gap: 0; margin-bottom: 12px;
+    border-left: 3px solid #00D4FF; padding-left: 14px;
+  }
+  .prof-section-header .section-header-line {
+    flex: 1; height: 1px; background: linear-gradient(to right, #0077aa, transparent); margin-left: 20px; align-self: center;
+  }
+  .prof-section-header h2 { font-family: 'Teko', sans-serif; font-size: 36px; font-weight: 600; color: #e0dfdf; letter-spacing: 0.2em; text-transform: uppercase; margin: 0; line-height: 1; }
+
   .prof-nda-notice {
     display: flex; align-items: flex-start; gap: 12px;
     background: rgba(0,212,255,.05); border: 1px solid rgba(0,212,255,.2);
@@ -275,47 +285,43 @@
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
   }
   .prof-card {
-    background: #14141c; border: 1px solid #1e2a3a;
-    cursor: pointer; transition: border-color .25s, transform .2s, box-shadow .25s;
-    position: relative; overflow: hidden;
+    background: var(--as-panel); border: none;
+    cursor: pointer; transition: transform .2s, box-shadow .25s, border-color .2s;
+    position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 1 / 1;
   }
   .prof-card:hover {
-    border-color: #00D4FF; transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(0,212,255,.15);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
   }
   .prof-card-thumb {
-    position: relative; width: 100%; padding-top: 56.25%; overflow: hidden;
+    position: absolute; inset: 0; overflow: hidden;
   }
   .prof-card-thumb img {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; transition: transform .35s, opacity .4s;
+    width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s, filter .3s;
   }
-  .prof-card:hover .prof-card-thumb img { transform: scale(1.04); }
+  .prof-card:hover .prof-card-thumb img { transform: scale(1.04); filter: brightness(0.45); }
   .prof-card-badge {
-    position: absolute; top: 10px; left: 10px;
-    font-family: var(--font-mono); font-size: 9px;
-    color: #00D4FF; border: 1px solid rgba(0,212,255,.4);
-    background: rgba(14,14,24,.85); padding: 2px 8px;
-    letter-spacing: .12em; text-transform: uppercase;
-  }
-  .prof-card-info { padding: 14px 16px 16px; }
-  .prof-card-id {
+    position: absolute; top: 8px; left: 8px;
     font-family: var(--font-mono); font-size: 10px;
-    color: #0099bb; letter-spacing: .18em; margin-bottom: 6px;
+    color: #00D4FF; border: 1px solid rgba(0,212,255,.18);
+    background: rgba(14,14,24,.6); padding: 3px 8px;
+    letter-spacing: .12em; text-transform: uppercase; border-radius: 4px;
+  }
+  /* overlay info similar to art-info */
+  .prof-card-info {
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: none; opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .prof-card:hover .prof-card-info { opacity: 1; }
+  .prof-card-id {
+    font-family: var(--font-mono); font-size: 10px; color: #8fce30; letter-spacing: .18em; margin-bottom: 6px;
   }
   .prof-card-title {
-    font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700;
-    color: #e7e3d4; letter-spacing: .04em; text-transform: uppercase;
-    margin-bottom: 4px; line-height: 1.1;
+    font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #e0dfdf; margin-bottom: 0; line-height: 1.2;
   }
   .prof-card-sub {
-    font-family: var(--font-mono); font-size: 11px; color: #00D4FF;
-    letter-spacing: .02em; margin-bottom: 8px; line-height: 1.5;
+    font-family: var(--font-mono); font-size: 11px; color: #00D4FF; letter-spacing: .02em; margin-bottom: 6px;
   }
-  .prof-card-role {
-    font-family: var(--font-mono); font-size: 10px;
-    color: #556677; letter-spacing: .04em; margin-bottom: 10px;
-  }
+  .prof-card-role { display:none; }
   .prof-card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
   .prof-card-tag {
     font-family: var(--font-mono); font-size: 9px;
@@ -349,28 +355,37 @@
   .pw-filter-bar { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; }
   .pw-tab { background: #141418; border: 1px solid #F0F0F8; color: #888; padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: .04em; }
   .pw-tab:hover { color: #e7e3d4; border-color: #555; }
-  .pw-tab.active { background: #fff; color: #111; border-color: #e7e3d4; }
+  .pw-tab.active { background: rgba(90,90,100,0.75); color: #e7e3d4; border-color: rgba(240,240,248,0.12); box-shadow: none; }
+
+  /* Make pw tabs match main header style */
+  .pw-tab { font-family: 'Teko', sans-serif; font-size: 13px; color: #e7e3d4; border: 1px solid rgba(240,240,248,0.06); background: #141418; padding: 8px 18px; border-radius: 24px; }
+  .pw-tab:hover { color: #ffffff; border-color: rgba(240,240,248,0.12); }
+  .pw-tab.active { background: rgba(90,90,100,0.75); color: #e7e3d4; border-color: rgba(240,240,248,0.12); box-shadow: none; }
 
   /* 카드 그리드 */
-  .pw-project-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  @media(max-width: 1100px) { .pw-project-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media(max-width: 750px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media(max-width: 480px) { .pw-project-grid { grid-template-columns: 1fr; } }
-  .pw-card { background: var(--as-panel); border: 1px solid var(--as-border); cursor: pointer; transition: border-color .2s, transform .2s; border-radius: 8px; overflow: hidden; }
-  .pw-card:hover { border-color: #00D4FF; transform: translateY(-3px); }
-  .pw-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; }
-  .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; display: block; }
-  .pw-card:hover .pw-thumb { transform: scale(1.05); }
-  .pw-count-badge { font-family: \'IBM Plex Mono\', \'Space Mono\', monospace; font-weight: 600; position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; padding: 3px 10px; letter-spacing: .1em; transition: opacity .2s; border-radius: 3px; }
+  /* Make Personal Works grid match main portfolio (square cards, no heavy frames) */
+  .pw-project-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+  @media(max-width: 1200px) { .pw-project-grid { grid-template-columns: repeat(6, 1fr); } }
+  @media(max-width: 800px) { .pw-project-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media(max-width: 500px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .pw-card {
+    background: transparent; border: none; cursor: pointer; transition: transform .18s, box-shadow .18s; border-radius: 4px; overflow: hidden; position: relative; aspect-ratio: 1 / 1;
+  }
+  .pw-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.45); }
+  .pw-thumb-wrap { position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+  .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: filter .3s, transform .3s; display: block; }
+  .pw-card:hover .pw-thumb { filter: brightness(0.45); transform: scale(1.04); }
+  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-weight: 600; font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; padding: 3px 10px; letter-spacing: .1em; border-radius: 3px; transition: opacity .2s; }
   .pw-card:hover .pw-count-badge { opacity: 0; }
   .pw-open-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .pw-open-hint-label { font-family: var(--font-mono); font-size: 11px; color: #FF006E; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(124,106,247,.4); }
-  .pw-card:hover .pw-open-hint { opacity: 1; }
   .pw-hover-overlay { position: absolute; inset: 0; background: rgba(15,15,15,.6); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
   .pw-card:hover .pw-hover-overlay { opacity: 1; }
   .pw-hover-sub { font-family: var(--font-mono); font-size: 10px; color: #00D4FF; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
   .pw-hover-title { font-size: 13px; font-weight: 700; color: #e7e3d4; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
   .pw-card:hover .pw-hover-sub, .pw-card:hover .pw-hover-title { transform: translateX(0); opacity: 1; }
+  
   /* 그리드 섹션 타이틀 */
   .pw-grid-section-title { font-family: var(--font-mono); font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #14141c; }
   .section-title { font-size: 22px; font-weight: 800; color: #e7e3d4; letter-spacing: -0.3px; }
@@ -414,6 +429,16 @@
     background: linear-gradient(to right, #628526, transparent);
     margin-left: 20px;
     align-self: center;
+  }
+  /* Position Personal Works tabs to the right within header */
+  #pw-filter-bar {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
   }
   .section-desc-ko {
     font-size: 13px; color: #a1a09c;
@@ -712,6 +737,13 @@
           <span class="section-num">▪ 01</span>
           <h2><span id="grid-title">ALL Portfolio</span></h2>
           <div class="section-header-line"></div>
+          <!-- Personal Works filter tabs (hidden until Personal selected) -->
+          <div id="pw-filter-bar" class="pw-filter-bar" style="display:none; margin-left:auto; gap:10px; align-items:center;">
+            <button class="pw-tab active" onclick="pwFilterTab('ALL', this)">ALL</button>
+            <button class="pw-tab" onclick="pwFilterTab('PERSONAL', this)">PERSONAL</button>
+            <button class="pw-tab" onclick="pwFilterTab('RELIGHT', this)">RE:LIGHT</button>
+            <button class="pw-tab" onclick="pwFilterTab('SKETCH', this)">SKETCH</button>
+          </div>
         </div>
         <div class="section-desc-ko">방문할 때마다 다른 작업을 만나볼 수 있습니다. 작업의 조각들을 자유롭게 살펴보세요. <a onclick="location.reload()">↺ 새로고침하면 목록이 바뀝니다.</a></div>
         <div class="section-desc-en">Discover a new selection of work with every visit. Feel free to explore these fragments of my projects. <a onclick="location.reload()">↺ Refresh to shuffle the list.</a></div>
@@ -929,9 +961,6 @@
 
       <!-- PERSONAL WORKS SECTION -->
       <div id="personal-works-container">
-
-        <!-- 그리드 섹션 타이틀 -->
-        <div class="pw-grid-section-title" id="pw-grid-section-label">// ALL WORKS</div>
 
         <!-- 카드 그리드 (JS로 렌더링) -->
         <div class="pw-project-grid" id="pw-project-grid"></div>
@@ -1558,7 +1587,8 @@ window.filterData = function(category, btnEl) {
   var isPro = category === 'PRO';
   var isAbout = category === 'ABOUT';
   var isPw = category === 'PERSONAL' || category === 'RELIGHT' || category === 'SKETCH' || category === 'DESIGNER';
-  var hideHeader = isAbout || isPro || isPw;
+  // Only hide the main global header for About and Professional; Personal uses the global header too
+  var hideHeader = isAbout || isPro;
 
   document.getElementById('about-container').style.display = isAbout ? 'block' : 'none';
   document.getElementById('professional-container').style.display = isPro ? 'block' : 'none';
@@ -1577,9 +1607,20 @@ window.filterData = function(category, btnEl) {
   if (isPro) { renderProfContainer(); }
   if (isPw) { pwInit(); }
 
+  // show/hide pw-filter-bar in header
+  var pwBarEl = document.getElementById('pw-filter-bar'); if (pwBarEl) pwBarEl.style.display = isPw ? 'flex' : 'none';
+
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
   btnEl.classList.add('active');
-  document.getElementById('grid-title').innerText = btnEl.innerText.trim();
+  // Update global header title/number for Personal Works to show "04 Personal Works"
+  if (isPw) {
+    var sn = document.querySelector('.section-num'); if (sn) sn.textContent = '▪ 04';
+    var gt = document.getElementById('grid-title'); if (gt) gt.innerText = 'PERSONAL WORKS';
+  } else {
+    document.getElementById('grid-title').innerText = btnEl.innerText.trim();
+    // reset section number for ALL
+    var sn2 = document.querySelector('.section-num'); if (sn2 && !isPro && !isAbout) sn2.textContent = '▪ 01';
+  }
 
   if (!isAbout && !isPro && !isPw) {
     const filtered = category === 'ALL'

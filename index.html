@@ -251,6 +251,11 @@
   /* ── PROFESSIONAL CONTAINER ── */
   #professional-container { display: none; padding: 20px 20px 80px; animation: fadeIn 0.4s; }
 
+  /* Professional 섹션 헤더만 파란색 오버라이드 */
+  .prof-section-header .section-header-top { border-left-color: #00D4FF; }
+  .prof-section-header .section-num { color: #00D4FF; }
+  .prof-section-header .section-header-line { background: linear-gradient(to right, #0077aa, transparent); }
+
   .prof-nda-notice {
     display: flex; align-items: flex-start; gap: 12px;
     background: rgba(0,212,255,.05); border: 1px solid rgba(0,212,255,.2);
@@ -376,13 +381,13 @@
   }
   .section-header-top {
     display: flex; align-items: center; gap: 0; margin-bottom: 12px;
-    border-left: 3px solid #00D4FF;
+    border-left: 3px solid #b8ff3a;
     padding-left: 14px;
   }
   .section-num {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px; font-weight: 400;
-    color: #00D4FF; letter-spacing: 0.25em;
+    color: #b8ff3a; letter-spacing: 0.25em;
     text-transform: uppercase;
     margin-right: 16px;
     opacity: 0.85;
@@ -406,23 +411,23 @@
   }
   .section-header-line {
     flex: 1; height: 1px;
-    background: linear-gradient(to right, #0077aa, transparent);
+    background: linear-gradient(to right, #628526, transparent);
     margin-left: 20px;
     align-self: center;
   }
   .section-desc-ko {
-    font-size: 13px; color: #d2ceba;
-    line-height: 1.8; margin-bottom: 2px;
+    font-size: 13px; color: #a1a09c;
+    line-height: 1.7; margin-bottom: 2px;
     font-family: 'Noto Sans KR', sans-serif;
     padding-left: 17px;
   }
   .section-desc-ko a, .section-desc-en a {
-    color: #00D4FF; text-decoration: none; cursor: pointer;
+    color: #6c9f27; text-decoration: none; cursor: pointer;
     transition: opacity 0.2s;
   }
   .section-desc-ko a:hover, .section-desc-en a:hover { opacity: 0.7; }
   .section-desc-en {
-    font-size: 12px; color: #888;
+    font-size: 12px; color: #787876;
     font-family: 'IBM Plex Mono', monospace;
     line-height: 1.6;
     padding-left: 17px;
@@ -898,7 +903,7 @@
       <div id="professional-container">
 
         <!-- 섹션 헤더 -->
-        <div class="section-header" style="margin-bottom:28px;">
+        <div class="section-header prof-section-header" style="margin-bottom:28px;">
           <div class="section-header-top">
             <span class="section-num">▪ 03</span>
             <h2>PROFESSIONAL</h2>

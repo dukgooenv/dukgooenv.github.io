@@ -428,26 +428,43 @@
   }
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
-  /* PERSONAL WORKS LIGHTBOX */
-  #pw-lb { display: none; width: 100%; height: calc(100vh - 60px); background: #141418; position: relative; }
-  #pw-lb.active { display: flex; align-items: center; justify-content: center; }
-  .pw-lb-wrap { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
-  .pw-lb-img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity .18s ease; cursor: zoom-in; }
-  .pw-lb-img.zoomed { cursor: zoom-out; }
-  .pw-lb-close { position: absolute; top: 12px; right: 12px; background: rgba(20,20,24,.85); border: 1px solid #2a2a3e; color: #a1a09c; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 4; }
-  .pw-lb-close:hover { border-color: #8fce30; color: #8fce30; }
-  .pw-lb-nav-prev, .pw-lb-nav-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(20,20,24,.85); border: 1px solid #2a2a3e; color: #a1a09c; width: 44px; height: 44px; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 3; }
-  .pw-lb-nav-prev { left: 16px; }
-  .pw-lb-nav-next { right: 16px; }
-  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color: #8fce30; color: #8fce30; }
-  .pw-lb-overlay-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 28px; pointer-events: none; z-index: 3; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); }
-  .pw-lb-overlay-id { font-family: var(--font-mono); font-size: 11px; color: #6c9f27; letter-spacing: .15em; margin-bottom: 4px; }
-  .pw-lb-overlay-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 600; color: #e0dfdf; letter-spacing: .05em; text-transform: uppercase; }
-  .pw-lb-counter { font-family: var(--font-mono); font-weight: 600; position: absolute; top: 12px; right: 56px; font-size: 11px; color: #555580; z-index: 4; line-height: 36px; }
-  .pw-lb-zoom-badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; padding: 4px 14px; background: rgba(20,20,24,.9); border: 1px solid #2a2a3e; color: #8fce30; letter-spacing: .1em; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 4; }
-  .pw-lb-zoom-badge.visible { opacity: 1; }
-  .pw-lb-hud { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; align-items: center; z-index: 4; pointer-events: none; }
-  .pw-sz-hint { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.2); letter-spacing: .08em; }
+  /* PERSONAL WORKS LIGHTBOX — prof-lb와 동일 구조 */
+  #pw-lb { display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,.97); flex-direction:column; }
+  #pw-lb.active { display:flex; }
+  .pw-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
+  .pw-lb-header { display:flex; align-items:center; justify-content:flex-end; padding:10px 20px; background:#141418; border-bottom:1px solid #2a2a3e; flex-shrink:0; gap:12px; }
+  .pw-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
+  .pw-lb-close { background:none; border:1px solid #2a2a3e; color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .pw-lb-close:hover { border-color:#8fce30; color:#8fce30; }
+  .pw-lb-body { display:flex; flex:1; overflow:hidden; }
+  .pw-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
+  .pw-lb-img { display:block; max-width:100%; max-height:100%; object-fit:contain; transition:opacity .18s ease; cursor:zoom-in; }
+  .pw-lb-img.zoomed { cursor:zoom-out; }
+  .pw-lb-nav-prev, .pw-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
+  .pw-lb-nav-prev { left:16px; }
+  .pw-lb-nav-next { right:16px; }
+  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color:#8fce30; color:#8fce30; }
+  .pw-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#8fce30; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .pw-lb-zoom-badge.visible { opacity:1; }
+  .pw-lb-hud { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
+  .pw-sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(143,206,48,0.4); letter-spacing:.08em; }
+  /* 우측 정보 패널 */
+  .pw-lb-panel { width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto; }
+  .pw-lb-panel-info { padding:24px 20px; border-bottom:1px solid #2a2a3e; }
+  .pw-lb-overlay-id { font-family:var(--font-mono); font-size:10px; color:#6c9f27; letter-spacing:.2em; text-transform:uppercase; margin-bottom:8px; display:block; }
+  .pw-lb-overlay-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; text-transform:uppercase; display:block; margin-bottom:12px; }
+  .pw-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:12px; flex:1; overflow-y:auto; }
+  .pw-lb-thumbs::-webkit-scrollbar { width:4px; }
+  .pw-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(143,206,48,0.3); border-radius:2px; }
+  .pw-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
+  .pw-lb-thumb-item:hover, .pw-lb-thumb-item.active { opacity:1; border-color:#8fce30; }
+  .pw-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* prof-card hover 유튜브 */
+  .prof-card-hover-video { position:absolute; inset:0; z-index:1; opacity:0; transition:opacity .4s; pointer-events:none; }
+  .prof-card-hover-video iframe { width:100%; height:100%; border:none; pointer-events:none; transform:scale(1.05); }
+  .prof-card.video-loaded:hover .prof-card-hover-video { opacity:1; }
+  .prof-card.video-loaded:hover .prof-card-thumb img { opacity:0; }
   .ff-btn {
     background: transparent; color: var(--as-text-muted); border: none; padding: 10px 24px; border-radius: 25px;
     font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
@@ -1009,22 +1026,38 @@
 
 
   <!-- PERSONAL WORKS LIGHTBOX -->
-  <div id="pw-lb" onclick="if(event.target===this)closePwLb()">
+  <div id="pw-lb">
     <div class="pw-lb-wrap">
-      <img id="pw-lb-img" class="pw-lb-img" src="" alt="">
-      <div class="pw-lb-overlay-info">
-        <div class="pw-lb-overlay-id" id="pw-lb-overlay-id">// PERSONAL</div>
-        <div class="pw-lb-overlay-title" id="pw-lb-overlay-title"></div>
+      <!-- 상단 헤더 -->
+      <div class="pw-lb-header">
+        <span class="pw-lb-counter" id="pw-lb-counter"></span>
+        <button class="pw-lb-close" onclick="closePwLb()">✕</button>
       </div>
-      <span class="pw-lb-counter" id="pw-lb-counter"></span>
-      <div class="pw-lb-zoom-badge" id="pw-lb-zoom-badge">🔍 100%</div>
-      <button class="pw-lb-close" onclick="closePwLb()">✕</button>
-      <button class="pw-lb-nav-prev" onclick="pwLbPrev()">‹</button>
-      <button class="pw-lb-nav-next" onclick="pwLbNext()">›</button>
-      <div class="pw-lb-hud">
-        <span class="pw-sz-hint">← → navigate</span>
-        <span class="pw-sz-hint" style="color:rgba(255,255,255,.1)">|</span>
-        <span class="pw-sz-hint">ESC close</span>
+      <!-- 바디: 좌측 이미지 + 우측 패널 -->
+      <div class="pw-lb-body">
+        <!-- 좌측 이미지 영역 -->
+        <div class="pw-lb-main">
+          <img id="pw-lb-img" class="pw-lb-img" src="" alt="">
+          <button class="pw-lb-nav-prev" onclick="pwLbPrev()">‹</button>
+          <button class="pw-lb-nav-next" onclick="pwLbNext()">›</button>
+          <div class="pw-lb-zoom-badge" id="pw-lb-zoom-badge">🔍 100%</div>
+          <div class="pw-lb-hud">
+            <span class="pw-sz-hint">← → navigate</span>
+            <span class="pw-sz-hint" style="color:rgba(255,255,255,.1)">|</span>
+            <span class="pw-sz-hint">click zoom</span>
+            <span class="pw-sz-hint" style="color:rgba(255,255,255,.1)">|</span>
+            <span class="pw-sz-hint">ESC close</span>
+          </div>
+        </div>
+        <!-- 우측 정보 패널 -->
+        <div class="pw-lb-panel">
+          <div class="pw-lb-panel-info">
+            <span class="pw-lb-overlay-id" id="pw-lb-overlay-id">// PERSONAL</span>
+            <span class="pw-lb-overlay-title" id="pw-lb-overlay-title"></span>
+          </div>
+          <!-- 썸네일 목록 -->
+          <div class="pw-lb-thumbs" id="pw-lb-thumbs"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1459,7 +1492,7 @@ window.showAboutSection = function() {
 // ── Professional 카드 데이터 정의 ──
 var profCardData = [
   {
-    key: 'lionheart',
+    key: 'lionheart', videoId: 'tvAcoxRube0',
     id: 'PROJ_016 · 2025—',
     title: 'Lionheart Studio',
     sub: 'ODIN: Valhalla Rising / MMORPG · Live Service · Mobile · PC',
@@ -1469,17 +1502,17 @@ var profCardData = [
     media: '▶ VIDEO'
   },
   {
-    key: 'ncsoft',
+    key: 'ncsoft', videoId: 'liEb8B3osuY',
     id: 'PROJ_015 · 2021—2024',
     title: 'NCSoft',
     sub: 'Project M / Interactive Adventure · Alpha / PlayStation 5',
     role: 'Integration · Lighting · Tech Doc · Outsourcing · Feedback',
     tags: [{ label: 'Developer : Project M', cls: 'dev' }, { label: 'Publisher : NCSoft', cls: '' }],
-    thumb: 'https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg',
+    thumb: 'https://img.youtube.com/vi/liEb8B3osuY/maxresdefault.jpg',
     media: '▶ VIDEO + IMAGES'
   },
   {
-    key: 'changse',
+    key: 'changse', videoId: '2zKdRMch0Us',
     id: 'PROJ_014 · 2018—2020',
     title: 'Line Games',
     sub: '창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha',
@@ -1489,7 +1522,7 @@ var profCardData = [
     media: '▶ VIDEO'
   },
   {
-    key: 'nexon',
+    key: 'nexon', videoId: 'NOZ51TUyemo',
     id: 'PROJ_013 · 2017—2018',
     title: 'Nexon Korea',
     sub: 'Ascendant One / MOBA · PC Online / Alpha',
@@ -1499,7 +1532,7 @@ var profCardData = [
     media: '▶ VIDEO + IMAGES'
   },
   {
-    key: 'xlgames',
+    key: 'xlgames', videoId: 'behf7twp1bo',
     id: 'PROJ_012 · 2017',
     title: 'XLGames',
     sub: 'Civilization Online / MMORPG · PC Online / Open Beta',
@@ -1509,7 +1542,7 @@ var profCardData = [
     media: '▶ VIDEO + IMAGES'
   },
   {
-    key: 'neptune',
+    key: 'neptune', videoId: 'k4VzC93T00g',
     id: 'PROJ_011 · 2015—2016',
     title: 'Neptune',
     sub: 'Neppy Rush / Tower Defence · Mobile / Alpha',
@@ -1519,7 +1552,7 @@ var profCardData = [
     media: '▶ VIDEO + IMAGES'
   },
   {
-    key: 'puregames',
+    key: 'puregames', videoId: 'UjtP1k8C5yw',
     id: 'PROJ_010 · 2013—2014',
     title: 'Pure Games',
     sub: 'Vendetta Online / MMORPG · PC Online',
@@ -1529,7 +1562,7 @@ var profCardData = [
     media: '▶ VIDEO + IMAGES'
   },
   {
-    key: 'yeinssoft',
+    key: 'yeinssoft', videoId: null,
     id: 'PROJ_001 · 2008—2011',
     title: 'YeinsSoft',
     sub: 'Rappelz / MMORPG · PC Online',
@@ -1544,9 +1577,29 @@ function buildProfCard(d) {
   var tagsHtml = d.tags.map(function(t) {
     return '<span class="prof-card-tag ' + t.cls + '">' + t.label + '</span>';
   }).join('');
-  return '<div class="prof-card" onclick="openProfLb(\'' + d.key + '\')">'
+
+  // 유튜브 ID 추출 (videoId 있는 경우)
+  var videoId = d.videoId || null;
+  // thumb 폴백: maxresdefault → hqdefault
+  var thumbSrc = d.thumb;
+  var thumbOnerror = '';
+  if (thumbSrc && thumbSrc.includes('maxresdefault')) {
+    thumbOnerror = 'onerror="this.src=\'' + thumbSrc.replace('maxresdefault', 'hqdefault') + '\'"';
+  }
+
+  var hoverVideoHtml = '';
+  var mouseenterAttr = '';
+  if (videoId) {
+    hoverVideoHtml = '<div class="prof-card-hover-video">'
+      + '<iframe data-src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>'
+      + '</div>';
+    mouseenterAttr = ' onmouseenter="(function(c){var v=c.querySelector(\'.prof-card-hover-video iframe\');if(v&&(!v.src||v.src===\'about:blank\')){v.src=v.dataset.src;v.onload=function(){c.classList.add(\'video-loaded\');};};})(this)"';
+  }
+
+  return '<div class="prof-card"' + mouseenterAttr + ' onclick="openProfLb(\'' + d.key + '\')">'
     + '<div class="prof-card-thumb">'
-    + '<img src="' + d.thumb + '" alt="' + d.title + '" loading="lazy">'
+    + '<img src="' + thumbSrc + '" ' + thumbOnerror + ' alt="' + d.title + '" loading="lazy">'
+    + hoverVideoHtml
     + '<span class="prof-card-badge">PROFESSIONAL</span>'
     + '<span class="prof-card-media-hint">' + d.media + '</span>'
     + '</div>'
@@ -1937,21 +1990,19 @@ window.openPwLb = function(key, startIdx) {
   pwLbZoomed = false;
   document.getElementById('pw-lb-overlay-id').textContent = proj.id;
   document.getElementById('pw-lb-overlay-title').textContent = proj.title;
+
+  // 썸네일 패널 빌드
+  var thumbsEl = document.getElementById('pw-lb-thumbs');
+  if (thumbsEl) {
+    thumbsEl.innerHTML = proj.images.map(function(src, i) {
+      return '<div class="pw-lb-thumb-item' + (i === 0 ? ' active' : '') + '" onclick="pwLbGoTo(' + i + ')" data-idx="' + i + '">'
+        + '<img src="' + src + '" loading="lazy" alt="">'
+        + '</div>';
+    }).join('');
+  }
+
   _pwLbRender();
-
-  // 그리드/헤더 숨기고 pw-lb 표시
-  document.getElementById('main-grid-top').style.display = 'none';
-  document.getElementById('main-grid-bottom').style.display = 'none';
-  var sp = document.getElementById('spotlight-section');
-  if (sp) sp.style.display = 'none';
-  var sh = document.querySelector('.section-header');
-  if (sh) sh.style.display = 'none';
-
-  // pw-lb를 scroll-section 안으로 이동
-  var scrollSection = document.querySelector('.scroll-section');
-  var pwlb = document.getElementById('pw-lb');
-  scrollSection.appendChild(pwlb);
-  pwlb.classList.add('active');
+  document.getElementById('pw-lb').classList.add('active');
 };
 
 function _pwLbRender() {
@@ -1967,20 +2018,27 @@ function _pwLbRender() {
   badge.textContent = '🔍 100%';
   badge.classList.remove('visible');
   document.getElementById('pw-lb-counter').textContent = (pwLbCurrentIdx + 1) + ' / ' + imgs.length;
+
+  // 썸네일 active 동기화 + 스크롤
+  var thumbsEl = document.getElementById('pw-lb-thumbs');
+  if (thumbsEl) {
+    thumbsEl.querySelectorAll('.pw-lb-thumb-item').forEach(function(el) {
+      var idx = parseInt(el.dataset.idx);
+      el.classList.toggle('active', idx === pwLbCurrentIdx);
+      if (idx === pwLbCurrentIdx) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  }
 }
+
+window.pwLbGoTo = function(idx) {
+  pwLbCurrentIdx = idx;
+  _pwLbRender();
+};
 
 window.closePwLb = function() {
   document.getElementById('pw-lb').classList.remove('active');
-  // 그리드/헤더 복원
-  document.getElementById('main-grid-top').style.display = 'grid';
-  document.getElementById('main-grid-bottom').style.display = 'grid';
-  var sh = document.querySelector('.section-header');
-  if (sh) sh.style.display = '';
-  // ALL 탭이면 스포트라이트 복원
-  var activeBtn = document.querySelector('.channel-pill.active');
-  var isAll = !activeBtn || activeBtn.innerText.toUpperCase().includes('ALL');
-  var sp = document.getElementById('spotlight-section');
-  if (sp && isAll) sp.style.display = 'block';
   pwLbCurrentKey = '';
 };
 
@@ -1998,25 +2056,24 @@ window.pwLbPrev = function() {
 
 // 줌 토글
 document.addEventListener('DOMContentLoaded', function() {
-  var pwImg = document.getElementById('pw-lb-img');
-  if (pwImg) {
-    pwImg.addEventListener('click', function() {
-      pwLbZoomed = !pwLbZoomed;
-      var badge = document.getElementById('pw-lb-zoom-badge');
-      if (pwLbZoomed) {
-        pwImg.style.transform = 'scale(1.8)';
-        pwImg.classList.add('zoomed');
-        badge.textContent = '🔍 180%';
-      } else {
-        pwImg.style.transform = '';
-        pwImg.classList.remove('zoomed');
-        badge.textContent = '🔍 100%';
-      }
-      badge.classList.add('visible');
-      clearTimeout(pwImg._zoomBadgeTimer);
-      pwImg._zoomBadgeTimer = setTimeout(function() { badge.classList.remove('visible'); }, 1200);
-    });
-  }
+  document.addEventListener('click', function(e) {
+    var pwImg = e.target;
+    if (!pwImg.id || pwImg.id !== 'pw-lb-img') return;
+    pwLbZoomed = !pwLbZoomed;
+    var badge = document.getElementById('pw-lb-zoom-badge');
+    if (pwLbZoomed) {
+      pwImg.style.transform = 'scale(1.8)';
+      pwImg.classList.add('zoomed');
+      badge.textContent = '🔍 180%';
+    } else {
+      pwImg.style.transform = '';
+      pwImg.classList.remove('zoomed');
+      badge.textContent = '🔍 100%';
+    }
+    badge.classList.add('visible');
+    clearTimeout(pwImg._zoomBadgeTimer);
+    pwImg._zoomBadgeTimer = setTimeout(function() { badge.classList.remove('visible'); }, 1200);
+  });
 });
 
 // 키보드 지원

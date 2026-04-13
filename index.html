@@ -880,9 +880,12 @@
       <div id="professional-container">
 
         <!-- 섹션 헤더 -->
-        <div style="margin-bottom: 28px;">
-          <span style="font-family:var(--font-mono);font-size:11px;color:#6c9f27;letter-spacing:.2em;display:block;margin-bottom:6px;">▪ 01</span>
-          <h2 style="font-family:'Rajdhani',sans-serif;font-size:42px;font-weight:700;color:#e7e3d4;letter-spacing:.08em;text-transform:uppercase;line-height:1;margin-bottom:0;">PROFESSIONAL</h2>
+        <div class="section-header" style="margin-bottom:28px;">
+          <div class="section-header-top">
+            <span class="section-num">▪ 03</span>
+            <h2>PROFESSIONAL</h2>
+            <div class="section-header-line"></div>
+          </div>
         </div>
 
         <!-- NDA 안내 -->
@@ -1567,11 +1570,16 @@ function renderProfContainer() {
 
 window.filterData = function(category, btnEl) {
   var isPro = category === 'PRO';
+  var hideHeader = category === 'ABOUT' || isPro;
   document.getElementById('about-container').style.display = category === 'ABOUT' ? 'block' : 'none';
-  document.getElementById('main-grid-top').style.display = (category === 'ABOUT' || isPro) ? 'none' : 'grid';
-  document.getElementById('main-grid-bottom').style.display = (category === 'ABOUT' || isPro) ? 'none' : 'grid';
+  document.getElementById('main-grid-top').style.display = hideHeader ? 'none' : 'grid';
+  document.getElementById('main-grid-bottom').style.display = hideHeader ? 'none' : 'grid';
   document.getElementById('personal-works-container').style.display = 'none';
   document.getElementById('professional-container').style.display = isPro ? 'block' : 'none';
+
+  // section-header (타이틀+설명 2줄) — PRO/ABOUT일 때 숨김
+  var sh = document.querySelector('.section-header');
+  if (sh) sh.style.display = hideHeader ? 'none' : '';
 
   if (category === 'ABOUT') { initAboutBgVideo(); }
   if (isPro) { renderProfContainer(); }

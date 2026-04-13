@@ -1502,13 +1502,13 @@ var profCardData = [
     media: '▶ VIDEO'
   },
   {
-    key: 'ncsoft', videoId: 'liEb8B3osuY',
+    key: 'ncsoft', videoId: 'bDXLAaqR_Yg',
     id: 'PROJ_015 · 2021—2024',
     title: 'NCSoft',
     sub: 'Project M / Interactive Adventure · Alpha / PlayStation 5',
     role: 'Integration · Lighting · Tech Doc · Outsourcing · Feedback',
     tags: [{ label: 'Developer : Project M', cls: 'dev' }, { label: 'Publisher : NCSoft', cls: '' }],
-    thumb: 'https://img.youtube.com/vi/liEb8B3osuY/maxresdefault.jpg',
+    thumb: 'https://img.youtube.com/vi/bDXLAaqR_Yg/hqdefault.jpg',
     media: '▶ VIDEO + IMAGES'
   },
   {
@@ -1518,7 +1518,7 @@ var profCardData = [
     sub: '창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha',
     role: 'Level Design · Lighting · Outsourcing · Feedback',
     tags: [{ label: 'Developer : Line Games', cls: 'dev' }],
-    thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg',
+    thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/hqdefault.jpg',
     media: '▶ VIDEO'
   },
   {
@@ -1528,7 +1528,7 @@ var profCardData = [
     sub: 'Ascendant One / MOBA · PC Online / Alpha',
     role: 'Hard Surface Modeling · PBR Texturing · Integration',
     tags: [{ label: 'Developer : Nexon Korea', cls: 'dev' }],
-    thumb: 'images/Professional/2018_NexonKorea/2018_NexonKorea_Thumb.webp',
+    thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg',
     media: '▶ VIDEO + IMAGES'
   },
   {
@@ -1538,7 +1538,7 @@ var profCardData = [
     sub: 'Civilization Online / MMORPG · PC Online / Open Beta',
     role: 'Level Design · Shader · Lighting · Optimization',
     tags: [{ label: 'Developer : XLGames', cls: 'dev' }, { label: 'Publisher : 2K', cls: '' }],
-    thumb: 'images/Professional/2017_XLGAMES/2017_XLGAMES_Thumb.webp',
+    thumb: 'https://img.youtube.com/vi/behf7twp1bo/hqdefault.jpg',
     media: '▶ VIDEO + IMAGES'
   },
   {
@@ -1548,7 +1548,7 @@ var profCardData = [
     sub: 'Neppy Rush / Tower Defence · Mobile / Alpha',
     role: 'Level Design · Shader · Lighting · Modeling · Textures',
     tags: [{ label: 'Developer : Neptune', cls: 'dev' }],
-    thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg',
+    thumb: 'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg',
     media: '▶ VIDEO + IMAGES'
   },
   {
@@ -1558,7 +1558,7 @@ var profCardData = [
     sub: 'Vendetta Online / MMORPG · PC Online',
     role: 'Environment Modeling · Texturing · Level Design',
     tags: [{ label: 'Developer : Pure Games', cls: 'dev' }],
-    thumb: 'images/Professional/2014_PureGames/2014_PureGames_Thumb.webp',
+    thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/hqdefault.jpg',
     media: '▶ VIDEO + IMAGES'
   },
   {
@@ -1580,12 +1580,9 @@ function buildProfCard(d) {
 
   // 유튜브 ID 추출 (videoId 있는 경우)
   var videoId = d.videoId || null;
-  // thumb 폴백: maxresdefault → hqdefault
+  // thumb 폴백: img 로드 실패 시 hqdefault로
   var thumbSrc = d.thumb;
-  var thumbOnerror = '';
-  if (thumbSrc && thumbSrc.includes('maxresdefault')) {
-    thumbOnerror = 'onerror="this.src=\'' + thumbSrc.replace('maxresdefault', 'hqdefault') + '\'"';
-  }
+  var thumbOnerror = 'onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (d.videoId || '') + '/hqdefault.jpg\'"';
 
   var hoverVideoHtml = '';
   var mouseenterAttr = '';

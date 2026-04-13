@@ -1589,28 +1589,32 @@ function renderProfContainer() {
 
 window.filterData = function(category, btnEl) {
   var isPro = category === 'PRO';
-  var hideHeader = category === 'ABOUT' || isPro;
-  document.getElementById('about-container').style.display = category === 'ABOUT' ? 'block' : 'none';
-  document.getElementById('main-grid-top').style.display = hideHeader ? 'none' : 'grid';
-  document.getElementById('main-grid-bottom').style.display = hideHeader ? 'none' : 'grid';
-  document.getElementById('personal-works-container').style.display = 'none';
-  document.getElementById('professional-container').style.display = isPro ? 'block' : 'none';
+  var isAbout = category === 'ABOUT';
+  var isPw = category === 'PERSONAL' || category === 'RELIGHT' || category === 'SKETCH' || category === 'DESIGNER';
+  var hideHeader = isAbout || isPro || isPw;
 
-  // section-header (타이틀+설명 2줄) — PRO/ABOUT일 때 숨김
+  document.getElementById('about-container').style.display = isAbout ? 'block' : 'none';
+  document.getElementById('professional-container').style.display = isPro ? 'block' : 'none';
+  document.getElementById('personal-works-container').style.display = isPw ? 'block' : 'none';
+  document.getElementById('main-grid-top').style.display = (hideHeader) ? 'none' : 'grid';
+  document.getElementById('main-grid-bottom').style.display = (hideHeader) ? 'none' : 'grid';
+
+  // section-header — PRO/ABOUT/PW일 때 숨김
   var sh = document.querySelector('.section-header');
   if (sh) sh.style.display = hideHeader ? 'none' : '';
 
-  if (category === 'ABOUT') { initAboutBgVideo(); }
-  if (isPro) { renderProfContainer(); }
-
   var sp = document.getElementById('spotlight-section');
   if (sp) sp.style.display = 'none';
+
+  if (isAbout) { initAboutBgVideo(); }
+  if (isPro) { renderProfContainer(); }
+  if (isPw) { pwInit(); }
 
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
   btnEl.classList.add('active');
   document.getElementById('grid-title').innerText = btnEl.innerText.trim();
 
-  if (category !== 'ABOUT' && !isPro) {
+  if (!isAbout && !isPro && !isPw) {
     const filtered = category === 'ALL'
       ? [...portfolioData]
       : portfolioData.filter(p => p.category === category);

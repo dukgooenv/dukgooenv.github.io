@@ -244,26 +244,28 @@
   #personal-works-container { display: none; padding: 10px 0 80px 0; animation: fadeIn 0.4s; }
 
   /* ── PROFESSIONAL CONTAINER ── */
-  #professional-container { display: none; padding: 20px 20px 80px; animation: fadeIn 0.4s; }
+  #professional-container { display: none; padding: 0 0 80px 0; animation: fadeIn 0.4s; }
+
+  /* Make NDA and email links in section descriptions blue like other pro accents */
+  .section-desc-ko strong, .section-desc-en strong { color: #00D4FF; }
+  .section-desc-ko a, .section-desc-en a { color: #00D4FF; text-decoration: none; }
+  .section-desc-ko a:hover, .section-desc-en a:hover { opacity: 0.8; }
 
   /* Professional 섹션 헤더만 파란색 오버라이드 */
   .prof-section-header .section-header-top { border-left-color: #00D4FF; }
   .prof-section-header .section-num { color: #00D4FF; }
   .prof-section-header .section-header-line { background: linear-gradient(to right, #0077aa, transparent); }
 
+  /* Personal Works 섹션 헤더 스타일 (프로와 동일한 구조, 색상만 변경) */
+  .pw-section-header .section-header-top { border-left-color: #F5C400; }
+  .pw-section-header .section-num { color: #F5C400; }
+  .pw-section-header .section-header-line { background: linear-gradient(to right, #D95A00, transparent); }
+
   /* Ensure professional header matches global header layout exactly */
-  .prof-section-header {
-    padding: 18px 20px 12px 20px;
-    margin-top: 4px;
-    position: relative;
-  }
-  .prof-section-header .section-header-top {
-    display: flex; align-items: center; gap: 0; margin-bottom: 12px;
-    border-left: 3px solid #00D4FF; padding-left: 14px;
-  }
-  .prof-section-header .section-header-line {
-    flex: 1; height: 1px; background: linear-gradient(to right, #0077aa, transparent); margin-left: 20px; align-self: center;
-  }
+  .prof-section-header { position: relative; }
+  .prof-section-header .section-header-top { border-left-color: #00D4FF; }
+  .prof-section-header .section-header-line { background: linear-gradient(to right, #0077aa, transparent); }
+  .prof-section-header .section-num { color: #00D4FF; }
   .prof-section-header h2 { font-family: 'Teko', sans-serif; font-size: 36px; font-weight: 600; color: #e0dfdf; letter-spacing: 0.2em; text-transform: uppercase; margin: 0; line-height: 1; }
 
   .prof-nda-notice {
@@ -313,7 +315,7 @@
   }
   .prof-card:hover .prof-card-info { opacity: 1; }
   .prof-card-id {
-    font-family: var(--font-mono); font-size: 10px; color: #8fce30; letter-spacing: .18em; margin-bottom: 6px;
+    font-family: var(--font-mono); font-size: 10px; color: #6c9f27; letter-spacing: .18em; margin-bottom: 6px;
   }
   .prof-card-title {
     font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #e0dfdf; margin-bottom: 0; line-height: 1.2;
@@ -390,19 +392,19 @@
   .pw-grid-section-title { font-family: var(--font-mono); font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #14141c; }
   .section-title { font-size: 22px; font-weight: 800; color: #e7e3d4; letter-spacing: -0.3px; }
   .section-header {
-    padding: 18px 20px 12px 20px;
-    margin-top: 4px;
+    padding: 12px 20px 12px 20px;
+    margin-top: 0;
     position: relative;
   }
   .section-header-top {
     display: flex; align-items: center; gap: 0; margin-bottom: 12px;
-    border-left: 3px solid #b8ff3a;
+    border-left: 3px solid #628526;
     padding-left: 14px;
   }
   .section-num {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px; font-weight: 400;
-    color: #b8ff3a; letter-spacing: 0.25em;
+    color: #6c9f27; letter-spacing: 0.25em;
     text-transform: uppercase;
     margin-right: 16px;
     opacity: 0.85;
@@ -442,20 +444,19 @@
   }
   .section-desc-ko {
     font-size: 13px; color: #a1a09c;
-    line-height: 1.7; margin-bottom: 2px;
+    line-height: 1.7; margin: 6px 0 0 0;
     font-family: 'Noto Sans KR', sans-serif;
     padding-left: 17px;
   }
   .section-desc-ko a, .section-desc-en a {
-    color: #6c9f27; text-decoration: none; cursor: pointer;
+    color: #00D4FF; text-decoration: none; cursor: pointer;
     transition: opacity 0.2s;
   }
   .section-desc-ko a:hover, .section-desc-en a:hover { opacity: 0.7; }
   .section-desc-en {
-    font-size: 12px; color: #787876;
+    font-size: 13px; color: #787876;
     font-family: 'IBM Plex Mono', monospace;
-    line-height: 1.6;
-    padding-left: 17px;
+    line-height: 1.7; margin: 6px 0 0 0; padding-left: 17px;
   }
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
@@ -466,7 +467,7 @@
   .pw-lb-header { display:flex; align-items:center; justify-content:flex-end; padding:10px 20px; background:#141418; border-bottom:1px solid #2a2a3e; flex-shrink:0; gap:12px; }
   .pw-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
   .pw-lb-close { background:none; border:1px solid #2a2a3e; color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .pw-lb-close:hover { border-color:#8fce30; color:#8fce30; }
+  .pw-lb-close:hover { border-color:#E87300; color:#E87300; }
   .pw-lb-body { display:flex; flex:1; overflow:hidden; }
   .pw-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .pw-lb-img { display:block; max-width:100%; max-height:100%; object-fit:contain; transition:opacity .18s ease; cursor:zoom-in; }
@@ -474,21 +475,21 @@
   .pw-lb-nav-prev, .pw-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .pw-lb-nav-prev { left:16px; }
   .pw-lb-nav-next { right:16px; }
-  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color:#8fce30; color:#8fce30; }
-  .pw-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#8fce30; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color:#E87300; color:#E87300; }
+  .pw-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#E87300; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .pw-lb-zoom-badge.visible { opacity:1; }
   .pw-lb-hud { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
-  .pw-sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(143,206,48,0.4); letter-spacing:.08em; }
+  .pw-sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(232,115,0,0.4); letter-spacing:.08em; }
   /* 우측 정보 패널 */
   .pw-lb-panel { width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto; }
   .pw-lb-panel-info { padding:24px 20px; border-bottom:1px solid #2a2a3e; }
-  .pw-lb-overlay-id { font-family:var(--font-mono); font-size:10px; color:#6c9f27; letter-spacing:.2em; text-transform:uppercase; margin-bottom:8px; display:block; }
+  .pw-lb-overlay-id { font-family:var(--font-mono); font-size:10px; color:#D95A00; letter-spacing:.2em; text-transform:uppercase; margin-bottom:8px; display:block; }
   .pw-lb-overlay-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; text-transform:uppercase; display:block; margin-bottom:12px; }
   .pw-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:12px; flex:1; overflow-y:auto; }
   .pw-lb-thumbs::-webkit-scrollbar { width:4px; }
-  .pw-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(143,206,48,0.3); border-radius:2px; }
+  .pw-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(232,115,0,0.3); border-radius:2px; }
   .pw-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
-  .pw-lb-thumb-item:hover, .pw-lb-thumb-item.active { opacity:1; border-color:#8fce30; }
+  .pw-lb-thumb-item:hover, .pw-lb-thumb-item.active { opacity:1; border-color:#E87300; }
   .pw-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
 
   /* prof-card hover 유튜브 */
@@ -569,18 +570,9 @@
     position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: #e7e3d4;
     width: 50px; height: 50px; border-radius: 8px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
   }
-  .lb-nav:hover { background: rgba(255,255,255,0.2); }
   .lb-prev { left: 20px; }
   .lb-next { right: 20px; }
-
-.channels-bar {
-    padding: 6px 0;
-    margin-bottom: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: #141418;
-}
+  .lb-nav:hover { background: rgba(255,255,255,0.2); }
 
 
   /* ABOUT 링크 - 기본 일반색, 호버 시 ARC Raiders 그라디언트 루프 */
@@ -887,7 +879,7 @@
               <div style="padding: 10px 12px 12px;">
                 <div style="font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: #e7e3d4; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">M4 Carbine with M203</div>
                 <div style="display: flex; align-items: center; gap: 6px;">
-                  <span style="font-family: var(--font-mono); font-size: 9px; color: #b8ff3a; border: 1px solid rgba(184,255,58,0.3); padding: 1px 6px; border-radius: 2px;">PERSONAL</span>
+                  <span style="font-family: var(--font-mono); font-size: 9px; color: #F5C400; border: 1px solid rgba(245,196,0,0.3); padding: 1px 6px; border-radius: 2px;">PERSONAL</span>
                   <span style="font-family: var(--font-mono); font-size: 9px; color: #555580;">2019.09.02</span>
                 </div>
               </div>
@@ -927,22 +919,19 @@
       <!-- PROFESSIONAL SECTION -->
       <div id="professional-container">
 
-        <!-- 섹션 헤더 -->
-        <div class="section-header prof-section-header" style="margin-bottom:28px;">
+        <!-- 섹션 헤더: 동일한 구조(번호/제목/라인) + 설명 영역 + 오른쪽 필터 자리 -->
+        <div class="section-header prof-section-header" style="margin-bottom:28px; position:relative;">
           <div class="section-header-top">
             <span class="section-num">▪ 03</span>
             <h2>PROFESSIONAL</h2>
             <div class="section-header-line"></div>
           </div>
-        </div>
-
-        <!-- NDA 안내 -->
-        <div class="prof-nda-notice">
-          <span class="prof-nda-icon">🔒</span>
-          <div>
-            <div class="prof-nda-text-ko"><strong>보안 유지(NDA)</strong>로 인해 공개가 제한된 상업 프로젝트는 아래 메일로 문의 시 상세 포트폴리오 확인이 가능합니다. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></div>
-            <div class="prof-nda-text-en">Due to <strong>NDA</strong> restrictions, detailed portfolios for commercial projects are available upon request via email.</div>
+          
+          <div id="prof-filter-bar" style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; gap:10px; align-items:center;">
+            <!-- placeholder for symmetry with other headers -->
           </div>
+          <div class="section-desc-ko"><strong>NDA</strong>로 인해 공개가 제한된 🔒 상업 프로젝트는 일부 공개가 제한됩니다. 상세 포트폴리오는 이메일로 문의 주세요. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></div>
+          <div class="section-desc-en">Due to <strong>NDA</strong> restrictions, 🔒 commercial projects are limited. Contact via <a href="mailto:dukgooenv@gmail.com">Email ✉</a> for the full portfolio.</div>
         </div>
 
         <!-- 카드 그리드: 1행 2개 -->
@@ -954,6 +943,22 @@
 
       <!-- PERSONAL WORKS SECTION -->
       <div id="personal-works-container">
+
+        <!-- 섹션 헤더: PROFESSIONAL과 구조 동일 (번호/제목/라인 + PW 필터) -->
+        <div class="section-header pw-section-header" style="margin-bottom:28px;">
+          <div class="section-header-top">
+            <span class="section-num">▪ 04</span>
+            <h2>PERSONAL WORKS</h2>
+            <div class="section-header-line"></div>
+          </div>
+            <div id="pw-filter-bar">
+            <button class="pw-tab active" onclick="pwFilterTab('ALL', this)">ALL</button>
+            <button class="pw-tab" onclick="pwFilterTab('PERSONAL', this)">PERSONAL</button>
+            <button class="pw-tab" onclick="pwFilterTab('RELIGHT', this)">RE:LIGHT</button>
+            <button class="pw-tab" onclick="pwFilterTab('SKETCH', this)">SKETCH</button>
+            <button class="pw-tab" onclick="pwFilterTab('DESIGNER', this)">DESIGNER</button>
+          </div>
+        </div>
 
         <!-- 카드 그리드 (JS로 렌더링) -->
         <div class="pw-project-grid" id="pw-project-grid"></div>
@@ -1599,6 +1604,16 @@ window.filterData = function(category, btnEl) {
   if (isAbout) { initAboutBgVideo(); }
   if (isPro) { renderProfContainer(); }
   if (isPw) { pwInit(); }
+
+  // When switching to Personal Works, ensure PW tab UI resets to ALL
+  if (isPw) {
+    var pwTabs = document.querySelectorAll('.pw-tab');
+    if (pwTabs && pwTabs.length) {
+      pwTabs.forEach(function(b){ b.classList.remove('active'); });
+      // default to first tab (ALL)
+      pwTabs[0].classList.add('active');
+    }
+  }
 
   // show/hide pw-filter-bar in header
   var pwBarEl = document.getElementById('pw-filter-bar'); if (pwBarEl) pwBarEl.style.display = isPw ? 'flex' : 'none';

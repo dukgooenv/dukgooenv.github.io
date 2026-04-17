@@ -745,52 +745,52 @@
                    transform: translate(-50%, -50%);
                    border: none; pointer-events: none;"
             allow="autoplay; encrypted-media"></iframe>
-          <!-- 어두운 오버레이: 상/하/좌/우 그라디언트 + 파란색 틴트 -->
+          <!-- 어두운 오버레이: 상/하/좌/우 그라디언트 + 전체 dim + 파란색 틴트 -->
           <div style="position: absolute; inset: 0; background: rgba(18,18,18,0.45);"></div>
           <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,18,18,0.6) 0%, transparent 20%, transparent 80%, rgba(18,18,18,0.8) 100%);"></div>
           <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,18,18,0.5) 0%, transparent 30%, transparent 70%, rgba(18,18,18,0.5) 100%);"></div>
           <div style="position: absolute; inset: 0; background: rgba(0, 100, 200, 0.15); mix-blend-mode: multiply;"></div>
         </div>
 
-        <!-- ABOUT 섹션 헤더 -->
-        <div style="padding: 0 20px; position: relative; z-index: 2;">
-          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px; border-left: 3px solid #00D4FF; padding-left: 14px;">
-            <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 400; color: #00D4FF; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.85;">02</div>
-            <h2 style="font-family: 'Teko', sans-serif; font-size: 36px; font-weight: 600; color: #e0dfdf; letter-spacing: 0.2em; text-transform: uppercase; margin: 0; line-height: 1;">ABOUT</h2>
-            <div style="background: linear-gradient(to right, #0055aa, transparent); height: 1px; flex: 1;"></div>
+        <div style="position: relative; z-index: 1; margin: 0 20px 40px; border-radius: 22px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.35);">
+          <img src="images/Personal/20190902_M4/M4_M203_Thumb.webp" alt="About Banner" style="width: 100%; height: 340px; object-fit: cover; display: block;" onerror="this.src='images/Personal/20190902_M4/M4_M203_001.webp'">
+          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.75) 65%, rgba(5,5,5,0.92) 100%);"></div>
+          <div style="position: absolute; left: 32px; bottom: 32px; z-index: 2; color: #f0f0f2; max-width: 56%;">
+            <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: #68c4ff; margin-bottom: 10px;">02 ABOUT</div>
+            <div style="font-family: var(--font-head); font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -1px; margin-bottom: 14px;">A visual story of environment art and craft</div>
+            <div style="font-family: var(--font-mono); font-size: 14px; color: #dcd8d0; line-height: 1.75;">15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다. 단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.</div>
           </div>
         </div>
 
-        <div style="position: relative; z-index: 1; padding: 20px; width: 100%;">
-          <!-- 배경 오버레이 (텍스트 가독성 위해) -->
+        <div style="position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 40px 20px 20px 20px;">
+          <!-- 배경 오버레이 (텍스트 가독성) -->
           <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,18,18,0.7) 0%, rgba(18,18,18,0.6) 50%, rgba(18,18,18,0.7) 100%); z-index: -1; pointer-events: none;"></div>
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
-            <!-- Left: Bio -->
-            <div>
-              <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #e7e3d4; letter-spacing: -1px; font-family: var(--font-head); font-style: normal;">DukGoo</h1>
-              
-              <p style="color: #d2ceba; line-height: 1.8; margin-bottom: 20px; font-size: 15px; margin-top: 40px;">
-                15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
-                단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.
-              </p>
-              <p style="color: #888; line-height: 1.8; margin-bottom: 40px; font-size: 14px; font-family: var(--font-mono);">
-                I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
-              </p>
+          <!-- Left: Bio -->
+          <div>
+            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #e7e3d4; letter-spacing: -1px; font-family: var(--font-head); font-style: normal;">DukGoo</h1>
+            
+            <p style="color: #d2ceba; line-height: 1.8; margin-bottom: 20px; font-size: 15px; margin-top: 40px;">
+              15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
+              단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.
+            </p>
+            <p style="color: #888; line-height: 1.8; margin-bottom: 40px; font-size: 14px; font-family: var(--font-mono);">
+              I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
+            </p>
 
-              <h4 style="color: #e7e3d4; margin-bottom: 15px; border-bottom: 1px solid #F0F0F8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head); margin-top: 200px;">Skills & Expertise</h4>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
-                <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
-                <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
-                <div>▸ Substance Painter/Designer</div><div>▸ 3D Asset Creation</div>
-                <div>▸ SpeedTree / World Creator</div><div>▸ Look-dev & Lighting</div>
-                <div>▸ CryEngine / Unity</div><div>▸ Technical Optimization</div>
-              </div>
+            <h4 style="color: #e7e3d4; margin-bottom: 15px; border-bottom: 1px solid #F0F0F8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head); margin-top: 200px;">Skills & Expertise</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
+              <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
+              <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
+              <div>▸ Substance Painter/Designer</div><div>▸ 3D Asset Creation</div>
+              <div>▸ SpeedTree / World Creator</div><div>▸ Look-dev & Lighting</div>
+              <div>▸ CryEngine / Unity</div><div>▸ Technical Optimization</div>
             </div>
+          </div>
 
-            <!-- Right: Career Timeline -->
-            <div style="max-width: 520px;">
-              <h2 style="font-size: 11px; color: var(--as-accent); font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #21213a;">// Professional Experience</h2>
+          <!-- Right: Career Timeline -->
+          <div style="max-width: 520px;">
+            <h2 style="font-size: 11px; color: var(--as-accent); font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #21213a;">// Professional Experience</h2>
 
             <!-- NCSoft -->
             <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('ncsoft')">

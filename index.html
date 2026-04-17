@@ -215,7 +215,7 @@
   .art-new-badge {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 9px; font-weight: 700;
-    color: #141418; background: #8fce30;
+    color: #141418; background: #b8ff3a;
     padding: 2px 6px; letter-spacing: 0.12em;
   }
 
@@ -315,7 +315,7 @@
   }
   .prof-card:hover .prof-card-info { opacity: 1; }
   .prof-card-id {
-    font-family: var(--font-mono); font-size: 10px; color: #6c9f27; letter-spacing: .18em; margin-bottom: 6px;
+    font-family: var(--font-mono); font-size: 10px; color: #b8ff3a; letter-spacing: .18em; margin-bottom: 6px;
   }
   .prof-card-title {
     font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #e0dfdf; margin-bottom: 0; line-height: 1.2;
@@ -400,6 +400,7 @@
     display: flex; align-items: center; gap: 0; margin-bottom: 12px;
     border-left: 3px solid #b8ff3a;
     padding-left: 14px;
+    animation: fadeInDown 0.6s ease-out both;
   }
   .section-num {
     font-family: 'IBM Plex Mono', monospace;
@@ -447,6 +448,7 @@
     line-height: 1.7; margin: 6px 0 0 0;
     font-family: 'Noto Sans KR', sans-serif;
     padding-left: 17px;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
   }
   .section-desc-ko a, .section-desc-en a {
     color: #b8ff3a; text-decoration: none; cursor: pointer;
@@ -457,6 +459,7 @@
     font-size: 13px; color: #787876;
     font-family: 'IBM Plex Mono', monospace;
     line-height: 1.7; margin: 6px 0 0 0; padding-left: 17px;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
   }
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
@@ -733,7 +736,7 @@
       
       
       <!-- ABOUT SECTION -->
-      <div id="about-container" style="display: none; padding: 0 0 60px 0; animation: fadeIn 0.5s; position: relative; min-height: 600px; background: transparent;">
+      <div id="about-container" style="display: none; padding: 0 0 60px 0; animation: fadeIn 0.5s; position: relative; min-height: 600px;">
 
         <!-- 백그라운드 유튜브 영상 (엔씨/넥슨 랜덤) — 히어로 수준 -->
         <div id="about-bg-video" style="position: absolute; top: 10px; left: -20px; right: -20px; bottom: -20px; overflow: hidden; pointer-events: none; z-index: 0;">
@@ -745,32 +748,45 @@
                    transform: translate(-50%, -50%);
                    border: none; pointer-events: none;"
             allow="autoplay; encrypted-media"></iframe>
-          <!-- 어두운 오버레이: 상/하/좌/우 그라디언트 + 전체 dim + 파란색 틴트 -->
-          <div style="position: absolute; inset: 0; background: rgba(18,18,18,0.45);"></div>
-          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,18,18,0.6) 0%, transparent 20%, transparent 80%, rgba(18,18,18,0.8) 100%);"></div>
-          <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,18,18,0.5) 0%, transparent 30%, transparent 70%, rgba(18,18,18,0.5) 100%);"></div>
-          <div style="position: absolute; inset: 0; background: rgba(0, 100, 200, 0.15); mix-blend-mode: multiply;"></div>
+          <!-- 어두운 오버레이: 상/하/좌/우 그라디언트 + 전체 dim -->
+          <div style="position: absolute; inset: 0; background: rgba(18,18,18,0.60);"></div>
+          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,18,18,0.75) 0%, transparent 20%, transparent 80%, rgba(18,18,18,0.90) 100%);"></div>
+          <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18,18,18,0.65) 0%, transparent 30%, transparent 70%, rgba(18,18,18,0.65) 100%);"></div>
+          <div style="position: absolute; inset: 0; background: rgba(100, 100, 100, 0.20); mix-blend-mode: multiply;"></div>
         </div>
 
-        <div style="position: relative; z-index: 1; margin: 0 20px 40px; border-radius: 22px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.35);">
-          <img src="images/Personal/20190902_M4/M4_M203_Thumb.webp" alt="About Banner" style="width: 100%; height: 340px; object-fit: cover; display: block;" onerror="this.src='images/Personal/20190902_M4/M4_M203_001.webp'">
-          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.75) 65%, rgba(5,5,5,0.92) 100%);"></div>
-          <div style="position: absolute; left: 32px; bottom: 32px; z-index: 2; color: #f0f0f2; max-width: 56%;">
-            <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: #68c4ff; margin-bottom: 10px;">02 ABOUT</div>
-            <div style="font-family: var(--font-head); font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -1px; margin-bottom: 14px;">A visual story of environment art and craft</div>
-            <div style="font-family: var(--font-mono); font-size: 14px; color: #dcd8d0; line-height: 1.75;">15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다. 단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.</div>
+        <!-- ABOUT 헤더 -->
+        <div class="section-header" style="margin-bottom:28px; position:relative;">
+          <div class="section-header-top" style="border-left-color: #FFD700;">
+            <span class="section-num" style="color: #FFD700;">▪ 02</span>
+            <h2>ABOUT</h2>
+            <div class="section-header-line" style="background: linear-gradient(to right, #B8860B, transparent);"></div>
+          </div>
+          
+          <div style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; gap:10px; align-items:center;">
+            <!-- placeholder for symmetry with other headers -->
           </div>
         </div>
 
-        <div style="position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 40px 20px 20px 20px;">
-          <!-- 배경 오버레이 (텍스트 가독성) -->
-          <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,18,18,0.7) 0%, rgba(18,18,18,0.6) 50%, rgba(18,18,18,0.7) 100%); z-index: -1; pointer-events: none;"></div>
-          
+        <div style="position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 20px 20px 20px;">
           <!-- Left: Bio -->
-          <div>
-            <h1 style="font-size: 50px; font-weight: 800; margin-bottom: 5px; color: #e7e3d4; letter-spacing: -1px; font-family: var(--font-head); font-style: normal;">DukGoo</h1>
+          <div style="max-width: 700px;">
+            <div style="font-size: 11px; color: #FFD700; font-family: var(--font-mono); margin-bottom: 20px; letter-spacing: .25em; text-transform: uppercase; display: flex; align-items: center; gap: 15px;">
+              <div style="width: 40px; height: 1px; background: linear-gradient(to right, #FFD700, transparent);"></div>
+              // PORTFOLIO · ENVIRONMENT ARTIST
+            </div>
+            <h1 style="font-size: 100px; font-weight: 800; color: #e7e3d4; font-family: 'Teko', sans-serif; letter-spacing: 0.2em; margin-bottom: 10px; text-transform: uppercase; line-height: 1.1;">DukGoo</h1>
+            <div style="font-size: 11px; color: #FFD700; font-family: var(--font-mono); margin-bottom: 20px; letter-spacing: .25em; text-transform: uppercase;">// SKILLS & EXPERTISE</div>
+            <div style="font-size: 12px; font-family: var(--font-mono); margin-bottom: 20px; line-height: 1.8; font-weight: 400;">
+              <span style="color: #c9a961;">World Building</span> <span style="color: #888;">· Level Art · Engine Integration · Set Dressing</span><br>
+              <span style="color: #c9a961;">Artistic Core</span> <span style="color: #888;">· 3D Asset Creation · High/Low Poly · Texturing</span><br>
+              <span style="color: #c9a961;">Environment Setup</span> <span style="color: #888;">· Look-dev · Shader & Lighting · Optimization</span><br>
+              <span style="color: #c9a961;">Management</span> <span style="color: #888;">· Outsourcing · Schedule · Art Feedback & Review</span><br>
+              <span style="color: #c9a961;">Documentation</span> <span style="color: #888;">· Technical Guideline · Finalization & Polishing</span>
+            </div>
+            <div style="height: 1px; background: linear-gradient(to right, #FFD700, transparent); margin: 60px 0 40px 0;"></div>
             
-            <p style="color: #d2ceba; line-height: 1.8; margin-bottom: 20px; font-size: 15px; margin-top: 40px;">
+            <p style="color: #d2ceba; line-height: 1.8; margin-bottom: 20px; font-size: 15px;">
               15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
               단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.
             </p>
@@ -778,69 +794,95 @@
               I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
             </p>
 
-            <h4 style="color: #e7e3d4; margin-bottom: 15px; border-bottom: 1px solid #F0F0F8; padding-bottom: 10px; font-size: 18px; font-style: normal; font-family: var(--font-head); margin-top: 200px;">Skills & Expertise</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--font-mono); font-size: 13px; color: #999;">
-              <div>▸ Unreal Engine 4/5</div><div>▸ Level Art & World Building</div>
-              <div>▸ 3ds Max / ZBrush</div><div>▸ Engine Integration</div>
-              <div>▸ Substance Painter/Designer</div><div>▸ 3D Asset Creation</div>
-              <div>▸ SpeedTree / World Creator</div><div>▸ Look-dev & Lighting</div>
-              <div>▸ CryEngine / Unity</div><div>▸ Technical Optimization</div>
-            </div>
           </div>
 
           <!-- Right: Career Timeline -->
-          <div style="max-width: 520px;">
-            <h2 style="font-size: 11px; color: var(--as-accent); font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #21213a;">// Professional Experience</h2>
+          <div style="max-width: 520px; margin-left: auto; margin-right: 60px;">
+            <!-- 통계 섹션 -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 50px; text-align: center;">
+              <div>
+                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; margin-bottom: 10px;">15+</div>
+                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase;">YEARS EXP</div>
+              </div>
+              <div>
+                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; margin-bottom: 10px;">10+</div>
+                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase;">STUDIOS</div>
+              </div>
+              <div>
+                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; margin-bottom: 10px;">6</div>
+                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase;">SHIPPED TITLES</div>
+              </div>
+            </div>
+
+            <h2 style="font-size: 11px; color: #FFD700; font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #21213a;">// Professional Experience</h2>
 
             <!-- NCSoft -->
-            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('ncsoft')">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_015 · 2021—2024</div>
+            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #333; padding-bottom: 30px;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_015 · 2021—2024</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">NCSoft</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
-              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Project M</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : NCSoft</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Unreal 5</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Maya</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">SpeedTree</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Substance 3D</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Marmoset</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">RizomUV</span>
               </div>
             </div>
 
             <!-- Line Games -->
-            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('changse')">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_014 · 2018—2020</div>
+            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #333; padding-bottom: 30px;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_014 · 2018—2020</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Line Games</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha</div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Lighting · Outsourcing · Feedback</div>
-              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Line Games</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Alpha / Nintendo Switch</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Lead Environment Artist · Level Design · Integration · Lighting · Outsourcing · Feedback</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Unreal 4</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Substance 3D</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Marmoset</span>
               </div>
             </div>
 
             <!-- Nexon Korea -->
-            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('nexon')">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_013 · 2017—2018</div>
+            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #333; padding-bottom: 30px;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_013 · 2017—2018</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Nexon Korea</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · PC Online / Alpha</div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Hard Surface Modeling · PBR Texturing · Integration</div>
-              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : Nexon Korea</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · Open Beta / PC Online</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Asset Modeling · Textures</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Unreal 4</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Substance 3D</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Knald</span>
               </div>
             </div>
 
             <!-- XLGames -->
-            <div style="margin-bottom: 18px; padding: 16px 18px; border: 1px solid #21213a; cursor: pointer; transition: border-color .2s, background .2s; background: transparent;" onmouseover="this.style.borderColor='rgba(124,106,247,.5)';this.style.background='rgba(124,106,247,.04)'" onmouseout="this.style.borderColor='#21213a';this.style.background='transparent'" onclick="openProfLb('xlgames')">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--as-accent); letter-spacing: .2em; margin-bottom: 6px;">PROJ_012 · 2017</div>
+            <div style="margin-bottom: 30px; padding: 0;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_012 · 2017</div>
               <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">XLGames</div>
-              <div style="font-family: var(--font-mono); font-size: 11px; color: #FF006E; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · PC Online / Open Beta</div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #666690; margin-bottom: 10px; letter-spacing: .04em;">Level Design · Shader · Lighting · Optimization</div>
-              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Developer : XLGames</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #FF006E; border: 1px solid rgba(124,106,247,.35); padding: 2px 10px; background: rgba(124,106,247,.08);">Publisher : 2K</span>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · Open Beta / PC Online</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">CryEngine 3</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; border: 1px solid #555; padding: 4px 8px; background: transparent;">World Machine</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>
+      <style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }</style>
 
       <!-- MAIN GRID -->
       <div class="art-grid" id="main-grid-top" style="padding: 0 20px;"></div>
@@ -978,6 +1020,8 @@
     </div>
   </div> <!-- end main-container -->
 
+
+
   <!-- PROF-LB MODAL -->
   <div id="prof-lb">
     <div class="prof-lb-wrap">
@@ -1071,10 +1115,12 @@
     <!-- Header -->
     <div style="position:sticky; top:0; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(18,18,18,0.95); border-bottom:1px solid #F0F0F8; z-index:4010; backdrop-filter:blur(10px);">
       <div style="display:flex; align-items:center; gap:15px;">
-        <div style="width:40px; height:40px; border-radius:50%; background:var(--as-blue); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px;">JD</div>
+        <div style="width:40px; height:40px; border-radius:50%; background:var(--as-blue); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px;">DG</div>
         <div>
           <div id="lb-title" style="font-size:20px; font-weight:800; font-family:'Oswald', sans-serif; text-transform:uppercase; color:#fff;">PROJECT TITLE</div>
-          <div style="font-size:13px; color:#aaa; font-family:'Noto Sans KR', sans-serif;">DukGoo / Senior Environment Artist</div>
+          <div style="font-size:13px; color:#aaa; font-family:'Noto Sans KR', sans-serif;">DukGoo</div>
+          <div style="font-size:12px; color:#FFD700; font-family:'IBM Plex Mono', monospace; margin-top:4px;">// Senior Environment Artist</div>
+          <div style="font-size:12px; color:#aaa; font-family:'IBM Plex Mono', monospace; margin-top:6px;">Contact: <a href="mailto:dukgooenv@gmail.com" style="color:#FFD700; text-decoration:none;">Email ✉</a></div>
         </div>
       </div>
       <div style="display:flex; gap:15px; align-items:center;">
@@ -2583,6 +2629,16 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(loadAllViewCounts, 500);
 });
 // ─────────────────────────────────────────────────────────────────────────────
+
+// 이메일 복사 함수
+function copyEmail() {
+  const email = 'dukgoo.env@gmail.com';
+  navigator.clipboard.writeText(email).then(function() {
+    alert(email + ' 복사되었습니다!');
+  }).catch(function(err) {
+    alert('복사에 실패했습니다.');
+  });
+}
 
 </script>
 </body>

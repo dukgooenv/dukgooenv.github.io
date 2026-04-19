@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Teko:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Teko:wght@600&display=swap" rel="stylesheet">
 <style>
   :root {
     --as-bg: #141418; /* 모든 배경 통일 */
@@ -96,39 +96,34 @@
     display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 10px; width: 100%;
   }
   .banner-card {
-    flex: 1;
-    height: 300px;
+    flex: 1; height: 300px;
     border-radius: 8px; overflow: hidden;
     position: relative; cursor: pointer;
     background: #141418;
   }
   
-  .banner-card img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform 0.4s, opacity 0.4s; }
+  .banner-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, opacity 0.4s; }
   .banner-card:hover img { transform: scale(1.05); }
   .banner-hover-video { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
   .banner-hover-video iframe { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); pointer-events: none; border: none; }
   .banner-card.video-loaded:hover .banner-hover-video { opacity: 1; }
   .banner-card.video-loaded:hover img { opacity: 0; }
-  .banner-overlay { z-index: 3 !important; pointer-events: none; }
+  .banner-overlay { z-index: 2; pointer-events: none; }
 
   
   .banner-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
-    display: flex; flex-direction: column; justify-content: flex-end; padding: 14px 16px; pointer-events: none;
-    z-index: 3;
+    position: absolute; inset: 0; background: none;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; pointer-events: none;
   }
   .banner-badge {
-    position: absolute; top: 10px; left: 10px; background: rgba(0, 212, 255, 0.15); border: 1px solid rgba(0,212,255,0.3); padding: 3px 8px; border-radius: 3px;
-    font-size: 10px; font-weight: 700; color: #00D4FF; letter-spacing: 0.5px;
-    opacity: 1; transition: opacity 0.3s;
+    position: absolute; top: 15px; left: 15px; background: rgba(0, 212, 255, 0.08); padding: 4px 10px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; color: #d2ceba; letter-spacing: 0.5px;
   }
-  .banner-title { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 3px; text-shadow: 0 1px 4px rgba(0,0,0,1); }
-  .banner-sub { font-size: 11px; color: rgba(255,255,255,0.75); text-shadow: 0 1px 3px rgba(0,0,0,1); }
-  /* 영상이 로드된 카드에서 호버할 때만 글씨 숨김 */
-  .banner-card.video-loaded:hover .banner-title,
-  .banner-card.video-loaded:hover .banner-sub,
-  .banner-card.video-loaded:hover .banner-badge { opacity: 0; transition: opacity 0.3s; }
+  .banner-title { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 600; color: #e2e0d9; line-height: 1.3; margin-bottom: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); transition: opacity 0.3s; }
+  .banner-sub { font-size: 13px; color: #e2e0d9; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); transition: opacity 0.3s; }
+  .banner-card:hover .banner-title,
+  .banner-card:hover .banner-sub,
+  .banner-card:hover .banner-badge { opacity: 0; }
 
   /* ── 3. CHANNELS BAR ── */
   .channels-bar {
@@ -249,11 +244,11 @@
   #personal-works-container { display: none; padding: 10px 0 80px 0; animation: fadeIn 0.4s; }
 
   /* ── PROFESSIONAL CONTAINER ── */
-  #professional-container { display: none; padding: 0 40px 80px 40px; animation: fadeIn 0.4s; }
+  #professional-container { display: none; padding: 0 0 80px 0; animation: fadeIn 0.4s; }
 
   /* Make NDA and email links in section descriptions blue like other pro accents */
-  .section-desc-ko strong, .section-desc-en strong { color: #00D4FF !important; }
-  .section-desc-ko a, .section-desc-en a { color: #00D4FF !important; text-decoration: none; }
+  .section-desc-ko strong, .section-desc-en strong { color: #00D4FF; }
+  .section-desc-ko a, .section-desc-en a { color: #00D4FF; text-decoration: none; }
   .section-desc-ko a:hover, .section-desc-en a:hover { opacity: 0.8; }
 
   /* Professional 섹션 헤더만 파란색 오버라이드 */
@@ -286,15 +281,15 @@
   .prof-nda-text-ko a:hover, .prof-nda-text-en a:hover { opacity: 0.7; }
 
   .prof-card-row1 {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 30px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px;
   }
   .prof-card-row-rest {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
   }
   .prof-card {
     background: var(--as-panel); border: none;
     cursor: pointer; transition: transform .2s, box-shadow .25s, border-color .2s;
-    position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 16 / 9;
+    position: relative; overflow: hidden; border-radius: 4px; aspect-ratio: 1 / 1;
   }
   .prof-card:hover {
     transform: translateY(-3px);
@@ -304,7 +299,7 @@
     position: absolute; inset: 0; overflow: hidden;
   }
   .prof-card-thumb img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; transition: transform .35s, filter .3s;
+    width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s, filter .3s;
   }
   .prof-card:hover .prof-card-thumb img { transform: scale(1.04); filter: brightness(0.45); }
   .prof-card-badge {
@@ -314,38 +309,35 @@
     background: rgba(14,14,24,.6); padding: 3px 8px;
     letter-spacing: .12em; text-transform: uppercase; border-radius: 4px;
   }
-  /* 평상시 하단 글씨 항상 보임, 호버 시 사라짐 */
+  /* overlay info similar to art-info */
   .prof-card-info {
-    position: absolute; bottom: 0; left: 0; width: 100%; padding: 14px 12px;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
-    opacity: 1; transition: opacity .2s; pointer-events: none;
+    position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: none; opacity: 0; transition: opacity .2s; pointer-events: none;
   }
-  .prof-card.video-loaded:hover .prof-card-info { opacity: 0; }
+  .prof-card:hover .prof-card-info { opacity: 1; }
   .prof-card-id {
-    font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .18em; margin-bottom: 4px;
+    font-family: var(--font-mono); font-size: 10px; color: #b8ff3a; letter-spacing: .18em; margin-bottom: 6px;
   }
   .prof-card-title {
-    font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 4px; line-height: 1.2;
+    font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #e0dfdf; margin-bottom: 0; line-height: 1.2;
   }
   .prof-card-sub {
-    font-family: var(--font-mono); font-size: 11px; color: #a0c8d8; letter-spacing: .02em; margin-bottom: 6px;
+    font-family: var(--font-mono); font-size: 11px; color: #00D4FF; letter-spacing: .02em; margin-bottom: 6px;
   }
-  .prof-card-role { font-family: var(--font-mono); font-size: 9px; color: #555; letter-spacing: .04em; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .prof-card-tags { display: flex; gap: 4px; flex-wrap: nowrap; }
+  .prof-card-role { display:none; }
+  .prof-card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
   .prof-card-tag {
-    font-family: var(--font-mono); font-size: 10px;
-    color: #6a8fa0; border: 1px solid rgba(80,140,180,.2);
-    background: rgba(80,140,180,.05); padding: 2px 8px; letter-spacing: .06em;
-    flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-family: var(--font-mono); font-size: 9px;
+    color: #a0c8d8; border: 1px solid rgba(0,180,220,.25);
+    background: rgba(0,180,220,.06); padding: 2px 8px; letter-spacing: .06em;
   }
   .prof-card-tag.dev {
-    color: #6a8fa0; border-color: rgba(80,140,180,.2); background: rgba(80,140,180,.05);
+    color: #00D4FF; border-color: rgba(0,212,255,.3); background: rgba(0,212,255,.08);
   }
   .prof-card-media-hint {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-family: var(--font-mono); font-size: 10px; color: #00D4FF;
-    background: rgba(14,14,24,.75); border: 1px solid rgba(0,212,255,.35);
-    padding: 6px 14px; letter-spacing: .1em; border-radius: 3px;
+    position: absolute; bottom: 0; right: 0;
+    font-family: var(--font-mono); font-size: 9px; color: #00D4FF;
+    background: rgba(14,14,24,.9); border-top: 1px solid rgba(0,212,255,.25);
+    border-left: 1px solid rgba(0,212,255,.25); padding: 3px 10px; letter-spacing: .1em;
   }
 
   /* 상단 배너 캐러셀 */
@@ -459,7 +451,7 @@
     animation: fadeInUp 0.6s ease-out 0.1s both;
   }
   .section-desc-ko a, .section-desc-en a {
-    color: #00D4FF; text-decoration: none; cursor: pointer;
+    color: #b8ff3a; text-decoration: none; cursor: pointer;
     transition: opacity 0.2s;
   }
   .section-desc-ko a:hover, .section-desc-en a:hover { opacity: 0.7; }
@@ -526,16 +518,16 @@
   .prof-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
   .prof-lb-header { display:flex; align-items:center; justify-content:flex-end; padding:10px 20px; background:#141418; border-bottom:1px solid #2a2a3e; flex-shrink:0; gap:12px; }
   .prof-lb-title-area { display:flex; flex-direction:column; gap:4px; min-width:0; }
-  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#00D4FF; letter-spacing:.2em; text-transform:uppercase; }
+  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#6c9f27; letter-spacing:.2em; text-transform:uppercase; }
   .prof-lb-title-text { font-family:'Rajdhani', sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; line-height:1.1; margin-top:2px; }
-  .prof-lb-sub-text { font-family:'Outfit', sans-serif; font-size:13px; color:#a0c8d8; letter-spacing:.02em; margin-top:2px; }
+  .prof-lb-sub-text { font-family:'Outfit', sans-serif; font-size:13px; color:#8fce30; letter-spacing:.02em; margin-top:2px; }
   .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:1px solid #2a2a3e; padding:3px 10px; letter-spacing:.08em; background:rgba(20,20,24,.6); white-space:nowrap; }
-  .prof-lb-tag.dev { color:#00D4FF; border-color:rgba(0,212,255,.3); background:rgba(0,212,255,.06); }
+  .prof-lb-tag.dev { color:#8fce30; border-color:rgba(143,206,48,.3); background:rgba(143,206,48,.06); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; }
   .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
   .prof-lb-btn { background:none; border:1px solid #2a2a3e; color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .prof-lb-btn:hover { border-color:#00D4FF; color:#00D4FF; }
+  .prof-lb-btn:hover { border-color:#8fce30; color:#8fce30; }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
   .prof-lb-video-wrap iframe { width:min(100%,calc(100vh*16/9)); height:min(100%,calc(100vw*9/16)); max-width:96vw; max-height:92vh; border:0; }
@@ -544,23 +536,23 @@
   .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .prof-lb-nav-prev { left:16px; }
   .prof-lb-nav-next { right:16px; }
-  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:#00D4FF; color:#00D4FF; }
+  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:#8fce30; color:#8fce30; }
   .prof-lb-dots { position:absolute; bottom:16px; right:20px; display:flex; flex-direction:column; gap:4px; z-index:2; }
-  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(0,212,255,0.2); cursor:pointer; transition:all .2s; }
-  .prof-lb-dot.active { background:#00D4FF; transform:scale(1.4); }
-  .prof-lb-type-badge { position:absolute; top:16px; left:16px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#00D4FF; letter-spacing:.12em; z-index:4; }
+  .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(143,206,48,0.2); cursor:pointer; transition:all .2s; }
+  .prof-lb-dot.active { background:#8fce30; transform:scale(1.4); }
+  .prof-lb-type-badge { position:absolute; top:16px; left:16px; font-family:var(--font-mono); font-size:10px; padding:4px 10px; background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#6c9f27; letter-spacing:.12em; z-index:4; }
   .prof-lb-hud { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
-  .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(0,212,255,0.4); display:flex; align-items:center; gap:6px; }
-  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#00D4FF; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(143,206,48,0.4); display:flex; align-items:center; gap:6px; }
+  .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#8fce30; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
   .prof-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
   .prof-lb-thumbs::-webkit-scrollbar { width:4px; }
-  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(0,212,255,0.3); border-radius:2px; }
+  .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(143,206,48,0.3); border-radius:2px; }
   .prof-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
-  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#00D4FF; }
+  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#8fce30; }
   .prof-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
-  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#00D4FF; }
+  .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#8fce30; }
   #lightbox.active { display: flex; }
   .lb-header {
     display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #141418; border-bottom: 1px solid #14141c;
@@ -607,7 +599,7 @@
     background-clip: text;
     animation: arcLoop 1s linear infinite;
   }
-@keyframes arcLoop {
+  @keyframes arcLoop {
     0%   { background-position: 0% 0; }
     100% { background-position: -100% 0; }
   }
@@ -668,12 +660,12 @@
       <!-- 1. NCSoft (Project M) -->
       <div class="banner-card" onclick="openProfLb('ncsoft')"
            onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
-        <img src="https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/bDXLAaqR_Yg/hqdefault.jpg'" alt="Project M">
+        <img src="https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg"  alt="Project M">
         <div class="banner-hover-video">
           <iframe data-src="https://www.youtube.com/embed/liEb8B3osuY?autoplay=1&mute=1&loop=1&playlist=liEb8B3osuY&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
         </div>
         <div class="banner-overlay">
-          
+          <div class="banner-badge">PRO PROJECT</div>
           <div class="banner-title">NCSoft: PROJECT M</div>
           <div class="banner-sub">Interactive Adventure & High Fidelity Lighting</div>
         </div>
@@ -682,12 +674,12 @@
       <!-- 2. Nexon (Ascendant One) -->
       <div class="banner-card" onclick="openProfLb('nexon')"
            onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
-        <img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg'" alt="Ascendant One">
+        <img src="https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg'" alt="Ascendant One">
         <div class="banner-hover-video">
           <iframe data-src="https://www.youtube.com/embed/NOZ51TUyemo?autoplay=1&mute=1&loop=1&playlist=NOZ51TUyemo&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
         </div>
         <div class="banner-overlay">
-          
+          <div class="banner-badge">PRO PROJECT</div>
           <div class="banner-title">Nexon: ASCENDANT ONE</div>
           <div class="banner-sub">Hard Surface Modeling & PBR Texturing</div>
         </div>
@@ -696,19 +688,18 @@
       <!-- 3. Line Games (창세기전) -->
       <div class="banner-card" onclick="openProfLb('changse')"
            onmouseenter="(function(c){var v=c.querySelector('.banner-hover-video iframe');if(v&&(!v.src||v.src==='about:blank')){v.src=v.dataset.src;v.onload=function(){c.classList.add('video-loaded');};}})(this)">
-        <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg'" alt="The War of Genesis">
+        <img src="https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/2zKdRMch0Us/hqdefault.jpg'" alt="The War of Genesis">
         <div class="banner-hover-video">
           <iframe data-src="https://www.youtube.com/embed/2zKdRMch0Us?autoplay=1&mute=1&loop=1&playlist=2zKdRMch0Us&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>
         </div>
         <div class="banner-overlay">
-          
+          <div class="banner-badge">PRO PROJECT</div>
           <div class="banner-title">Line Games: 창세기전 (The War of Genesis)</div>
           <div class="banner-sub">Level Design & Engine Integration</div>
         </div>
       </div>
 
     </div>
-
 
     <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
@@ -734,9 +725,14 @@
           <div class="channel-icon-img"><img src="images/Icon/Icon_010.jpg" alt="Designer"></div><span class="pill-label">Designer</span>
         </div>
       </div>
+
+      <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
+        <div style="width: 4px; height: 4px; background: #b8ff3a; border-radius: 50%; animation: pulseGlow 2s ease-in-out infinite;"></div>
+        <span style="font-family: var(--font-head); font-size: 13px; font-weight: 600; color: #e7e3d4; white-space: nowrap;">Environment Artist</span>
+      </div>
+    </div>
       
     </div>
-
 
       <div class="section-header">
         <div class="section-header-top">
@@ -744,8 +740,8 @@
           <h2><span id="grid-title">ALL Portfolio</span></h2>
           <div class="section-header-line"></div>
         </div>
-        <div class="section-desc-ko">방문할 때마다 다른 작업을 만나볼 수 있습니다. 작업의 조각들을 자유롭게 살펴보세요. <a onclick="location.reload()" style="color:#b8ff3a !important;">↺ 새로고침하면 목록이 바뀝니다.</a></div>
-        <div class="section-desc-en">Discover a new selection of work with every visit. Feel free to explore these fragments of my projects. <a onclick="location.reload()" style="color:#b8ff3a !important;">↺ Refresh to shuffle the list.</a></div>
+        <div class="section-desc-ko">방문할 때마다 다른 작업을 만나볼 수 있습니다. 작업의 조각들을 자유롭게 살펴보세요. <a onclick="location.reload()">↺ 새로고침하면 목록이 바뀝니다.</a></div>
+        <div class="section-desc-en">Discover a new selection of work with every visit. Feel free to explore these fragments of my projects. <a onclick="location.reload()">↺ Refresh to shuffle the list.</a></div>
       </div>
       
       
@@ -785,192 +781,112 @@
         <div style="position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 20px 20px 20px;">
           <!-- Left: Bio -->
           <div style="max-width: 700px;">
-            <div style="font-size: 12px; font-weight: bold; color: #c9a961; font-family: var(--font-mono); margin-bottom: 20px; letter-spacing: .25em; text-transform: uppercase; display: flex; align-items: center; gap: 15px;">
-              <div style="width: 40px; height: 1px; background: #c9a961;"></div>
+            <div style="font-size: 11px; color: #FFD700; font-family: var(--font-mono); margin-bottom: 20px; letter-spacing: .25em; text-transform: uppercase; display: flex; align-items: center; gap: 15px;">
+              <div style="width: 40px; height: 1px; background: linear-gradient(to right, #FFD700, transparent);"></div>
               // PORTFOLIO · ENVIRONMENT ARTIST
             </div>
-            <h1 style="font-size: 100px; font-weight: 800; color: #e7e3d4; font-family: 'Teko', sans-serif; letter-spacing: 0.2em; margin-bottom: 0px; text-transform: uppercase; line-height: 1;"><span style="color: #FFD700;">D</span><span style="color: #e0dfdf;">ukGoo</span></h1>
+            <h1 style="font-size: 100px; font-weight: 800; color: #e7e3d4; font-family: 'Teko', sans-serif; letter-spacing: 0.2em; margin-bottom: 10px; text-transform: uppercase; line-height: 1.1;">DukGoo</h1>
             
-            <!-- 통계 섹션 -->
-            <div style="display: flex; gap: 30px; margin-bottom: 20px; align-items: flex-start;">
-              <div style="text-align: center;">
-                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; line-height: 1;">15+</div>
-                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase; margin-top: 4px;">YEARS EXP</div>
-              </div>
-              <div style="text-align: center;">
-                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; line-height: 1;">10+</div>
-                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase; margin-top: 4px;">STUDIOS</div>
-              </div>
-              <div style="text-align: left;">
-                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; line-height: 1;">6</div>
-                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase; margin-top: 4px;">SHIPPED TITLES</div>
-              </div>
-            </div>
-            <div style="height: 1px; background: #666; margin: 40px 0 40px -20px; width: calc(100% + 40px);"></div>
             <p style="color: #d2ceba; line-height: 1.8; margin-bottom: 20px; font-size: 15px;">
               15년 이상의 실무 노하우로 프로젝트의 비주얼 퀄리티와 파이프라인의 효율을 극대화하는 시니어 3D 환경 아티스트 DukGoo입니다.<br><br>
               단순히 보기 좋은 배경을 넘어, 플레이어가 완벽하게 몰입할 수 있는 세계를 설계합니다. 개별 에셋의 디테일한 모델링부터 깊이감 있는 레벨 아트, 그리고 프로젝트의 최적화를 고려한 환경 세팅(Environment Setup)과 룩뎁(Look-Dev)까지 배경 제작 전 공정을 아우르는 전문성을 보유하고 있습니다.
             </p>
-            <p style="color: #888; line-height: 1.8; margin-bottom: 40px; font-size: 14px; font-family: var(--font-head);">
+            <p style="color: #888; line-height: 1.8; margin-bottom: 40px; font-size: 14px; font-family: var(--font-mono);">
               I am DukGoo, a Senior Environment Artist dedicated to elevating visual standards and optimizing production pipelines. Beyond creating visually pleasing backgrounds, I strive to build immersive worlds where players can truly breathe.
             </p>
 
-            <div style="height: 1px; background: #666; margin: 40px 0 40px -20px; width: calc(100% + 40px);"></div>
+            <div style="height: 1px; background: linear-gradient(to right, #FFD700, transparent); margin: 60px 0 40px 0;"></div>
 
-            <div style="font-size: 12px; font-weight: bold; color: #c9a961; font-family: var(--font-mono); margin-bottom: 20px; letter-spacing: .25em; text-transform: uppercase;">// SKILLS & EXPERTISE</div>
-            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 20px;">
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">World Building</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Level Art</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Engine Integration</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Set Dressing</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">3D Asset Creation</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">High/Low Poly</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Texturing</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Look-dev & Lighting</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Optimization</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Outsourcing</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Art Feedback</span>
-              </div>
-              <div style="border: 1px solid #333; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: #c9a961; font-size: 5px;">▶</span>
-                <span style="font-family: var(--font-mono); font-size: 13px; color: #888;">Tech Guideline</span>
-              </div>
-            </div>
-
-            <!-- VIEW PROFILE + Links -->
-            <div style="margin-top: 30px;">
-              <div style="display: inline-block; background: #c9a961; padding: 8px 24px; margin-bottom: 20px; cursor: default;">
-                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: bold; color: #141418; letter-spacing: .2em;">VIEW PROFILE</span>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a onclick="filterData('PERSONAL', document.querySelector('.channel-pill:nth-child(4)'))" style="display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
-                  <span style="font-family: var(--font-mono); font-size: 12px; color: #888;">├─</span>
-                  <span style="font-family: var(--font-mono); font-size: 13px; color: #888;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#888'">Works</span>
-                </a>
-                <a onclick="filterData('PRO', document.querySelector('.channel-pill:nth-child(3)'))" style="display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
-                  <span style="font-family: var(--font-mono); font-size: 12px; color: #888;">└─</span>
-                  <span style="font-family: var(--font-mono); font-size: 13px; color: #888;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#888'">Professional</span>
-                </a>
-              </div>
+            <div style="font-size: 11px; color: #FFD700; font-family: var(--font-mono); margin-bottom: 20px; letter-spacing: .25em; text-transform: uppercase;">// SKILLS & EXPERTISE</div>
+            <div style="font-size: 12px; font-family: var(--font-mono); margin-bottom: 20px; line-height: 1.8; font-weight: 400;">
+              <span style="color: #c9a961;">World Building</span> <span style="color: #888;">· Level Art · Engine Integration · Set Dressing</span><br>
+              <span style="color: #c9a961;">Artistic Core</span> <span style="color: #888;">· 3D Asset Creation · High/Low Poly · Texturing</span><br>
+              <span style="color: #c9a961;">Environment Setup</span> <span style="color: #888;">· Look-dev · Shader & Lighting · Optimization</span><br>
+              <span style="color: #c9a961;">Management</span> <span style="color: #888;">· Outsourcing · Schedule · Art Feedback & Review</span><br>
+              <span style="color: #c9a961;">Documentation</span> <span style="color: #888;">· Technical Guideline · Finalization & Polishing</span>
             </div>
 
           </div>
 
           <!-- Right: Career Timeline -->
-          <div style="max-width: none; margin-left: auto; margin-right: 150px;">
-
-            <div style="font-size: 12px; font-weight: bold; color: #c9a961; font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 15px;">
-              <div style="width: 40px; height: 1px; background: #c9a961;"></div>
-              // Professional Experience
+          <div style="max-width: 520px; margin-left: auto; margin-right: 60px;">
+            <!-- 통계 섹션 -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 50px; text-align: center;">
+              <div>
+                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; margin-bottom: 10px;">15+</div>
+                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase;">YEARS EXP</div>
+              </div>
+              <div>
+                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; margin-bottom: 10px;">10+</div>
+                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase;">STUDIOS</div>
+              </div>
+              <div>
+                <div style="font-size: 48px; font-weight: 800; color: #c9a961; font-family: 'Teko', sans-serif; margin-bottom: 10px;">6</div>
+                <div style="font-size: 11px; color: #888; font-family: var(--font-mono); letter-spacing: .2em; text-transform: uppercase;">SHIPPED TITLES</div>
+              </div>
             </div>
 
+            <h2 style="font-size: 11px; color: #FFD700; font-family: var(--font-mono); letter-spacing: .25em; text-transform: uppercase; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #21213a;">// Professional Experience</h2>
+
             <!-- NCSoft -->
-            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #666; padding-bottom: 30px; width: calc(100% + 150px); margin-right: -150px; padding-right: 150px;">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_05 · 2021—2024</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">NCSoft - Project M</div>
-              <div style="font-family: var(--font-head); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PlayStation 5 / Interactive Adventure / Alpha</div>
-              <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
+            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #333; padding-bottom: 30px;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_015 · 2021—2024</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">NCSoft</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Project M / Interactive Adventure · Alpha / PlayStation 5</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 5</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Maya</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">SpeedTree</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Substance 3D</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Marmoset</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">RizomUV</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 5</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Maya</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">SpeedTree</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Substance 3D</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Marmoset</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">RizomUV</span>
               </div>
             </div>
 
             <!-- Line Games -->
-            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #666; padding-bottom: 30px; width: calc(100% + 150px); margin-right: -150px; padding-right: 150px;">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_04 · 2018—2020</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Line Games - The War of Genesis : Remnants of Gray</div>
-              <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Nintendo Switch / SRPG / Alpha</div>
-              <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Lead Environment Artist · Level Design · Integration · Lighting · Outsourcing · Feedback</div>
+            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #333; padding-bottom: 30px;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_014 · 2018—2020</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Line Games</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">창세기전: 회색의 잔영 / SRPG · Alpha / Nintendo Switch</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Lead Environment Artist · Level Design · Integration · Lighting · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 4</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Substance 3D</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Marmoset</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 4</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Substance 3D</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Marmoset</span>
               </div>
             </div>
 
             <!-- Nexon Korea -->
-            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #666; padding-bottom: 30px; width: calc(100% + 150px); margin-right: -150px; padding-right: 150px;">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_03 · 2017—2018</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Nexon Korea - Ascendant One</div>
-              <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PC Online / MOBA / Open Beta</div>
-              <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Asset Modeling · Textures</div>
+            <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #333; padding-bottom: 30px;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_013 · 2017—2018</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Nexon Korea</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Ascendant One / MOBA · Open Beta / PC Online</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Asset Modeling · Textures</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 4</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Substance 3D</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Knald</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 4</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Substance 3D</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Knald</span>
               </div>
             </div>
 
             <!-- XLGames -->
             <div style="margin-bottom: 30px; padding: 0;">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_02 · 2017—2017</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">XLGames - Civilization Online</div>
-              <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PC Online / MMORPG / Open Beta</div>
-              <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #c9a961; letter-spacing: .2em; margin-bottom: 6px;">PROJ_012 · 2017</div>
+              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">XLGames</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Civilization Online / MMORPG · Open Beta / PC Online</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #999; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">CryEngine 3</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">World Machine</span>
-              </div>
-            </div>
-
-            <!-- Early Career -->
-            <div style="margin-bottom: 30px; padding: 0;">
-              <div style="height: 1px; background: #666; margin: 0 0 30px 0; width: calc(100% + 150px); margin-right: -150px;"></div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_01 · 2005—2016</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Early Career Foundation (Multiple Studios)</div>
-              <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PC Online / Mobile / Various Titles</div>
-              <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Environment Artist · 3D Modeling · Background Design</div>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Gamebryo 3</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unreal 2.5</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Unity 4</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">CryEngine 3</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">3ds Max</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">Photoshop</span>
+                <span style="font-family: var(--font-mono); font-size: 9px; color: #666; border: 1px solid #444; padding: 4px 8px; background: transparent;">World Machine</span>
               </div>
             </div>
           </div>
@@ -1036,7 +952,7 @@
             <!-- 카드 3: NCSoft Project M -->
             <div class="spotlight-card" onclick="openProfLb('ncsoft')" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #1a1a20; border: 1px solid #2a2a3e; transition: border-color 0.2s; position: relative;">
               <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
-                <img src="https://img.youtube.com/vi/liEb8B3osuY/maxresdefault.jpg"
+                <img src="https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg"
                   style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;">
                 <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
                   <div style="width: 36px; height: 36px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);">
@@ -1078,8 +994,8 @@
           <div id="prof-filter-bar" style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; gap:10px; align-items:center;">
             <!-- placeholder for symmetry with other headers -->
           </div>
-          <div class="section-desc-ko" style="display:flex; align-items:baseline; gap:6px;"><span style="flex-shrink:0;">🔒</span><span><strong>NDA</strong>로 인해 공개가 제한된 상업 프로젝트는 일부 공개가 제한됩니다. 상세 포트폴리오는 이메일로 문의 주세요. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></span></div>
-          <div class="section-desc-en" style="padding-left:calc(17px + 1.6em);">Some commercial project details are under <strong>NDA</strong> and cannot be fully disclosed. Please contact via email for the complete portfolio. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></div>
+          <div class="section-desc-ko"><strong>NDA</strong>로 인해 공개가 제한된 🔒 상업 프로젝트는 일부 공개가 제한됩니다. 상세 포트폴리오는 이메일로 문의 주세요. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></div>
+          <div class="section-desc-en">Due to <strong>NDA</strong> restrictions, 🔒 commercial projects are limited. Contact via <a href="mailto:dukgooenv@gmail.com">Email ✉</a> for the full portfolio.</div>
         </div>
 
         <!-- 카드 그리드: 1행 2개 -->
@@ -1262,18 +1178,18 @@
 const portfolioData = [
 
   { key:'lionheart', category:'PRO', tag:'ENV', title: 'Lionheart Studio', sub: 'Lionheart Studio', thumb: 'https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg', type:'video', id:'tvAcoxRube0' },
-  { key:'ncsoft', category:'PRO', tag:'ENV', title: 'Project M', sub: 'NCSoft', thumb: 'https://img.youtube.com/vi/liEb8B3osuY/maxresdefault.jpg', type:'video', id:'liEb8B3osuY' },
+  { key:'ncsoft', category:'PRO', tag:'ENV', title: 'Project M', sub: 'NCSoft', thumb: 'https://img.youtube.com/vi/liEb8B3osuY/hqdefault.jpg', type:'video', id:'liEb8B3osuY' },
   { key:'changse', category:'PRO', tag:'ENV', title: '창세기전: 회색의 잔영', sub: 'Line Games', thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg', type:'video', id:'2zKdRMch0Us' },
-  { key:'nexon', category:'PRO', tag:'HARD', title: 'Ascendant One', sub: 'Nexon Korea', thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg', type:'video', id:'NOZ51TUyemo' },
-  { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'https://img.youtube.com/vi/behf7twp1bo/maxresdefault.jpg', type:'video', id:'behf7twp1bo' },
-  { key:'neptune', category:'PRO', tag:'ENV', title: 'Early Career Foundation (Multiple Studios)', sub: 'Neptune', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg', type:'video', id:'k4VzC93T00g' },
+  { key:'nexon', category:'PRO', tag:'HARD', title: 'Ascendant One', sub: 'Nexon Korea', thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg', type:'video', id:'NOZ51TUyemo' },
+  { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'https://img.youtube.com/vi/behf7twp1bo/hqdefault.jpg', type:'video', id:'behf7twp1bo' },
+  { key:'neptune', category:'PRO', tag:'ENV', title: 'Neptune', sub: 'Neptune', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg', type:'video', id:'k4VzC93T00g' },
   { key:'puregames', category:'PRO', tag:'ENV', title: 'Pure Games', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
   { key:'hideout', category:'PERSONAL', tag:'ENV', title: 'The Urban Hideout', sub: 'V-Ray Scene', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp', type:'video', id: 'mcTm2DmXd3Y' },
 
 
   // ── PROFESSIONAL (thumbnail 기반) ──
-  { key:'yeinssoft', category:'PRO', tag:'ENV', title:'YeinsSoft', sub:'YeinsSoft', thumb:'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg', type:'image', src:'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg' },
-  { key:'puregamesimg', category:'PRO', tag:'ENV', title:'Pure Games', sub:'Pure Games', thumb:'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'image', src:'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg' },
+  { key:'yeinssoft', category:'PRO', tag:'ENV', title:'YeinsSoft', sub:'YeinsSoft', thumb:'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg', type:'image', src:'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg' },
+  { key:'puregamesimg', category:'PRO', tag:'ENV', title:'Pure Games', sub:'Pure Games', thumb:'https://img.youtube.com/vi/UjtP1k8C5yw/hqdefault.jpg', type:'image', src:'https://img.youtube.com/vi/UjtP1k8C5yw/hqdefault.jpg' },
 
   // ── PERSONAL (thumbnail 기반) ──
   { key:'pw-rock',       category:'PERSONAL', tag:'ENV', title:'Modular Rock Study',           sub:'Single Asset',        thumb:'images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp',            type:'image', src:'images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp' },
@@ -1638,66 +1554,66 @@ window.showAboutSection = function() {
 var profCardData = [
   {
     key: 'ncsoft', videoId: 'bDXLAaqR_Yg',
-    id: 'PROJ_05 · 2021—2024',
-    title: 'NCSoft - Project M',
-    sub: 'PlayStation 5 / Interactive Adventure / Alpha',
+    id: 'PROJ_015 · 2021—2024',
+    title: 'NCSoft',
+    sub: 'Project M / Interactive Adventure · Alpha / PlayStation 5',
     role: 'Integration · Lighting · Tech Doc · Outsourcing · Feedback',
     tags: [{ label: 'Developer : Project M', cls: 'dev' }, { label: 'Publisher : NCSoft', cls: '' }],
-    thumb: 'https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg',
-    media: '▷ VIDEO + IMAGES'
+    thumb: 'https://img.youtube.com/vi/bDXLAaqR_Yg/hqdefault.jpg',
+    media: '▶ VIDEO + IMAGES'
   },
   {
     key: 'changse', videoId: '2zKdRMch0Us',
-    id: 'PROJ_04 · 2018—2020',
-    title: 'Line Games - The War of Genesis : Remnants of Gray',
-    sub: 'Nintendo Switch / SRPG / Alpha',
+    id: 'PROJ_014 · 2018—2020',
+    title: 'Line Games',
+    sub: '창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha',
     role: 'Level Design · Lighting · Outsourcing · Feedback',
-    tags: [{ label: 'Developer : ReG Studio', cls: 'dev' }, { label: 'Publisher : Line Games', cls: '' }],
-    thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg',
-    media: '▷ VIDEO'
+    tags: [{ label: 'Developer : Line Games', cls: 'dev' }],
+    thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/hqdefault.jpg',
+    media: '▶ VIDEO'
   },
   {
     key: 'nexon', videoId: 'NOZ51TUyemo',
-    id: 'PROJ_03 · 2017—2018',
-    title: 'Nexon Korea - Ascendant One',
-    sub: 'PC Online / MOBA / Alpha',
+    id: 'PROJ_013 · 2017—2018',
+    title: 'Nexon Korea',
+    sub: 'Ascendant One / MOBA · PC Online / Alpha',
     role: 'Hard Surface Modeling · PBR Texturing · Integration',
     tags: [{ label: 'Developer : Nexon Korea', cls: 'dev' }],
-    thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg',
-    media: '▷ VIDEO + IMAGES'
+    thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg',
+    media: '▶ VIDEO + IMAGES'
   },
   {
     key: 'xlgames', videoId: 'behf7twp1bo',
-    id: 'PROJ_02 · 2017',
-    title: 'XLGames - Civilization Online',
-    sub: 'PC Online / MMORPG / Open Beta',
+    id: 'PROJ_012 · 2017',
+    title: 'XLGames',
+    sub: 'Civilization Online / MMORPG · PC Online / Open Beta',
     role: 'Level Design · Shader · Lighting · Optimization',
     tags: [{ label: 'Developer : XLGames', cls: 'dev' }, { label: 'Publisher : 2K', cls: '' }],
-    thumb: 'https://img.youtube.com/vi/behf7twp1bo/maxresdefault.jpg',
-    media: '▷ VIDEO + IMAGES'
+    thumb: 'https://img.youtube.com/vi/behf7twp1bo/hqdefault.jpg',
+    media: '▶ VIDEO + IMAGES'
   },
   {
     key: 'neptune', videoId: 'k4VzC93T00g',
-    id: 'PROJ_01 · 2005—2016',
-    title: 'Early Career Foundation (Multiple Studios)',
-    sub: 'PC Online / Mobile / Various Titles',
+    id: 'PROJ_011 · 2015—2016',
+    title: 'Neptune',
+    sub: 'Neppy Rush / Tower Defence · Mobile / Alpha',
     role: 'Level Design · Shader · Lighting · Modeling · Textures',
-    tags: [{ label: 'Developer : Multiple Studios', cls: 'dev' }, { label: 'Publisher : Multiple Studios', cls: '' }],
-    thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg',
-    media: '▷ VIDEO + IMAGES'
+    tags: [{ label: 'Developer : Neptune', cls: 'dev' }],
+    thumb: 'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg',
+    media: '▶ VIDEO + IMAGES'
   }
 ];
 
 function buildProfCard(d) {
   var tagsHtml = d.tags.map(function(t) {
-    return '<div class="prof-card-tag ' + t.cls + '">' + t.label + '</div>';
+    return '<span class="prof-card-tag ' + t.cls + '">' + t.label + '</span>';
   }).join('');
 
   // 유튜브 ID 추출 (videoId 있는 경우)
   var videoId = d.videoId || null;
   // thumb 폴백: img 로드 실패 시 hqdefault로
   var thumbSrc = d.thumb;
-  var thumbOnerror = 'onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (d.videoId || '') + '/hqdefault.jpg\';this.style.objectPosition=\'center 15%\';"';
+  var thumbOnerror = 'onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (d.videoId || '') + '/hqdefault.jpg\'"';
 
   var hoverVideoHtml = '';
   var mouseenterAttr = '';
@@ -1712,15 +1628,15 @@ function buildProfCard(d) {
     + '<div class="prof-card-thumb">'
     + '<img src="' + thumbSrc + '" ' + thumbOnerror + ' alt="' + d.title + '" loading="lazy">'
     + hoverVideoHtml
-    + ''
+    + '<span class="prof-card-badge">PROFESSIONAL</span>'
     + '<span class="prof-card-media-hint">' + d.media + '</span>'
     + '</div>'
     + '<div class="prof-card-info">'
     + '<div class="prof-card-id">// ' + d.id + '</div>'
     + '<div class="prof-card-title">' + d.title + '</div>'
     + '<div class="prof-card-sub">' + d.sub + '</div>'
-    + '<div class="prof-card-tags">' + tagsHtml + '</div>'
     + '<div class="prof-card-role">' + d.role + '</div>'
+    + '<div class="prof-card-tags">' + tagsHtml + '</div>'
     + '</div>'
     + '</div>';
 }
@@ -1771,7 +1687,7 @@ window.filterData = function(category, btnEl) {
   var pwBarEl = document.getElementById('pw-filter-bar'); if (pwBarEl) pwBarEl.style.display = isPw ? 'flex' : 'none';
 
   document.querySelectorAll('.channel-pill').forEach(b => b.classList.remove('active'));
-  if (btnEl) btnEl.classList.add('active');
+  btnEl.classList.add('active');
   // Update global header title/number for Personal Works to show "04 Personal Works"
   if (isPw) {
     var sn = document.querySelector('.section-num'); if (sn) sn.textContent = '▪ 04';
@@ -1886,27 +1802,22 @@ window.closeLb = function() {
 
 // About 배경 비디오 랜덤 재생 (엔씨/넥슨 랜덤)
 var aboutBgVideos = [
-  'bDXLAaqR_Yg',
-  'aMYvommxKiw',
-  'rpDh84e9mk0',
-  'J6AarxsVhLI',
-  'aiv_rDkXtP8',
-  '7wK8bw_T4Zc'
+  { id: 'bDXLAaqR_Yg', list: 'bDXLAaqR_Yg' },  // NCSoft Project M 트레일러
+  { id: 'aMYvommxKiw', list: 'aMYvommxKiw' },  // NCSoft Project M 인게임
+  { id: 'NOZ51TUyemo', list: 'NOZ51TUyemo' }   // Nexon Ascendant One
 ];
 var aboutBgLoaded = false;
 
 function initAboutBgVideo() {
   if (aboutBgLoaded) return;
   aboutBgLoaded = true;
-  // 배열 랜덤 셔플
-  var shuffled = aboutBgVideos.slice().sort(function() { return Math.random() - 0.5; });
-  var firstId = shuffled[0];
-  var playlistIds = shuffled.join(',');
+  var pick = aboutBgVideos[Math.floor(Math.random() * aboutBgVideos.length)];
   var iframe = document.getElementById('about-bg-iframe');
-  if (!iframe) return;
-  // playlist에 전체 영상 ID를 넣으면 끝나면 자동으로 다음 재생
-  iframe.src = 'https://www.youtube.com/embed/' + firstId +
-    '?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&playlist=' + playlistIds;
+  if (iframe) {
+    iframe.src = 'https://www.youtube.com/embed/' + pick.id +
+      '?autoplay=1&mute=1&loop=1&playlist=' + pick.list +
+      '&controls=0&rel=0&modestbranding=1&playsinline=1';
+  }
 }
 
 window.showAbout = function() {
@@ -2242,82 +2153,46 @@ var profProjects = {
     ]
   },
   'ncsoft': {
-    id: 'PROJ_05 · 2021—2024',
-    title: 'NCSoft - Project M',
-    sub: 'PlayStation 5 / Interactive Adventure / Alpha',
+    id: 'PROJ_015 · 2021—2024',
+    title: 'NCSoft',
+    sub: 'Project M / Interactive Adventure · Alpha / PlayStation 5',
     tags: ['Integration · Lighting · Tech Doc · Outsourcing · Feedback', 'Developer : Project M', 'Publisher : NCSoft'],
     items: [
       { type: 'video', videoId: 'bDXLAaqR_Yg' },
-      { type: 'video', videoId: 'aMYvommxKiw' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_002.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_003.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_004.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_005.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_006.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_007.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_008.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_009.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_010.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_011.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_012.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_013.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_014.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_015.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_016.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_017.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_018.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_019.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_020.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_021.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_022.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_023.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_024.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_025.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_026.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_027.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_028.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_029.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_030.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_031.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_032.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_033.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_034.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_035.webp' },
-      { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_036.webp' }
+      { type: 'video', videoId: 'aMYvommxKiw' }
     ]
   },
   'changse': {
-    id: 'PROJ_04 · 2018—2020',
-    title: 'Line Games - The War of Genesis : Remnants of Gray',
-    sub: 'Nintendo Switch / SRPG / Alpha',
+    id: 'PROJ_014 · 2018—2020',
+    title: 'Line Games',
+    sub: '창세기전: 회색의 잔영 / SRPG · Nintendo Switch / Alpha',
     tags: ['Level Design · Lighting · Outsourcing · Feedback', 'Developer : Line Games'],
     items: [
       { type: 'video', videoId: '2zKdRMch0Us' }
     ]
   },
   'nexon': {
-    id: 'PROJ_03 · 2017—2018',
-    title: 'Nexon Korea - Ascendant One',
-    sub: 'PC Online / MOBA / Alpha',
+    id: 'PROJ_013 · 2017—2018',
+    title: 'Nexon Korea',
+    sub: 'Ascendant One / MOBA · PC Online / Alpha',
     tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'Developer : Nexon Korea'],
     items: [
       { type: 'video', videoId: 'NOZ51TUyemo' }
     ]
   },
   'xlgames': {
-    id: 'PROJ_02 · 2017',
-    title: 'XLGames - Civilization Online',
-    sub: 'PC Online / MMORPG / Open Beta',
+    id: 'PROJ_012 · 2017',
+    title: 'XLGames',
+    sub: 'Civilization Online / MMORPG · PC Online / Open Beta',
     tags: ['Level Design · Shader · Lighting · Optimization', 'Developer : XLGames', 'Publisher : 2K'],
     items: [
       { type: 'video', videoId: 'behf7twp1bo', start: 30 }
     ]
   },
   'neptune': {
-    id: 'PROJ_01 · 2005—2016',
-    title: 'Early Career Foundation (Multiple Studios)',
-    sub: 'PC Online / Mobile / Various Titles',
+    id: 'PROJ_011 · 2015—2016',
+    title: 'Neptune',
+    sub: 'Neppy Rush / Tower Defence · Mobile / Alpha',
     tags: ['Level Design', 'Shader', 'Lighting', 'Modeling', 'Textures'],
     items: [
       { type: 'video', videoId: 'k4VzC93T00g' }
@@ -2361,13 +2236,10 @@ window.openProfLb = function(key, idx) {
   // tags 배지
   var tagsRow = document.getElementById('prof-lb-tags-row');
   if (tagsRow && profCurrent.tags) {
-    var devTags = profCurrent.tags.filter(function(t){ return t.toLowerCase().indexOf('developer') !== -1 || t.toLowerCase().indexOf('publisher') !== -1; });
-    var roleTags = profCurrent.tags.filter(function(t){ return t.toLowerCase().indexOf('developer') === -1 && t.toLowerCase().indexOf('publisher') === -1; });
-    var html = '<div style="display:flex;gap:4px;margin-bottom:4px;">'
-      + devTags.map(function(t){ return '<span class="prof-lb-tag dev" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + t + '</span>'; }).join('')
-      + '</div>'
-      + roleTags.map(function(t){ return '<span class="prof-lb-tag">' + t + '</span>'; }).join('');
-    tagsRow.innerHTML = html;
+    tagsRow.innerHTML = profCurrent.tags.map(function(t, i) {
+      var isDev = t.toLowerCase().indexOf('developer') !== -1 || t.toLowerCase().indexOf('publisher') !== -1;
+      return '<span class="prof-lb-tag' + (isDev ? ' dev' : '') + '">' + t + '</span>';
+    }).join('');
   }
   renderProfLb();
   document.getElementById('prof-lb').classList.add('active');
@@ -2422,7 +2294,7 @@ function renderProfLb() {
     wrap.appendChild(iframe);
     wrap.appendChild(overlay);
     main.insertBefore(wrap, main.querySelector('.prof-lb-nav-prev'));
-    document.getElementById('prof-lb-type-badge').textContent = '▷ VIDEO';
+    document.getElementById('prof-lb-type-badge').textContent = '▶ VIDEO';
   } else {
     var img = document.createElement('img');
     img.className = 'prof-lb-img-el';

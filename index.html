@@ -336,7 +336,7 @@
     font-family: var(--font-mono); font-size: 10px;
     color: #6a8fa0; border: 1px solid rgba(80,140,180,.2);
     background: rgba(80,140,180,.05); padding: 2px 8px; letter-spacing: .06em;
-    flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .prof-card-tag.dev {
     color: #6a8fa0; border-color: rgba(80,140,180,.2); background: rgba(80,140,180,.05);
@@ -1641,7 +1641,6 @@ var profCardData = [
     id: 'PROJ_05 · 2021—2024',
     title: 'NCSoft - Project M',
     sub: 'PlayStation 5 / Interactive Adventure / Alpha',
-    role: 'Integration · Lighting · Tech Doc · Outsourcing · Feedback',
     tags: [{ label: 'Developer : Project M', cls: 'dev' }, { label: 'Publisher : NCSoft', cls: '' }],
     thumb: 'https://img.youtube.com/vi/bDXLAaqR_Yg/maxresdefault.jpg',
     media: '▷ VIDEO + IMAGES'
@@ -1651,7 +1650,6 @@ var profCardData = [
     id: 'PROJ_04 · 2018—2020',
     title: 'Line Games - The War of Genesis : Remnants of Gray',
     sub: 'Nintendo Switch / SRPG / Alpha',
-    role: 'Level Design · Lighting · Outsourcing · Feedback',
     tags: [{ label: 'Developer : ReG Studio', cls: 'dev' }, { label: 'Publisher : Line Games', cls: '' }],
     thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg',
     media: '▷ VIDEO'
@@ -1661,7 +1659,6 @@ var profCardData = [
     id: 'PROJ_03 · 2017—2018',
     title: 'Nexon Korea - Ascendant One',
     sub: 'PC Online / MOBA / Alpha',
-    role: 'Hard Surface Modeling · PBR Texturing · Integration',
     tags: [{ label: 'Developer : Nexon Korea', cls: 'dev' }],
     thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg',
     media: '▷ VIDEO + IMAGES'
@@ -1671,7 +1668,6 @@ var profCardData = [
     id: 'PROJ_02 · 2017',
     title: 'XLGames - Civilization Online',
     sub: 'PC Online / MMORPG / Open Beta',
-    role: 'Level Design · Shader · Lighting · Optimization',
     tags: [{ label: 'Developer : XLGames', cls: 'dev' }, { label: 'Publisher : 2K', cls: '' }],
     thumb: 'https://img.youtube.com/vi/behf7twp1bo/maxresdefault.jpg',
     media: '▷ VIDEO + IMAGES'
@@ -1681,7 +1677,6 @@ var profCardData = [
     id: 'PROJ_01 · 2005—2016',
     title: 'Early Career Foundation (Multiple Studios)',
     sub: 'PC Online / Mobile / Various Titles',
-    role: 'Level Design · Shader · Lighting · Modeling · Textures',
     tags: [{ label: 'Developer : Multiple Studios', cls: 'dev' }, { label: 'Publisher : Multiple Studios', cls: '' }],
     thumb: 'https://img.youtube.com/vi/k4VzC93T00g/maxresdefault.jpg',
     media: '▷ VIDEO + IMAGES'
@@ -1720,7 +1715,6 @@ function buildProfCard(d) {
     + '<div class="prof-card-title">' + d.title + '</div>'
     + '<div class="prof-card-sub">' + d.sub + '</div>'
     + '<div class="prof-card-tags">' + tagsHtml + '</div>'
-    + '<div class="prof-card-role">' + d.role + '</div>'
     + '</div>'
     + '</div>';
 }

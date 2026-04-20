@@ -527,15 +527,15 @@
   .prof-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
   .prof-lb-header { display:flex; align-items:center; justify-content:flex-end; padding:10px 20px; background:#141418; border-bottom:1px solid #2a2a3e; flex-shrink:0; gap:12px; }
   .prof-lb-title-area { display:flex; flex-direction:column; gap:4px; min-width:0; }
-  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#00D4FF; letter-spacing:.2em; text-transform:uppercase; }
+  .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:.2em; text-transform:uppercase; }
   .prof-lb-title-text { font-family:'Rajdhani', sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; line-height:1.1; margin-top:2px; }
   .prof-lb-sub-text { font-family:'Outfit', sans-serif; font-size:13px; color:#a0c8d8; letter-spacing:.02em; margin-top:2px; }
-  .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; width:100%; box-sizing:border-box; overflow:hidden; }
-  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:1px solid #2a2a3e; padding:3px 10px; letter-spacing:.08em; background:rgba(20,20,24,.6); white-space:normal; word-break:break-word; }
-  .prof-lb-tag.dev { color:#00D4FF; border-color:rgba(0,212,255,.3); background:rgba(0,212,255,.06); }
+  .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; margin-bottom:0px; width:100%; box-sizing:border-box; overflow:hidden; }
+  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:none; padding:3px 10px; letter-spacing:.08em; background:rgba(255,255,255,.06); white-space:normal; word-break:break-word; }
+  .prof-lb-tag.dev { color:#6a8fa0; border:none; background:rgba(255,255,255,.06); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; }
-  .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
-  .prof-lb-btn { background:none; border:1px solid rgba(0,212,255,0.6); color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#888; }
+  .prof-lb-btn { background:none; border:1px solid #888; color:#888; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
   .prof-lb-btn:hover { border-color:rgba(0,212,255,0.6); color:rgba(0,212,255,0.8); }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
@@ -554,7 +554,7 @@
   .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(0,212,255,0.4); display:flex; align-items:center; gap:6px; }
   .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#00D4FF; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
-  .prof-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; flex:1; }
+  .prof-lb-thumbs { display:flex; flex-direction:column; gap:0; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; flex:1; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
   .prof-lb-thumbs::-webkit-scrollbar { width:4px; }
   .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(0,212,255,0.3); border-radius:2px; }
@@ -1135,25 +1135,17 @@
         </div>
         <!-- 우측 정보 패널 -->
         <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto;">
-          <div style="padding:24px 20px; border-bottom:1px solid #2a2a3e;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="padding:10px 10px 0 10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
               <span class="prof-lb-id" id="prof-lb-id"></span>
               <div style="display:flex; align-items:center; gap:8px;">
                 <span class="prof-lb-counter" id="prof-lb-counter"></span>
                 <button class="prof-lb-btn" onclick="closeProfLb()">✕</button>
               </div>
             </div>
-            <span class="prof-lb-title-text" id="prof-lb-title-text" style="display:block; margin-bottom:6px;"></span>
-            <span class="prof-lb-sub-text" id="prof-lb-sub-text" style="display:block; margin-bottom:12px;"></span>
+            <span class="prof-lb-title-text" id="prof-lb-title-text" style="display:block; margin-bottom:4px;"></span>
+            <span class="prof-lb-sub-text" id="prof-lb-sub-text" style="display:block; margin-bottom:6px;"></span>
             <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
-          </div>
-          <div style="padding:10px 20px; border-bottom:1px solid #2a2a3e; background:#1a1a20;">
-            <div style="font-family:var(--font-mono); font-size:10px; color:#666; letter-spacing:0.1em; margin-bottom:8px;">Keyboard Shortcuts</div>
-            <div style="display:flex; justify-content:center; gap:14px; align-items:center;">
-              <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:5px;"><span onclick="profLbPrevProject()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.background='rgba(0,212,255,0.08)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.background='#222230';this.style.color='#888'" style="border:1px solid #383848; background:#222230; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>
-              <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:5px;"><span onclick="profLbNextProject()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.background='rgba(0,212,255,0.08)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.background='#222230';this.style.color='#888'" style="border:1px solid #383848; background:#222230; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>
-              <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:5px;"><span onclick="closeProfLb()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.background='rgba(0,212,255,0.08)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.background='#222230';this.style.color='#888'" style="border:1px solid #383848; background:#222230; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">esc</span> Close</span>
-            </div>
           </div>
           <!-- 썸네일 -->
           <div class="prof-lb-thumbs" id="prof-lb-thumbs"></div>
@@ -1265,7 +1257,7 @@ const portfolioData = [
   { key:'changse', category:'PRO', tag:'ENV', title: '창세기전: 회색의 잔영', sub: 'Line Games', thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg', type:'video', id:'2zKdRMch0Us' },
   { key:'nexon', category:'PRO', tag:'HARD', title: 'Ascendant One', sub: 'Nexon Korea', thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg', type:'video', id:'NOZ51TUyemo' },
   { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'https://img.youtube.com/vi/behf7twp1bo/maxresdefault.jpg', type:'video', id:'behf7twp1bo' },
-  { key:'multiplestudios', category:'PRO', tag:'ENV', title: 'Early Career Foundation (Multiple Studios)', sub: 'Multiple Studios', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg', type:'video', id:'k4VzC93T00g' },
+  { key:'multiplestudios', category:'PRO', tag:'ENV', title: 'Early Career Foundation (Multiple Studios)', sub: 'Multiple Studios', thumb: (function(){ var ids=['rvz_QdqN3hU','-y3fQ73U-2Q','vdAS1SI1xes']; return 'https://img.youtube.com/vi/'+ids[Math.floor(Math.random()*ids.length)]+'/maxresdefault.jpg'; })(), type:'video', id:'k4VzC93T00g' },
   { key:'puregames', category:'PRO', tag:'ENV', title: 'Pure Games', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
   { key:'hideout', category:'PERSONAL', tag:'ENV', title: 'The Urban Hideout', sub: 'V-Ray Scene', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp', type:'video', id: 'mcTm2DmXd3Y' },
 
@@ -1437,9 +1429,18 @@ function openFolderGallery(src, title) {
 // 그리드 HTML 생성 함수
 function buildGridHTML(data, startIndex) {
   let html = '';
+  var msIds = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g'];
   data.forEach((p, idx) => {
     let realIdx = startIndex + idx;
     let action;
+    // multiplestudios 썸네일 랜덤
+    if (p.key === 'multiplestudios') {
+      var msId = msIds[Math.floor(Math.random() * msIds.length)];
+      p = Object.assign({}, p, { 
+        thumb: 'https://img.youtube.com/vi/' + msId + '/hqdefault.jpg',
+        _msId: msId
+      });
+    }
 
     // ALL 포트폴리오에서 랜덤 이미지인 경우 원래 키로 액션 연결
     var origKey = p._origKey || p.key;
@@ -1490,7 +1491,9 @@ function buildGridHTML(data, startIndex) {
     } else {
       action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
     }
-    let fallback = "this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'";
+    let fallback = p._msId 
+      ? "this.onerror=null;this.src='https://img.youtube.com/vi/" + (p._msId||'') + "/hqdefault.jpg'"
+      : "this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'";
 
     // 날짜 추출: key나 thumb 경로에서 YYYYMMDD 패턴
     let dateStr = '';
@@ -1672,11 +1675,11 @@ var profCardData = [
     media: '▷ VIDEO + IMAGES'
   },
   {
-    key: 'multiplestudios', videoId: ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g', 'vdAS1SI1xes'][Math.floor(Math.random()*4)],
+    key: 'multiplestudios', videoId: 'rvz_QdqN3hU',
     id: 'PROJ_01 · 2005—2016',
     title: 'Early Career Foundation (Multiple Studios)',
     sub: 'PC Online / Mobile / Various Titles',
-    tags: [{ label: 'Developer : Multiple Studios', cls: 'dev' }, { label: 'Publisher : Multiple Studios', cls: '' }],
+    tags: [{ label: 'Developer : Game Studios', cls: 'dev' }, { label: 'Publisher : Production Studio', cls: '' }],
     thumb: 'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg',
     media: '▷ VIDEO + IMAGES'
   }
@@ -1691,15 +1694,28 @@ function buildProfCard(d) {
   var videoId = d.videoId || null;
   // thumb 폴백: img 로드 실패 시 hqdefault로
   var thumbSrc = d.thumb;
-  var thumbOnerror = 'onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (d.videoId || '') + '/hqdefault.jpg\';this.style.objectPosition=\'center 15%\';"';
+  var thumbOnerror = 'onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (d.videoId || '') + '/hqdefault.jpg\';"';
+  if (d.key === 'multiplestudios') {
+    var msIds = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g'];
+    var msId = msIds[Math.floor(Math.random() * msIds.length)];
+    thumbSrc = 'https://img.youtube.com/vi/' + msId + '/hqdefault.jpg';
+    thumbOnerror = 'onerror="(function(el){var id=\'' + msId + '\';var list=[\'hqdefault\',\'mqdefault\',\'sddefault\'];var idx=0;el.onerror=function(){idx++;if(idx<list.length){el.src=\'https://img.youtube.com/vi/\'+id+\'/\'+list[idx]+\'.jpg\';}else{el.onerror=null;}};el.src=\'https://img.youtube.com/vi/\'+id+\'/\'+list[0]+\'.jpg\';})(this)"';
+  }
 
   var hoverVideoHtml = '';
   var mouseenterAttr = '';
   if (videoId) {
-    hoverVideoHtml = '<div class="prof-card-hover-video">'
-      + '<iframe data-src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>'
-      + '</div>';
-    mouseenterAttr = ' onmouseenter="(function(c){var v=c.querySelector(\'.prof-card-hover-video iframe\');if(v&&(!v.src||v.src===\'about:blank\')){v.src=v.dataset.src;v.onload=function(){c.classList.add(\'video-loaded\');};};})(this)"';
+    if (d.key === 'multiplestudios') {
+      hoverVideoHtml = '<div class="prof-card-hover-video">'
+        + '<iframe data-src="" allow="autoplay; encrypted-media"></iframe>'
+        + '</div>';
+      mouseenterAttr = ' onmouseenter="(function(c){var ids=[\'rvz_QdqN3hU\',\'-y3fQ73U-2Q\',\'k4VzC93T00g\',\'vdAS1SI1xes\'];var id=ids[Math.floor(Math.random()*ids.length)];var v=c.querySelector(\'.prof-card-hover-video iframe\');if(v){v.src=\'https://www.youtube.com/embed/\'+id+\'?autoplay=1&mute=1&loop=1&playlist=\'+id+\'&controls=0&playsinline=1\';v.onload=function(){c.classList.add(\'video-loaded\');};};})(this)"';
+    } else {
+      hoverVideoHtml = '<div class="prof-card-hover-video">'
+        + '<iframe data-src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>'
+        + '</div>';
+      mouseenterAttr = ' onmouseenter="(function(c){var v=c.querySelector(\'.prof-card-hover-video iframe\');if(v&&(!v.src||v.src===\'about:blank\')){v.src=v.dataset.src;v.onload=function(){c.classList.add(\'video-loaded\');};};})(this)"';
+    }
   }
 
   return '<div class="prof-card"' + mouseenterAttr + ' onclick="openProfLb(\'' + d.key + '\')">'
@@ -1722,6 +1738,16 @@ function renderProfContainer() {
   var row1 = document.getElementById('prof-card-row1');
   var rowRest = document.getElementById('prof-card-row-rest');
   if (!row1 || !rowRest) return;
+  // multiplestudios 랜덤 영상
+  var msVideos = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g', 'vdAS1SI1xes'];
+  profCardData.forEach(function(d) {
+    if (d.key === 'multiplestudios') {
+      d.videoId = msVideos[Math.floor(Math.random() * msVideos.length)];
+      d.thumb = d.videoId === 'k4VzC93T00g'
+        ? 'https://img.youtube.com/vi/' + d.videoId + '/hqdefault.jpg'
+        : 'https://img.youtube.com/vi/' + d.videoId + '/maxresdefault.jpg';
+    }
+  });
   row1.innerHTML = buildProfCard(profCardData[0]) + buildProfCard(profCardData[1]);
   rowRest.innerHTML = profCardData.slice(2).map(buildProfCard).join('');
 }
@@ -2293,7 +2319,7 @@ var profProjects = {
     id: 'PROJ_03 · 2017—2018',
     title: 'Nexon Korea - Ascendant One',
     sub: 'PC Online / MOBA / Alpha',
-    tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'devCAT', 'Nexon Korea'],
+    tags: ['Hard Surface Modeling · PBR Texturing', 'devCAT', 'Nexon Korea'],
     items: [
       { type: 'video', videoId: 'NOZ51TUyemo' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp' },
@@ -2411,7 +2437,7 @@ var profProjects = {
     id: 'PROJ_01 · 2005—2016',
     title: 'Early Career Foundation (Multiple Studios)',
     sub: 'PC Online / Mobile / Various Titles',
-    tags: ['Level Design', 'Shader', 'Lighting', 'Modeling', 'Textures'],
+    tags: ['Environment Artist · 3D Modeling · Background Design', 'Game Studios', 'Production Studio'],
     items: [
       { type: 'video', videoId: 'rvz_QdqN3hU' },
       { type: 'video', videoId: '-y3fQ73U-2Q' },
@@ -2447,12 +2473,6 @@ var profProjectOrder = ['lionheart', 'ncsoft', 'changse', 'nexon', 'xlgames', 'm
 window.openProfLb = function(key, idx) {
   profCurrent = profProjects[key];
   if (!profCurrent) return;
-  // neptune은 items 랜덤 셔플
-  if (key === 'multiplestudios') {
-    profCurrent = Object.assign({}, profCurrent, {
-      items: profCurrent.items.slice().sort(function() { return Math.random() - 0.5; })
-    });
-  }
   currentProfId = key;
   profIdx = idx || 0;
   document.getElementById('prof-lb-id').textContent = profCurrent.id;
@@ -2555,7 +2575,14 @@ function renderProfLb() {
       '<img src="' + thumbSrc + '" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (it.videoId||'') + '/hqdefault.jpg\';" loading="lazy">' +
       playIcon + '</div>';
   }).join('');
-  thumbs.innerHTML = thumbsHtml;
+  var kbHtml = '<div style="padding:10px; background:rgba(255,255,255,.06); text-align:center; margin-bottom:10px;">'
+    + '<div style="font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:0.1em; margin-bottom:10px;">Keyboard Shortcuts</div>'
+    + '<div style="display:flex; justify-content:center; align-items:center; gap:14px;">'
+    + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="profLbPrevProject()" onmouseover="this.style.borderColor=\'rgba(0,212,255,0.6)\';this.style.color=\'rgba(0,212,255,0.8)\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>'
+    + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="profLbNextProject()" onmouseover="this.style.borderColor=\'rgba(0,212,255,0.6)\';this.style.color=\'rgba(0,212,255,0.8)\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>'
+    + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="closeProfLb()" onmouseover="this.style.borderColor=\'rgba(0,212,255,0.6)\';this.style.color=\'rgba(0,212,255,0.8)\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">esc</span> Close</span>'
+    + '</div></div>';
+  thumbs.innerHTML = kbHtml + thumbsHtml;
 
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {

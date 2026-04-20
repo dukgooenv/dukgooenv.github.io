@@ -529,8 +529,8 @@
   .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#00D4FF; letter-spacing:.2em; text-transform:uppercase; }
   .prof-lb-title-text { font-family:'Rajdhani', sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; line-height:1.1; margin-top:2px; }
   .prof-lb-sub-text { font-family:'Outfit', sans-serif; font-size:13px; color:#a0c8d8; letter-spacing:.02em; margin-top:2px; }
-  .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:1px solid #2a2a3e; padding:3px 10px; letter-spacing:.08em; background:rgba(20,20,24,.6); white-space:nowrap; }
+  .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; width:100%; box-sizing:border-box; overflow:hidden; }
+  .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:1px solid #2a2a3e; padding:3px 10px; letter-spacing:.08em; background:rgba(20,20,24,.6); white-space:normal; word-break:break-word; }
   .prof-lb-tag.dev { color:#00D4FF; border-color:rgba(0,212,255,.3); background:rgba(0,212,255,.06); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; }
   .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
@@ -1121,13 +1121,6 @@
   <!-- PROF-LB MODAL -->
   <div id="prof-lb">
     <div class="prof-lb-wrap">
-      <!-- 상단 닫기 바 -->
-      <div class="prof-lb-header">
-        <div class="prof-lb-controls">
-          <span class="prof-lb-counter" id="prof-lb-counter"></span>
-          <button class="prof-lb-btn" onclick="closeProfLb()">✕</button>
-        </div>
-      </div>
       <!-- 메인 콘텐츠: 이미지(좌) + 정보(우) -->
       <div style="display:flex; flex:1; overflow:hidden;">
         <!-- 좌측 이미지 영역 -->
@@ -1146,15 +1139,26 @@
         <!-- 우측 정보 패널 -->
         <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto;">
           <div style="padding:24px 20px; border-bottom:1px solid #2a2a3e;">
-            <span class="prof-lb-id" id="prof-lb-id" style="display:block; margin-bottom:8px;"></span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="prof-lb-id" id="prof-lb-id"></span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="prof-lb-counter" id="prof-lb-counter"></span>
+                <button class="prof-lb-btn" onclick="closeProfLb()">✕</button>
+              </div>
+            </div>
             <span class="prof-lb-title-text" id="prof-lb-title-text" style="display:block; margin-bottom:6px;"></span>
             <span class="prof-lb-sub-text" id="prof-lb-sub-text" style="display:block; margin-bottom:12px;"></span>
             <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
           </div>
           <!-- 프로젝트 이전/다음 -->
-          <div style="display:flex; justify-content:space-between; padding:12px 20px; border-bottom:1px solid #2a2a3e;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:1px solid #2a2a3e;">
             <button class="prof-lb-btn" onclick="profLbPrevProject()" style="width:auto; padding:0 12px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em;">‹ PREV</button>
             <button class="prof-lb-btn" onclick="profLbNextProject()" style="width:auto; padding:0 12px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em;">NEXT ›</button>
+          </div>
+          <div style="padding:10px 20px; border-bottom:1px solid #2a2a3e; background:#1a1a20; display:flex; justify-content:center; gap:16px; align-items:center;">
+            <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:6px;"><span style="border:1px solid #383848; background:#222230; padding:2px 7px; border-radius:3px; color:#888;">←</span> Previous</span>
+            <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:6px;"><span style="border:1px solid #383848; background:#222230; padding:2px 7px; border-radius:3px; color:#888;">→</span> Next</span>
+            <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:6px;"><span style="border:1px solid #383848; background:#222230; padding:2px 7px; border-radius:3px; color:#888;">esc</span> Close</span>
           </div>
           <!-- 썸네일 -->
           <div class="prof-lb-thumbs" id="prof-lb-thumbs" style="flex-direction:column; flex:1; overflow-y:auto; padding:12px;"></div>
@@ -2230,7 +2234,7 @@ var profProjects = {
     id: 'PROJ_016 · 2025—',
     title: 'Lionheart Studio',
     sub: 'ODIN: Valhalla Rising / MMORPG · Mobile · PC / Live Service',
-    tags: ['Level Design · Integration · Optimization', 'Developer : Lionheart Studio', 'Publisher : Kakao Games'],
+    tags: ['Level Design · Integration · Optimization', 'Lionheart Studio', 'Kakao Games'],
     items: [
       { type: 'video', videoId: 'tvAcoxRube0' }
     ]
@@ -2239,7 +2243,7 @@ var profProjects = {
     id: 'PROJ_05 · 2021—2024',
     title: 'NCSoft - Project M',
     sub: 'PlayStation 5 / Interactive Adventure / Alpha',
-    tags: ['Integration · Lighting · Tech Doc · Outsourcing · Feedback', 'Developer : Project M', 'Publisher : NCSoft'],
+    tags: ['Integration · Lighting · Tech Doc · Outsourcing · Feedback', 'Project M', 'NCSoft'],
     items: [
       { type: 'video', videoId: 'bDXLAaqR_Yg' },
       { type: 'video', videoId: 'aMYvommxKiw' },
@@ -2285,7 +2289,7 @@ var profProjects = {
     id: 'PROJ_04 · 2018—2020',
     title: 'Line Games - The War of Genesis : Remnants of Gray',
     sub: 'Nintendo Switch / SRPG / Alpha',
-    tags: ['Level Design · Lighting · Outsourcing · Feedback', 'Developer : Line Games'],
+    tags: ['Level Design · Lighting · Outsourcing · Feedback', 'Line Games'],
     items: [
       { type: 'video', videoId: '2zKdRMch0Us' }
     ]
@@ -2294,7 +2298,7 @@ var profProjects = {
     id: 'PROJ_03 · 2017—2018',
     title: 'Nexon Korea - Ascendant One',
     sub: 'PC Online / MOBA / Alpha',
-    tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'Developer : Nexon Korea'],
+    tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'Nexon Korea'],
     items: [
       { type: 'video', videoId: 'NOZ51TUyemo' }
     ]
@@ -2303,7 +2307,7 @@ var profProjects = {
     id: 'PROJ_02 · 2017',
     title: 'XLGames - Civilization Online',
     sub: 'PC Online / MMORPG / Open Beta',
-    tags: ['Level Design · Shader · Lighting · Optimization', 'Developer : XLGames', 'Publisher : 2K'],
+    tags: ['Level Design · Shader · Lighting · Optimization', 'XLGames', '2K'],
     items: [
       { type: 'video', videoId: 'behf7twp1bo', start: 30 }
     ]
@@ -2321,7 +2325,7 @@ var profProjects = {
     id: 'PROJ_010 · 2014—2015',
     title: 'Pure Games',
     sub: 'Vendetta / MORPG · Mobile / Service',
-    tags: ['Art Direction', 'Character & Background Creation', 'Developer : Pure Games'],
+    tags: ['Art Direction', 'Character & Background Creation', 'Pure Games'],
     items: [
       { type: 'video', videoId: 'UjtP1k8C5yw' }
     ]
@@ -2330,7 +2334,7 @@ var profProjects = {
     id: 'PROJ_009 · 2019—2020',
     title: 'CookApps',
     sub: 'Outsourcing / SNG · Mobile',
-    tags: ['Modeling', 'Textures', 'Shader', 'Vray Lighting', 'Developer : CookApps'],
+    tags: ['Modeling', 'Textures', 'Shader', 'Vray Lighting', 'CookApps'],
     items: [
     ]
   }
@@ -2355,10 +2359,10 @@ window.openProfLb = function(key, idx) {
   // tags 배지
   var tagsRow = document.getElementById('prof-lb-tags-row');
   if (tagsRow && profCurrent.tags) {
-    var devTags = profCurrent.tags.filter(function(t){ return t.toLowerCase().indexOf('developer') !== -1 || t.toLowerCase().indexOf('publisher') !== -1; });
-    var roleTags = profCurrent.tags.filter(function(t){ return t.toLowerCase().indexOf('developer') === -1 && t.toLowerCase().indexOf('publisher') === -1; });
-    var html = '<div style="display:flex;gap:4px;margin-bottom:4px;">'
-      + devTags.map(function(t){ return '<span class="prof-lb-tag dev" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + t + '</span>'; }).join('')
+    var roleTags = profCurrent.tags.slice(0, 1);
+    var devTags = profCurrent.tags.slice(1);
+    var html = '<div style="display:flex;gap:4px;margin-bottom:4px;width:100%;">'
+      + devTags.map(function(t){ return '<span class="prof-lb-tag dev" style="flex:1;text-align:center;">' + t + '</span>'; }).join('')
       + '</div>'
       + roleTags.map(function(t){ return '<span class="prof-lb-tag">' + t + '</span>'; }).join('');
     tagsRow.innerHTML = html;

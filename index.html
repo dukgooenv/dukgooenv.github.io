@@ -599,8 +599,15 @@
   .pw-lb-panel { width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto; }
   .pw-lb-overlay-id { font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:.2em; text-transform:uppercase; display:block; }
   .pw-lb-overlay-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; text-transform:uppercase; display:block; margin-bottom:6px; }
-  .pw-lb-overlay-sub { font-family:var(--font-mono); font-size:11px; color:#c8905a; letter-spacing:.05em; display:block; margin-bottom:4px; }
-  .pw-lb-overlay-render { font-family:var(--font-mono); font-size:10px; color:#666; letter-spacing:.05em; display:block; margin-bottom:0; }
+  .pw-lb-overlay-sub { font-family:var(--font-mono); font-size:11px; color:#c8905a; letter-spacing:.08em; text-align:center; display:block; }
+  .pw-lb-overlay-render { font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:.05em; text-align:center; display:block; }
+  .pw-lb-info-box {
+    background: rgba(255,255,255,.06);
+    padding: 3px 10px;
+    margin-bottom: 6px;
+    text-align: center;
+    display: block;
+  }
   .pw-lb-thumbs { display:flex; flex-direction:column; gap:4px; padding:10px; flex:1; overflow-y:auto; }
   .pw-lb-thumbs::-webkit-scrollbar { width:4px; }
   .pw-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(232,115,0,0.3); border-radius:2px; }
@@ -608,7 +615,14 @@
   .pw-lb-thumb-item:hover, .pw-lb-thumb-item.active { opacity:1; border-color:#E87300; }
   .pw-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
 
-  /* prof-card hover 유튜브 */
+  /* ── pw-lb 색상 오버라이드 (prof-lb 클래스 재사용, 주황 계열) ── */
+  #pw-lb .prof-lb-nav-prev:hover, #pw-lb .prof-lb-nav-next:hover { border-color:rgba(232,115,0,0.6); color:#E87300; background:rgba(232,115,0,0.08); }
+  #pw-lb .prof-lb-btn:hover { border-color:rgba(232,115,0,0.6); color:#E87300; }
+  #pw-lb .prof-lb-zoom-badge { color:#E87300; }
+  #pw-lb .prof-lb-thumb-item:hover, #pw-lb .prof-lb-thumb-item.active { border-color:#E87300; }
+  #pw-lb .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(232,115,0,0.3); }
+  #pw-lb .prof-lb-id { color:#888; }
+  #pw-lb .prof-lb-hud .sz-hint { color:rgba(232,115,0,0.4); }
   .prof-card-hover-video { position:absolute; inset:0; z-index:1; opacity:0; transition:opacity .4s; pointer-events:none; }
   .prof-card-hover-video iframe { width:100%; height:100%; border:none; pointer-events:none; transform:scale(1.05); }
   .prof-card.video-loaded:hover .prof-card-hover-video { opacity:1; }
@@ -1288,8 +1302,13 @@
               </div>
             </div>
             <span class="prof-lb-title-text" id="pw-lb-overlay-title" style="display:block; margin-bottom:4px;"></span>
-            <span class="prof-lb-sub-text" id="pw-lb-overlay-sub" style="display:block; margin-bottom:4px;"></span>
-            <span style="font-family:var(--font-mono); font-size:10px; color:#666; letter-spacing:.05em; display:block; margin-bottom:10px;" id="pw-lb-overlay-render"></span>
+            <span class="prof-lb-sub-text" id="pw-lb-overlay-sub" style="display:block; margin-bottom:6px;"></span>
+            <div style="background:rgba(255,255,255,.06); padding:5px 10px; margin-bottom:6px; text-align:center;">
+              <span style="font-family:var(--font-mono); font-size:10px; color:#a1a09c; letter-spacing:.08em;">Modeling · Mapping · Lighting</span>
+            </div>
+            <div style="background:rgba(255,255,255,.06); padding:5px 10px; margin-bottom:6px; text-align:center;">
+              <span style="font-family:var(--font-mono); font-size:10px; color:#a1a09c; letter-spacing:.08em;">Rendering : Marmoset Toolbag 4.0</span>
+            </div>
           </div>
           <!-- 썸네일 -->
           <div class="prof-lb-thumbs" id="pw-lb-thumbs"></div>
@@ -2346,6 +2365,7 @@ function pwRenderGrid(cat) {
     }
     grid.style.display = 'block';
     grid.innerHTML = html || '<div class="pw-empty-msg">// No items in this category</div>';
+    pwProjectOrder = []; // 재렌더 시 초기화 → 다음 오픈 시 자동 재빌드
 
   } else if (cat === 'PERSONAL') {
     var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'PERSONAL'; }));
@@ -2408,16 +2428,18 @@ window.openPwLb = function(key, startIdx) {
   pwLbZoomed = false;
   document.getElementById('pw-lb-overlay-id').textContent = proj.id;
   document.getElementById('pw-lb-overlay-title').textContent = proj.title;
-
-  // sub / render 정보
   var subEl = document.getElementById('pw-lb-overlay-sub');
-  var renderEl = document.getElementById('pw-lb-overlay-render');
-  if (subEl) subEl.textContent = 'Modeling · Mapping · Lighting';
-  if (renderEl) renderEl.textContent = 'Rendering : Marmoset Toolbag 4.0';
+  if (subEl) subEl.textContent = proj.sub || '';
+
+  var tagsEl = document.getElementById('pw-lb-tags-row');
+  if (tagsEl) {
+    tagsEl.innerHTML =
+      '<span class="prof-lb-tag dev" style="flex:1;text-align:center;">Modeling · Mapping · Lighting</span>'
+      + '<span class="prof-lb-tag" style="flex:1;text-align:center;">Rendering : Marmoset Toolbag 4.0</span>';
+  }
 
   // 키보드 단축키 패널 — 회사 라이트박스와 동일
-  var kbHtml = '<div style="padding:10px; background:rgba(255,255,255,.06); text-align:center; margin-bottom:10px;">'
-    + '<div style="font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:0.1em; margin-bottom:10px;">Keyboard Shortcuts</div>'
+  var kbHtml = '<div style="background:rgba(255,255,255,.06); padding:10px; margin-bottom:6px; text-align:center;">'
     + '<div style="display:flex; justify-content:center; align-items:center; gap:14px;">'
     + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="pwLbPrev()" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>'
     + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="pwLbNext()" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>'
@@ -2475,16 +2497,36 @@ window.closePwLb = function() {
   pwLbCurrentKey = '';
 };
 
+// 현재 렌더된 pw 카드 순서 추적
+var pwProjectOrder = [];
+
+function buildPwProjectOrder() {
+  // 현재 그리드에 렌더된 pw-card들의 onclick에서 key 추출
+  var cards = document.querySelectorAll('#pw-project-grid .pw-card, #pw-project-grid [onclick*="openPwLb"]');
+  pwProjectOrder = [];
+  cards.forEach(function(card) {
+    var onclick = card.getAttribute('onclick') || '';
+    var match = onclick.match(/openPwLb\(['"]([^'"]+)['"]/);
+    if (match) pwProjectOrder.push(match[1]);
+  });
+  // pwProjects에 있는 키만 필터
+  pwProjectOrder = pwProjectOrder.filter(function(k) { return pwProjects[k]; });
+}
+
 window.pwLbNext = function() {
-  var imgs = pwProjects[pwLbCurrentKey].images;
-  pwLbCurrentIdx = (pwLbCurrentIdx + 1) % imgs.length;
-  _pwLbRender();
+  if (!pwProjectOrder.length) buildPwProjectOrder();
+  var idx = pwProjectOrder.indexOf(pwLbCurrentKey);
+  if (idx === -1) return;
+  var nextKey = pwProjectOrder[(idx + 1) % pwProjectOrder.length];
+  openPwLb(nextKey, 0);
 };
 
 window.pwLbPrev = function() {
-  var imgs = pwProjects[pwLbCurrentKey].images;
-  pwLbCurrentIdx = (pwLbCurrentIdx - 1 + imgs.length) % imgs.length;
-  _pwLbRender();
+  if (!pwProjectOrder.length) buildPwProjectOrder();
+  var idx = pwProjectOrder.indexOf(pwLbCurrentKey);
+  if (idx === -1) return;
+  var prevKey = pwProjectOrder[(idx - 1 + pwProjectOrder.length) % pwProjectOrder.length];
+  openPwLb(prevKey, 0);
 };
 
 // 줌 토글

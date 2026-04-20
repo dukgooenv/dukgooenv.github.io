@@ -133,7 +133,7 @@
   /* ── 3. CHANNELS BAR ── */
   .channels-bar {
     display: flex; align-items: center; gap: 12px; overflow-x: auto;
-    padding: 6px 20px; margin-bottom: 6px; scrollbar-width: none;
+    padding: 6px 20px; margin-bottom: 0; scrollbar-width: none;
     position: sticky; top: 0; z-index: 100;
     background: #141418;
   }
@@ -520,15 +520,19 @@
   .section-desc-en {
     font-size: 13px; color: #787876;
     font-family: 'IBM Plex Mono', monospace;
-    line-height: 1.7; margin: 6px 0 0 0; padding-left: 17px;
+    line-height: 1.7; margin: 6px 0 28px 0; padding-left: 17px;
     animation: fadeInUp 0.6s ease-out 0.2s both;
   }
+  /* PROFESSIONAL / PERSONAL WORKS 헤더 영문 설명 아래 간격 — 올 포트폴리오와 동일 */
+  .prof-section-header .section-desc-en,
+  .pw-section-header .section-desc-en { margin-bottom: 28px; }
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
 
   /* ── RE:LIGHTING 구분선 헤더 ── */
   .pw-divider-section {
     grid-column: 1 / -1;
-    margin: 48px 0 8px 0;
+    margin: 36px 0 0 0;
+    padding: 12px 20px 0 20px;
   }
   .pw-divider-inner {
     display: flex;
@@ -568,7 +572,7 @@
   .pw-divider-desc-en {
     font-size: 13px; color: #787876;
     font-family: 'IBM Plex Mono', monospace;
-    line-height: 1.7; margin: 4px 0 0 0;
+    line-height: 1.7; margin: 4px 0 28px 0;
     padding-left: 17px;
   }
 
@@ -576,10 +580,9 @@
   #pw-lb { display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,.97); flex-direction:column; }
   #pw-lb.active { display:flex; }
   .pw-lb-wrap { width:100vw; height:100vh; display:flex; flex-direction:column; }
-  .pw-lb-header { display:flex; align-items:center; justify-content:flex-end; padding:10px 20px; background:#141418; border-bottom:1px solid #2a2a3e; flex-shrink:0; gap:12px; }
-  .pw-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
-  .pw-lb-close { background:none; border:1px solid #2a2a3e; color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .pw-lb-close:hover { border-color:#E87300; color:#E87300; }
+  .pw-lb-counter { font-family:var(--font-mono); font-size:11px; color:#888; border:1px solid #383848; padding:2px 8px; border-radius:3px; }
+  .pw-lb-close { background:none; border:1px solid #888; color:#888; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .pw-lb-close:hover { border-color:rgba(232,115,0,0.6); color:#E87300; }
   .pw-lb-body { display:flex; flex:1; overflow:hidden; }
   .pw-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .pw-lb-img { display:block; max-width:100%; max-height:100%; object-fit:contain; transition:opacity .18s ease; cursor:zoom-in; }
@@ -587,17 +590,18 @@
   .pw-lb-nav-prev, .pw-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .pw-lb-nav-prev { left:16px; }
   .pw-lb-nav-next { right:16px; }
-  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color:#E87300; color:#E87300; }
+  .pw-lb-nav-prev:hover, .pw-lb-nav-next:hover { border-color:rgba(232,115,0,0.6); color:#E87300; }
   .pw-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#E87300; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .pw-lb-zoom-badge.visible { opacity:1; }
   .pw-lb-hud { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; z-index:4; pointer-events:none; }
   .pw-sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(232,115,0,0.4); letter-spacing:.08em; }
   /* 우측 정보 패널 */
   .pw-lb-panel { width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto; }
-  .pw-lb-panel-info { padding:24px 20px; border-bottom:1px solid #2a2a3e; }
-  .pw-lb-overlay-id { font-family:var(--font-mono); font-size:10px; color:#D95A00; letter-spacing:.2em; text-transform:uppercase; margin-bottom:8px; display:block; }
-  .pw-lb-overlay-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; text-transform:uppercase; display:block; margin-bottom:12px; }
-  .pw-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:12px; flex:1; overflow-y:auto; }
+  .pw-lb-overlay-id { font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:.2em; text-transform:uppercase; display:block; }
+  .pw-lb-overlay-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; text-transform:uppercase; display:block; margin-bottom:6px; }
+  .pw-lb-overlay-sub { font-family:var(--font-mono); font-size:11px; color:#c8905a; letter-spacing:.05em; display:block; margin-bottom:4px; }
+  .pw-lb-overlay-render { font-family:var(--font-mono); font-size:10px; color:#666; letter-spacing:.05em; display:block; margin-bottom:0; }
+  .pw-lb-thumbs { display:flex; flex-direction:column; gap:4px; padding:10px; flex:1; overflow-y:auto; }
   .pw-lb-thumbs::-webkit-scrollbar { width:4px; }
   .pw-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(232,115,0,0.3); border-radius:2px; }
   .pw-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
@@ -811,7 +815,7 @@
     </div>
 
 
-    <div class="channels-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <div class="channels-bar" style="display: flex; justify-content: center; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
         <div class="channel-pill" onclick="filterData('ALL', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_001.jpg" alt="ALL"></div><span class="pill-label">ALL Portfolio</span>
@@ -828,11 +832,11 @@
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_007.jpg" alt="Relight"></div><span class="pill-label">Re:Lighting</span>
         </div>
-        <div class="channel-pill" onclick="filterData('SKETCH', this)">
-          <div class="channel-icon-img"><img src="images/Icon/Icon_009.jpg" alt="Sketch"></div><span class="pill-label">Sketch Note</span>
-        </div>
         <div class="channel-pill" onclick="filterData('DESIGNER', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_010.jpg" alt="Designer"></div><span class="pill-label">Designer</span>
+        </div>
+        <div class="channel-pill" onclick="filterData('SKETCH', this)">
+          <div class="channel-icon-img"><img src="images/Icon/Icon_009.jpg" alt="Sketch"></div><span class="pill-label">Sketch Note</span>
         </div>
       </div>
       
@@ -1169,7 +1173,7 @@
       <div id="professional-container">
 
         <!-- 섹션 헤더: 동일한 구조(번호/제목/라인) + 설명 영역 + 오른쪽 필터 자리 -->
-        <div class="section-header prof-section-header" style="margin-bottom:28px; position:relative;">
+        <div class="section-header prof-section-header" style="position:relative;">
           <div class="section-header-top">
             <span class="section-num">▪ 03</span>
             <h2>PROFESSIONAL</h2>
@@ -1194,7 +1198,7 @@
       <div id="personal-works-container">
 
         <!-- 섹션 헤더: PROFESSIONAL과 구조 동일 (번호/제목/라인 + PW 필터) -->
-        <div class="section-header pw-section-header" id="anchor-personal" style="margin-bottom:28px;">
+        <div class="section-header pw-section-header" id="anchor-personal">
           <div class="section-header-top">
             <span class="section-num">▪ 04</span>
             <h2>PERSONAL WORKS</h2>
@@ -1256,13 +1260,8 @@
   <!-- PERSONAL WORKS LIGHTBOX -->
   <div id="pw-lb">
     <div class="pw-lb-wrap">
-      <!-- 상단 헤더 -->
-      <div class="pw-lb-header">
-        <span class="pw-lb-counter" id="pw-lb-counter"></span>
-        <button class="pw-lb-close" onclick="closePwLb()">✕</button>
-      </div>
-      <!-- 바디: 좌측 이미지 + 우측 패널 -->
-      <div class="pw-lb-body">
+      <!-- 바디: 좌측 이미지 + 우측 패널 (회사 라이트박스와 동일 구조) -->
+      <div style="display:flex; flex:1; overflow:hidden;">
         <!-- 좌측 이미지 영역 -->
         <div class="pw-lb-main">
           <img id="pw-lb-img" class="pw-lb-img" src="" alt="">
@@ -1279,9 +1278,17 @@
         </div>
         <!-- 우측 정보 패널 -->
         <div class="pw-lb-panel">
-          <div class="pw-lb-panel-info">
-            <span class="pw-lb-overlay-id" id="pw-lb-overlay-id">// PERSONAL</span>
+          <div style="padding:10px 10px 0 10px; border-bottom:1px solid #2a2a3e;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="pw-lb-overlay-id" id="pw-lb-overlay-id">// PERSONAL</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="pw-lb-counter" id="pw-lb-counter"></span>
+                <button class="pw-lb-close" onclick="closePwLb()">✕</button>
+              </div>
+            </div>
             <span class="pw-lb-overlay-title" id="pw-lb-overlay-title"></span>
+            <span class="pw-lb-overlay-sub" id="pw-lb-overlay-sub"></span>
+            <span class="pw-lb-overlay-render" id="pw-lb-overlay-render" style="margin-bottom:10px;"></span>
           </div>
           <!-- 썸네일 목록 -->
           <div class="pw-lb-thumbs" id="pw-lb-thumbs"></div>
@@ -1656,6 +1663,7 @@ function appendGrid() {
 }
 
 window.showAboutSection = function() {
+  window.scrollTo({ top: 0, behavior: 'instant' });
   aboutBgLoaded = false;
   document.getElementById('about-container').style.display = 'block';
   document.getElementById('main-grid-top').style.display = 'none';
@@ -1784,8 +1792,11 @@ window.filterData = function(category, btnEl) {
   var isPro = category === 'PRO';
   var isAbout = category === 'ABOUT';
   var isPw = category === 'PERSONAL' || category === 'RELIGHT' || category === 'SKETCH' || category === 'DESIGNER';
-  // Only hide the main global header for About and Professional; Personal uses the global header too
   var hideHeader = isAbout || isPro || isPw;
+
+  // 페이지 전환 시 맨 위로 이동 (RELIGHT/SKETCH/DESIGNER 제외 — 별도 스크롤 처리)
+  var scrollToTop = !['RELIGHT', 'SKETCH', 'DESIGNER'].includes(category);
+  if (scrollToTop) window.scrollTo({ top: 0, behavior: 'instant' });
 
   document.getElementById('about-container').style.display = isAbout ? 'block' : 'none';
   document.getElementById('professional-container').style.display = isPro ? 'block' : 'none';
@@ -2397,10 +2408,28 @@ window.openPwLb = function(key, startIdx) {
   document.getElementById('pw-lb-overlay-id').textContent = proj.id;
   document.getElementById('pw-lb-overlay-title').textContent = proj.title;
 
+  // sub / render 정보
+  var subEl = document.getElementById('pw-lb-overlay-sub');
+  var renderEl = document.getElementById('pw-lb-overlay-render');
+  if (subEl) subEl.textContent = 'Modeling · Mapping · Lighting';
+  if (renderEl) renderEl.textContent = 'Rendering : Marmoset Toolbag 4.0';
+
+  // 키보드 단축키 패널
+  var kbHtml = '<div style="padding:10px; background:rgba(255,255,255,.04); text-align:center; margin-bottom:6px; border-bottom:1px solid #2a2a3e;">'
+    + '<div style="font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:0.1em; margin-bottom:8px;">Keyboard Shortcuts</div>'
+    + '<div style="display:flex; justify-content:center; align-items:center; gap:14px;">'
+    + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;">'
+    +   '<span onclick="pwLbPrev()" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'">←</span> Previous</span>'
+    + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;">'
+    +   '<span onclick="pwLbNext()" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'">→</span> Next</span>'
+    + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;">'
+    +   '<span onclick="closePwLb()" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'">esc</span> Close</span>'
+    + '</div></div>';
+
   // 썸네일 패널 빌드
   var thumbsEl = document.getElementById('pw-lb-thumbs');
   if (thumbsEl) {
-    thumbsEl.innerHTML = proj.images.map(function(src, i) {
+    thumbsEl.innerHTML = kbHtml + proj.images.map(function(src, i) {
       return '<div class="pw-lb-thumb-item' + (i === 0 ? ' active' : '') + '" onclick="pwLbGoTo(' + i + ')" data-idx="' + i + '">'
         + '<img src="' + src + '" loading="lazy" alt="">'
         + '</div>';
@@ -2857,6 +2886,27 @@ document.addEventListener('wheel', function(e) {
     profScrollAcc = 0;
   }
   profScrollTimer = setTimeout(function() { profScrollAcc = 0; }, 300);
+}, { passive: false });
+
+// pw-lb 휠 이벤트
+var pwScrollAcc = 0, pwScrollTimer = null, pwIsAnimating = false;
+document.addEventListener('wheel', function(e) {
+  if (!document.getElementById('pw-lb').classList.contains('active')) return;
+  // 썸네일 패널 위에서 스크롤 시 패널 스크롤 허용
+  var thumbs = document.getElementById('pw-lb-thumbs');
+  if (thumbs && thumbs.contains(e.target)) return;
+  e.preventDefault();
+  pwScrollAcc += e.deltaY;
+  clearTimeout(pwScrollTimer);
+  if (Math.abs(pwScrollAcc) > 80) {
+    if (!pwIsAnimating) {
+      pwIsAnimating = true;
+      if (pwScrollAcc > 0) { pwLbNext(); } else { pwLbPrev(); }
+      setTimeout(function() { pwIsAnimating = false; }, 350);
+    }
+    pwScrollAcc = 0;
+  }
+  pwScrollTimer = setTimeout(function() { pwScrollAcc = 0; }, 300);
 }, { passive: false });
 
 // 이미지 줌 & 드래그

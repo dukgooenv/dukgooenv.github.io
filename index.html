@@ -375,27 +375,24 @@
 
   /* 카드 그리드 */
   /* Make Personal Works grid match main portfolio (square cards, no heavy frames) */
-  .pw-project-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
-  @media(max-width: 1200px) { .pw-project-grid { grid-template-columns: repeat(6, 1fr); } }
-  @media(max-width: 800px) { .pw-project-grid { grid-template-columns: repeat(4, 1fr); } }
-  @media(max-width: 500px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
+  .pw-project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 20px 80px 20px; }
+  @media(max-width: 1200px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width: 600px) { .pw-project-grid { grid-template-columns: repeat(1, 1fr); } }
 
   .pw-card {
-    background: transparent; border: none; cursor: pointer; transition: transform .18s, box-shadow .18s; border-radius: 4px; overflow: hidden; position: relative; aspect-ratio: 1 / 1;
+    background: var(--as-panel); border: none; cursor: pointer; transition: transform .18s, box-shadow .18s; border-radius: 4px; overflow: hidden; position: relative; aspect-ratio: 16 / 9;
   }
-  .pw-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.45); }
-  .pw-thumb-wrap { position: relative; width: 100%; height: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+  .pw-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
+  .pw-thumb-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: filter .3s, transform .3s; display: block; }
   .pw-card:hover .pw-thumb { filter: brightness(0.45); transform: scale(1.04); }
-  .pw-count-badge { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-weight: 600; font-size: 10px; background: rgba(15,15,15,.9); border: 1px solid #00D4FF; color: #00D4FF; padding: 3px 10px; letter-spacing: .1em; border-radius: 3px; transition: opacity .2s; }
+  .pw-count-badge { position: absolute; top: 8px; left: 8px; font-family: var(--font-mono); font-weight: 600; font-size: 10px; background: rgba(14,14,24,.6); border: 1px solid rgba(0,212,255,.18); color: #00D4FF; padding: 3px 8px; letter-spacing: .12em; border-radius: 4px; }
   .pw-card:hover .pw-count-badge { opacity: 0; }
-  .pw-open-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .pw-open-hint-label { font-family: var(--font-mono); font-size: 11px; color: #FF006E; letter-spacing: .15em; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 8px rgba(124,106,247,.4); }
-  .pw-hover-overlay { position: absolute; inset: 0; background: rgba(15,15,15,.6); opacity: 0; transition: opacity .25s; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; pointer-events: none; }
-  .pw-card:hover .pw-hover-overlay { opacity: 1; }
-  .pw-hover-sub { font-family: var(--font-mono); font-size: 10px; color: #00D4FF; letter-spacing: .12em; margin-bottom: 2px; transform: translateX(-12px); opacity: 0; transition: transform .3s, opacity .3s .06s; }
-  .pw-hover-title { font-size: 13px; font-weight: 700; color: #e7e3d4; letter-spacing: .02em; transform: translateX(-12px); opacity: 0; transition: transform .3s .04s, opacity .3s .08s; }
-  .pw-card:hover .pw-hover-sub, .pw-card:hover .pw-hover-title { transform: translateX(0); opacity: 1; }
+  .pw-open-hint { display: none; }
+  .pw-hover-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 14px 12px; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%); opacity: 1; transition: opacity .2s; pointer-events: none; }
+  .pw-card:hover .pw-hover-overlay { opacity: 0; }
+  .pw-hover-sub { font-family: var(--font-mono); font-size: 11px; color: #a0c8d8; letter-spacing: .02em; margin-bottom: 4px; }
+  .pw-hover-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; line-height: 1.2; }
   
   /* 그리드 섹션 타이틀 */
   .pw-grid-section-title { font-family: var(--font-mono); font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #14141c; }
@@ -471,6 +468,53 @@
     animation: fadeInUp 0.6s ease-out 0.2s both;
   }
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
+
+  /* ── RE:LIGHTING 구분선 헤더 ── */
+  .pw-divider-section {
+    grid-column: 1 / -1;
+    margin: 48px 0 8px 0;
+  }
+  .pw-divider-inner {
+    display: flex;
+    align-items: center;
+    border-left: 3px solid #D95A00;
+    padding-left: 14px;
+    margin-bottom: 10px;
+  }
+  .pw-divider-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; font-weight: 400;
+    color: #D95A00; letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-right: 16px;
+    opacity: 0.85;
+  }
+  .pw-divider-title {
+    font-family: 'Teko', sans-serif;
+    font-size: 36px; font-weight: 600;
+    color: #e0dfdf; letter-spacing: 0.2em;
+    text-transform: uppercase; margin: 0;
+    line-height: 1;
+  }
+  .pw-divider-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, #D95A00, transparent);
+    margin-left: 20px;
+    align-self: center;
+  }
+  .pw-divider-desc-ko {
+    font-size: 13px; color: #a1a09c;
+    line-height: 1.7; margin: 6px 0 0 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding-left: 17px;
+  }
+  .pw-divider-desc-ko::before { content: '◆ '; color: #D95A00; font-size: 10px; }
+  .pw-divider-desc-en {
+    font-size: 13px; color: #787876;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.7; margin: 4px 0 0 0;
+    padding-left: 17px;
+  }
 
   /* PERSONAL WORKS LIGHTBOX — prof-lb와 동일 구조 */
   #pw-lb { display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,.97); flex-direction:column; }
@@ -1100,13 +1144,7 @@
             <h2>PERSONAL WORKS</h2>
             <div class="section-header-line"></div>
           </div>
-            <div id="pw-filter-bar">
-            <button class="pw-tab active" onclick="pwFilterTab('ALL', this)">ALL</button>
-            <button class="pw-tab" onclick="pwFilterTab('PERSONAL', this)">PERSONAL</button>
-            <button class="pw-tab" onclick="pwFilterTab('RELIGHT', this)">RE:LIGHT</button>
-            <button class="pw-tab" onclick="pwFilterTab('SKETCH', this)">SKETCH</button>
-            <button class="pw-tab" onclick="pwFilterTab('DESIGNER', this)">DESIGNER</button>
-          </div>
+
         </div>
 
         <!-- 카드 그리드 (JS로 렌더링) -->
@@ -1259,66 +1297,7 @@ const portfolioData = [
   { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'https://img.youtube.com/vi/behf7twp1bo/maxresdefault.jpg', type:'video', id:'behf7twp1bo' },
   { key:'multiplestudios', category:'PRO', tag:'ENV', title: 'Early Career Foundation (Multiple Studios)', sub: 'Multiple Studios', thumb: (function(){ var ids=['rvz_QdqN3hU','-y3fQ73U-2Q','vdAS1SI1xes']; return 'https://img.youtube.com/vi/'+ids[Math.floor(Math.random()*ids.length)]+'/maxresdefault.jpg'; })(), type:'video', id:'k4VzC93T00g' },
   { key:'puregames', category:'PRO', tag:'ENV', title: 'Pure Games', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
-  { key:'hideout', category:'PERSONAL', tag:'ENV', title: 'The Urban Hideout', sub: 'V-Ray Scene', thumb: 'images/Personal/20140613_Hideout/2014_Hideout_Thumb.webp', type:'video', id: 'mcTm2DmXd3Y' },
 
-
-  // ── PROFESSIONAL (thumbnail 기반) ──
-  { key:'yeinssoft', category:'PRO', tag:'ENV', title:'YeinsSoft', sub:'YeinsSoft', thumb:'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg', type:'image', src:'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg' },
-  { key:'puregamesimg', category:'PRO', tag:'ENV', title:'Pure Games', sub:'Pure Games', thumb:'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'image', src:'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg' },
-
-  // ── PERSONAL (thumbnail 기반) ──
-  { key:'pw-rock',       category:'PERSONAL', tag:'ENV', title:'Modular Rock Study',           sub:'Single Asset',        thumb:'images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp',            type:'image', src:'images/Personal/20201124_RockStudy/Rock_Final_Thumb.webp' },
-  { key:'pw-m4',         category:'PERSONAL', tag:'ENV', title:'M4 Carbine with M203',         sub:'Weapon Model',        thumb:'images/Personal/20190902_M4/M4_M203_Thumb.webp',                      type:'image', src:'images/Personal/20190902_M4/M4_M203_Thumb.webp' },
-  { key:'pw-desert',     category:'PERSONAL', tag:'ENV', title:'Desert Rock',                  sub:'Environment Asset',   thumb:'images/Personal/20180927_Desert_Rocks/Desert_Rocks_Thumb.webp',       type:'image', src:'images/Personal/20180927_Desert_Rocks/Desert_Rocks_Thumb.webp' },
-  { key:'pw-eatest',     category:'PERSONAL', tag:'ENV', title:'2D Image-to-Normal Study',     sub:'Technical Study',     thumb:'images/Personal/20170823_EA_Test/2DNormal_Thumb.webp',                type:'image', src:'images/Personal/20170823_EA_Test/2DNormal_Thumb.webp' },
-  { key:'pw-stylized',   category:'PERSONAL', tag:'ENV', title:'Stylized Dungeon (WIP)',       sub:'Environment Art',     thumb:'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_Thumb.webp', type:'image', src:'images/Personal/20170307_Stylized_Dungeon/Stylized_Dungeon_Thumb.webp' },
-  { key:'pw-zbrushtile', category:'PERSONAL', tag:'ENV', title:'Zbrush Tile & Sculpting',     sub:'Sculpting Study',     thumb:'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_Thumb.webp',      type:'image', src:'images/Personal/20160930_ZbrushTile/2016_ZbrushTile_Thumb.webp' },
-  { key:'pw-dungeon',    category:'PERSONAL', tag:'ENV', title:'Forsaken Dungeon (WIP)',       sub:'Environment Art',     thumb:'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_Thumb.webp',   type:'image', src:'images/Personal/20150914_Dungeon/2015_Forsaken_Dungeon_Thumb.webp' },
-  { key:'pw-afternoon',  category:'PERSONAL', tag:'ENV', title:'Afternoon Break',              sub:'Scene Art',           thumb:'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_Thumb.webp', type:'image', src:'images/Personal/20140522_Afternoon_Break/2014_Afternoon_Break_Thumb.webp' },
-  { key:'pw-bulldozer',  category:'PERSONAL', tag:'ENV', title:'MD-EX Iron Clad Bulldozer',   sub:'Vehicle Model',       thumb:'images/Personal/20130809_BullDozer/2013_Bulldozer_Thumb.webp',        type:'image', src:'images/Personal/20130809_BullDozer/2013_Bulldozer_Thumb.webp' },
-  { key:'pw-ppsh41',     category:'PERSONAL', tag:'ENV', title:'PPSh-41: Classic Soviet SMG', sub:'Weapon Model',        thumb:'images/Personal/20111008_PPSh-41/2011_PPSH41_Thumb.webp',             type:'image', src:'images/Personal/20111008_PPSh-41/2011_PPSH41_Thumb.webp' },
-  { key:'pw-cx420',      category:'PERSONAL', tag:'ENV', title:'Cybernetic Micro-Uzi CX-420', sub:'Weapon Model',        thumb:'images/Personal/20110722_CX-420/2011_CX-420_Thumb.webp',              type:'image', src:'images/Personal/20110722_CX-420/2011_CX-420_Thumb.webp' },
-  { key:'pw-utex',       category:'PERSONAL', tag:'ENV', title:'Hybrid Crawler UT-EX 2077',   sub:'Vehicle Model',       thumb:'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_Thumb.webp',     type:'image', src:'images/Personal/20110418_UT-EX 2077/2011_UT-EX 2077_Thumb.webp' },
-  { key:'pw-ak74u',      category:'PERSONAL', tag:'ENV', title:'AK-74u Compact Assault Rifle', sub:'Weapon Model',       thumb:'images/Personal/20110227_AK-74u/AK-74u_Final_Thumb.webp',             type:'image', src:'images/Personal/20110227_AK-74u/AK-74u_Final_Thumb.webp' },
-  { key:'pw-hmmwv',      category:'PERSONAL', tag:'ENV', title:'HMMWV (Humvee)',               sub:'Vehicle Model',       thumb:'images/Personal/20050101_HMMWV/2005_HMMWV_Thumb.webp',                type:'image', src:'images/Personal/20050101_HMMWV/2005_HMMWV_Thumb.webp' },
-  { key:'pw-oldwork',    category:'PERSONAL', tag:'ENV', title:'Old Works Archive',            sub:'Archive',             thumb:'images/Personal/20000101_OldWork/Apache_Thumb.webp',                  type:'image', src:'images/Personal/20000101_OldWork/Apache_Thumb.webp' },
-
-  // ── RELIGHT (thumbnail 기반) ──
-  { key:'pw-genesis',    category:'RELIGHT',  tag:'ENV', title:'GENESIS G70 Re:Lighting',     sub:'Automotive Lighting', thumb:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_Thumb.webp',      type:'image', src:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_Thumb.webp' },
-  { key:'pw-bmwm4',      category:'RELIGHT',  tag:'ENV', title:'BMW M4 GTS Re:Lighting',      sub:'Automotive Lighting', thumb:'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp',         type:'image', src:'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp' },
-
-  { key: '20130315_Stone_final.webp', category: 'SKETCH', tag: 'ENV', title: '20130315 Stone final', sub: 'SKETCH', thumb: 'images/SketchNote/20130315_Stone_final.webp', type: 'image', src: 'images/SketchNote/20130315_Stone_final.webp' },
-  { key: '20110721_Prop_Final.webp', category: 'SKETCH', tag: 'ENV', title: '20110721 Prop Final', sub: 'SKETCH', thumb: 'images/SketchNote/20110721_Prop_Final.webp', type: 'image', src: 'images/SketchNote/20110721_Prop_Final.webp' },
-  { key: '20160602_Box.gif', category: 'SKETCH', tag: 'ENV', title: '20160602 Box', sub: 'SKETCH', thumb: 'images/SketchNote/20160602_Box.gif', type: 'image', src: 'images/SketchNote/20160602_Box.gif' },
-  { key: '20151129_Lava_Field.gif', category: 'SKETCH', tag: 'ENV', title: '20151129 Lava Field', sub: 'SKETCH', thumb: 'images/SketchNote/20151129_Lava_Field.gif', type: 'image', src: 'images/SketchNote/20151129_Lava_Field.gif' },
-  { key: '20140912_Jewelry_Box.gif', category: 'SKETCH', tag: 'ENV', title: '20140912 Jewelry Box', sub: 'SKETCH', thumb: 'images/SketchNote/20140912_Jewelry_Box.gif', type: 'image', src: 'images/SketchNote/20140912_Jewelry_Box.gif' },
-  { key: '20050401_village.webp', category: 'SKETCH', tag: 'ENV', title: '20050401 village', sub: 'SKETCH', thumb: 'images/SketchNote/20050401_village.webp', type: 'image', src: 'images/SketchNote/20050401_village.webp' },
-  { key: '20190128_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190128_SD.jpg', type: 'image', src: 'images/Designer/20190128_SD.jpg' },
-  { key: '20190220_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190220_SD.jpg', type: 'image', src: 'images/Designer/20190220_SD.jpg' },
-  { key: '20190301_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190301_SD.jpg', type: 'image', src: 'images/Designer/20190301_SD.jpg' },
-  { key: '20190301_SD2.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190301_SD2.jpg', type: 'image', src: 'images/Designer/20190301_SD2.jpg' },
-  { key: '20190313_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190313_SD.jpg', type: 'image', src: 'images/Designer/20190313_SD.jpg' },
-  { key: '20190322_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190322_SD.jpg', type: 'image', src: 'images/Designer/20190322_SD.jpg' },
-  { key: '20190327_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190327_SD.jpg', type: 'image', src: 'images/Designer/20190327_SD.jpg' },
-  { key: '20190425_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190425_SD.jpg', type: 'image', src: 'images/Designer/20190425_SD.jpg' },
-  { key: '20190811_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190811_SD.jpg', type: 'image', src: 'images/Designer/20190811_SD.jpg' },
-  { key: '20190904_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190904_SD.jpg', type: 'image', src: 'images/Designer/20190904_SD.jpg' },
-  { key: '20190907_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20190907_SD.jpg', type: 'image', src: 'images/Designer/20190907_SD.jpg' },
-  { key: '20191017_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20191017_SD.jpg', type: 'image', src: 'images/Designer/20191017_SD.jpg' },
-  { key: '20191027_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20191027_SD.jpg', type: 'image', src: 'images/Designer/20191027_SD.jpg' },
-  { key: '20200925_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20200925_SD.jpg', type: 'image', src: 'images/Designer/20200925_SD.jpg' },
-  { key: '20201003_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201003_SD.jpg', type: 'image', src: 'images/Designer/20201003_SD.jpg' },
-  { key: '20201012_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201012_SD.jpg', type: 'image', src: 'images/Designer/20201012_SD.jpg' },
-  { key: '20201025_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201025_SD.jpg', type: 'image', src: 'images/Designer/20201025_SD.jpg' },
-  { key: '20201029_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201029_SD.jpg', type: 'image', src: 'images/Designer/20201029_SD.jpg' },
-  { key: '20201101_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201101_SD.jpg', type: 'image', src: 'images/Designer/20201101_SD.jpg' },
-  { key: '20201101_SD2.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201101_SD2.jpg', type: 'image', src: 'images/Designer/20201101_SD2.jpg' },
-  { key: '20201105_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201105_SD.jpg', type: 'image', src: 'images/Designer/20201105_SD.jpg' },
-  { key: '20201105_SD2.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201105_SD2.jpg', type: 'image', src: 'images/Designer/20201105_SD2.jpg' },
-  { key: '20201120_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20201120_SD.jpg', type: 'image', src: 'images/Designer/20201120_SD.jpg' },
-  { key: '20210809_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20210809_SD.jpg', type: 'image', src: 'images/Designer/20210809_SD.jpg' },
-  { key: '20210820_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20210820_SD.jpg', type: 'image', src: 'images/Designer/20210820_SD.jpg' },
-  { key: '20211001_SD.jpg', category: 'DESIGNER', tag: 'DESIGNER', title: 'Substance Designer', sub: 'Designer', thumb: 'images/Designer/20211001_SD.jpg', type: 'image', src: 'images/Designer/20211001_SD.jpg' }
 ];
 
 let currentFilterData = [];
@@ -1502,7 +1481,6 @@ function buildGridHTML(data, startIndex) {
       dateStr = `${dateMatch[1]}.${dateMatch[2]}.${dateMatch[3]}`;
     }
 
-    // DESIGNER는 타이틀 고정, SKETCH는 날짜 앞부분 제거
     let titleStr = p.category === 'DESIGNER' ? 'Substance Designer'
       : p.category === 'SKETCH' ? p.title.replace(/^\d{8}\s*/, '')
       : p.title;
@@ -1566,7 +1544,6 @@ function buildAllData() {
     }
   });
 
-  // SKETCH, DESIGNER: 그대로 (thumb 있는 것만)
   portfolioData.filter(function(p) { return (p.category === 'SKETCH' || p.category === 'DESIGNER') && p.thumb; }).forEach(function(p) {
     result.push(p);
   });
@@ -1695,21 +1672,15 @@ function buildProfCard(d) {
   // thumb 폴백: img 로드 실패 시 hqdefault로
   var thumbSrc = d.thumb;
   var thumbOnerror = 'onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + (d.videoId || '') + '/hqdefault.jpg\';"';
-  if (d.key === 'multiplestudios') {
-    var msIds = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g'];
-    var msId = msIds[Math.floor(Math.random() * msIds.length)];
-    thumbSrc = 'https://img.youtube.com/vi/' + msId + '/hqdefault.jpg';
-    thumbOnerror = 'onerror="(function(el){var id=\'' + msId + '\';var list=[\'hqdefault\',\'mqdefault\',\'sddefault\'];var idx=0;el.onerror=function(){idx++;if(idx<list.length){el.src=\'https://img.youtube.com/vi/\'+id+\'/\'+list[idx]+\'.jpg\';}else{el.onerror=null;}};el.src=\'https://img.youtube.com/vi/\'+id+\'/\'+list[0]+\'.jpg\';})(this)"';
-  }
 
   var hoverVideoHtml = '';
   var mouseenterAttr = '';
   if (videoId) {
     if (d.key === 'multiplestudios') {
       hoverVideoHtml = '<div class="prof-card-hover-video">'
-        + '<iframe data-src="" allow="autoplay; encrypted-media"></iframe>'
+        + '<iframe data-src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>'
         + '</div>';
-      mouseenterAttr = ' onmouseenter="(function(c){var ids=[\'rvz_QdqN3hU\',\'-y3fQ73U-2Q\',\'k4VzC93T00g\',\'vdAS1SI1xes\'];var id=ids[Math.floor(Math.random()*ids.length)];var v=c.querySelector(\'.prof-card-hover-video iframe\');if(v){v.src=\'https://www.youtube.com/embed/\'+id+\'?autoplay=1&mute=1&loop=1&playlist=\'+id+\'&controls=0&playsinline=1\';v.onload=function(){c.classList.add(\'video-loaded\');};};})(this)"';
+      mouseenterAttr = ' onmouseenter="(function(c){var v=c.querySelector(\'.prof-card-hover-video iframe\');if(v&&(!v.src||v.src===\'about:blank\')){v.src=v.dataset.src;v.onload=function(){c.classList.add(\'video-loaded\');};};})(this)"';
     } else {
       hoverVideoHtml = '<div class="prof-card-hover-video">'
         + '<iframe data-src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=0&playsinline=1" allow="autoplay; encrypted-media"></iframe>'
@@ -1738,14 +1709,13 @@ function renderProfContainer() {
   var row1 = document.getElementById('prof-card-row1');
   var rowRest = document.getElementById('prof-card-row-rest');
   if (!row1 || !rowRest) return;
-  // multiplestudios 랜덤 영상
-  var msVideos = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g', 'vdAS1SI1xes'];
+  // multiplestudios 랜덤 영상 - 썸네일과 호버영상 동일하게
+  var msVideos = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g'];
   profCardData.forEach(function(d) {
     if (d.key === 'multiplestudios') {
-      d.videoId = msVideos[Math.floor(Math.random() * msVideos.length)];
-      d.thumb = d.videoId === 'k4VzC93T00g'
-        ? 'https://img.youtube.com/vi/' + d.videoId + '/hqdefault.jpg'
-        : 'https://img.youtube.com/vi/' + d.videoId + '/maxresdefault.jpg';
+      var msId = msVideos[Math.floor(Math.random() * msVideos.length)];
+      d.videoId = msId;
+      d.thumb = 'https://img.youtube.com/vi/' + msId + '/hqdefault.jpg';
     }
   });
   row1.innerHTML = buildProfCard(profCardData[0]) + buildProfCard(profCardData[1]);
@@ -1757,7 +1727,7 @@ window.filterData = function(category, btnEl) {
   var isAbout = category === 'ABOUT';
   var isPw = category === 'PERSONAL' || category === 'RELIGHT' || category === 'SKETCH' || category === 'DESIGNER';
   // Only hide the main global header for About and Professional; Personal uses the global header too
-  var hideHeader = isAbout || isPro;
+  var hideHeader = isAbout || isPro || isPw;
 
   document.getElementById('about-container').style.display = isAbout ? 'block' : 'none';
   document.getElementById('professional-container').style.display = isPro ? 'block' : 'none';
@@ -2009,7 +1979,6 @@ var pwAllCards = [
   // ── RELIGHT ──
   { key:'pw-bmwm4',    cat:'RELIGHT',  date:'2024.09.12', title:'BMW M4 GTS Re:Lighting',          sub:'Automotive Lighting',      count:'3 images',      thumb:'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp' },
   { key:'pw-genesis',  cat:'RELIGHT',  date:'2024.10.27', title:'GENESIS G70 Re:Lighting',         sub:'Automotive Lighting',      count:'5 images',      thumb:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_Thumb.webp' },
-  // ── SKETCH ──
   { key:'pw-sk-village',  cat:'SKETCH', date:'2005.04.01', title:'Village Sketch',                 sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20050401_village.webp' },
   { key:'pw-sk-prop',     cat:'SKETCH', date:'2011.07.21', title:'Prop Final Sketch',              sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20110721_Prop_Final.webp' },
   { key:'pw-sk-stone',    cat:'SKETCH', date:'2013.03.15', title:'Stone Final Sketch',             sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20130315_Stone_final.webp' },
@@ -2091,41 +2060,101 @@ var pwProjects = {
     id: '// RELIGHT · 2024.10.27', title: 'GENESIS G70 Re:Lighting',
     images: Array.from({length: 5}, (_, i) => `images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_${String(i+1).padStart(2,'0')}.webp`)
   },
-  'pw-sk-village':  { id:'// SKETCH · 2005', title:'Village Sketch',     images:['images/SketchNote/20050401_village.webp'] },
-  'pw-sk-prop':     { id:'// SKETCH · 2011', title:'Prop Final Sketch',   images:['images/SketchNote/20110721_Prop_Final.webp'] },
-  'pw-sk-stone':    { id:'// SKETCH · 2013', title:'Stone Final Sketch',  images:['images/SketchNote/20130315_Stone_final.webp'] },
-  'pw-sk-jewelry':  { id:'// SKETCH · 2014', title:'Jewelry Box',         images:['images/SketchNote/20140912_Jewelry_Box.gif'] },
-  'pw-sk-lava':     { id:'// SKETCH · 2015', title:'Lava Field',          images:['images/SketchNote/20151129_Lava_Field.gif'] },
-  'pw-sk-box':      { id:'// SKETCH · 2016', title:'Box Study',           images:['images/SketchNote/20160602_Box.gif'] },
 };
 
 // ── 카드 그리드 렌더링 ──
 function pwRenderGrid(cat) {
-  var cards = cat === 'ALL' ? pwAllCards : pwAllCards.filter(function(c) { return c.cat === cat; });
-  cards = shuffleArray([...cards]);
-  var grid = document.getElementById('pw-project-grid');
-  var label = document.getElementById('pw-grid-section-label');
-  var labelMap = { ALL: '// ALL WORKS', PERSONAL: '// PERSONAL WORKS', RELIGHT: '// RE:LIGHTING', SKETCH: '// SKETCH NOTE' };
-  if (label) label.textContent = labelMap[cat] || '// ALL WORKS';
-  if (!grid) return;
-  if (cards.length === 0) {
-    grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
-    return;
+  var labelMap = { ALL: '// ALL WORKS', PERSONAL: '// PERSONAL WORKS', RELIGHT: '// RE:LIGHTING', SKETCH: '// SKETCH NOTE', DESIGNER: '// DESIGNER' };
+
+  var relightDividerHTML =
+    '<div class="pw-divider-section">' +
+      '<div class="pw-divider-inner">' +
+        '<span class="pw-divider-num">// 05</span>' +
+        '<h2 class="pw-divider-title">RE:LIGHTING</h2>' +
+        '<div class="pw-divider-line"></div>' +
+      '</div>' +
+      '<p class="pw-divider-desc-ko">마켓 리소스에 독창적인 라이팅과 환경 셋업을 더해, 밀도 높은 공간감과 분위기로 재구성한 레벨 작업물입니다.</p>' +
+      '<p class="pw-divider-desc-en">Level works rebuilt with original lighting and environment setup layered over market assets — reconstructed for spatial density and atmosphere.</p>' +
+    '</div>';
+
+  var sketchDividerHTML =
+    '<div class="pw-divider-section">' +
+      '<div class="pw-divider-inner">' +
+        '<span class="pw-divider-num">// 06</span>' +
+        '<h2 class="pw-divider-title">SKETCH NOTE</h2>' +
+        '<div class="pw-divider-line"></div>' +
+      '</div>' +
+      '<p class="pw-divider-desc-ko">개인 스케치 및 작업 노트. 환경 디자인 아이디어부터 공간을 구성하기 위한 모든 시도와 흔적들을 기록합니다.</p>' +
+      '<p class="pw-divider-desc-en">Personal sketches and working notes. A record of every attempt and trace made in the process of composing environments — from early ideas to spatial structure.</p>' +
+    '</div>';
+
+  function sortByDate(arr) {
+    return arr.slice().sort(function(a, b) {
+      return b.date.replace(/\./g,'') - a.date.replace(/\./g,'');
+    });
   }
-  var svgIcon = '';
-  grid.innerHTML = cards.map(function(c) {
+
+  function cardHTML(c) {
     return '<div class="pw-card" onclick="openPwLb(\'' + c.key + '\', 0)">' +
       '<div class="pw-thumb-wrap">' +
         '<img class="pw-thumb" loading="lazy" src="' + c.thumb + '" alt="' + c.title + '">' +
         '<div class="pw-count-badge">' + c.count + '</div>' +
-        '<div class="pw-open-hint"><div class="pw-open-hint-label">' + svgIcon + 'VIEW IMAGES</div></div>' +
+        '<div class="pw-open-hint"><div class="pw-open-hint-label">VIEW IMAGES</div></div>' +
         '<div class="pw-hover-overlay">' +
           '<div class="pw-hover-sub">' + c.date + '</div>' +
           '<div class="pw-hover-title">' + c.title + '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
-  }).join('');
+  }
+
+  var grid = document.getElementById('pw-project-grid');
+  var label = document.getElementById('pw-grid-section-label');
+  if (label) label.textContent = labelMap[cat] || '// ALL WORKS';
+  if (!grid) return;
+
+  if (cat === 'ALL') {
+    var personal = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'PERSONAL'; }));
+    var relight  = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'RELIGHT'; }));
+    var sketch   = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'SKETCH'; }));
+    var designer = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'DESIGNER'; }));
+
+    var html = personal.map(cardHTML).join('');
+    if (relight.length > 0) {
+      html += relightDividerHTML + relight.map(cardHTML).join('');
+    }
+    if (sketch.length > 0) {
+      html += sketchDividerHTML + sketch.map(cardHTML).join('');
+    } else {
+      html += sketch.map(cardHTML).join('');
+    }
+    html += designer.map(cardHTML).join('');
+    grid.innerHTML = html || '<div class="pw-empty-msg">// No items in this category</div>';
+
+  } else if (cat === 'RELIGHT') {
+    var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'RELIGHT'; }));
+    if (cards.length === 0) {
+      grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
+      return;
+    }
+    grid.innerHTML = relightDividerHTML + cards.map(cardHTML).join('');
+
+  } else if (cat === 'SKETCH') {
+    var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'SKETCH'; }));
+    if (cards.length === 0) {
+      grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
+      return;
+    }
+    grid.innerHTML = sketchDividerHTML + cards.map(cardHTML).join('');
+
+  } else {
+    var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === cat; }));
+    if (cards.length === 0) {
+      grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
+      return;
+    }
+    grid.innerHTML = cards.map(cardHTML).join('');
+  }
 }
 
 // ── 서브 필터 탭 클릭 ──
@@ -2251,15 +2280,6 @@ document.addEventListener('keydown', function(e) {
 // ═══════════════════════════════════════════════════════════
 
 var profProjects = {
-  'lionheart': {
-    id: 'PROJ_016 · 2025—',
-    title: 'Lionheart Studio',
-    sub: 'ODIN: Valhalla Rising / MMORPG · Mobile · PC / Live Service',
-    tags: ['Level Design · Integration · Optimization', 'Lionheart Studio', 'Kakao Games'],
-    items: [
-      { type: 'video', videoId: 'tvAcoxRube0' }
-    ]
-  },
   'ncsoft': {
     id: 'PROJ_05 · 2021—2024',
     title: 'NCSoft - Project M',
@@ -2445,15 +2465,6 @@ var profProjects = {
       { type: 'video', videoId: 'vdAS1SI1xes' }
     ]
   },
-  'puregames': {
-    id: 'PROJ_010 · 2014—2015',
-    title: 'Pure Games',
-    sub: 'Vendetta / MORPG · Mobile / Service',
-    tags: ['Art Direction', 'Character & Background Creation', 'Pure Games'],
-    items: [
-      { type: 'video', videoId: 'UjtP1k8C5yw' }
-    ]
-  },
   'cookapps': {
     id: 'PROJ_009 · 2019—2020',
     title: 'CookApps',
@@ -2468,7 +2479,7 @@ var profProjects = {
 var profCurrent = null;
 var profIdx = 0;
 var currentProfId = null;
-var profProjectOrder = ['lionheart', 'ncsoft', 'changse', 'nexon', 'xlgames', 'multiplestudios', 'puregames', 'cookapps'];
+var profProjectOrder = ['ncsoft', 'changse', 'nexon', 'xlgames', 'multiplestudios', 'cookapps'];
 
 window.openProfLb = function(key, idx) {
   profCurrent = profProjects[key];

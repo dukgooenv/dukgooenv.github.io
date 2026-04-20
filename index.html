@@ -1657,7 +1657,7 @@ var profCardData = [
     id: 'PROJ_03 · 2017—2018',
     title: 'Nexon Korea - Ascendant One',
     sub: 'PC Online / MOBA / Alpha',
-    tags: [{ label: 'Developer : Nexon Korea', cls: 'dev' }],
+    tags: [{ label: 'Developer : devCAT', cls: 'dev' }, { label: 'Publisher : Nexon Korea', cls: '' }],
     thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg',
     media: '▷ VIDEO + IMAGES'
   },
@@ -2283,7 +2283,7 @@ var profProjects = {
     id: 'PROJ_04 · 2018—2020',
     title: 'Line Games - The War of Genesis : Remnants of Gray',
     sub: 'Nintendo Switch / SRPG / Alpha',
-    tags: ['Level Design · Lighting · Outsourcing · Feedback', 'Line Games'],
+    tags: ['Level Design · Lighting · Outsourcing · Feedback', 'ReG Studio', 'Line Games'],
     items: [
       { type: 'video', videoId: '2zKdRMch0Us' }
     ]
@@ -2292,9 +2292,10 @@ var profProjects = {
     id: 'PROJ_03 · 2017—2018',
     title: 'Nexon Korea - Ascendant One',
     sub: 'PC Online / MOBA / Alpha',
-    tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'Nexon Korea'],
+    tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'devCAT', 'Nexon Korea'],
     items: [
-      { type: 'video', videoId: 'NOZ51TUyemo' }
+      { type: 'video', videoId: 'NOZ51TUyemo' },
+      ...Array.from({length: 45}, (_, i) => ({ type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_' + String(i+1).padStart(3,'0') + '.webp' }))
     ]
   },
   'xlgames': {

@@ -534,8 +534,8 @@
   .prof-lb-tag.dev { color:#00D4FF; border-color:rgba(0,212,255,.3); background:rgba(0,212,255,.06); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; }
   .prof-lb-counter { font-family:var(--font-mono); font-size:11px; color:#555580; }
-  .prof-lb-btn { background:none; border:1px solid #2a2a3e; color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .prof-lb-btn:hover { border-color:#00D4FF; color:#00D4FF; }
+  .prof-lb-btn { background:none; border:1px solid rgba(0,212,255,0.6); color:#a1a09c; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .prof-lb-btn:hover { border-color:rgba(0,212,255,0.6); color:rgba(0,212,255,0.8); }
   .prof-lb-main { flex:1; display:flex; align-items:center; justify-content:center; background:#000; position:relative; overflow:hidden; }
   .prof-lb-video-wrap { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
   .prof-lb-video-wrap iframe { width:min(100%,calc(100vh*16/9)); height:min(100%,calc(100vw*9/16)); max-width:96vw; max-height:92vh; border:0; }
@@ -544,7 +544,7 @@
   .prof-lb-nav-prev, .prof-lb-nav-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:2; }
   .prof-lb-nav-prev { left:16px; }
   .prof-lb-nav-next { right:16px; }
-  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:#00D4FF; color:#00D4FF; }
+  .prof-lb-nav-prev:hover, .prof-lb-nav-next:hover { border-color:rgba(0,212,255,0.6); color:rgba(0,212,255,0.8); background:rgba(0,212,255,0.08); }
   .prof-lb-dots { position:absolute; bottom:16px; right:20px; display:flex; flex-direction:column; gap:4px; z-index:2; }
   .prof-lb-dot { width:6px; height:6px; border-radius:50%; background:rgba(0,212,255,0.2); cursor:pointer; transition:all .2s; }
   .prof-lb-dot.active { background:#00D4FF; transform:scale(1.4); }
@@ -553,12 +553,12 @@
   .prof-lb-hud .sz-hint { font-family:var(--font-mono); font-size:11px; color:rgba(0,212,255,0.4); display:flex; align-items:center; gap:6px; }
   .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#00D4FF; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
-  .prof-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; }
+  .prof-lb-thumbs { display:flex; flex-direction:column; gap:6px; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; flex:1; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
   .prof-lb-thumbs::-webkit-scrollbar { width:4px; }
   .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(0,212,255,0.3); border-radius:2px; }
-  .prof-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:.5; }
-  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:#00D4FF; }
+  .prof-lb-thumb-item { flex-shrink:0; width:100%; height:70px; border:1px solid #2a2a3e; cursor:pointer; overflow:hidden; position:relative; transition:border-color .2s, opacity .2s; opacity:1; }
+  .prof-lb-thumb-item:hover, .prof-lb-thumb-item.active { opacity:1; border-color:rgba(0,212,255,0.6); box-shadow:none; }
   .prof-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
   .prof-lb-thumb-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.4); font-size:16px; color:#00D4FF; }
   #lightbox.active { display: flex; }
@@ -1130,11 +1130,7 @@
           <div class="prof-lb-dots" id="prof-lb-dots"></div>
           <div class="prof-lb-zoom-badge" id="prof-lb-zoom-badge">🔍 100%</div>
           <div class="prof-lb-type-badge" id="prof-lb-type-badge"></div>
-          <div class="prof-lb-hud">
-            <div class="sz-hint">🖱 Click zoom in/out</div>
-            <div class="sz-hint" style="color:rgba(255,255,255,.15)">|</div>
-            <div class="sz-hint">ESC close</div>
-          </div>
+
         </div>
         <!-- 우측 정보 패널 -->
         <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto;">
@@ -1150,18 +1146,16 @@
             <span class="prof-lb-sub-text" id="prof-lb-sub-text" style="display:block; margin-bottom:12px;"></span>
             <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
           </div>
-          <!-- 프로젝트 이전/다음 -->
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:1px solid #2a2a3e;">
-            <button class="prof-lb-btn" onclick="profLbPrevProject()" style="width:auto; padding:0 12px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em;">‹ PREV</button>
-            <button class="prof-lb-btn" onclick="profLbNextProject()" style="width:auto; padding:0 12px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em;">NEXT ›</button>
-          </div>
-          <div style="padding:10px 20px; border-bottom:1px solid #2a2a3e; background:#1a1a20; display:flex; justify-content:center; gap:16px; align-items:center;">
-            <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:6px;"><span style="border:1px solid #383848; background:#222230; padding:2px 7px; border-radius:3px; color:#888;">←</span> Previous</span>
-            <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:6px;"><span style="border:1px solid #383848; background:#222230; padding:2px 7px; border-radius:3px; color:#888;">→</span> Next</span>
-            <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:6px;"><span style="border:1px solid #383848; background:#222230; padding:2px 7px; border-radius:3px; color:#888;">esc</span> Close</span>
+          <div style="padding:10px 20px; border-bottom:1px solid #2a2a3e; background:#1a1a20;">
+            <div style="font-family:var(--font-mono); font-size:10px; color:#666; letter-spacing:0.1em; margin-bottom:8px;">Keyboard Shortcuts</div>
+            <div style="display:flex; justify-content:center; gap:14px; align-items:center;">
+              <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:5px;"><span onclick="profLbPrevProject()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.background='rgba(0,212,255,0.08)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.background='#222230';this.style.color='#888'" style="border:1px solid #383848; background:#222230; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:5px;"><span onclick="profLbNextProject()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.background='rgba(0,212,255,0.08)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.background='#222230';this.style.color='#888'" style="border:1px solid #383848; background:#222230; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:#555; display:flex; align-items:center; gap:5px;"><span onclick="closeProfLb()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.background='rgba(0,212,255,0.08)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.background='#222230';this.style.color='#888'" style="border:1px solid #383848; background:#222230; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">esc</span> Close</span>
+            </div>
           </div>
           <!-- 썸네일 -->
-          <div class="prof-lb-thumbs" id="prof-lb-thumbs" style="flex-direction:column; flex:1; overflow-y:auto; padding:12px;"></div>
+          <div class="prof-lb-thumbs" id="prof-lb-thumbs"></div>
         </div>
       </div>
     </div>

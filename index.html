@@ -304,7 +304,7 @@
     position: absolute; inset: 0; overflow: hidden;
   }
   .prof-card-thumb img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; transition: transform .35s, filter .3s;
+    width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; transition: transform .35s, filter .3s; pointer-events: none;
   }
   .prof-card:hover .prof-card-thumb img { transform: scale(1.04); filter: brightness(0.45); }
   .prof-card-badge {
@@ -346,6 +346,7 @@
     font-family: var(--font-mono); font-size: 10px; color: #00D4FF;
     background: rgba(14,14,24,.75); border: 1px solid rgba(0,212,255,.35);
     padding: 6px 14px; letter-spacing: .1em; border-radius: 3px;
+    pointer-events: none;
   }
 
   /* 상단 배너 캐러셀 */
@@ -1129,7 +1130,7 @@
           <button class="prof-lb-nav-next" onclick="profLbStep(1)">›</button>
           <div class="prof-lb-dots" id="prof-lb-dots"></div>
           <div class="prof-lb-zoom-badge" id="prof-lb-zoom-badge">🔍 100%</div>
-          <div class="prof-lb-type-badge" id="prof-lb-type-badge"></div>
+
 
         </div>
         <!-- 우측 정보 패널 -->
@@ -1706,7 +1707,7 @@ function buildProfCard(d) {
     + '<img src="' + thumbSrc + '" ' + thumbOnerror + ' alt="' + d.title + '" loading="lazy">'
     + hoverVideoHtml
     + ''
-    + '<span class="prof-card-media-hint">' + d.media + '</span>'
+    + '<span class="prof-card-media-hint" style="pointer-events:none;">' + d.media + '</span>'
     + '</div>'
     + '<div class="prof-card-info">'
     + '<div class="prof-card-id">// ' + d.id + '</div>'
@@ -2295,7 +2296,51 @@ var profProjects = {
     tags: ['Hard Surface Modeling · PBR Texturing · Integration', 'devCAT', 'Nexon Korea'],
     items: [
       { type: 'video', videoId: 'NOZ51TUyemo' },
-      ...Array.from({length: 45}, (_, i) => ({ type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_' + String(i+1).padStart(3,'0') + '.webp' }))
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_001.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_002.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_003.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_004.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_005.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_006.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_007.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_008.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_009.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_010.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_011.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_012.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_013.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_014.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_015.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_016.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_017.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_018.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_019.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_020.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_021.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_022.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_023.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_024.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_025.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_026.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_027.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_028.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_029.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_030.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_031.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_032.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_033.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_034.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_035.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_036.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_037.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_038.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_039.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_040.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_041.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_042.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_043.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_044.webp' },
+      { type: 'image', src: 'images/Professional/2018_Nexon_AscendantOne/2018_Nexon_AscendantOne_045.webp' }
     ]
   },
   'xlgames': {
@@ -2304,7 +2349,62 @@ var profProjects = {
     sub: 'PC Online / MMORPG / Open Beta',
     tags: ['Level Design · Shader · Lighting · Optimization', 'XLGames', '2K'],
     items: [
-      { type: 'video', videoId: 'behf7twp1bo', start: 30 }
+      { type: 'video', videoId: 'behf7twp1bo', start: 30 },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_001.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_002.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_003.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_004.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_005.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_006.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_007.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_008.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_009.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_010.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_011.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_012.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_013.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_014.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_015.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_016.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_017.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_018.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_019.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_020.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_021.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_022.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_023.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_024.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_025.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_026.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_027.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_028.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_029.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_030.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_031.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_032.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_033.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_034.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_035.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_036.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_037.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_038.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_039.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_040.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_041.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_042.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_043.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_044.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_045.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_046.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_047.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_048.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_049.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_050.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_051.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_052.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_053.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_054.webp' },
+      { type: 'image', src: 'images/Professional/2017_XLGAMES_X3/2017_XLGAMES_X3_055.webp' }
     ]
   },
   'neptune': {
@@ -2415,7 +2515,6 @@ function renderProfLb() {
     wrap.appendChild(iframe);
     wrap.appendChild(overlay);
     main.insertBefore(wrap, main.querySelector('.prof-lb-nav-prev'));
-    document.getElementById('prof-lb-type-badge').textContent = '▷ VIDEO';
   } else {
     var img = document.createElement('img');
     img.className = 'prof-lb-img-el';
@@ -2424,7 +2523,6 @@ function renderProfLb() {
     img.style.cursor = 'zoom-in';
     main.insertBefore(img, main.querySelector('.prof-lb-nav-prev'));
     requestAnimationFrame(function() { img.style.opacity = '1'; });
-    document.getElementById('prof-lb-type-badge').textContent = '■ IMAGE';
   }
   document.getElementById('prof-lb-counter').textContent = (profIdx + 1) + ' / ' + profCurrent.items.length;
 

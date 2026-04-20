@@ -262,8 +262,8 @@
   .prof-section-header .section-header-line { background: linear-gradient(to right, #0077aa, transparent); }
 
   /* Personal Works 섹션 헤더 스타일 (프로와 동일한 구조, 색상만 변경) */
-  .pw-section-header .section-header-top { border-left-color: #F5C400; }
-  .pw-section-header .section-num { color: #F5C400; }
+  .pw-section-header .section-header-top { border-left-color: #D95A00; }
+  .pw-section-header .section-num { color: #D95A00; }
   .pw-section-header .section-header-line { background: linear-gradient(to right, #D95A00, transparent); }
 
   /* Ensure professional header matches global header layout exactly */
@@ -375,7 +375,7 @@
 
   /* 카드 그리드 */
   /* Make Personal Works grid match main portfolio (square cards, no heavy frames) */
-  .pw-project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 20px 80px 20px; }
+  .pw-project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 20px 80px 20px; }
   @media(max-width: 1200px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width: 600px) { .pw-project-grid { grid-template-columns: repeat(1, 1fr); } }
 
@@ -386,15 +386,71 @@
   .pw-thumb-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: filter .3s, transform .3s; display: block; }
   .pw-card:hover .pw-thumb { filter: brightness(0.45); transform: scale(1.04); }
-  .pw-count-badge { position: absolute; top: 8px; left: 8px; font-family: var(--font-mono); font-weight: 600; font-size: 10px; background: rgba(14,14,24,.6); border: 1px solid rgba(0,212,255,.18); color: #00D4FF; padding: 3px 8px; letter-spacing: .12em; border-radius: 4px; }
-  .pw-card:hover .pw-count-badge { opacity: 0; }
+  .pw-count-badge {
+    position: absolute; top: 8px; left: 8px;
+    font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 9px;
+    background: rgba(14,14,24,.65); border: 1px solid rgba(217,90,0,.4);
+    color: #E8823A; padding: 2px 7px; letter-spacing: .1em; border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .pw-card:hover .pw-count-badge { opacity: 0; transition: opacity .2s; }
   .pw-open-hint { display: none; }
   .pw-hover-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 14px 12px; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%); opacity: 1; transition: opacity .2s; pointer-events: none; }
   .pw-card:hover .pw-hover-overlay { opacity: 0; }
-  .pw-hover-sub { font-family: var(--font-mono); font-size: 11px; color: #a0c8d8; letter-spacing: .02em; margin-bottom: 4px; }
+  .pw-hover-sub { font-family: var(--font-mono); font-size: 11px; color: #D07040; letter-spacing: .02em; margin-bottom: 4px; }
   .pw-hover-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; line-height: 1.2; }
+
+  /* ── 호버 중앙 미디어 힌트 배지 ── */
+  .pw-media-hint {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500;
+    color: #E8823A;
+    background: rgba(10,10,18,.70);
+    border: 1px solid rgba(217,90,0,.55);
+    padding: 5px 14px 5px 10px;
+    letter-spacing: .15em;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0; transition: opacity .2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pw-card:hover .pw-media-hint { opacity: 1; }
+
+  /* ── 호버 중앙 원형 아이콘 제거 ── */
+  .pw-center-icon { display: none; }
+
+  .pw-hover-overlay {
+    display: block;
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    padding: 14px 12px;
+    background: none;
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .pw-card:hover .pw-hover-overlay { opacity: 1; }
+
+  /* ── SKETCH / DESIGNER → 정사각형 ── */
+  .pw-card.pw-square { aspect-ratio: 1 / 1; }
   
-  /* 그리드 섹션 타이틀 */
+  /* ── 카테고리별 그리드 레이아웃 ── */
+  /* PERSONAL: 1줄 3개, 2줄 4개, 나머지 5개 — JS로 pw-personal-row1/2/rest 클래스 부여 */
+  .pw-personal-row1  { grid-column: span 1; }  /* 3열 그리드 내 기본 */
+  .pw-personal-row2  { grid-column: span 1; }
+  .pw-personal-rest  { grid-column: span 1; }
+
+  /* RELIGHT: 2열 꽉차게 */
+  .pw-grid-relight { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* SKETCH: 7열 한 줄 */
+  .pw-grid-sketch  { grid-template-columns: repeat(7, 1fr) !important; }
+
+  /* DESIGNER: 10열 한 줄씩 */
+  .pw-grid-designer { grid-template-columns: repeat(10, 1fr) !important; }
+
+  /* PERSONAL 전용 래퍼 그리드들 */
+  .pw-personal-grid-row1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+  .pw-personal-grid-row2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 15px; }
+  .pw-personal-grid-rest { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
   .pw-grid-section-title { font-family: var(--font-mono); font-size: 11px; color: #555; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #14141c; }
   .section-title { font-size: 22px; font-weight: 800; color: #e7e3d4; letter-spacing: -0.3px; }
   .section-header {
@@ -508,7 +564,7 @@
     font-family: 'Noto Sans KR', sans-serif;
     padding-left: 17px;
   }
-  .pw-divider-desc-ko::before { content: '◆ '; color: #D95A00; font-size: 10px; }
+  .pw-divider-desc-ko::before { content: ''; }
   .pw-divider-desc-en {
     font-size: 13px; color: #787876;
     font-family: 'IBM Plex Mono', monospace;
@@ -1138,12 +1194,14 @@
       <div id="personal-works-container">
 
         <!-- 섹션 헤더: PROFESSIONAL과 구조 동일 (번호/제목/라인 + PW 필터) -->
-        <div class="section-header pw-section-header" style="margin-bottom:28px;">
+        <div class="section-header pw-section-header" id="anchor-personal" style="margin-bottom:28px;">
           <div class="section-header-top">
             <span class="section-num">▪ 04</span>
             <h2>PERSONAL WORKS</h2>
             <div class="section-header-line"></div>
           </div>
+          <p class="section-desc-ko">프롭 제작부터 셋드레싱, 환경 셋업과 라이팅까지—배경 디자인의 전 과정을 밀도 있게 담아낸 개인 프로젝트입니다.</p>
+          <p class="section-desc-en" style="padding-left:calc(17px + 1em);">A personal project capturing the full spectrum of 3D environment design—from prop creation and set dressing to environment setup and lighting.</p>
 
         </div>
 
@@ -1746,6 +1804,29 @@ window.filterData = function(category, btnEl) {
   if (isPro) { renderProfContainer(); }
   if (isPw) { pwInit(); }
 
+  // 카테고리별 해당 섹션으로 스크롤 (PERSONAL 제외)
+  if (isPw) {
+    var anchorMap = {
+      'RELIGHT':  'anchor-relight',
+      'DESIGNER': 'anchor-designer',
+      'SKETCH':   'anchor-sketch'
+    };
+    var anchorId = anchorMap[category];
+    if (anchorId) {
+      setTimeout(function() {
+        var el = document.getElementById(anchorId);
+        if (!el) return;
+        var stickyOffset = 0;
+        var topNav = document.querySelector('.top-nav');
+        var channelsBar = document.querySelector('.channels-bar');
+        if (topNav) stickyOffset += topNav.offsetHeight;
+        if (channelsBar) stickyOffset += channelsBar.offsetHeight;
+        var elTop = el.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: elTop - stickyOffset - 8, behavior: 'smooth' });
+      }, 80);
+    }
+  }
+
   // When switching to Personal Works, ensure PW tab UI resets to ALL
   if (isPw) {
     var pwTabs = document.querySelectorAll('.pw-tab');
@@ -1984,7 +2065,34 @@ var pwAllCards = [
   { key:'pw-sk-stone',    cat:'SKETCH', date:'2013.03.15', title:'Stone Final Sketch',             sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20130315_Stone_final.webp' },
   { key:'pw-sk-jewelry',  cat:'SKETCH', date:'2014.09.12', title:'Jewelry Box',                    sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20140912_Jewelry_Box.gif' },
   { key:'pw-sk-lava',     cat:'SKETCH', date:'2015.11.29', title:'Lava Field',                     sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20151129_Lava_Field.gif' },
-  { key:'pw-sk-box',      cat:'SKETCH', date:'2016.06.02', title:'Box Study',                      sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20160602_Box.gif' }
+  { key:'pw-sk-box',      cat:'SKETCH', date:'2016.06.02', title:'Box Study',                      sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20160602_Box.gif' },
+  // ── DESIGNER ──
+  { key:'pw-sd-20190128', cat:'DESIGNER', date:'2019.01.28', title:'SD Study 190128', sub:'Procedural Material', count:'', thumb:'images/Designer/20190128_SD.jpg' },
+  { key:'pw-sd-20190220', cat:'DESIGNER', date:'2019.02.20', title:'SD Study 190220', sub:'Procedural Material', count:'', thumb:'images/Designer/20190220_SD.jpg' },
+  { key:'pw-sd-20190301', cat:'DESIGNER', date:'2019.03.01', title:'SD Study 190301', sub:'Procedural Material', count:'', thumb:'images/Designer/20190301_SD.jpg' },
+  { key:'pw-sd-20190301b',cat:'DESIGNER', date:'2019.03.01', title:'SD Study 190301-2',sub:'Procedural Material',count:'', thumb:'images/Designer/20190301_SD2.jpg' },
+  { key:'pw-sd-20190313', cat:'DESIGNER', date:'2019.03.13', title:'SD Study 190313', sub:'Procedural Material', count:'', thumb:'images/Designer/20190313_SD.jpg' },
+  { key:'pw-sd-20190322', cat:'DESIGNER', date:'2019.03.22', title:'SD Study 190322', sub:'Procedural Material', count:'', thumb:'images/Designer/20190322_SD.jpg' },
+  { key:'pw-sd-20190327', cat:'DESIGNER', date:'2019.03.27', title:'SD Study 190327', sub:'Procedural Material', count:'', thumb:'images/Designer/20190327_SD.jpg' },
+  { key:'pw-sd-20190425', cat:'DESIGNER', date:'2019.04.25', title:'SD Study 190425', sub:'Procedural Material', count:'', thumb:'images/Designer/20190425_SD.jpg' },
+  { key:'pw-sd-20190811', cat:'DESIGNER', date:'2019.08.11', title:'SD Study 190811', sub:'Procedural Material', count:'', thumb:'images/Designer/20190811_SD.jpg' },
+  { key:'pw-sd-20190904', cat:'DESIGNER', date:'2019.09.04', title:'SD Study 190904', sub:'Procedural Material', count:'', thumb:'images/Designer/20190904_SD.jpg' },
+  { key:'pw-sd-20190907', cat:'DESIGNER', date:'2019.09.07', title:'SD Study 190907', sub:'Procedural Material', count:'', thumb:'images/Designer/20190907_SD.jpg' },
+  { key:'pw-sd-20191017', cat:'DESIGNER', date:'2019.10.17', title:'SD Study 191017', sub:'Procedural Material', count:'', thumb:'images/Designer/20191017_SD.jpg' },
+  { key:'pw-sd-20191027', cat:'DESIGNER', date:'2019.10.27', title:'SD Study 191027', sub:'Procedural Material', count:'', thumb:'images/Designer/20191027_SD.jpg' },
+  { key:'pw-sd-20200925', cat:'DESIGNER', date:'2020.09.25', title:'SD Study 200925', sub:'Procedural Material', count:'', thumb:'images/Designer/20200925_SD.jpg' },
+  { key:'pw-sd-20201003', cat:'DESIGNER', date:'2020.10.03', title:'SD Study 201003', sub:'Procedural Material', count:'', thumb:'images/Designer/20201003_SD.jpg' },
+  { key:'pw-sd-20201012', cat:'DESIGNER', date:'2020.10.12', title:'SD Study 201012', sub:'Procedural Material', count:'', thumb:'images/Designer/20201012_SD.jpg' },
+  { key:'pw-sd-20201025', cat:'DESIGNER', date:'2020.10.25', title:'SD Study 201025', sub:'Procedural Material', count:'', thumb:'images/Designer/20201025_SD.jpg' },
+  { key:'pw-sd-20201029', cat:'DESIGNER', date:'2020.10.29', title:'SD Study 201029', sub:'Procedural Material', count:'', thumb:'images/Designer/20201029_SD.jpg' },
+  { key:'pw-sd-20201101', cat:'DESIGNER', date:'2020.11.01', title:'SD Study 201101', sub:'Procedural Material', count:'', thumb:'images/Designer/20201101_SD.jpg' },
+  { key:'pw-sd-20201101b',cat:'DESIGNER', date:'2020.11.01', title:'SD Study 201101-2',sub:'Procedural Material',count:'', thumb:'images/Designer/20201101_SD2.jpg' },
+  { key:'pw-sd-20201105', cat:'DESIGNER', date:'2020.11.05', title:'SD Study 201105', sub:'Procedural Material', count:'', thumb:'images/Designer/20201105_SD.jpg' },
+  { key:'pw-sd-20201105b',cat:'DESIGNER', date:'2020.11.05', title:'SD Study 201105-2',sub:'Procedural Material',count:'', thumb:'images/Designer/20201105_SD2.jpg' },
+  { key:'pw-sd-20201120', cat:'DESIGNER', date:'2020.11.20', title:'SD Study 201120', sub:'Procedural Material', count:'', thumb:'images/Designer/20201120_SD.jpg' },
+  { key:'pw-sd-20210809', cat:'DESIGNER', date:'2021.08.09', title:'SD Study 210809', sub:'Procedural Material', count:'', thumb:'images/Designer/20210809_SD.jpg' },
+  { key:'pw-sd-20210820', cat:'DESIGNER', date:'2021.08.20', title:'SD Study 210820', sub:'Procedural Material', count:'', thumb:'images/Designer/20210820_SD.jpg' },
+  { key:'pw-sd-20211001', cat:'DESIGNER', date:'2021.10.01', title:'SD Study 211001', sub:'Procedural Material', count:'', thumb:'images/Designer/20211001_SD.jpg' }
 ];
 
 var pwProjects = {
@@ -2060,6 +2168,32 @@ var pwProjects = {
     id: '// RELIGHT · 2024.10.27', title: 'GENESIS G70 Re:Lighting',
     images: Array.from({length: 5}, (_, i) => `images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_${String(i+1).padStart(2,'0')}.webp`)
   },
+  'pw-sd-20190128': { id:'// DESIGNER · 2019.01.28', title:'SD Study 190128',   images:['images/Designer/20190128_SD.jpg'] },
+  'pw-sd-20190220': { id:'// DESIGNER · 2019.02.20', title:'SD Study 190220',   images:['images/Designer/20190220_SD.jpg'] },
+  'pw-sd-20190301': { id:'// DESIGNER · 2019.03.01', title:'SD Study 190301',   images:['images/Designer/20190301_SD.jpg'] },
+  'pw-sd-20190301b':{ id:'// DESIGNER · 2019.03.01', title:'SD Study 190301-2', images:['images/Designer/20190301_SD2.jpg'] },
+  'pw-sd-20190313': { id:'// DESIGNER · 2019.03.13', title:'SD Study 190313',   images:['images/Designer/20190313_SD.jpg'] },
+  'pw-sd-20190322': { id:'// DESIGNER · 2019.03.22', title:'SD Study 190322',   images:['images/Designer/20190322_SD.jpg'] },
+  'pw-sd-20190327': { id:'// DESIGNER · 2019.03.27', title:'SD Study 190327',   images:['images/Designer/20190327_SD.jpg'] },
+  'pw-sd-20190425': { id:'// DESIGNER · 2019.04.25', title:'SD Study 190425',   images:['images/Designer/20190425_SD.jpg'] },
+  'pw-sd-20190811': { id:'// DESIGNER · 2019.08.11', title:'SD Study 190811',   images:['images/Designer/20190811_SD.jpg'] },
+  'pw-sd-20190904': { id:'// DESIGNER · 2019.09.04', title:'SD Study 190904',   images:['images/Designer/20190904_SD.jpg'] },
+  'pw-sd-20190907': { id:'// DESIGNER · 2019.09.07', title:'SD Study 190907',   images:['images/Designer/20190907_SD.jpg'] },
+  'pw-sd-20191017': { id:'// DESIGNER · 2019.10.17', title:'SD Study 191017',   images:['images/Designer/20191017_SD.jpg'] },
+  'pw-sd-20191027': { id:'// DESIGNER · 2019.10.27', title:'SD Study 191027',   images:['images/Designer/20191027_SD.jpg'] },
+  'pw-sd-20200925': { id:'// DESIGNER · 2020.09.25', title:'SD Study 200925',   images:['images/Designer/20200925_SD.jpg'] },
+  'pw-sd-20201003': { id:'// DESIGNER · 2020.10.03', title:'SD Study 201003',   images:['images/Designer/20201003_SD.jpg'] },
+  'pw-sd-20201012': { id:'// DESIGNER · 2020.10.12', title:'SD Study 201012',   images:['images/Designer/20201012_SD.jpg'] },
+  'pw-sd-20201025': { id:'// DESIGNER · 2020.10.25', title:'SD Study 201025',   images:['images/Designer/20201025_SD.jpg'] },
+  'pw-sd-20201029': { id:'// DESIGNER · 2020.10.29', title:'SD Study 201029',   images:['images/Designer/20201029_SD.jpg'] },
+  'pw-sd-20201101': { id:'// DESIGNER · 2020.11.01', title:'SD Study 201101',   images:['images/Designer/20201101_SD.jpg'] },
+  'pw-sd-20201101b':{ id:'// DESIGNER · 2020.11.01', title:'SD Study 201101-2', images:['images/Designer/20201101_SD2.jpg'] },
+  'pw-sd-20201105': { id:'// DESIGNER · 2020.11.05', title:'SD Study 201105',   images:['images/Designer/20201105_SD.jpg'] },
+  'pw-sd-20201105b':{ id:'// DESIGNER · 2020.11.05', title:'SD Study 201105-2', images:['images/Designer/20201105_SD2.jpg'] },
+  'pw-sd-20201120': { id:'// DESIGNER · 2020.11.20', title:'SD Study 201120',   images:['images/Designer/20201120_SD.jpg'] },
+  'pw-sd-20210809': { id:'// DESIGNER · 2021.08.09', title:'SD Study 210809',   images:['images/Designer/20210809_SD.jpg'] },
+  'pw-sd-20210820': { id:'// DESIGNER · 2021.08.20', title:'SD Study 210820',   images:['images/Designer/20210820_SD.jpg'] },
+  'pw-sd-20211001': { id:'// DESIGNER · 2021.10.01', title:'SD Study 211001',   images:['images/Designer/20211001_SD.jpg'] },
 };
 
 // ── 카드 그리드 렌더링 ──
@@ -2067,7 +2201,7 @@ function pwRenderGrid(cat) {
   var labelMap = { ALL: '// ALL WORKS', PERSONAL: '// PERSONAL WORKS', RELIGHT: '// RE:LIGHTING', SKETCH: '// SKETCH NOTE', DESIGNER: '// DESIGNER' };
 
   var relightDividerHTML =
-    '<div class="pw-divider-section">' +
+    '<div class="pw-divider-section" id="anchor-relight">' +
       '<div class="pw-divider-inner">' +
         '<span class="pw-divider-num">// 05</span>' +
         '<h2 class="pw-divider-title">RE:LIGHTING</h2>' +
@@ -2078,14 +2212,25 @@ function pwRenderGrid(cat) {
     '</div>';
 
   var sketchDividerHTML =
-    '<div class="pw-divider-section">' +
+    '<div class="pw-divider-section" id="anchor-sketch">' +
       '<div class="pw-divider-inner">' +
-        '<span class="pw-divider-num">// 06</span>' +
+        '<span class="pw-divider-num">// 07</span>' +
         '<h2 class="pw-divider-title">SKETCH NOTE</h2>' +
         '<div class="pw-divider-line"></div>' +
       '</div>' +
       '<p class="pw-divider-desc-ko">개인 스케치 및 작업 노트. 환경 디자인 아이디어부터 공간을 구성하기 위한 모든 시도와 흔적들을 기록합니다.</p>' +
       '<p class="pw-divider-desc-en">Personal sketches and working notes. A record of every attempt and trace made in the process of composing environments — from early ideas to spatial structure.</p>' +
+    '</div>';
+
+  var designerDividerHTML =
+    '<div class="pw-divider-section" id="anchor-designer">' +
+      '<div class="pw-divider-inner">' +
+        '<span class="pw-divider-num">// 06</span>' +
+        '<h2 class="pw-divider-title">SUBSTANCE DESIGNER</h2>' +
+        '<div class="pw-divider-line"></div>' +
+      '</div>' +
+      '<p class="pw-divider-desc-ko">Substance Designer를 활용한 머티리얼 및 텍스처 제작 연구. 노드 기반 워크플로우로 제작된 절차적 머티리얼 작업물입니다.</p>' +
+      '<p class="pw-divider-desc-en">Material and texture studies using Substance Designer — procedural workflows built through node-based authoring.</p>' +
     '</div>';
 
   function sortByDate(arr) {
@@ -2094,18 +2239,65 @@ function pwRenderGrid(cat) {
     });
   }
 
+  var gridIcon = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">' +
+    '<rect x="0" y="0" width="5" height="5" fill="#E8823A" opacity="0.9"/>' +
+    '<rect x="7" y="0" width="5" height="5" fill="#E8823A" opacity="0.9"/>' +
+    '<rect x="0" y="7" width="5" height="5" fill="#E8823A" opacity="0.9"/>' +
+    '<rect x="7" y="7" width="5" height="5" fill="#E8823A" opacity="0.9"/>' +
+  '</svg>';
+
+  function getMediaHint(c) {
+    var hasVideo = c.count && c.count.indexOf('▶') !== -1;
+    if (hasVideo) return 'VIDEO + IMAGES';
+    return 'VIEW IMAGES';
+  }
+
   function cardHTML(c) {
-    return '<div class="pw-card" onclick="openPwLb(\'' + c.key + '\', 0)">' +
+    var isSquare = (c.cat === 'SKETCH' || c.cat === 'DESIGNER');
+    var hint = getMediaHint(c);
+    var showHint    = (c.cat !== 'SKETCH' && c.cat !== 'DESIGNER');
+    var showBadge   = (c.cat !== 'SKETCH' && c.cat !== 'DESIGNER');
+    var showTitle   = (c.cat !== 'DESIGNER');
+    var overlayHTML = '';
+    if (c.cat === 'DESIGNER') {
+      // 날짜만 표시
+      overlayHTML = '<div class="pw-hover-overlay" style="padding:6px 8px;">' +
+        '<div class="pw-hover-sub" style="margin:0;">' + c.date + '</div>' +
+        '</div>';
+    } else {
+      overlayHTML = '<div class="pw-hover-overlay">' +
+        '<div class="pw-hover-sub">' + c.date + '</div>' +
+        (showTitle ? '<div class="pw-hover-title">' + c.title + '</div>' : '') +
+        '</div>';
+    }
+    return '<div class="pw-card' + (isSquare ? ' pw-square' : '') + '" onclick="openPwLb(\'' + c.key + '\', 0)">' +
       '<div class="pw-thumb-wrap">' +
         '<img class="pw-thumb" loading="lazy" src="' + c.thumb + '" alt="' + c.title + '">' +
-        '<div class="pw-count-badge">' + c.count + '</div>' +
-        '<div class="pw-open-hint"><div class="pw-open-hint-label">VIEW IMAGES</div></div>' +
-        '<div class="pw-hover-overlay">' +
-          '<div class="pw-hover-sub">' + c.date + '</div>' +
-          '<div class="pw-hover-title">' + c.title + '</div>' +
-        '</div>' +
+        (showBadge && c.count ? '<div class="pw-count-badge">' + c.count + '</div>' : '') +
+        (showHint ? '<div class="pw-media-hint">' + gridIcon + hint + '</div>' : '') +
+        overlayHTML +
       '</div>' +
     '</div>';
+  }
+
+  function renderDesignerHTML(cards) {
+    var r1   = cards.slice(0, 5);
+    var rest = cards.slice(5);
+    var html = '';
+    if (r1.length)   html += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px;">'  + r1.map(cardHTML).join('')   + '</div>';
+    if (rest.length) html += '<div style="display:grid;grid-template-columns:repeat(10,1fr);gap:8px;">' + rest.map(cardHTML).join('') + '</div>';
+    return html;
+  }
+
+  function renderPersonalHTML(cards) {
+    var r1 = cards.slice(0, 3);
+    var r2 = cards.slice(3, 7);
+    var rest = cards.slice(7);
+    var html = '';
+    if (r1.length)   html += '<div class="pw-personal-grid-row1">'  + r1.map(cardHTML).join('')   + '</div>';
+    if (r2.length)   html += '<div class="pw-personal-grid-row2">'  + r2.map(cardHTML).join('')   + '</div>';
+    if (rest.length) html += '<div class="pw-personal-grid-rest">'  + rest.map(cardHTML).join('') + '</div>';
+    return html;
   }
 
   var grid = document.getElementById('pw-project-grid');
@@ -2113,39 +2305,62 @@ function pwRenderGrid(cat) {
   if (label) label.textContent = labelMap[cat] || '// ALL WORKS';
   if (!grid) return;
 
+  // 그리드 columns 초기화
+  grid.style.gridTemplateColumns = '';
+
   if (cat === 'ALL') {
     var personal = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'PERSONAL'; }));
     var relight  = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'RELIGHT'; }));
     var sketch   = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'SKETCH'; }));
     var designer = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'DESIGNER'; }));
 
-    var html = personal.map(cardHTML).join('');
+    // ALL: 각 섹션 래퍼로 감싸서 독립 그리드
+    var html = renderPersonalHTML(personal);
+
     if (relight.length > 0) {
-      html += relightDividerHTML + relight.map(cardHTML).join('');
+      html += relightDividerHTML +
+        '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">' +
+          relight.map(cardHTML).join('') +
+        '</div>';
+    }
+    if (designer.length > 0) {
+      html += designerDividerHTML + renderDesignerHTML(designer);
     }
     if (sketch.length > 0) {
-      html += sketchDividerHTML + sketch.map(cardHTML).join('');
-    } else {
-      html += sketch.map(cardHTML).join('');
+      html += sketchDividerHTML +
+        '<div style="display:grid;grid-template-columns:repeat(' + sketch.length + ',1fr);gap:15px;">' +
+          sketch.map(cardHTML).join('') +
+        '</div>';
     }
-    html += designer.map(cardHTML).join('');
+    grid.style.display = 'block';
     grid.innerHTML = html || '<div class="pw-empty-msg">// No items in this category</div>';
+
+  } else if (cat === 'PERSONAL') {
+    var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'PERSONAL'; }));
+    grid.style.display = 'block';
+    grid.innerHTML = cards.length ? renderPersonalHTML(cards) : '<div class="pw-empty-msg">// No items in this category</div>';
 
   } else if (cat === 'RELIGHT') {
     var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'RELIGHT'; }));
-    if (cards.length === 0) {
-      grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
-      return;
-    }
+    if (cards.length === 0) { grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>'; return; }
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
     grid.innerHTML = relightDividerHTML + cards.map(cardHTML).join('');
 
   } else if (cat === 'SKETCH') {
     var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'SKETCH'; }));
-    if (cards.length === 0) {
-      grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>';
-      return;
-    }
-    grid.innerHTML = sketchDividerHTML + cards.map(cardHTML).join('');
+    if (cards.length === 0) { grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>'; return; }
+    grid.style.display = 'block';
+    grid.innerHTML = sketchDividerHTML +
+      '<div style="display:grid;grid-template-columns:repeat(' + cards.length + ',1fr);gap:15px;">' +
+        cards.map(cardHTML).join('') +
+      '</div>';
+
+  } else if (cat === 'DESIGNER') {
+    var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === 'DESIGNER'; }));
+    if (cards.length === 0) { grid.innerHTML = '<div class="pw-empty-msg">// No items in this category</div>'; return; }
+    grid.style.display = 'block';
+    grid.innerHTML = designerDividerHTML + renderDesignerHTML(cards);
 
   } else {
     var cards = sortByDate(pwAllCards.filter(function(c) { return c.cat === cat; }));

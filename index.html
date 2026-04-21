@@ -186,11 +186,11 @@
     object-fit: cover; flex-shrink: 0;
   }
   /* Force 8 columns on desktop (above 1200px), then 6, then 4 */
-  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; grid-auto-flow: dense; grid-auto-rows: 140px; }
+  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; grid-auto-flow: dense; }
   @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
   @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
-  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: unset; width: 100%; height: 100%; }
+  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 1 / 1; width: 100%; }
   
   .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s, transform 0.3s; display: block; }
   .art-card:hover img { filter: brightness(0.45); transform: scale(1.04); }
@@ -3302,28 +3302,30 @@ function recordView(src) {
 }
 
 function applyRankLayout(rankMap) {
+  // Firebase 데이터 없으면 스킵
+  if (!rankMap || rankMap.size === 0) return;
+
   var topGrid = document.getElementById('main-grid-top');
   if (!topGrid) return;
 
-  // 기존 랭킹 인라인 스타일 초기화
+  // 기존 스타일 초기화
   topGrid.querySelectorAll('.art-card').forEach(function(c) {
     c.style.gridColumn = '';
     c.style.gridRow = '';
-    c.style.aspectRatio = '';
   });
 
   var allCards = Array.from(topGrid.querySelectorAll('.art-card'));
   if (allCards.length < 5) return;
 
-  // 랭킹 5개 선택
+  // 1~5등 카드 추출
   var ranked = [];
-  if (rankMap && rankMap.size > 0) {
-    [1,2,3,4,5].forEach(function(r) {
-      rankMap.forEach(function(rank, card) {
-        if (rank === r && topGrid.contains(card)) ranked.push(card);
-      });
+  [1,2,3,4,5].forEach(function(r) {
+    rankMap.forEach(function(rank, card) {
+      if (rank === r && topGrid.contains(card)) ranked.push(card);
     });
-  }
+  });
+
+  // 부족하면 채우기
   var used = new Set(ranked);
   allCards.forEach(function(c) {
     if (ranked.length >= 5) return;
@@ -3331,31 +3333,25 @@ function applyRankLayout(rankMap) {
   });
   ranked = ranked.slice(0, 5);
 
-  // 고정 위치 배치 (8열 그리드 기준)
-  // 1등: col1-2 / row1-2 (2x2)
-  // 2등: col3-4 / row1   (2x1)
-  // 3등: col5-6 / row1   (2x1)
-  // 4등: col7   / row1-2 (1x2)
-  // 5등: col8   / row1-2 (1x2)
-  var positions = [
-    { col: '1 / 3',  row: '1 / 3' },
-    { col: '3 / 5',  row: '1 / 2' },
-    { col: '5 / 7',  row: '1 / 2' },
-    { col: '7 / 8',  row: '1 / 3' },
-    { col: '8 / 9',  row: '1 / 3' },
+  // 1등: 2x2, 2~3등: 2x1, 4~5등: 1x2
+  var sizes = [
+    { col: 'span 2', row: 'span 2' },
+    { col: 'span 2', row: 'span 1' },
+    { col: 'span 2', row: 'span 1' },
+    { col: 'span 1', row: 'span 2' },
+    { col: 'span 1', row: 'span 2' },
   ];
 
-  // 맨 앞으로 이동 후 위치 지정
+  ranked.forEach(function(card, i) {
+    card.style.gridColumn = sizes[i].col;
+    card.style.gridRow = sizes[i].row;
+  });
+
+  // 맨 앞으로 이동
   for (var i = ranked.length - 1; i >= 0; i--) {
     topGrid.insertBefore(ranked[i], topGrid.firstChild);
   }
-  ranked.forEach(function(card, i) {
-    card.style.gridColumn = positions[i].col;
-    card.style.gridRow    = positions[i].row;
-    card.style.aspectRatio = 'unset';
-  });
 }
-
 function loadAllViewCounts() {
   if (!db) {
     // Firebase 없으면 랜덤 랭킹 적용

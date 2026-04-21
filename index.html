@@ -186,12 +186,12 @@
     object-fit: cover; flex-shrink: 0;
   }
   /* Force 8 columns on desktop (above 1200px), then 6, then 4 */
-  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; grid-auto-flow: dense; grid-auto-rows: 140px; }
   @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
   @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
+  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: unset; width: 100%; height: 100%; }
   
-  .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 1 / 1; }
   .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s, transform 0.3s; display: block; }
   .art-card:hover img { filter: brightness(0.45); transform: scale(1.04); }
 
@@ -615,7 +615,9 @@
   .pw-lb-thumb-item:hover, .pw-lb-thumb-item.active { opacity:1; border-color:#E87300; }
   .pw-lb-thumb-item img { width:100%; height:100%; object-fit:cover; display:block; }
 
-  /* ── pw-lb 색상 오버라이드 (prof-lb 클래스 재사용, 주황 계열) ── */
+  #pw-lb .prof-lb-dots { }
+  #pw-lb .prof-lb-dot { background:rgba(232,115,0,0.2); }
+  #pw-lb .prof-lb-dot.active { background:#E87300; }
   #pw-lb .prof-lb-nav-prev:hover, #pw-lb .prof-lb-nav-next:hover { border-color:rgba(232,115,0,0.6); color:#E87300; background:rgba(232,115,0,0.08); }
   #pw-lb .prof-lb-btn:hover { border-color:rgba(232,115,0,0.6); color:#E87300; }
   #pw-lb .prof-lb-zoom-badge { color:#E87300; }
@@ -648,7 +650,7 @@
   .prof-lb-id { font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:.2em; text-transform:uppercase; }
   .prof-lb-title-text { font-family:'Rajdhani', sans-serif; font-size:22px; font-weight:700; color:#e0dfdf; letter-spacing:.05em; line-height:1.1; margin-top:2px; }
   .prof-lb-sub-text { font-family:'Outfit', sans-serif; font-size:13px; color:#a0c8d8; letter-spacing:.02em; margin-top:2px; }
-  .prof-lb-tags-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; margin-bottom:0px; width:100%; box-sizing:border-box; overflow:hidden; }
+  .prof-lb-tags-row { display:flex; flex-direction:column; gap:0; margin-top:4px; margin-bottom:4px; width:100%; box-sizing:border-box; }
   .prof-lb-tag { font-family:var(--font-mono); font-size:10px; color:#a1a09c; border:none; padding:3px 10px; letter-spacing:.08em; background:rgba(255,255,255,.06); white-space:normal; word-break:break-word; }
   .prof-lb-tag.dev { color:#6a8fa0; border:none; background:rgba(255,255,255,.06); }
   .prof-lb-controls { display:flex; align-items:center; gap:12px; flex-shrink:0; }
@@ -673,6 +675,7 @@
   .prof-lb-zoom-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#00D4FF; letter-spacing:.1em; z-index:3; opacity:0; transition:opacity .2s; pointer-events:none; }
   .prof-lb-zoom-badge.visible { opacity:1; }
   .prof-lb-thumbs { display:flex; flex-direction:column; gap:0; padding:10px; background:#141418; overflow-y:auto; flex-shrink:0; flex:1; }
+  #pw-lb .prof-lb-thumbs { padding-top:0; }
   .prof-lb-thumbs-inner { display:flex; gap:6px; margin:0 auto; align-items:center; }
   .prof-lb-thumbs::-webkit-scrollbar { width:4px; }
   .prof-lb-thumbs::-webkit-scrollbar-thumb { background:rgba(0,212,255,0.3); border-radius:2px; }
@@ -1106,7 +1109,7 @@
       <div id="spotlight-section" style="margin: 0; padding: 20px 10px 18px; background: #1c1c20; border: none; display: none; width: 100%">
         <div style="display: flex; align-items: flex-start; gap: 40px;">
           <!-- 좌측 세로 라인 -->
-          <div style="flex-shrink: 0; width: 3px; background: #00D4FF; align-self: stretch; min-height: 100%;"></div>
+          <div style="flex-shrink: 0; width: 3px; background: #b8ff3a; align-self: stretch; min-height: 100%;"></div>
           <!-- 좌측 레이블 -->
           <div style="flex-shrink: 0; width: 400px; padding-top: 6px;">
             <div style="display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px;">
@@ -1121,7 +1124,7 @@
           <div style="flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
 
             <!-- 카드 1: BMW M4 GTS Re:Lighting -->
-            <div class="spotlight-card" onclick="openLbImage('images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp', 'BMW M4 GTS Re:Lighting', 0)" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #1a1a20; border: 1px solid #2a2a3e; transition: border-color 0.2s; position: relative;">
+            <div class="spotlight-card" onclick="openPwLb('pw-bmwm4', 0)" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #1a1a20; border: 1px solid #2a2a3e; transition: border-color 0.2s; position: relative;">
               <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
                 <img src="images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp"
                   onerror="this.src='images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_01.webp'"
@@ -1137,7 +1140,7 @@
             </div>
 
             <!-- 카드 2: M4 Carbine Personal -->
-            <div class="spotlight-card" onclick="openLbImage('images/Personal/20190902_M4/M4_M203_001.webp', 'M4 Carbine with M203', 0)" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #1a1a20; border: 1px solid #2a2a3e; transition: border-color 0.2s; position: relative;">
+            <div class="spotlight-card" onclick="openPwLb('pw-m4', 0)" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #1a1a20; border: 1px solid #2a2a3e; transition: border-color 0.2s; position: relative;">
               <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
                 <img src="images/Personal/20190902_M4/M4_M203_Thumb.webp"
                   onerror="this.src='images/Personal/20190902_M4/M4_M203_001.webp'"
@@ -1155,7 +1158,8 @@
             <!-- 카드 3: NCSoft Project M -->
             <div class="spotlight-card" onclick="openProfLb('ncsoft')" style="cursor: pointer; border-radius: 8px; overflow: hidden; background: #1a1a20; border: 1px solid #2a2a3e; transition: border-color 0.2s; position: relative;">
               <div style="position: relative; width: 100%; padding-top: 62%; overflow: hidden;">
-                <img src="https://img.youtube.com/vi/liEb8B3osuY/maxresdefault.jpg"
+                <img src="https://img.youtube.com/vi/liEb8B3osuY/mqdefault.jpg"
+                  onerror="this.src='https://img.youtube.com/vi/liEb8B3osuY/default.jpg'"
                   style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;">
                 <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
                   <div style="width: 36px; height: 36px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);">
@@ -1248,8 +1252,8 @@
 
         </div>
         <!-- 우측 정보 패널 -->
-        <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto;">
-          <div style="padding:10px 10px 0 10px;">
+        <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="padding:10px 10px 0 10px; flex-shrink:0;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
               <span class="prof-lb-id" id="prof-lb-id"></span>
               <div style="display:flex; align-items:center; gap:8px;">
@@ -1261,11 +1265,36 @@
             <span class="prof-lb-sub-text" id="prof-lb-sub-text" style="display:block; margin-bottom:6px;"></span>
             <div class="prof-lb-tags-row" id="prof-lb-tags-row"></div>
           </div>
-          <!-- 썸네일 -->
-          <div class="prof-lb-thumbs" id="prof-lb-thumbs"></div>
+          <!-- 키보드 단축키 고정 -->
+          <div id="prof-lb-kb" style="flex-shrink:0; padding:6px 10px; background:rgba(255,255,255,.06); text-align:center; margin:0 10px 0 10px;">
+            <div style="font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:0.1em; margin-bottom:6px;">Keyboard Shortcuts</div>
+            <div style="display:flex; justify-content:center; align-items:center; gap:14px;">
+              <span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="profLbPrevProject()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.color='#888'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="profLbNextProject()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.color='#888'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="closeProfLb()" onmouseover="this.style.borderColor='rgba(0,212,255,0.6)';this.style.color='rgba(0,212,255,0.8)'" onmouseout="this.style.borderColor='#383848';this.style.color='#888'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">esc</span> Close</span>
+            </div>
+          </div>
+          <!-- 썸네일 (스크롤만) -->
+          <div class="prof-lb-thumbs" id="prof-lb-thumbs" style="flex:1; overflow-y:auto;"></div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- 단일 이미지 뷰어 -->
+  <div id="single-img-viewer" style="display:none; position:fixed; inset:0; z-index:6000; background:rgba(0,0,0,0.95); align-items:center; justify-content:center;">
+    <!-- 좌측 화살표 -->
+    <button onclick="singleImgStep(-1)" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center; z-index:2; transition:all .2s;" onmouseover="this.style.borderColor='#b8ff3a';this.style.color='#b8ff3a'" onmouseout="this.style.borderColor='#2a2a3e';this.style.color='#a1a09c'">‹</button>
+    <!-- 이미지 -->
+    <img id="single-img-el" src="" style="max-width:90vw; max-height:90vh; object-fit:contain; border-radius:2px; cursor:zoom-in; user-select:none;">
+    <!-- 우측 화살표 -->
+    <button onclick="singleImgStep(1)" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); background:rgba(20,20,24,.8); border:1px solid #2a2a3e; color:#a1a09c; width:44px; height:44px; cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center; z-index:2; transition:all .2s;" onmouseover="this.style.borderColor='#b8ff3a';this.style.color='#b8ff3a'" onmouseout="this.style.borderColor='#2a2a3e';this.style.color='#a1a09c'">›</button>
+    <!-- 줌 배지 -->
+    <div id="single-img-zoom-badge" style="position:absolute; top:12px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:11px; padding:4px 12px; background:rgba(20,20,24,.9); border:1px solid #2a2a3e; color:#b8ff3a; letter-spacing:.1em; opacity:0; transition:opacity .2s; pointer-events:none;">🔍 100%</div>
+    <!-- 타이틀 -->
+    <div id="single-img-title" style="position:absolute; bottom:24px; left:50%; transform:translateX(-50%); font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:#e0dfdf; letter-spacing:.08em; text-shadow:0 2px 8px rgba(0,0,0,0.8); pointer-events:none; white-space:nowrap;"></div>
+    <!-- 닫기 -->
+    <button onclick="closeSingleImg()" style="position:absolute; top:20px; right:20px; background:none; border:1px solid #888; color:#888; width:32px; height:32px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:3;" onmouseover="this.style.borderColor='#b8ff3a';this.style.color='#b8ff3a'" onmouseout="this.style.borderColor='#888';this.style.color='#888'">✕</button>
   </div>
 
   <!-- FLOATING FILTER -->
@@ -1278,22 +1307,14 @@
         <!-- 좌측 이미지 영역 -->
         <div class="prof-lb-main" id="pw-lb-main" style="flex:1;">
           <img id="pw-lb-img" style="display:block; max-width:100%; max-height:100%; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; cursor:zoom-in;" src="" alt="">
-          <button class="prof-lb-nav-prev" onclick="pwLbPrev()">‹</button>
-          <button class="prof-lb-nav-next" onclick="pwLbNext()">›</button>
+          <button class="prof-lb-nav-prev" onclick="pwLbGoTo(Math.max(0, window._pwLbCurrentIdx-1))">‹</button>
+          <button class="prof-lb-nav-next" onclick="pwLbGoTo(Math.min(pwProjects[pwLbCurrentKey].images.length-1, window._pwLbCurrentIdx+1))">›</button>
+          <div class="prof-lb-dots" id="pw-lb-dots"></div>
           <div class="prof-lb-zoom-badge" id="pw-lb-zoom-badge">🔍 100%</div>
-          <div class="prof-lb-hud">
-            <span class="sz-hint">← → navigate</span>
-            <span class="sz-hint" style="color:rgba(255,255,255,.1)">|</span>
-            <span class="sz-hint">scroll image</span>
-            <span class="sz-hint" style="color:rgba(255,255,255,.1)">|</span>
-            <span class="sz-hint">click zoom</span>
-            <span class="sz-hint" style="color:rgba(255,255,255,.1)">|</span>
-            <span class="sz-hint">ESC close</span>
-          </div>
         </div>
         <!-- 우측 정보 패널 — 회사 라이트박스와 완전 동일 구조 -->
-        <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow-y:auto;">
-          <div style="padding:10px 10px 0 10px;">
+        <div style="width:320px; flex-shrink:0; background:#141418; border-left:1px solid #2a2a3e; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="padding:10px 10px 0 10px; flex-shrink:0;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
               <span class="prof-lb-id" id="pw-lb-overlay-id"></span>
               <div style="display:flex; align-items:center; gap:8px;">
@@ -1303,15 +1324,24 @@
             </div>
             <span class="prof-lb-title-text" id="pw-lb-overlay-title" style="display:block; margin-bottom:4px;"></span>
             <span class="prof-lb-sub-text" id="pw-lb-overlay-sub" style="display:block; margin-bottom:6px;"></span>
-            <div style="background:rgba(255,255,255,.06); padding:5px 10px; margin-bottom:6px; text-align:center;">
-              <span style="font-family:var(--font-mono); font-size:10px; color:#a1a09c; letter-spacing:.08em;">Modeling · Mapping · Lighting</span>
+            <div style="display:flex; margin-bottom:4px;">
+              <span class="prof-lb-tag" style="flex:1; text-align:center; color:#c8905a;">Modeling · Mapping · Lighting</span>
             </div>
-            <div style="background:rgba(255,255,255,.06); padding:5px 10px; margin-bottom:6px; text-align:center;">
-              <span style="font-family:var(--font-mono); font-size:10px; color:#a1a09c; letter-spacing:.08em;">Rendering : Marmoset Toolbag 4.0</span>
+            <div style="display:flex; margin-bottom:4px;">
+              <span class="prof-lb-tag" style="flex:1; text-align:center;">Rendering : Marmoset Toolbag 4.0</span>
             </div>
           </div>
-          <!-- 썸네일 -->
-          <div class="prof-lb-thumbs" id="pw-lb-thumbs"></div>
+          <!-- 키보드 단축키 고정 -->
+          <div style="flex-shrink:0; padding:6px 10px; background:rgba(255,255,255,.06); text-align:center; margin:0 10px 0 10px;">
+            <div style="font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:0.1em; margin-bottom:6px;">Keyboard Shortcuts</div>
+            <div style="display:flex; justify-content:center; align-items:center; gap:14px;">
+              <span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="pwLbPrev()" onmouseover="this.style.borderColor='rgba(232,115,0,0.6)';this.style.color='#E87300'" onmouseout="this.style.borderColor='#383848';this.style.color='#888'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="pwLbNext()" onmouseover="this.style.borderColor='rgba(232,115,0,0.6)';this.style.color='#E87300'" onmouseout="this.style.borderColor='#383848';this.style.color='#888'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="closePwLb()" onmouseover="this.style.borderColor='rgba(232,115,0,0.6)';this.style.color='#E87300'" onmouseout="this.style.borderColor='#383848';this.style.color='#888'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">esc</span> Close</span>
+            </div>
+          </div>
+          <!-- 썸네일 (스크롤만) -->
+          <div class="prof-lb-thumbs" id="pw-lb-thumbs" style="flex:1; overflow-y:auto;"></div>
         </div>
       </div>
     </div>
@@ -1375,13 +1405,11 @@
 <script>
 const portfolioData = [
 
-  { key:'lionheart', category:'PRO', tag:'ENV', title: 'Lionheart Studio', sub: 'Lionheart Studio', thumb: 'https://img.youtube.com/vi/tvAcoxRube0/maxresdefault.jpg', type:'video', id:'tvAcoxRube0' },
   { key:'ncsoft', category:'PRO', tag:'ENV', title: 'Project M', sub: 'NCSoft', thumb: 'https://img.youtube.com/vi/liEb8B3osuY/maxresdefault.jpg', type:'video', id:'liEb8B3osuY' },
   { key:'changse', category:'PRO', tag:'ENV', title: '창세기전: 회색의 잔영', sub: 'Line Games', thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/maxresdefault.jpg', type:'video', id:'2zKdRMch0Us' },
   { key:'nexon', category:'PRO', tag:'HARD', title: 'Ascendant One', sub: 'Nexon Korea', thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/maxresdefault.jpg', type:'video', id:'NOZ51TUyemo' },
   { key:'xlgames', category:'PRO', tag:'ENV', title: 'Civilization Online', sub: 'XLGames', thumb: 'https://img.youtube.com/vi/behf7twp1bo/maxresdefault.jpg', type:'video', id:'behf7twp1bo' },
   { key:'multiplestudios', category:'PRO', tag:'ENV', title: 'Early Career Foundation (Multiple Studios)', sub: 'Multiple Studios', thumb: (function(){ var ids=['rvz_QdqN3hU','-y3fQ73U-2Q','vdAS1SI1xes']; return 'https://img.youtube.com/vi/'+ids[Math.floor(Math.random()*ids.length)]+'/maxresdefault.jpg'; })(), type:'video', id:'k4VzC93T00g' },
-  { key:'puregames', category:'PRO', tag:'ENV', title: 'Pure Games', sub: 'Pure Games', thumb: 'https://img.youtube.com/vi/UjtP1k8C5yw/maxresdefault.jpg', type:'video', id:'UjtP1k8C5yw' },
 
 ];
 
@@ -1493,88 +1521,22 @@ function openFolderGallery(src, title) {
 // 그리드 HTML 생성 함수
 function buildGridHTML(data, startIndex) {
   let html = '';
-  var msIds = ['rvz_QdqN3hU', '-y3fQ73U-2Q', 'k4VzC93T00g'];
   data.forEach((p, idx) => {
     let realIdx = startIndex + idx;
-    let action;
-    // multiplestudios 썸네일 랜덤
-    if (p.key === 'multiplestudios') {
-      var msId = msIds[Math.floor(Math.random() * msIds.length)];
-      p = Object.assign({}, p, { 
-        thumb: 'https://img.youtube.com/vi/' + msId + '/hqdefault.jpg',
-        _msId: msId
-      });
-    }
+    let thumb = p.thumb || '';
+    let title = (p.title || '').replace(/'/g, "\\'");
+    let action = `openSingleImg('${thumb}', '${title}')`;
 
-    // ALL 포트폴리오에서 랜덤 이미지인 경우 원래 키로 액션 연결
-    var origKey = p._origKey || p.key;
-
-    if (p.category === 'PRO') {
-      if (profKeyMap.hasOwnProperty(origKey)) {
-        action = `openProfLb('${origKey}')`;
-      } else if (proThumbKeyMap.hasOwnProperty(origKey)) {
-        action = `openProfLb('${proThumbKeyMap[origKey]}')`;
-      } else if (profKeyMap.hasOwnProperty(p.key)) {
-        action = `openProfLb('${p.key}')`;
-      } else if (proThumbKeyMap.hasOwnProperty(p.key)) {
-        action = `openProfLb('${proThumbKeyMap[p.key]}')`;
-      } else if (p.src) {
-        var folderKey = getFolderKey(p.src);
-        var profKey = folderKey ? folderToProfKey[folderKey] : null;
-        if (profKey) {
-          action = `openProfLb('${profKey}')`;
-        } else {
-          action = `openFolderGallery('${p.src}', '${p.title.replace(/'/g,"\\'")}')`;
-        }
-      } else if (p.type === 'video') {
-        action = `openLbVideo('${p.id}', '${p.title}', ${realIdx})`;
-      } else {
-        action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
-      }
-    } else if (p.category === 'PERSONAL' || p.category === 'RELIGHT') {
-      // PERSONAL/RELIGHT: _origKey 우선, 없으면 pwProjects 키 매핑
-      if (pwProjects.hasOwnProperty(origKey)) {
-        action = `openPwLb('${origKey}', 0)`;
-      } else if (pwProjects.hasOwnProperty(p.key)) {
-        action = `openPwLb('${p.key}', 0)`;
-      } else if (p.type === 'video' && (p.key === 'hideout' || origKey === 'hideout')) {
-        action = `openPwLb('pw-hideout', 0)`;
-      } else if (p.src) {
-        var folderKey2 = getFolderKey(p.src);
-        var pwKey = folderKey2 ? folderToPwKey[folderKey2] : null;
-        if (pwKey) {
-          action = `openPwLb('${pwKey}', 0)`;
-        } else {
-          action = `openFolderGallery('${p.src}', '${p.title.replace(/'/g,"\\'")}')`;
-        }
-      } else {
-        action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
-      }
-    } else if (p.type === 'video') {
-      action = `openLbVideo('${p.id}', '${p.title}', ${realIdx})`;
-    } else {
-      action = `openLbImage('${p.src}', '${p.title}', ${realIdx})`;
-    }
-    let fallback = p._msId 
-      ? "this.onerror=null;this.src='https://img.youtube.com/vi/" + (p._msId||'') + "/hqdefault.jpg'"
-      : "this.src='https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop'";
-
-    // 날짜 추출: key나 thumb 경로에서 YYYYMMDD 패턴
+    let fallback = "this.onerror=null; if(this.src.indexOf('maxresdefault')>-1){this.src=this.src.replace('maxresdefault','sddefault');}else if(this.src.indexOf('sddefault')>-1){this.src=this.src.replace('sddefault','hqdefault');}else{this.src=''}";
     let dateStr = '';
     let dateMatch = (p.key || '').match(/^(\d{4})(\d{2})(\d{2})/) || (p.thumb || '').match(/\/(\d{4})(\d{2})(\d{2})_/);
-    if (dateMatch) {
-      dateStr = `${dateMatch[1]}.${dateMatch[2]}.${dateMatch[3]}`;
-    }
-
-    let titleStr = p.category === 'DESIGNER' ? 'Substance Designer'
-      : p.category === 'SKETCH' ? p.title.replace(/^\d{8}\s*/, '')
-      : p.title;
-
+    if (dateMatch) dateStr = `${dateMatch[1]}.${dateMatch[2]}.${dateMatch[3]}`;
     let counter = realIdx + 1;
+    let titleStr = p.title || '';
 
     html += `
       <div class="art-card" onclick="${action}">
-        <img src="${p.thumb}" onerror="${fallback}" loading="lazy">
+        <img src="${thumb}" onerror="${fallback}" loading="lazy">
         <div class="art-top-bar">
           <span class="art-date">${dateStr}</span>
           <span class="art-counter"><span class="art-counter-check">✓</span>${counter}</span>
@@ -1584,11 +1546,6 @@ function buildGridHTML(data, startIndex) {
         </div>
       </div>
     `;
-
-    // ALL 카테고리일 때 24번째 카드 뒤에 스포트라이트 삽입
-    if (startIndex === 0 && realIdx === 23) {
-      // 스포트라이트는 renderGrid에서 처리
-    }
   });
   return html;
 }
@@ -1596,41 +1553,62 @@ function buildGridHTML(data, startIndex) {
 // ALL 포트폴리오용 데이터 생성 - 프로젝트당 이미지 1장씩
 function buildAllData() {
   var result = [];
+  var usedThumbs = new Set();
 
-  // PRO: profProjects에서 랜덤 이미지 1장씩
+  function addUnique(item) {
+    if (!item.thumb || usedThumbs.has(item.thumb)) return;
+    usedThumbs.add(item.thumb);
+    result.push(item);
+  }
+
+  // PRO: profProjects 실제 이미지에서 최대 3장 (유튜브 썸네일 제외)
   portfolioData.filter(function(p) { return p.category === 'PRO'; }).forEach(function(p) {
     var profKey = profKeyMap.hasOwnProperty(p.key) ? p.key
       : (proThumbKeyMap.hasOwnProperty(p.key) ? proThumbKeyMap[p.key] : null);
+    var added = false;
     if (profKey && profProjects[profKey] && profProjects[profKey].items) {
-      var imgItems = profProjects[profKey].items.filter(function(it) { return it.type === 'image' && it.src; });
+      var imgItems = profProjects[profKey].items.filter(function(it) {
+        return it.type === 'image' && it.src;
+      });
       if (imgItems.length > 0) {
-        var randItem = imgItems[Math.floor(Math.random() * imgItems.length)];
-        result.push({ key: p.key + '_rand', category: 'PRO', tag: p.tag, title: p.title, sub: p.sub, thumb: randItem.src, type: 'image', src: randItem.src, _origKey: p.key });
-        return;
+        shuffleArray(imgItems.slice()).slice(0, 3).forEach(function(it) {
+          addUnique({ key: p.key + '_' + it.src, category: 'PRO', tag: p.tag, title: p.title, sub: p.sub, thumb: it.src, type: 'image', src: it.src, _origKey: p.key });
+        });
+        added = true;
+      }
+      // 이미지 없으면 비디오 썸네일 추가
+      if (!added) {
+        var vidItems = profProjects[profKey].items.filter(function(it) { return it.type === 'video' && it.videoId; });
+        vidItems.slice(0, 3).forEach(function(vid) {
+          var ytThumb = vid.thumb || ('https://img.youtube.com/vi/' + vid.videoId + '/hqdefault.jpg');
+          addUnique({ key: p.key + '_yt_' + vid.videoId, category: 'PRO', tag: p.tag, title: p.title, sub: p.sub, thumb: ytThumb, type: 'image', src: ytThumb, _origKey: p.key });
+          added = true;
+        });
       }
     }
-    // 이미지 없으면 원래 썸네일 사용 (video 카드 등)
-    if (p.thumb) result.push(p);
-  });
-
-  // PERSONAL/RELIGHT: pwProjects에서 랜덤 이미지 1장씩
-  portfolioData.filter(function(p) { return p.category === 'PERSONAL' || p.category === 'RELIGHT'; }).forEach(function(p) {
-    var pwKey = pwProjects.hasOwnProperty(p.key) ? p.key : null;
-    if (!pwKey) {
-      var folder = typeof getFolderKey === 'function' && p.src ? getFolderKey(p.src) : null;
-      pwKey = folder ? (folderToPwKey[folder] || null) : null;
-    }
-    if (pwKey && pwProjects[pwKey] && pwProjects[pwKey].images && pwProjects[pwKey].images.length > 0) {
-      var imgs = pwProjects[pwKey].images.filter(function(img) { return !!img; });
-      var randImg = imgs[Math.floor(Math.random() * imgs.length)];
-      result.push({ key: p.key + '_rand', category: p.category, tag: p.tag, title: p.title, sub: p.sub, thumb: randImg, type: 'image', src: randImg, _origKey: p.key });
-    } else if (p.thumb) {
-      result.push(p);
+    // 그래도 없으면 portfolioData의 thumb 사용
+    if (!added && p.id) {
+      var ytThumb2 = 'https://img.youtube.com/vi/' + p.id + '/hqdefault.jpg';
+      addUnique({ key: p.key + '_yt2', category: 'PRO', tag: p.tag, title: p.title, sub: p.sub, thumb: ytThumb2, type: 'image', src: ytThumb2, _origKey: p.key });
     }
   });
 
-  portfolioData.filter(function(p) { return (p.category === 'SKETCH' || p.category === 'DESIGNER') && p.thumb; }).forEach(function(p) {
-    result.push(p);
+  // PERSONAL/RELIGHT: pwProjects에서 최대 3장
+  pwAllCards.filter(function(c) { return c.cat === 'PERSONAL' || c.cat === 'RELIGHT'; }).forEach(function(c) {
+    var proj = pwProjects[c.key];
+    if (proj && proj.images && proj.images.length > 0) {
+      var imgs = proj.images.filter(function(img) { return !!img; });
+      shuffleArray(imgs.slice()).slice(0, 3).forEach(function(img) {
+        addUnique({ key: c.key + '_' + img, category: c.cat, title: c.title, thumb: img, type: 'image', src: img, _origKey: c.key });
+      });
+    } else if (c.thumb) {
+      addUnique({ key: c.key, category: c.cat, title: c.title, thumb: c.thumb, type: 'image', _origKey: c.key });
+    }
+  });
+
+  // SKETCH/DESIGNER
+  pwAllCards.filter(function(c) { return c.cat === 'SKETCH' || c.cat === 'DESIGNER'; }).forEach(function(c) {
+    if (c.thumb) addUnique({ key: c.key, category: c.cat, title: c.title, thumb: c.thumb, type: 'image', _origKey: c.key });
   });
 
   return shuffleArray(result);
@@ -1641,16 +1619,19 @@ function renderGrid(data) {
   currentFilterData = [...data];
   currentRenderedItems = [...data];
 
-  var isAll = data.length === portfolioData.length;
+  var isAll = document.querySelector('.channel-pill.active') === null ||
+    (document.querySelector('.channel-pill.active') && 
+     document.querySelector('.channel-pill.active').querySelector('.pill-label') &&
+     document.querySelector('.channel-pill.active').querySelector('.pill-label').textContent.trim() === 'ALL Portfolio');
   var topContainer = document.getElementById('main-grid-top');
   var bottomContainer = document.getElementById('main-grid-bottom');
   var sp = document.getElementById('spotlight-section');
 
-  var renderData = isAll ? buildAllData() : data;
+  var renderData = data;
 
-  if (isAll && renderData.length > 24) {
-    topContainer.innerHTML = buildGridHTML(renderData.slice(0, 24), 0);
-    bottomContainer.innerHTML = buildGridHTML(renderData.slice(24), 24);
+  if (isAll && renderData.length > 8) {
+    topContainer.innerHTML = buildGridHTML(renderData.slice(0, 32), 0);
+    bottomContainer.innerHTML = buildGridHTML(renderData.slice(32), 32);
     if (sp) sp.style.display = 'block';
   } else {
     topContainer.innerHTML = buildGridHTML(renderData, 0);
@@ -1674,13 +1655,128 @@ function updateSpotlightVisibility() {
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
 function appendGrid() {
-  const source = currentFilterData.length > 0 ? currentFilterData : portfolioData;
-  let moreData = shuffleArray([...source]);
-  let startIndex = currentRenderedItems.length;
+  var moreData = buildAllData();
+  var startIndex = currentRenderedItems.length;
   currentRenderedItems = currentRenderedItems.concat(moreData);
-  const container = document.getElementById('main-grid-bottom');
+  var container = document.getElementById('main-grid-bottom');
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
 }
+
+// ── Single Image Viewer ──
+var singleImgList = [];
+var singleImgIdx = 0;
+var singleZoomed = false, singleDragging = false, singleDidDrag = false;
+var singleStartX = 0, singleStartY = 0, singleTransX = 0, singleTransY = 0;
+var SINGLE_ZOOM = 2.0;
+
+window.openSingleImg = function(src, title) {
+  // 현재 렌더된 모든 이미지 목록 수집
+  singleImgList = currentRenderedItems
+    .filter(function(p) { return p.thumb && p.thumb.indexOf('youtube') === -1; })
+    .map(function(p) { return { src: p.thumb, title: p.title || '' }; });
+  // 클릭한 이미지 인덱스 찾기
+  singleImgIdx = 0;
+  for (var i = 0; i < singleImgList.length; i++) {
+    if (singleImgList[i].src === src) { singleImgIdx = i; break; }
+  }
+  _singleImgShow();
+  document.body.style.overflow = 'hidden';
+};
+
+function _singleImgShow() {
+  var item = singleImgList[singleImgIdx];
+  if (!item) return;
+  var img = document.getElementById('single-img-el');
+  var ttl = document.getElementById('single-img-title');
+  var viewer = document.getElementById('single-img-viewer');
+  singleZoomed = false; singleDragging = false; singleDidDrag = false;
+  singleTransX = 0; singleTransY = 0;
+  img.style.transform = '';
+  img.style.cursor = 'zoom-in';
+  img.src = item.src;
+  ttl.textContent = item.title;
+  viewer.style.display = 'flex';
+}
+
+window.singleImgStep = function(dir) {
+  singleImgIdx = (singleImgIdx + dir + singleImgList.length) % singleImgList.length;
+  _singleImgShow();
+};
+
+window.closeSingleImg = function() {
+  document.getElementById('single-img-viewer').style.display = 'none';
+  document.getElementById('single-img-el').src = '';
+  document.body.style.overflow = '';
+  singleZoomed = false;
+};
+
+// 줌 & 드래그
+(function() {
+  function showSingleZoomBadge(pct) {
+    var badge = document.getElementById('single-img-zoom-badge');
+    if (!badge) return;
+    badge.textContent = '🔍 ' + Math.round(pct) + '%';
+    badge.style.opacity = '1';
+    clearTimeout(badge._zt);
+    badge._zt = setTimeout(function() { badge.style.opacity = '0'; }, 1500);
+  }
+
+  document.addEventListener('click', function(e) {
+    var viewer = document.getElementById('single-img-viewer');
+    if (!viewer || viewer.style.display !== 'flex') return;
+    var img = document.getElementById('single-img-el');
+    if (!img || e.target !== img) return;
+    if (singleDidDrag) { singleDidDrag = false; return; }
+    if (singleZoomed) {
+      singleZoomed = false; singleTransX = 0; singleTransY = 0;
+      img.style.transform = ''; img.style.cursor = 'zoom-in';
+      showSingleZoomBadge(100);
+    } else {
+      singleZoomed = true; singleTransX = 0; singleTransY = 0;
+      img.style.transformOrigin = 'center center';
+      img.style.transform = 'scale(' + SINGLE_ZOOM + ')';
+      img.style.cursor = 'grab';
+      showSingleZoomBadge(SINGLE_ZOOM * 100);
+    }
+  });
+
+  document.addEventListener('mousedown', function(e) {
+    var viewer = document.getElementById('single-img-viewer');
+    if (!viewer || viewer.style.display !== 'flex') return;
+    var img = document.getElementById('single-img-el');
+    if (!img || e.target !== img || !singleZoomed) return;
+    e.preventDefault();
+    singleDragging = true; singleDidDrag = false;
+    singleStartX = e.clientX - singleTransX;
+    singleStartY = e.clientY - singleTransY;
+    img.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!singleDragging) return;
+    var img = document.getElementById('single-img-el');
+    if (!img) return;
+    singleDidDrag = true;
+    singleTransX = e.clientX - singleStartX;
+    singleTransY = e.clientY - singleStartY;
+    img.style.transform = 'scale(' + SINGLE_ZOOM + ') translate(' + (singleTransX/SINGLE_ZOOM) + 'px,' + (singleTransY/SINGLE_ZOOM) + 'px)';
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!singleDragging) return;
+    singleDragging = false;
+    var img = document.getElementById('single-img-el');
+    if (img) img.style.cursor = singleZoomed ? 'grab' : 'zoom-in';
+  });
+})();
+
+document.addEventListener('keydown', function(e) {
+  var viewer = document.getElementById('single-img-viewer');
+  if (!viewer || viewer.style.display !== 'flex') return;
+  if (e.key === 'Escape') closeSingleImg();
+  if (e.key === 'ArrowRight') singleImgStep(1);
+  if (e.key === 'ArrowLeft') singleImgStep(-1);
+});
 
 window.showAboutSection = function() {
   window.scrollTo({ top: 0, behavior: 'instant' });
@@ -1884,10 +1980,11 @@ window.filterData = function(category, btnEl) {
   }
 
   if (!isAbout && !isPro && !isPw) {
-    const filtered = category === 'ALL'
-      ? [...portfolioData]
-      : portfolioData.filter(p => p.category === category);
-    renderGrid(shuffleArray(filtered));
+    if (category === 'ALL') {
+      renderGrid(buildAllData());
+    } else {
+      renderGrid(buildAllData());
+    }
     injectSpotlight(category === 'ALL');
   }
 }
@@ -1896,17 +1993,13 @@ window.filterData = function(category, btnEl) {
 function initGrid() {
   const mg = document.getElementById('main-grid-top');
   if (!mg) { console.error('main-grid not found!'); return; }
-  renderGrid(shuffleArray([...portfolioData]));
+  renderGrid(buildAllData());
   mg.style.display = 'grid';
   document.getElementById('main-grid-bottom').style.display = 'grid';
   console.log('Grid initialized');
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initGrid);
-} else {
-  initGrid();
-}
+// initGrid는 profProjects 선언 이후에 호출됨 (아래 참고)
 
 // 무한 스크롤 - ALL 탭일 때만 작동
 function isAllCategory() {
@@ -2434,12 +2527,13 @@ window.openPwLb = function(key, startIdx) {
   var tagsEl = document.getElementById('pw-lb-tags-row');
   if (tagsEl) {
     tagsEl.innerHTML =
-      '<span class="prof-lb-tag dev" style="flex:1;text-align:center;">Modeling · Mapping · Lighting</span>'
-      + '<span class="prof-lb-tag" style="flex:1;text-align:center;">Rendering : Marmoset Toolbag 4.0</span>';
+      '<span class="prof-lb-tag dev">Modeling · Mapping · Lighting</span>'
+      + '<span class="prof-lb-tag">Rendering : Marmoset Toolbag 4.0</span>';
   }
 
   // 키보드 단축키 패널 — 회사 라이트박스와 동일
-  var kbHtml = '<div style="background:rgba(255,255,255,.06); padding:10px; margin-bottom:6px; text-align:center;">'
+  var kbHtml = '<div style="padding:6px 10px; background:rgba(255,255,255,.06); text-align:center; margin-bottom:6px;">'
+    + '<div style="font-family:var(--font-mono); font-size:10px; color:#888; letter-spacing:0.1em; margin-bottom:6px;">Keyboard Shortcuts</div>'
     + '<div style="display:flex; justify-content:center; align-items:center; gap:14px;">'
     + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="pwLbPrev()" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">←</span> Previous</span>'
     + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="pwLbNext()" onmouseover="this.style.borderColor=\'rgba(232,115,0,0.6)\';this.style.color=\'#E87300\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>'
@@ -2449,7 +2543,7 @@ window.openPwLb = function(key, startIdx) {
   // 썸네일 패널 빌드 — prof-lb-thumb-item 클래스 재사용
   var thumbsEl = document.getElementById('pw-lb-thumbs');
   if (thumbsEl) {
-    thumbsEl.innerHTML = kbHtml + proj.images.map(function(src, i) {
+    thumbsEl.innerHTML = proj.images.map(function(src, i) {
       return '<div class="prof-lb-thumb-item' + (i === 0 ? ' active' : '') + '" onclick="pwLbGoTo(' + i + ')" data-idx="' + i + '">'
         + '<img src="' + src + '" loading="lazy" alt="">'
         + '</div>';
@@ -2473,16 +2567,34 @@ function _pwLbRender() {
   badge.textContent = '🔍 100%';
   badge.classList.remove('visible');
   document.getElementById('pw-lb-counter').textContent = (pwLbCurrentIdx + 1) + ' / ' + imgs.length;
+  window._pwLbCurrentIdx = pwLbCurrentIdx;
 
-  // 썸네일 active 동기화 + 스크롤
+  // dots 업데이트
+  var dotsEl = document.getElementById('pw-lb-dots');
+  if (dotsEl) {
+    var maxDots = Math.min(imgs.length, 20);
+    dotsEl.innerHTML = imgs.slice(0, maxDots).map(function(_, i) {
+      return '<div class="prof-lb-dot' + (i === pwLbCurrentIdx ? ' active' : '') +
+        '" onclick="pwLbGoTo(' + i + ')"></div>';
+    }).join('');
+  }
+
+  // 썸네일 active 동기화 + 센터 스크롤
   var thumbsEl = document.getElementById('pw-lb-thumbs');
   if (thumbsEl) {
     thumbsEl.querySelectorAll('.prof-lb-thumb-item').forEach(function(el) {
       var idx = parseInt(el.dataset.idx);
       el.classList.toggle('active', idx === pwLbCurrentIdx);
-      if (idx === pwLbCurrentIdx) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
+    });
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        var activeThumb = thumbsEl.querySelector('.prof-lb-thumb-item.active');
+        if (!activeThumb) return;
+        var tRect = activeThumb.getBoundingClientRect();
+        var cRect = thumbsEl.getBoundingClientRect();
+        var tCenter = tRect.top - cRect.top + thumbsEl.scrollTop + tRect.height / 2;
+        thumbsEl.scrollTop = tCenter - thumbsEl.clientHeight / 2;
+      });
     });
   }
 }
@@ -2529,27 +2641,92 @@ window.pwLbPrev = function() {
   openPwLb(prevKey, 0);
 };
 
-// 줌 토글
-document.addEventListener('DOMContentLoaded', function() {
-  document.addEventListener('click', function(e) {
-    var pwImg = e.target;
-    if (!pwImg.id || pwImg.id !== 'pw-lb-img') return;
-    pwLbZoomed = !pwLbZoomed;
+// 줌 & 드래그 — 개인작업 (회사와 완전 동일 구조)
+(function() {
+  var isZoomed = false, isDragging = false, didDrag = false;
+  var startX = 0, startY = 0, transX = 0, transY = 0;
+  var ZOOM = 2.0;
+  var currentImg = null;
+
+  function showZoomBadge(pct) {
     var badge = document.getElementById('pw-lb-zoom-badge');
-    if (pwLbZoomed) {
-      pwImg.style.transform = 'scale(1.8)';
-      pwImg.classList.add('zoomed');
-      badge.textContent = '🔍 180%';
-    } else {
-      pwImg.style.transform = '';
-      pwImg.classList.remove('zoomed');
-      badge.textContent = '🔍 100%';
-    }
+    if (!badge) return;
+    badge.textContent = '🔍 ' + Math.round(pct) + '%';
     badge.classList.add('visible');
-    clearTimeout(pwImg._zoomBadgeTimer);
-    pwImg._zoomBadgeTimer = setTimeout(function() { badge.classList.remove('visible'); }, 1200);
+    clearTimeout(badge._zt);
+    badge._zt = setTimeout(function() { badge.classList.remove('visible'); }, 1500);
+  }
+
+  function resetZoom() {
+    if (!currentImg) return;
+    isZoomed = false; isDragging = false; didDrag = false;
+    transX = 0; transY = 0;
+    currentImg.style.cursor = 'zoom-in';
+    currentImg.style.transform = '';
+    var badge = document.getElementById('pw-lb-zoom-badge');
+    if (badge) badge.classList.remove('visible');
+  }
+
+  window.pwZoomReset = function() {
+    resetZoom();
+    var img = document.getElementById('pw-lb-img');
+    if (img) { currentImg = img; img.style.cursor = 'zoom-in'; }
+    else { currentImg = null; }
+  };
+
+  document.addEventListener('click', function(e) {
+    if (!document.getElementById('pw-lb').classList.contains('active')) return;
+    var img = document.getElementById('pw-lb-img');
+    if (!img || e.target !== img) return;
+    if (didDrag) { didDrag = false; return; }
+    if (isZoomed) {
+      resetZoom();
+      showZoomBadge(100);
+    } else {
+      currentImg = img;
+      isZoomed = true;
+      transX = 0; transY = 0;
+      img.style.transformOrigin = 'center center';
+      img.style.cursor = 'grab';
+      img.style.transform = 'scale(' + ZOOM + ')';
+      showZoomBadge(ZOOM * 100);
+    }
   });
-});
+
+  document.addEventListener('mousedown', function(e) {
+    if (!document.getElementById('pw-lb').classList.contains('active')) return;
+    var img = document.getElementById('pw-lb-img');
+    if (!img || e.target !== img || !isZoomed) return;
+    e.preventDefault();
+    isDragging = true; didDrag = false;
+    startX = e.clientX - transX;
+    startY = e.clientY - transY;
+    img.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging || !currentImg) return;
+    didDrag = true;
+    transX = e.clientX - startX;
+    transY = e.clientY - startY;
+    currentImg.style.transform = 'scale(' + ZOOM + ') translate(' + (transX / ZOOM) + 'px, ' + (transY / ZOOM) + 'px)';
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!isDragging) return;
+    isDragging = false;
+    if (currentImg) currentImg.style.cursor = isZoomed ? 'grab' : 'zoom-in';
+  });
+
+  // 이미지 이동 시 줌 리셋
+  window.pwLbGoTo = function(idx) {
+    if (currentImg) resetZoom();
+    pwLbCurrentIdx = idx;
+    _pwLbRender();
+    currentImg = document.getElementById('pw-lb-img');
+    if (currentImg) currentImg.style.cursor = 'zoom-in';
+  };
+})();
 
 // 키보드 지원
 document.addEventListener('keydown', function(e) {
@@ -2570,8 +2747,8 @@ var profProjects = {
     sub: 'PlayStation 5 / Interactive Adventure / Alpha',
     tags: ['Integration · Lighting · Tech Doc · Outsourcing · Feedback', 'Project M', 'NCSoft'],
     items: [
-      { type: 'video', videoId: 'bDXLAaqR_Yg' },
-      { type: 'video', videoId: 'aMYvommxKiw' },
+      { type: 'video', videoId: 'bDXLAaqR_Yg', thumb: 'https://img.youtube.com/vi/bDXLAaqR_Yg/hqdefault.jpg' },
+      { type: 'video', videoId: 'aMYvommxKiw', thumb: 'https://img.youtube.com/vi/aMYvommxKiw/hqdefault.jpg' },
       { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_001.webp' },
       { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_002.webp' },
       { type: 'image', src: 'images/Professional/2021_NCSOFT/2021_NCSOFT_ProjectM_003.webp' },
@@ -2616,7 +2793,7 @@ var profProjects = {
     sub: 'Nintendo Switch / SRPG / Alpha',
     tags: ['Level Design · Lighting · Outsourcing · Feedback', 'ReG Studio', 'Line Games'],
     items: [
-      { type: 'video', videoId: '2zKdRMch0Us' }
+      { type: 'video', videoId: '2zKdRMch0Us', thumb: 'https://img.youtube.com/vi/2zKdRMch0Us/hqdefault.jpg' }
     ]
   },
   'nexon': {
@@ -2625,7 +2802,7 @@ var profProjects = {
     sub: 'PC Online / MOBA / Alpha',
     tags: ['Hard Surface Modeling · PBR Texturing', 'devCAT', 'Nexon Korea'],
     items: [
-      { type: 'video', videoId: 'NOZ51TUyemo' },
+      { type: 'video', videoId: 'NOZ51TUyemo', thumb: 'https://img.youtube.com/vi/NOZ51TUyemo/hqdefault.jpg' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_001.webp' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_002.webp' },
       { type: 'image', src: 'images/Professional/2018_NexonKorea/2018_Nexon_AscendantOne_003.webp' },
@@ -2679,7 +2856,7 @@ var profProjects = {
     sub: 'PC Online / MMORPG / Open Beta',
     tags: ['Level Design · Shader · Lighting · Optimization', 'XLGames', '2K'],
     items: [
-      { type: 'video', videoId: 'behf7twp1bo', start: 30 },
+      { type: 'video', videoId: 'behf7twp1bo', start: 30, thumb: 'https://img.youtube.com/vi/behf7twp1bo/hqdefault.jpg' },
       { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_001.webp' },
       { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_002.webp' },
       { type: 'image', src: 'images/Professional/2017_XLGAMES/2017_XLGAMES_X3_003.webp' },
@@ -2743,10 +2920,10 @@ var profProjects = {
     sub: 'PC Online / Mobile / Various Titles',
     tags: ['Environment Artist · 3D Modeling · Background Design', 'Game Studios', 'Production Studio'],
     items: [
-      { type: 'video', videoId: 'rvz_QdqN3hU' },
-      { type: 'video', videoId: '-y3fQ73U-2Q' },
+      { type: 'video', videoId: 'rvz_QdqN3hU', thumb: 'https://img.youtube.com/vi/rvz_QdqN3hU/hqdefault.jpg' },
+      { type: 'video', videoId: '-y3fQ73U-2Q', thumb: 'https://img.youtube.com/vi/-y3fQ73U-2Q/hqdefault.jpg' },
       { type: 'video', videoId: 'k4VzC93T00g', thumb: 'https://img.youtube.com/vi/k4VzC93T00g/hqdefault.jpg' },
-      { type: 'video', videoId: 'vdAS1SI1xes' }
+      { type: 'video', videoId: 'vdAS1SI1xes', thumb: 'https://img.youtube.com/vi/vdAS1SI1xes/hqdefault.jpg' }
     ]
   },
   'cookapps': {
@@ -2763,6 +2940,13 @@ var profProjects = {
 var profCurrent = null;
 var profIdx = 0;
 var currentProfId = null;
+// ── 모든 데이터 준비 완료 후 초기 그리드 렌더링 ──
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initGrid);
+} else {
+  initGrid();
+}
+
 var profProjectOrder = ['ncsoft', 'changse', 'nexon', 'xlgames', 'multiplestudios', 'cookapps'];
 
 window.openProfLb = function(key, idx) {
@@ -2783,7 +2967,9 @@ window.openProfLb = function(key, idx) {
     var html = '<div style="display:flex;gap:4px;margin-bottom:4px;width:100%;">'
       + devTags.map(function(t){ return '<span class="prof-lb-tag dev" style="flex:1;text-align:center;">' + t + '</span>'; }).join('')
       + '</div>'
-      + roleTags.map(function(t){ return '<span class="prof-lb-tag">' + t + '</span>'; }).join('');
+      + '<div style="display:flex;gap:4px;width:100%;">'
+      + roleTags.map(function(t){ return '<span class="prof-lb-tag" style="flex:1;text-align:center;">' + t + '</span>'; }).join('')
+      + '</div>';
     tagsRow.innerHTML = html;
   }
   renderProfLb();
@@ -2877,7 +3063,7 @@ function renderProfLb() {
     + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="profLbNextProject()" onmouseover="this.style.borderColor=\'rgba(0,212,255,0.6)\';this.style.color=\'rgba(0,212,255,0.8)\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">→</span> Next</span>'
     + '<span style="font-family:var(--font-mono); font-size:10px; color:#888; display:flex; align-items:center; gap:5px;"><span onclick="closeProfLb()" onmouseover="this.style.borderColor=\'rgba(0,212,255,0.6)\';this.style.color=\'rgba(0,212,255,0.8)\'" onmouseout="this.style.borderColor=\'#383848\';this.style.color=\'#888\'" style="border:1px solid #383848; padding:2px 6px; border-radius:3px; color:#888; cursor:pointer; transition:all .15s;">esc</span> Close</span>'
     + '</div></div>';
-  thumbs.innerHTML = kbHtml + thumbsHtml;
+  thumbs.innerHTML = thumbsHtml;
 
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
@@ -2928,11 +3114,10 @@ document.addEventListener('wheel', function(e) {
   profScrollTimer = setTimeout(function() { profScrollAcc = 0; }, 300);
 }, { passive: false });
 
-// pw-lb 휠 이벤트
+// pw-lb 휠 이벤트 — 이미지 영역: 같은 프로젝트 내 이동
 var pwScrollAcc = 0, pwScrollTimer = null, pwIsAnimating = false;
 document.addEventListener('wheel', function(e) {
   if (!document.getElementById('pw-lb').classList.contains('active')) return;
-  // 썸네일 패널 위에서 스크롤 시 패널 스크롤 허용
   var thumbs = document.getElementById('pw-lb-thumbs');
   if (thumbs && thumbs.contains(e.target)) return;
   e.preventDefault();
@@ -2941,7 +3126,13 @@ document.addEventListener('wheel', function(e) {
   if (Math.abs(pwScrollAcc) > 80) {
     if (!pwIsAnimating) {
       pwIsAnimating = true;
-      if (pwScrollAcc > 0) { pwLbNext(); } else { pwLbPrev(); }
+      var imgs = pwProjects[pwLbCurrentKey] ? pwProjects[pwLbCurrentKey].images : [];
+      if (pwScrollAcc > 0) {
+        pwLbCurrentIdx = Math.min(pwLbCurrentIdx + 1, imgs.length - 1);
+      } else {
+        pwLbCurrentIdx = Math.max(pwLbCurrentIdx - 1, 0);
+      }
+      _pwLbRender();
       setTimeout(function() { pwIsAnimating = false; }, 350);
     }
     pwScrollAcc = 0;
@@ -2994,8 +3185,10 @@ document.addEventListener('wheel', function(e) {
       resetZoom();
       showZoomBadge(100);
     } else {
+      currentImg = img;
       isZoomed = true;
       transX = 0; transY = 0;
+      img.style.transformOrigin = 'center center';
       img.style.cursor = 'grab';
       img.style.transform = 'scale(' + ZOOM + ')';
       showZoomBadge(ZOOM * 100);
@@ -3007,6 +3200,7 @@ document.addEventListener('wheel', function(e) {
     if (!main) return;
     var img = main.querySelector('.prof-lb-img-el');
     if (!img || e.target !== img || !isZoomed) return;
+    e.preventDefault();
     isDragging = true; didDrag = false;
     startX = e.clientX - transX;
     startY = e.clientY - transY;
@@ -3018,7 +3212,7 @@ document.addEventListener('wheel', function(e) {
     didDrag = true;
     transX = e.clientX - startX;
     transY = e.clientY - startY;
-    currentImg.style.transform = 'scale(' + ZOOM + ') translate(' + (transX/ZOOM) + 'px,' + (transY/ZOOM) + 'px)';
+    currentImg.style.transform = 'scale(' + ZOOM + ') translate(' + (transX / ZOOM) + 'px, ' + (transY / ZOOM) + 'px)';
   });
 
   document.addEventListener('mouseup', function() {
@@ -3029,17 +3223,23 @@ document.addEventListener('wheel', function(e) {
 })();
 
 // ─── Firebase 이미지 조회수 카운터 ───────────────────────────────────────────
-const firebaseConfig = {
-  apiKey: "AIzaSyD0PU_SJZdvG9TfgxJO3XsSToyxHTWxG5k",
-  authDomain: "dukgoo-env.firebaseapp.com",
-  projectId: "dukgoo-env",
-  storageBucket: "dukgoo-env.firebasestorage.app",
-  messagingSenderId: "918082314771",
-  appId: "1:918082314771:web:cc83ff95d9342b5c2415e6",
-  measurementId: "G-GR5N8DDHGX"
-};
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+var db = null;
+try {
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0PU_SJZdvG9TfgxJO3XsSToyxHTWxG5k",
+    authDomain: "dukgoo-env.firebaseapp.com",
+    projectId: "dukgoo-env",
+    storageBucket: "dukgoo-env.firebasestorage.app",
+    messagingSenderId: "918082314771",
+    appId: "1:918082314771:web:cc83ff95d9342b5c2415e6",
+    measurementId: "G-GR5N8DDHGX"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+} catch(e) {
+  console.warn('Firebase not available:', e);
+  document.body.classList.add('no-firebase');
+}
 
 function makeViewKey(src) {
   return src.replace(/^.*images\//i, '').replace(/[^a-zA-Z0-9_\-]/g, '_').substring(0, 120);
@@ -3093,7 +3293,7 @@ function bumpCardCounter(src) {
 }
 
 function recordView(src) {
-  if (!src) return;
+  if (!src || !db) return;
   const key = makeViewKey(src);
   const ref = db.collection('imageViews').doc(key);
   ref.set({ count: firebase.firestore.FieldValue.increment(1), src: src }, { merge: true })
@@ -3101,7 +3301,67 @@ function recordView(src) {
   bumpCardCounter(src);
 }
 
+function applyRankLayout(rankMap) {
+  var topGrid = document.getElementById('main-grid-top');
+  if (!topGrid) return;
+
+  // 기존 랭킹 인라인 스타일 초기화
+  topGrid.querySelectorAll('.art-card').forEach(function(c) {
+    c.style.gridColumn = '';
+    c.style.gridRow = '';
+    c.style.aspectRatio = '';
+  });
+
+  var allCards = Array.from(topGrid.querySelectorAll('.art-card'));
+  if (allCards.length < 5) return;
+
+  // 랭킹 5개 선택
+  var ranked = [];
+  if (rankMap && rankMap.size > 0) {
+    [1,2,3,4,5].forEach(function(r) {
+      rankMap.forEach(function(rank, card) {
+        if (rank === r && topGrid.contains(card)) ranked.push(card);
+      });
+    });
+  }
+  var used = new Set(ranked);
+  allCards.forEach(function(c) {
+    if (ranked.length >= 5) return;
+    if (!used.has(c)) { ranked.push(c); used.add(c); }
+  });
+  ranked = ranked.slice(0, 5);
+
+  // 고정 위치 배치 (8열 그리드 기준)
+  // 1등: col1-2 / row1-2 (2x2)
+  // 2등: col3-4 / row1   (2x1)
+  // 3등: col5-6 / row1   (2x1)
+  // 4등: col7   / row1-2 (1x2)
+  // 5등: col8   / row1-2 (1x2)
+  var positions = [
+    { col: '1 / 3',  row: '1 / 3' },
+    { col: '3 / 5',  row: '1 / 2' },
+    { col: '5 / 7',  row: '1 / 2' },
+    { col: '7 / 8',  row: '1 / 3' },
+    { col: '8 / 9',  row: '1 / 3' },
+  ];
+
+  // 맨 앞으로 이동 후 위치 지정
+  for (var i = ranked.length - 1; i >= 0; i--) {
+    topGrid.insertBefore(ranked[i], topGrid.firstChild);
+  }
+  ranked.forEach(function(card, i) {
+    card.style.gridColumn = positions[i].col;
+    card.style.gridRow    = positions[i].row;
+    card.style.aspectRatio = 'unset';
+  });
+}
+
 function loadAllViewCounts() {
+  if (!db) {
+    // Firebase 없으면 랜덤 랭킹 적용
+    applyRankLayout(null);
+    return;
+  }
   const cards = document.querySelectorAll('.art-card');
   if (!cards.length) return;
   var promises = [];
@@ -3120,7 +3380,6 @@ function loadAllViewCounts() {
   Promise.all(promises).then(function(results) {
     var sorted = results.slice().sort(function(a, b) { return b.count - a.count; });
     var rankMap = new Map();
-    // 카운트가 1 이상인 것만 랭크 부여
     var rankIdx = 0;
     sorted.forEach(function(r) {
       if (r.count > 0 && rankIdx < 5) {
@@ -3136,16 +3395,14 @@ function loadAllViewCounts() {
       counterEl.setAttribute('data-count', r.count);
       counterEl.setAttribute('data-rank', rank);
       counterEl.innerHTML = buildCounterHTML(r.count, rank);
-
-      // 랭크별 그리드 크기 - 추후 적용
-      r.card.style.gridColumn = '';
-      r.card.style.gridRow = '';
     });
+
+    applyRankLayout(rankMap);
   });
 }
 
 function loadViewCount(src, cardEl) {
-  if (!src || !cardEl) return;
+  if (!src || !cardEl || !db) return;
   const key = makeViewKey(src);
   db.collection('imageViews').doc(key).get().then(function(doc) {
     const count = doc.exists ? (doc.data().count || 0) : 0;

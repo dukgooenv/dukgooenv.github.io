@@ -186,7 +186,7 @@
     object-fit: cover; flex-shrink: 0;
   }
   /* Force 8 columns on desktop (above 1200px), then 6, then 4 */
-  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; grid-auto-flow: dense; }
+  .art-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; grid-auto-flow: dense; grid-auto-rows: auto; }
   @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
   @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -3302,7 +3302,6 @@ function recordView(src) {
 }
 
 function applyRankLayout(rankMap) {
-  // Firebase 데이터 없으면 스킵
   if (!rankMap || rankMap.size === 0) return;
 
   var topGrid = document.getElementById('main-grid-top');
@@ -3312,45 +3311,46 @@ function applyRankLayout(rankMap) {
   topGrid.querySelectorAll('.art-card').forEach(function(c) {
     c.style.gridColumn = '';
     c.style.gridRow = '';
+    c.style.aspectRatio = '';
+    c.style.height = '';
   });
 
   var allCards = Array.from(topGrid.querySelectorAll('.art-card'));
-  if (allCards.length < 5) return;
+  if (allCards.length < 3) return;
 
-  // 1~5등 카드 추출
+  // 1~3등 추출
   var ranked = [];
-  [1,2,3,4,5].forEach(function(r) {
+  [1,2,3].forEach(function(r) {
     rankMap.forEach(function(rank, card) {
       if (rank === r && topGrid.contains(card)) ranked.push(card);
     });
   });
-
-  // 부족하면 채우기
   var used = new Set(ranked);
   allCards.forEach(function(c) {
-    if (ranked.length >= 5) return;
+    if (ranked.length >= 3) return;
     if (!used.has(c)) { ranked.push(c); used.add(c); }
   });
-  ranked = ranked.slice(0, 5);
+  ranked = ranked.slice(0, 3);
 
-  // 1등: 2x2, 2~3등: 2x1, 4~5등: 1x2
-  var sizes = [
-    { col: 'span 2', row: 'span 2' },
-    { col: 'span 2', row: 'span 1' },
-    { col: 'span 2', row: 'span 1' },
-    { col: 'span 1', row: 'span 2' },
-    { col: 'span 1', row: 'span 2' },
+  // 1등 2x2, 2등 2x1, 3등 2x1
+  // 8열 기준: 1등(col1-3/row1-3), 2등(col3-5/row1-2), 3등(col5-7/row1-2)
+  var positions = [
+    { col: '1 / 3', row: '1 / 3', ar: 'unset', h: '100%' },
+    { col: '3 / 5', row: '1 / 2', ar: '',      h: ''     },
+    { col: '5 / 7', row: '1 / 2', ar: '',      h: ''     },
   ];
-
-  ranked.forEach(function(card, i) {
-    card.style.gridColumn = sizes[i].col;
-    card.style.gridRow = sizes[i].row;
-  });
 
   // 맨 앞으로 이동
   for (var i = ranked.length - 1; i >= 0; i--) {
     topGrid.insertBefore(ranked[i], topGrid.firstChild);
   }
+
+  ranked.forEach(function(card, i) {
+    card.style.gridColumn  = positions[i].col;
+    card.style.gridRow     = positions[i].row;
+    card.style.aspectRatio = positions[i].ar;
+    card.style.height      = positions[i].h;
+  });
 }
 function loadAllViewCounts() {
   if (!db) {

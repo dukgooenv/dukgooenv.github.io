@@ -1724,19 +1724,12 @@ function updateSpotlightVisibility() {
 }
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
-var isAppendingGrid = false;
-
 function appendGrid() {
-  if (isAppendingGrid || !isAllCategory()) return;
-  isAppendingGrid = true;
   var moreData = buildAllData();
   var startIndex = currentRenderedItems.length;
   currentRenderedItems = currentRenderedItems.concat(moreData);
   var container = document.getElementById('main-grid-bottom');
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
-  setTimeout(function() {
-    isAppendingGrid = false;
-  }, 80);
 }
 
 // ── Single Image Viewer ──
@@ -2087,6 +2080,7 @@ function isAllCategory() {
 }
 
 window.addEventListener('scroll', () => {
+  if (document.getElementById('main-grid-top').style.display === 'none') return;
   if (!isAllCategory()) return;
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 500) {
     appendGrid();

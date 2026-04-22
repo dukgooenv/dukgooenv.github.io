@@ -1,8 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DukGoo | Environment Artist</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Teko:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -191,33 +190,7 @@
   @media(max-width: 1200px) { .art-grid { grid-template-columns: repeat(6, 1fr); } }
   @media(max-width: 800px) { .art-grid { grid-template-columns: repeat(4, 1fr); } }
   @media(max-width: 500px) { .art-grid { grid-template-columns: repeat(2, 1fr); } }
-  .art-featured-grid {
-    display: none;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 8px;
-    padding: 0 20px 8px;
-    align-items: stretch;
-    grid-auto-flow: dense;
-  }
-  .art-featured-grid.has-items { display: grid; }
-  .art-featured-grid .art-card { min-height: 0; }
-  @media(max-width: 1200px) {
-    .art-featured-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-    .art-featured-grid .art-card {
-      grid-column: auto !important;
-      grid-row: auto !important;
-      aspect-ratio: 1 / 1 !important;
-      height: auto !important;
-    }
-  }
   .art-card { background: var(--as-panel); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 1 / 1; width: 100%; }
-  .art-card.ranked-size-1 { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; height: 100%; }
-  .art-card.ranked-size-2,
-  .art-card.ranked-size-3 { grid-column: span 2; }
-  .art-card.ranked-size-4,
-  .art-card.ranked-size-5 { grid-row: span 2; aspect-ratio: auto; height: 100%; }
   
   .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s, transform 0.3s; display: block; }
   .art-card:hover img { filter: brightness(0.45); transform: scale(1.04); }
@@ -1132,9 +1105,6 @@
       <!-- MAIN GRID -->
       <div class="art-grid" id="main-grid-top" style="padding: 0 20px;"></div>
 
-      <!-- FEATURED RANK GRID -->
-      <div id="main-grid-featured" class="art-featured-grid"></div>
-
       <!-- SPOTLIGHT SECTION -->
       <div id="spotlight-section" style="margin: 0; padding: 20px 10px 18px; background: #1c1c20; border: none; display: none; width: 100%">
         <div style="display: flex; align-items: flex-start; gap: 40px;">
@@ -1645,38 +1615,6 @@ function buildAllData() {
 }
 
 // 필터링된 데이터 전체 렌더링
-var ALL_PORTFOLIO_TOP_LIMIT = 20;
-
-function getAllPortfolioTopCount(totalCount) {
-  var width = window.innerWidth || document.documentElement.clientWidth || 1920;
-  var columns = 8;
-  if (width <= 500) columns = 2;
-  else if (width <= 800) columns = 4;
-  else if (width <= 1200) columns = 6;
-
-  var targetRows = 4;
-  var targetCount = columns * targetRows;
-  var count = Math.max(0, totalCount || 0);
-  if (count <= targetCount) return count;
-  return targetCount;
-}
-
-function syncFeaturedGridRows() {
-  var featuredGrid = document.getElementById('main-grid-featured');
-  if (!featuredGrid || !featuredGrid.classList.contains('has-items')) return;
-
-  var width = window.innerWidth || document.documentElement.clientWidth || 1920;
-  var columns = 8;
-  if (width <= 500) columns = 2;
-  else if (width <= 800) columns = 4;
-  else if (width <= 1200) columns = 6;
-
-  var gap = parseFloat(getComputedStyle(featuredGrid).gap || '8') || 8;
-  var colWidth = (featuredGrid.clientWidth - gap * (columns - 1)) / columns;
-  if (!isFinite(colWidth) || colWidth <= 0) return;
-  featuredGrid.style.gridAutoRows = colWidth + 'px';
-  featuredGrid.style.minHeight = ((colWidth * 4) + (gap * 3)) + 'px';
-}
 function renderGrid(data) {
   currentFilterData = [...data];
   currentRenderedItems = [...data];
@@ -1685,27 +1623,19 @@ function renderGrid(data) {
     (document.querySelector('.channel-pill.active') && 
      document.querySelector('.channel-pill.active').querySelector('.pill-label') &&
      document.querySelector('.channel-pill.active').querySelector('.pill-label').textContent.trim() === 'ALL Portfolio');
-  var featuredContainer = document.getElementById('main-grid-featured');
   var topContainer = document.getElementById('main-grid-top');
   var bottomContainer = document.getElementById('main-grid-bottom');
   var sp = document.getElementById('spotlight-section');
 
   var renderData = data;
-  if (featuredContainer) {
-    featuredContainer.innerHTML = '';
-    featuredContainer.className = 'art-featured-grid';
-  }
 
   if (isAll && renderData.length > 8) {
-    var topCount = getAllPortfolioTopCount(renderData.length);
-    topContainer.innerHTML = buildGridHTML(renderData.slice(0, topCount), 0);
-    bottomContainer.innerHTML = buildGridHTML(renderData.slice(topCount), topCount);
-    topContainer.style.display = 'grid';
+    topContainer.innerHTML = buildGridHTML(renderData.slice(0, 32), 0);
+    bottomContainer.innerHTML = buildGridHTML(renderData.slice(32), 32);
     if (sp) sp.style.display = 'block';
   } else {
     topContainer.innerHTML = buildGridHTML(renderData, 0);
     bottomContainer.innerHTML = '';
-    topContainer.style.display = 'grid';
     if (sp) sp.style.display = isAll ? 'block' : 'none';
   }
 }
@@ -1724,19 +1654,12 @@ function updateSpotlightVisibility() {
 }
 
 // 무한 스크롤 발생 시 데이터 추가 (셔플된 데이터를 계속 이어붙임)
-var isAppendingGrid = false;
-
 function appendGrid() {
-  if (isAppendingGrid || !isAllCategory()) return;
-  isAppendingGrid = true;
   var moreData = buildAllData();
   var startIndex = currentRenderedItems.length;
   currentRenderedItems = currentRenderedItems.concat(moreData);
   var container = document.getElementById('main-grid-bottom');
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
-  setTimeout(function() {
-    isAppendingGrid = false;
-  }, 80);
 }
 
 // ── Single Image Viewer ──
@@ -2087,6 +2010,7 @@ function isAllCategory() {
 }
 
 window.addEventListener('scroll', () => {
+  if (document.getElementById('main-grid-top').style.display === 'none') return;
   if (!isAllCategory()) return;
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 500) {
     appendGrid();
@@ -2103,13 +2027,6 @@ if (scrollSec) {
     }
   });
 }
-
-window.addEventListener('resize', function() {
-  setTimeout(function() {
-    syncFeaturedGridRows();
-    loadAllViewCounts();
-  }, 120);
-});
 
 function setLbMedia(p) {
   const content = document.getElementById('lb-content');
@@ -3385,97 +3302,54 @@ function recordView(src) {
 }
 
 function applyRankLayout(rankMap) {
-  var featuredGrid = document.getElementById('main-grid-featured');
-  var topGrid = document.getElementById('main-grid-top');
-  var bottomGrid = document.getElementById('main-grid-bottom');
-  if (!featuredGrid || !topGrid || !bottomGrid) return;
+  if (!rankMap || rankMap.size === 0) return;
 
-  document.querySelectorAll('#main-grid-featured .art-card, #main-grid-top .art-card, #main-grid-bottom .art-card').forEach(function(c) {
+  var topGrid = document.getElementById('main-grid-top');
+  if (!topGrid) return;
+
+  // 기존 스타일 초기화
+  topGrid.querySelectorAll('.art-card').forEach(function(c) {
     c.style.gridColumn = '';
     c.style.gridRow = '';
     c.style.aspectRatio = '';
     c.style.height = '';
-    c.classList.remove('ranked-card');
-    c.classList.remove('ranked-size-1', 'ranked-size-2', 'ranked-size-3', 'ranked-size-4', 'ranked-size-5');
   });
-  featuredGrid.innerHTML = '';
-  featuredGrid.classList.remove('has-items');
-  featuredGrid.style.gridAutoRows = '';
-  featuredGrid.style.minHeight = '';
-  topGrid.style.display = 'grid';
 
-  if (!isAllCategory() || !rankMap || rankMap.size === 0) return;
+  var allCards = Array.from(topGrid.querySelectorAll('.art-card'));
+  if (allCards.length < 3) return;
 
-  var allCards = Array.from(topGrid.querySelectorAll('.art-card')).concat(
-    Array.from(bottomGrid.querySelectorAll('.art-card'))
-  );
-  if (!allCards.length) return;
-
-  var rankedCards = [];
-  [1, 2, 3, 4, 5].forEach(function(rank) {
-    rankMap.forEach(function(value, card) {
-      if (value === rank && allCards.indexOf(card) !== -1) rankedCards.push(card);
+  // 1~3등 추출
+  var ranked = [];
+  [1,2,3].forEach(function(r) {
+    rankMap.forEach(function(rank, card) {
+      if (rank === r && topGrid.contains(card)) ranked.push(card);
     });
   });
-
-  if (!rankedCards.length) return;
-
-  var rankedSet = new Set(rankedCards);
-  var remainingCards = allCards.filter(function(card) {
-    return !rankedSet.has(card);
+  var used = new Set(ranked);
+  allCards.forEach(function(c) {
+    if (ranked.length >= 3) return;
+    if (!used.has(c)) { ranked.push(c); used.add(c); }
   });
-  var fillerCount = Math.max(0, getAllPortfolioTopCount(allCards.length) - 12);
-  var fillerCards = shuffleArray(remainingCards.slice(0, fillerCount));
-  var regularBottomCards = remainingCards.slice(fillerCount);
-  var templates = [
-    [
-      { col: '1 / 3', row: '1 / 3' },
-      { col: '3 / 5', row: '1 / 2' },
-      { col: '3 / 5', row: '2 / 3' },
-      { col: '5 / 6', row: '1 / 3' },
-      { col: '6 / 7', row: '1 / 3' },
-    ],
-    [
-      { col: '2 / 4', row: '2 / 4' },
-      { col: '4 / 6', row: '1 / 2' },
-      { col: '4 / 6', row: '4 / 5' },
-      { col: '1 / 2', row: '2 / 4' },
-      { col: '7 / 8', row: '1 / 3' },
-    ],
-    [
-      { col: '3 / 5', row: '1 / 3' },
-      { col: '1 / 3', row: '3 / 4' },
-      { col: '6 / 8', row: '2 / 3' },
-      { col: '2 / 3', row: '1 / 3' },
-      { col: '5 / 6', row: '3 / 5' },
-    ]
+  ranked = ranked.slice(0, 3);
+
+  // 1등 2x2, 2등 2x1, 3등 2x1
+  // 8열 기준: 1등(col1-3/row1-3), 2등(col3-5/row1-2), 3등(col5-7/row1-2)
+  var positions = [
+    { col: '1 / 3', row: '1 / 3', ar: 'unset', h: '100%' },
+    { col: '3 / 5', row: '1 / 2', ar: '',      h: ''     },
+    { col: '5 / 7', row: '1 / 2', ar: '',      h: ''     },
   ];
-  var selectedTemplate = templates[Math.floor(Math.random() * templates.length)];
 
-  featuredGrid.innerHTML = '';
-  topGrid.innerHTML = '';
-  bottomGrid.innerHTML = '';
+  // 맨 앞으로 이동
+  for (var i = ranked.length - 1; i >= 0; i--) {
+    topGrid.insertBefore(ranked[i], topGrid.firstChild);
+  }
 
-  rankedCards.forEach(function(card, idx) {
-    var slot = selectedTemplate[idx];
-    featuredGrid.appendChild(card);
-    card.classList.add('ranked-card');
-    card.style.gridColumn = slot.col;
-    card.style.gridRow = slot.row;
-    if (idx === 0 || idx >= 3) {
-      card.style.aspectRatio = 'auto';
-      card.style.height = '100%';
-    }
-  });
-  fillerCards.forEach(function(card) {
-    featuredGrid.appendChild(card);
-  });
-  featuredGrid.classList.add('has-items');
-  syncFeaturedGridRows();
-
-  topGrid.style.display = 'none';
-  regularBottomCards.forEach(function(card) {
-    bottomGrid.appendChild(card);
+  ranked.forEach(function(card, i) {
+    card.style.gridColumn  = positions[i].col;
+    card.style.gridRow     = positions[i].row;
+    card.style.aspectRatio = positions[i].ar;
+    card.style.height      = positions[i].h;
   });
 }
 function loadAllViewCounts() {

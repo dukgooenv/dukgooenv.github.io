@@ -254,9 +254,9 @@
     padding: 2px 6px; letter-spacing: 0.12em;
   }
 
-  /* 하단 타이틀 오버레이 — 호버 시 보임 */
+  /* 좌상단 타이틀 오버레이 — 호버 시 보임 */
   .art-info {
-    position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px 10px 10px 10px;
+    position: absolute; top: 0; left: 0; width: 100%; padding: 10px 10px 10px 10px;
     background: none;
     opacity: 0; transition: opacity 0.2s; pointer-events: none;
   }
@@ -268,6 +268,16 @@
     color: #e0dfdf; line-height: 1.2;
     letter-spacing: 0.01em;
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .art-title-date {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: #b8ff3a;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.85);
   }
   .art-author { display: none; }
   .art-likes { display: none; }
@@ -1581,7 +1591,7 @@ function buildGridHTML(data, startIndex) {
           <span class="art-counter"><span class="art-counter-check">✓</span>${counter}</span>
         </div>
         <div class="art-info">
-          <div class="art-title">${titleStr}</div>
+          <div class="art-title">${dateStr ? `<span class="art-title-date">${dateStr}</span>` : ''}${titleStr}</div>
         </div>
       </div>
     `;
@@ -1663,7 +1673,6 @@ function buildAllData() {
 }
 
 var allPortfolioCatalogCache = null;
-var allPortfolioCatalogMapCache = null;
 
 function buildAllDataCatalog() {
   if (allPortfolioCatalogCache) return allPortfolioCatalogCache.slice();
@@ -1718,17 +1727,14 @@ function buildAllDataCatalog() {
   });
 
   allPortfolioCatalogCache = result.slice();
-  allPortfolioCatalogMapCache = null;
   return result;
 }
 
 function getAllPortfolioCatalogMap() {
-  if (allPortfolioCatalogMapCache) return new Map(allPortfolioCatalogMapCache);
   var map = new Map();
   buildAllDataCatalog().forEach(function(item) {
     map.set(makeViewKey(item.src || item.thumb), item);
   });
-  allPortfolioCatalogMapCache = new Map(map);
   return map;
 }
 
@@ -1904,10 +1910,6 @@ function applyRankSnapshotToCurrentGrid() {
   var snapshot = getRankSnapshot();
   if (!snapshot || !snapshot.keys || !snapshot.keys.length) return;
   window.__rankSnapshotHydrated = true;
-  var rankIndexMap = new Map();
-  snapshot.keys.slice(0, 10).forEach(function(key, idx) {
-    rankIndexMap.set(key, idx);
-  });
 
   var cards = Array.from(document.querySelectorAll('#main-grid-top .art-card, #main-grid-bottom .art-card'));
   if (!cards.length) return;
@@ -1918,7 +1920,7 @@ function applyRankSnapshotToCurrentGrid() {
     if (!img) return;
     var src = img.getAttribute('src') || img.src || '';
     var key = makeViewKey(src);
-    var rankIdx = rankIndexMap.has(key) ? rankIndexMap.get(key) : -1;
+    var rankIdx = snapshot.keys.indexOf(key);
     if (rankIdx >= 0 && rankIdx < 10) {
       rankMap.set(card, rankIdx + 1);
     }
@@ -1969,7 +1971,7 @@ function renderGrid(data) {
     if (featuredContainer) featuredContainer.style.opacity = '1';
     if (sp) sp.style.display = 'block';
     applyRankSnapshotToCurrentGrid();
-    scheduleInfiniteScrollObserver();
+    requestAnimationFrame(setupInfiniteScrollObserver);
   } else {
     window.__rankSnapshotHydrated = false;
     topContainer.innerHTML = buildGridHTML(renderData, 0);
@@ -1978,7 +1980,7 @@ function renderGrid(data) {
     topContainer.style.opacity = '1';
     if (featuredContainer) featuredContainer.style.opacity = '1';
     if (sp) sp.style.display = isAll ? 'block' : 'none';
-    scheduleInfiniteScrollObserver();
+    requestAnimationFrame(setupInfiniteScrollObserver);
   }
 }
 
@@ -2001,8 +2003,6 @@ var lastAppendAt = 0;
 var recentAppendKeys = new Set();
 var isAutoFillingGrid = false;
 var gridBottomObserver = null;
-var isObserverSetupQueued = false;
-var isScrollAppendQueued = false;
 
 function isSentinelNearBottom() {
   var sentinel = document.getElementById('grid-bottom-sentinel');
@@ -2044,32 +2044,10 @@ function appendGrid(force) {
   setTimeout(function() {
     isAppendingGrid = false;
   }, 80);
-  scheduleInfiniteScrollObserver();
-  return true;
-}
-
-function scheduleInfiniteScrollObserver() {
-  if (isObserverSetupQueued) return;
-  isObserverSetupQueued = true;
   requestAnimationFrame(function() {
-    isObserverSetupQueued = false;
     setupInfiniteScrollObserver();
   });
-}
-
-function scheduleScrollAppendCheck() {
-  if (isScrollAppendQueued) return;
-  isScrollAppendQueued = true;
-  requestAnimationFrame(function() {
-    isScrollAppendQueued = false;
-    if (!isAllCategory() || isAppendingGrid || isAutoFillingGrid) return;
-    var scroller = getActiveScrollElement();
-    if (!scroller) return;
-    var distanceToBottom = scroller.scrollHeight - (scroller.scrollTop + scroller.clientHeight);
-    if (distanceToBottom > 900) return;
-    var appended = appendGrid(true);
-    if (appended) ensureBottomGridFilled(3);
-  });
+  return true;
 }
 
 function setupInfiniteScrollObserver() {
@@ -2089,17 +2067,21 @@ function setupInfiniteScrollObserver() {
 
   gridBottomObserver = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
-      if (!entry.isIntersecting || !isAllCategory() || isAppendingGrid || isAutoFillingGrid) return;
+      if (!entry.isIntersecting || !isAllCategory()) return;
       var appended = appendGrid(true);
+      ensureBottomGridFilled(4);
       if (appended) {
-        requestAnimationFrame(function() {
-          ensureBottomGridFilled(3);
-        });
+        setTimeout(function() {
+          if (isAllCategory() && isSentinelNearBottom()) {
+            appendGrid(true);
+            ensureBottomGridFilled(4);
+          }
+        }, 120);
       }
     });
   }, {
     root: observerRoot,
-    rootMargin: '0px 0px 1400px 0px',
+    rootMargin: '0px 0px 800px 0px',
     threshold: 0.01
   });
 
@@ -2496,7 +2478,7 @@ window.filterData = function(category, btnEl) {
       renderGrid(buildAllData());
     }
     injectSpotlight(category === 'ALL');
-    scheduleInfiniteScrollObserver();
+    requestAnimationFrame(setupInfiniteScrollObserver);
   }
 }
 
@@ -2507,10 +2489,6 @@ function initGrid() {
   renderGrid(buildAllData());
   mg.style.display = 'grid';
   document.getElementById('main-grid-bottom').style.display = 'grid';
-  requestAnimationFrame(function() {
-    ensureBottomGridFilled(3);
-    scheduleInfiniteScrollObserver();
-  });
   console.log('Grid initialized');
 }
 
@@ -2526,7 +2504,7 @@ function isAllCategory() {
 
 function getActiveScrollElement() {
   var scrollSec = document.querySelector('.scroll-section');
-  if (scrollSec && scrollSec.scrollHeight > scrollSec.clientHeight + 20) return scrollSec;
+  if (scrollSec) return scrollSec;
   return document.scrollingElement || document.documentElement || document.body;
 }
 
@@ -2548,18 +2526,29 @@ function shouldAppendForContainerScroll(container) {
   return container.scrollTop > Math.max(160, container.clientHeight * 0.2) && distanceToBottom <= 640;
 }
 
-// scroll listener 대신 observer 기반으로만 하단 추가 로딩 처리
+window.addEventListener('scroll', () => {
+  if (shouldAppendForWindowScroll()) {
+    appendGrid();
+    ensureBottomGridFilled(2);
+  }
+});
+
+// scroll-section 기준도 함께 감지 (레이아웃에 따라)
 const scrollSec = document.querySelector('.scroll-section');
 if (scrollSec) {
-  scrollSec.addEventListener('scroll', scheduleScrollAppendCheck, { passive: true });
+  scrollSec.addEventListener('scroll', () => {
+    if (shouldAppendForContainerScroll(scrollSec)) {
+      appendGrid();
+      ensureBottomGridFilled(3);
+    }
+  });
 }
-window.addEventListener('scroll', scheduleScrollAppendCheck, { passive: true });
 
 window.addEventListener('resize', function() {
   setTimeout(function() {
     syncFeaturedGridRows('main-grid-featured', 4);
-    syncFeaturedGridRows('main-grid-featured-bottom', 4);
-    scheduleInfiniteScrollObserver();
+    loadAllViewCounts();
+    setupInfiniteScrollObserver();
   }, 120);
 });
 
@@ -4053,7 +4042,7 @@ function applyRankLayout(rankMap) {
   });
 }
 function loadAllViewCounts() {
-  return;
+  applyRankSnapshotToCurrentGrid();
 }
 
 function loadViewCount(src, cardEl) {
@@ -4101,6 +4090,41 @@ function loadViewCount(src, cardEl) {
   };
 })();
 
+// 그리드 렌더 완료 후 카운터 로드 (renderGrid, appendGrid 후크)
+(function() {
+  var _origRenderGrid = window.renderGrid;
+  if (typeof _origRenderGrid === 'function') {
+    window.renderGrid = function(data) {
+      _origRenderGrid(data);
+      if (window.__skipRankReload) {
+        window.__skipRankReload = false;
+        return;
+      }
+      requestAnimationFrame(function() {
+        ensureBottomGridFilled(3);
+      });
+    };
+  }
+  var _origAppendGrid = window.appendGrid;
+  if (typeof _origAppendGrid === 'function') {
+    window.appendGrid = function(force) {
+      var appended = _origAppendGrid(force);
+      requestAnimationFrame(function() {
+        ensureBottomGridFilled(2);
+      });
+      return appended;
+    };
+  }
+})();
+
+// 초기 로드 시 카운터 로드
+document.addEventListener('DOMContentLoaded', function() {
+  applyRankSnapshotToCurrentGrid();
+  requestAnimationFrame(function() {
+    ensureBottomGridFilled(3);
+    setupInfiniteScrollObserver();
+  });
+});
 // ─────────────────────────────────────────────────────────────────────────────
 
 // 이메일 복사 함수

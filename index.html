@@ -1608,7 +1608,10 @@ function getPortfolioDateString(item) {
 }
 
 // ALL 포트폴리오용 데이터 생성 - 프로젝트당 이미지 1장씩
+var allPortfolioRenderCache = null;
+
 function buildAllData() {
+  if (allPortfolioRenderCache) return allPortfolioRenderCache.slice();
   var result = [];
   var usedThumbs = new Set();
 
@@ -1668,12 +1671,18 @@ function buildAllData() {
     if (c.thumb) addUnique({ key: c.key, category: c.cat, title: c.title, thumb: c.thumb, type: 'image', _origKey: c.key });
   });
 
-  return shuffleArray(result);
+  allPortfolioRenderCache = shuffleArray(result);
+  return allPortfolioRenderCache.slice();
 }
 
 var allPortfolioCatalogCache = null;
 var allPortfolioCatalogMapCache = null;
 var lastAppliedRankSnapshotSignature = '';
+var lastRankLayoutSignature = '';
+var allPortfolioChunkPool = null;
+var allPortfolioChunkCursor = 0;
+var artCardByKeyCache = null;
+var resizeSyncTimer = null;
 
 function buildAllDataCatalog() {
   if (allPortfolioCatalogCache) return allPortfolioCatalogCache.slice();
@@ -1868,12 +1877,31 @@ function getRenderedItemKeySet() {
   }));
 }
 
-function buildAllDataChunk(excludedKeySet, preferredCount) {
-  var catalog = shuffleArray(buildAllDataCatalog());
-  var available = catalog.filter(function(item) {
-    return !excludedKeySet.has(makeViewKey(item.src || item.thumb));
-  });
+function invalidateArtCardCache() {
+  artCardByKeyCache = null;
+}
 
+function getArtCardMap() {
+  if (artCardByKeyCache) return artCardByKeyCache;
+  var map = new Map();
+  document.querySelectorAll('.art-card').forEach(function(card) {
+    var img = card.querySelector('img');
+    if (!img) return;
+    var src = img.getAttribute('src') || img.src || '';
+    if (!src) return;
+    var key = makeViewKey(src);
+    if (!map.has(key)) map.set(key, card);
+  });
+  artCardByKeyCache = map;
+  return map;
+}
+
+function resetAllPortfolioChunkPool() {
+  allPortfolioChunkPool = shuffleArray(buildAllDataCatalog());
+  allPortfolioChunkCursor = 0;
+}
+
+function buildAllDataChunk(excludedKeySet, preferredCount) {
   var width = window.innerWidth || document.documentElement.clientWidth || 1920;
   var columns = 8;
   if (width <= 500) columns = 2;
@@ -1881,11 +1909,32 @@ function buildAllDataChunk(excludedKeySet, preferredCount) {
   else if (width <= 1200) columns = 6;
 
   var chunkSize = preferredCount || (columns * 2);
-  if (available.length) {
-    return available.slice(0, Math.min(chunkSize, available.length));
+  var result = [];
+  var localSeen = new Set();
+  var attempts = 0;
+
+  while (result.length < chunkSize && attempts < 2) {
+    if (!allPortfolioChunkPool || allPortfolioChunkCursor >= allPortfolioChunkPool.length) {
+      resetAllPortfolioChunkPool();
+      attempts += 1;
+    }
+    if (!allPortfolioChunkPool || !allPortfolioChunkPool.length) break;
+
+    while (allPortfolioChunkCursor < allPortfolioChunkPool.length && result.length < chunkSize) {
+      var item = allPortfolioChunkPool[allPortfolioChunkCursor++];
+      var itemKey = makeViewKey(item.src || item.thumb);
+      if (excludedKeySet.has(itemKey) || localSeen.has(itemKey)) continue;
+      localSeen.add(itemKey);
+      result.push(item);
+    }
   }
 
-  return catalog.slice(0, Math.min(chunkSize, catalog.length));
+  if (result.length) return result;
+
+  var catalog = buildAllDataCatalog();
+  return catalog.filter(function(item) {
+    return !excludedKeySet.has(makeViewKey(item.src || item.thumb));
+  }).slice(0, Math.min(chunkSize, catalog.length));
 }
 
 function prepareAllPortfolioRenderData(data) {
@@ -1982,6 +2031,9 @@ function renderGrid(data) {
   currentFilterData = [...renderData];
   currentRenderedItems = [...renderData];
   lastAppliedRankSnapshotSignature = '';
+  lastRankLayoutSignature = '';
+  invalidateArtCardCache();
+  resetAllPortfolioChunkPool();
 
   if (featuredContainer) {
     featuredContainer.innerHTML = '';
@@ -2073,6 +2125,7 @@ function appendGrid(force) {
   currentRenderedItems = currentRenderedItems.concat(moreData);
   var container = document.getElementById('main-grid-bottom');
   container.insertAdjacentHTML('beforeend', buildGridHTML(moreData, startIndex));
+  invalidateArtCardCache();
   recentAppendKeys = new Set(moreData.map(function(item) {
     return makeViewKey(item.src || item.thumb);
   }));
@@ -2495,8 +2548,20 @@ window.filterData = function(category, btnEl) {
         var channelsBar = document.querySelector('.channels-bar');
         if (topNav) stickyOffset += topNav.offsetHeight;
         if (channelsBar) stickyOffset += channelsBar.offsetHeight;
-        var elTop = el.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: elTop - stickyOffset - 8, behavior: 'smooth' });
+        var targetScroller = document.querySelector('.scroll-section') || getActiveScrollElement();
+        if (
+          targetScroller &&
+          targetScroller !== document.body &&
+          targetScroller !== document.documentElement &&
+          targetScroller !== document.scrollingElement
+        ) {
+          var rootRect = targetScroller.getBoundingClientRect();
+          var targetTop = targetScroller.scrollTop + (el.getBoundingClientRect().top - rootRect.top) - stickyOffset - 8;
+          targetScroller.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+        } else {
+          var elTop = el.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: elTop - stickyOffset - 8, behavior: 'smooth' });
+        }
       }, 80);
     }
   }
@@ -2593,10 +2658,12 @@ if (scrollSec) {
 window.addEventListener('scroll', scheduleScrollAppendCheck, { passive: true });
 
 window.addEventListener('resize', function() {
-  setTimeout(function() {
+  clearTimeout(resizeSyncTimer);
+  resizeSyncTimer = setTimeout(function() {
     syncFeaturedGridRows('main-grid-featured', 4);
     syncFeaturedGridRows('main-grid-featured-bottom', 4);
     scheduleInfiniteScrollObserver();
+    resizeSyncTimer = null;
   }, 120);
 });
 
@@ -3841,13 +3908,15 @@ function buildCounterHTML(count, rank) {
 }
 
 function findCardBySrc(src) {
-  var cards = document.querySelectorAll('.art-card');
+  if (!src) return null;
+  var key = makeViewKey(src);
+  var cardMap = getArtCardMap();
+  if (cardMap.has(key)) return cardMap.get(key);
   var found = null;
-  cards.forEach(function(card) {
-    var img = card.querySelector('img');
-    if (!img) return;
-    var imgSrc = img.getAttribute('src') || '';
-    if (imgSrc === src || imgSrc.includes(src) || src.includes(imgSrc)) found = card;
+  cardMap.forEach(function(card, cardKey) {
+    if (!found && (cardKey === key || cardKey.indexOf(key) !== -1 || key.indexOf(cardKey) !== -1)) {
+      found = card;
+    }
   });
   return found;
 }
@@ -3951,6 +4020,22 @@ function applyRankLayout(rankMap) {
 
   if (!rankedCards.length) return;
 
+  var columns = getFeaturedGridColumns();
+  var layoutSignature = [columns, allCards.length].concat(
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function(rank) {
+      var card = rankCardMap.get(rank);
+      if (!card) return '';
+      var img = card.querySelector('img');
+      var src = img ? (img.getAttribute('src') || img.src || '') : '';
+      return rank + ':' + makeViewKey(src);
+    })
+  ).join('|');
+
+  if (lastRankLayoutSignature === layoutSignature) {
+    return;
+  }
+  lastRankLayoutSignature = layoutSignature;
+
   var rankedSet = new Set(rankedCards);
   var remainingCards = allCards.filter(function(card) {
     return !rankedSet.has(card);
@@ -3963,7 +4048,6 @@ function applyRankLayout(rankMap) {
   var topRankCards = rankedCards.slice(0, 3);
   var bottomRankCards = rankedCards.slice(3, 6);
   var rankedFillerCards = rankedCards.slice(6, 10);
-  var columns = getFeaturedGridColumns();
   var topTemplates = [
     {
       rows: 4,
@@ -4052,32 +4136,38 @@ function applyRankLayout(rankMap) {
     return !bottomFillerSet.has(card);
   });
 
+  var topFragment = document.createDocumentFragment();
   topRankCards.forEach(function(card, idx) {
-    featuredGrid.appendChild(cloneFeaturedCard(card, selectedTopTemplate.slots[idx], idx + 1));
+    topFragment.appendChild(cloneFeaturedCard(card, selectedTopTemplate.slots[idx], idx + 1));
   });
   topFillerCards.forEach(function(card) {
-    featuredGrid.appendChild(card.cloneNode(true));
+    topFragment.appendChild(card.cloneNode(true));
   });
+  featuredGrid.appendChild(topFragment);
   if (featuredGrid.childElementCount > 0) {
     featuredGrid.classList.add('has-items');
     syncFeaturedGridRows(featuredGrid, topRows);
   }
 
+  var bottomFeaturedFragment = document.createDocumentFragment();
   bottomRankCards.forEach(function(card, idx) {
-    featuredBottomGrid.appendChild(cloneFeaturedCard(card, selectedBottomTemplate.slots[idx], idx + 3));
+    bottomFeaturedFragment.appendChild(cloneFeaturedCard(card, selectedBottomTemplate.slots[idx], idx + 4));
   });
   bottomFillerCards.forEach(function(card) {
-    featuredBottomGrid.appendChild(card.cloneNode(true));
+    bottomFeaturedFragment.appendChild(card.cloneNode(true));
   });
+  featuredBottomGrid.appendChild(bottomFeaturedFragment);
   if (featuredBottomGrid.childElementCount > 0) {
     featuredBottomGrid.classList.add('has-items');
     syncFeaturedGridRows(featuredBottomGrid, bottomRows);
   }
 
   bottomGrid.innerHTML = '';
+  var regularBottomFragment = document.createDocumentFragment();
   regularBottomCards.forEach(function(card) {
-    bottomGrid.appendChild(card);
+    regularBottomFragment.appendChild(card);
   });
+  bottomGrid.appendChild(regularBottomFragment);
 
   requestAnimationFrame(function() {
     syncFeaturedGridRows(featuredGrid, topRows);

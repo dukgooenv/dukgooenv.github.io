@@ -43,7 +43,7 @@
     color: #e7e3d4;
     font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
     height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
   }
@@ -92,7 +92,16 @@
   .scroll-section::-webkit-scrollbar-thumb:hover { background: #141418; }
 
   /* ── 2. MAIN CONTAINER & BANNERS ── */
-  .main-container { flex: 1; display: flex; flex-direction: column; max-width: 2000px; margin: 0 auto; width: 100%; }
+  .main-container {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width: 2000px;
+    margin: 0 auto;
+    width: 100%;
+  }
   
   .banner-carousel {
     display: flex; gap: 15px; padding-bottom: 10px; margin-bottom: 10px; width: 100%;
@@ -1664,6 +1673,7 @@ function buildAllData() {
 
 var allPortfolioCatalogCache = null;
 var allPortfolioCatalogMapCache = null;
+var lastAppliedRankSnapshotSignature = '';
 
 function buildAllDataCatalog() {
   if (allPortfolioCatalogCache) return allPortfolioCatalogCache.slice();
@@ -1903,27 +1913,52 @@ function prepareAllPortfolioRenderData(data) {
 function applyRankSnapshotToCurrentGrid() {
   var snapshot = getRankSnapshot();
   if (!snapshot || !snapshot.keys || !snapshot.keys.length) return;
-  window.__rankSnapshotHydrated = true;
+  var rankedKeys = snapshot.keys.slice(0, 10);
   var rankIndexMap = new Map();
-  snapshot.keys.slice(0, 10).forEach(function(key, idx) {
+  rankedKeys.forEach(function(key, idx) {
     rankIndexMap.set(key, idx);
   });
 
   var cards = Array.from(document.querySelectorAll('#main-grid-top .art-card, #main-grid-bottom .art-card'));
   if (!cards.length) return;
 
-  var rankMap = new Map();
+  var cardMeta = [];
+  var visibleKeys = [];
   cards.forEach(function(card) {
     var img = card.querySelector('img');
     if (!img) return;
     var src = img.getAttribute('src') || img.src || '';
     var key = makeViewKey(src);
+    cardMeta.push({
+      card: card,
+      key: key,
+      counterEl: card.querySelector('.art-counter')
+    });
+    visibleKeys.push(key);
+  });
+
+  var snapshotSignature = [
+    snapshot.savedAt || '',
+    rankedKeys.join('|'),
+    visibleKeys.join('|')
+  ].join('::');
+
+  if (window.__rankSnapshotHydrated && lastAppliedRankSnapshotSignature === snapshotSignature) {
+    return;
+  }
+
+  window.__rankSnapshotHydrated = true;
+  lastAppliedRankSnapshotSignature = snapshotSignature;
+
+  var rankMap = new Map();
+  cardMeta.forEach(function(meta) {
+    var key = meta.key;
     var rankIdx = rankIndexMap.has(key) ? rankIndexMap.get(key) : -1;
     if (rankIdx >= 0 && rankIdx < 10) {
-      rankMap.set(card, rankIdx + 1);
+      rankMap.set(meta.card, rankIdx + 1);
     }
 
-    var counterEl = card.querySelector('.art-counter');
+    var counterEl = meta.counterEl;
     if (!counterEl) return;
     var count = snapshot.counts ? (snapshot.counts[key] || 0) : 0;
     counterEl.setAttribute('data-count', count);
@@ -1946,6 +1981,7 @@ function renderGrid(data) {
   var renderData = (isAll ? prepareAllPortfolioRenderData(data) : (Array.isArray(data) ? data.slice() : []));
   currentFilterData = [...renderData];
   currentRenderedItems = [...renderData];
+  lastAppliedRankSnapshotSignature = '';
 
   if (featuredContainer) {
     featuredContainer.innerHTML = '';
@@ -2196,6 +2232,7 @@ function _singleImgShow() {
     ? '<div style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:#b8ff3a;letter-spacing:.08em;margin-bottom:6px;">' + item.date + '</div>'
     : '') + '<div>' + item.title + '</div>';
   viewer.style.display = 'flex';
+  recordView(item.src);
 }
 
 window.singleImgStep = function(dir) {
@@ -2609,7 +2646,7 @@ window.openLbImage = function(src, title, idx) {
 window.closeLb = function() {
   document.getElementById('lightbox').style.display = 'none';
   document.getElementById('lb-content').innerHTML = '';
-  document.body.style.overflow = 'auto';
+  document.body.style.overflow = '';
 }
 
 
@@ -3904,12 +3941,13 @@ function applyRankLayout(rankMap) {
   );
   if (!allCards.length) return;
 
-  var rankedCards = [];
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(function(rank) {
-    rankMap.forEach(function(value, card) {
-      if (value === rank && allCards.indexOf(card) !== -1) rankedCards.push(card);
-    });
+  var rankCardMap = new Map();
+  rankMap.forEach(function(value, card) {
+    if (!rankCardMap.has(value)) rankCardMap.set(value, card);
   });
+  var rankedCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function(rank) {
+    return rankCardMap.get(rank) || null;
+  }).filter(Boolean);
 
   if (!rankedCards.length) return;
 

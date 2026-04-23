@@ -1,5 +1,5 @@
 window.RANK_SNAPSHOT = {
-  savedAt: "2026-04-22",
+  savedAt: "2026-04-22T09:00:00+09:00",
   entries: [
     { key: "ReLighting_20240912_BMW_M4GTS_BMW_M4GTS_01_webp", count: 37 },
     { key: "Designer_20201025_SD_jpg", count: 29 },

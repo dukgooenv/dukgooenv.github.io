@@ -1581,13 +1581,14 @@ function buildGridHTML(data, startIndex) {
     if (dateMatch) dateStr = `${dateMatch[1]}.${dateMatch[2]}.${dateMatch[3]}`;
     let counter = realIdx + 1;
     let titleStr = p.title || '';
+    let isNew = isPortfolioItemNew(p);
 
     html += `
       <div class="art-card" onclick="${action}">
         <img src="${thumb}" onerror="${fallback}" loading="lazy">
         <div class="art-top-bar">
           <span class="art-date">${dateStr}</span>
-          <span class="art-counter"><span class="art-counter-check">✓</span>${counter}</span>
+          <span class="art-counter" data-is-new="${isNew ? '1' : '0'}"><span class="art-counter-check">✓</span>${counter}</span>
         </div>
         <div class="art-info">
           <div class="art-title">${titleStr}</div>
@@ -1605,6 +1606,44 @@ function getPortfolioDateString(item) {
   var dateMatch = key.match(/^(\d{4})(\d{2})(\d{2})/) || thumb.match(/\/(\d{4})(\d{2})(\d{2})_/);
   if (!dateMatch) return '';
   return dateMatch[1] + '.' + dateMatch[2] + '.' + dateMatch[3];
+}
+
+function parsePortfolioItemDate(item) {
+  if (!item) return null;
+
+  function parseDateString(raw) {
+    if (!raw || typeof raw !== 'string') return null;
+    var normalized = raw.trim();
+    if (!normalized) return null;
+
+    var dotted = normalized.match(/^(\d{4})[.\-/](\d{2})[.\-/](\d{2})$/);
+    if (dotted) {
+      return new Date(Number(dotted[1]), Number(dotted[2]) - 1, Number(dotted[3]));
+    }
+
+    var compact = normalized.match(/^(\d{4})(\d{2})(\d{2})$/);
+    if (compact) {
+      return new Date(Number(compact[1]), Number(compact[2]) - 1, Number(compact[3]));
+    }
+
+    var parsed = new Date(normalized);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  return parseDateString(item.publishedAt) ||
+    parseDateString(item.addedAt) ||
+    parseDateString(item.date) ||
+    parseDateString(getPortfolioDateString(item));
+}
+
+function isPortfolioItemNew(item) {
+  var itemDate = parsePortfolioItemDate(item);
+  if (!itemDate) return false;
+  var now = new Date();
+  var itemDay = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var diffDays = Math.floor((today.getTime() - itemDay.getTime()) / 86400000);
+  return diffDays >= 0 && diffDays <= 30;
 }
 
 // ALL 포트폴리오용 데이터 생성 - 프로젝트당 이미지 1장씩
@@ -2010,9 +2049,10 @@ function applyRankSnapshotToCurrentGrid() {
     var counterEl = meta.counterEl;
     if (!counterEl) return;
     var count = snapshot.counts ? (snapshot.counts[key] || 0) : 0;
+    var isNew = counterEl.getAttribute('data-is-new') === '1';
     counterEl.setAttribute('data-count', count);
     counterEl.setAttribute('data-rank', rankIdx >= 0 && rankIdx < 10 ? (rankIdx + 1) : 0);
-    counterEl.innerHTML = buildCounterHTML(count, rankIdx >= 0 && rankIdx < 10 ? (rankIdx + 1) : 0);
+    counterEl.innerHTML = buildCounterHTML(count, rankIdx >= 0 && rankIdx < 10 ? (rankIdx + 1) : 0, isNew);
   });
 
   applyRankLayout(rankMap);
@@ -2113,10 +2153,11 @@ function appendGrid(force) {
   if (!force && Date.now() - lastAppendAt < 500) return false;
   isAppendingGrid = true;
   var renderedKeys = getRenderedItemKeySet();
-  var moreData = buildAllDataChunk(recentAppendKeys, getFeaturedGridColumns() * 2);
-  if (!moreData.length) {
-    moreData = buildAllDataChunk(renderedKeys, getFeaturedGridColumns() * 2);
-  }
+  var excludedKeys = new Set(renderedKeys);
+  recentAppendKeys.forEach(function(key) {
+    excludedKeys.add(key);
+  });
+  var moreData = buildAllDataChunk(excludedKeys, getFeaturedGridColumns() * 2);
   if (!moreData.length) {
     isAppendingGrid = false;
     return false;
@@ -3890,18 +3931,24 @@ function getCountStyle(count) {
   if (count >= 100)  return { emoji: '😆', color: '#e79c16', bold: false };
   if (count >= 50)   return { emoji: '😊', color: '#d4b355', bold: false };
   if (count >= 10)   return { emoji: '😂', color: '#d0cbbe', bold: false };
-  return                    { emoji: 'NEW', color: '#8fce30', bold: true };
+  return                    { emoji: '', color: '#8fce30', bold: true };
 }
 
 function getRankEmoji(rank) {
   return ['💖','💗','💕','🧡','💚'][rank - 1] || '';
 }
 
-function buildCounterHTML(count, rank) {
+function buildCounterHTML(count, rank, isNew) {
   var style = getCountStyle(count);
   var rankEmoji = (rank >= 1 && rank <= 5) ? '<span class="art-rank-emoji">' + getRankEmoji(rank) + '</span>' : '';
-  var label = count < 10 ? 'NEW' : style.emoji + ' ' + count;
-  var countStr = (style.bold || count < 10)
+  if (isNew && count < 10) {
+    return rankEmoji + '<span class="art-new-badge">NEW</span>';
+  }
+  if (count < 10) {
+    return rankEmoji;
+  }
+  var label = style.emoji ? (style.emoji + ' ' + count) : String(count);
+  var countStr = style.bold
     ? '<strong style="color:' + style.color + '">' + label + '</strong>'
     : '<span style="color:' + style.color + '">' + label + '</span>';
   return rankEmoji + countStr;
@@ -3930,12 +3977,44 @@ function bumpCardCounter(src) {
   var newCount = current + 1;
   counterEl.setAttribute('data-count', newCount);
   var rank = parseInt(counterEl.getAttribute('data-rank') || '0', 10);
-  counterEl.innerHTML = buildCounterHTML(newCount, rank);
+  var isNew = counterEl.getAttribute('data-is-new') === '1';
+  counterEl.innerHTML = buildCounterHTML(newCount, rank, isNew);
+}
+
+function hasSessionViewRecorded(key) {
+  if (!key) return false;
+  try {
+    return sessionStorage.getItem('dukgoo_viewed_' + key) === '1';
+  } catch (e) {
+    return false;
+  }
+}
+
+function markSessionViewRecorded(key) {
+  if (!key) return;
+  try {
+    sessionStorage.setItem('dukgoo_viewed_' + key, '1');
+  } catch (e) {}
+}
+
+function clearSessionViewRecords() {
+  try {
+    var keysToRemove = [];
+    for (var i = 0; i < sessionStorage.length; i++) {
+      var key = sessionStorage.key(i);
+      if (key && key.indexOf('dukgoo_viewed_') === 0) keysToRemove.push(key);
+    }
+    keysToRemove.forEach(function(key) {
+      sessionStorage.removeItem(key);
+    });
+  } catch (e) {}
 }
 
 function recordView(src) {
   if (!src || !db) return;
   const key = makeViewKey(src);
+  if (hasSessionViewRecorded(key)) return;
+  markSessionViewRecorded(key);
   const ref = db.collection('imageViews').doc(key);
   ref.set({ count: firebase.firestore.FieldValue.increment(1), src: src }, { merge: true })
     .catch(function(e) { console.warn('Firestore write error:', e); });
@@ -4191,8 +4270,9 @@ function loadViewCount(src, cardEl) {
     const count = doc.exists ? (doc.data().count || 0) : 0;
     const counterEl = cardEl.querySelector('.art-counter');
     if (counterEl) {
+      var isNew = counterEl.getAttribute('data-is-new') === '1';
       counterEl.setAttribute('data-count', count);
-      counterEl.innerHTML = buildCounterHTML(count, 0);
+      counterEl.innerHTML = buildCounterHTML(count, 0, isNew);
     }
   }).catch(function(e) { console.warn('Firestore read error:', e); });
 }

@@ -2,7 +2,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "update:rank-snapshot": "node scripts/update-rank-snapshot.mjs"
+    "update:rank-snapshot": "node scripts/update-rank-snapshot.mjs",
+    "reset:view-counts": "node scripts/reset-view-counts.mjs"
   },
   "dependencies": {
     "firebase-admin": "^13.0.0"

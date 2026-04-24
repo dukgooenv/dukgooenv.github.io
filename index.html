@@ -286,7 +286,7 @@
 
 
   /* ── PERSONAL WORKS PAGE ── */
-  #personal-works-container { display: none; padding: 10px 0 80px 0; animation: fadeIn 0.4s; }
+  #personal-works-container { display: none; padding: 10px 0 18px 0; animation: fadeIn 0.4s; }
 
   /* ── PROFESSIONAL CONTAINER ── */
   #professional-container { display: none; padding: 0 40px 80px 40px; animation: fadeIn 0.4s; }
@@ -415,7 +415,7 @@
 
   /* 카드 그리드 */
   /* Make Personal Works grid match main portfolio (square cards, no heavy frames) */
-  .pw-project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 20px 80px 20px; }
+  .pw-project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 20px 18px 20px; }
   @media(max-width: 1200px) { .pw-project-grid { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width: 600px) { .pw-project-grid { grid-template-columns: repeat(1, 1fr); } }
 
@@ -567,6 +567,102 @@
   .prof-section-header .section-desc-en,
   .pw-section-header .section-desc-en { margin-bottom: 28px; }
   .pw-empty-msg { color: #555; font-family: var(--font-mono); font-size: 13px; padding: 40px 0; text-align: center; letter-spacing: .1em; }
+  .pw-footer {
+    margin: 18px 20px 0;
+    padding: 14px 0 10px;
+    border-top: 1px solid rgba(120, 120, 118, 0.28);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+  }
+  .pw-footer-center {
+    text-align: center;
+  }
+  .pw-footer-copy {
+    font-size: 12px;
+    color: #787876;
+    line-height: 1.7;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .pw-footer-links {
+    display: flex;
+    align-items: center;
+  }
+  .pw-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #787876;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+    transition: color .18s ease;
+  }
+  .pw-footer-link:hover {
+    color: #c9a961;
+  }
+  .pw-footer-link-mark {
+    display: inline-block;
+    color: #787876;
+    font-size: 12px;
+    line-height: 1.7;
+    transition: color .18s ease;
+  }
+  .pw-footer-link-back .pw-footer-link-mark {
+    animation: pwArrowNudge 1.4s ease-in-out infinite;
+  }
+  .pw-footer-link:hover .pw-footer-link-mark { color: inherit; }
+  @keyframes pwArrowNudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-4px); }
+  }
+  .copy-toast {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    padding: 14px 18px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(10,10,12,0.94);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, calc(-50% + 8px));
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 7000;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  }
+  .copy-toast.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  .copy-email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+  @media(max-width: 900px) {
+    .pw-footer {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+    .pw-footer-links {
+      justify-content: center;
+    }
+    .pw-footer-center {
+      order: -1;
+    }
+  }
 
   /* ── RE:LIGHTING 구분선 헤더 ── */
   .pw-divider-section {
@@ -874,16 +970,16 @@
 
     <div class="channels-bar" style="display: flex; justify-content: center; align-items: center; width: 100%;">
       <div class="channels-left" style="display: flex; gap: 12px; align-items: center;">
-        <div class="channel-pill" onclick="filterData('ALL', this)">
+        <div class="channel-pill" id="channel-pill-all" onclick="filterData('ALL', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_001.jpg" alt="ALL"></div><span class="pill-label">ALL Portfolio</span>
         </div>
-        <div class="channel-pill" onclick="showAboutSection(); document.querySelectorAll('.channel-pill').forEach(b=>b.classList.remove('active')); this.classList.add('active');">
+        <div class="channel-pill" id="channel-pill-about" onclick="showAboutSection(); document.querySelectorAll('.channel-pill').forEach(b=>b.classList.remove('active')); this.classList.add('active');">
           <div class="channel-icon-img"><img src="images/Icon/Icon_011.jpg" alt="About"></div><span class="pill-label">About</span>
         </div>
-        <div class="channel-pill" onclick="filterData('PRO', this)">
+        <div class="channel-pill" id="channel-pill-pro" onclick="filterData('PRO', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_003.jpg" alt="Pro"></div><span class="pill-label">Professional</span>
         </div>
-        <div class="channel-pill" onclick="filterData('PERSONAL', this)">
+        <div class="channel-pill" id="channel-pill-personal" onclick="filterData('PERSONAL', this)">
           <div class="channel-icon-img"><img src="images/Icon/Icon_005.jpg" alt="Personal"></div><span class="pill-label">Personal Works</span>
         </div>
         <div class="channel-pill" onclick="filterData('RELIGHT', this)">
@@ -1037,11 +1133,11 @@
                 <span style="font-family: var(--font-mono); font-size: 11px; font-weight: bold; color: #141418; letter-spacing: .2em;">VIEW PROFILE</span>
               </div>
               <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a onclick="filterData('PERSONAL', document.querySelector('.channel-pill:nth-child(4)'))" style="display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
+                <a onclick="openAboutWorksLink()" style="display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
                   <span style="font-family: var(--font-mono); font-size: 12px; color: #888;">├─</span>
                   <span style="font-family: var(--font-mono); font-size: 13px; color: #888;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#888'">Works</span>
                 </a>
-                <a onclick="filterData('PRO', document.querySelector('.channel-pill:nth-child(3)'))" style="display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
+                <a onclick="openAboutProfessionalLink()" style="display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none;">
                   <span style="font-family: var(--font-mono); font-size: 12px; color: #888;">└─</span>
                   <span style="font-family: var(--font-mono); font-size: 13px; color: #888;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#888'">Professional</span>
                 </a>
@@ -1061,7 +1157,7 @@
             <!-- NCSoft -->
             <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #666; padding-bottom: 30px; width: calc(100% + 150px); margin-right: -150px; padding-right: 150px;">
               <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_05 · 2021—2024</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">NCSoft - Project M</div>
+              <div onclick="openAboutProfessionalProject('ncsoft')" style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; display: inline-block; cursor: pointer; transition: color .18s;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#e7e3d4'">NCSoft - Project M</div>
               <div style="font-family: var(--font-head); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PlayStation 5 / Interactive Adventure / Alpha</div>
               <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting · Tech Doc · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1079,7 +1175,7 @@
             <!-- Line Games -->
             <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #666; padding-bottom: 30px; width: calc(100% + 150px); margin-right: -150px; padding-right: 150px;">
               <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_04 · 2018—2020</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Line Games - The War of Genesis : Remnants of Gray</div>
+              <div onclick="openAboutProfessionalProject('changse')" style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; display: inline-block; cursor: pointer; transition: color .18s;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#e7e3d4'">Line Games - The War of Genesis : Remnants of Gray</div>
               <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">Nintendo Switch / SRPG / Alpha</div>
               <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Lead Environment Artist · Level Design · Integration · Lighting · Outsourcing · Feedback</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1094,7 +1190,7 @@
             <!-- Nexon Korea -->
             <div style="margin-bottom: 30px; padding: 0; border-bottom: 1px solid #666; padding-bottom: 30px; width: calc(100% + 150px); margin-right: -150px; padding-right: 150px;">
               <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_03 · 2017—2018</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Nexon Korea - Ascendant One</div>
+              <div onclick="openAboutProfessionalProject('nexon')" style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; display: inline-block; cursor: pointer; transition: color .18s;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#e7e3d4'">Nexon Korea - Ascendant One</div>
               <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PC Online / MOBA / Open Beta</div>
               <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Asset Modeling · Textures</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1109,7 +1205,7 @@
             <!-- XLGames -->
             <div style="margin-bottom: 30px; padding: 0;">
               <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_02 · 2017—2017</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">XLGames - Civilization Online</div>
+              <div onclick="openAboutProfessionalProject('xlgames')" style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; display: inline-block; cursor: pointer; transition: color .18s;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#e7e3d4'">XLGames - Civilization Online</div>
               <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PC Online / MMORPG / Open Beta</div>
               <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Senior Environment Artist · Integration · Lighting</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1124,7 +1220,7 @@
             <div style="margin-bottom: 30px; padding: 0;">
               <div style="height: 1px; background: #666; margin: 0 0 30px 0; width: calc(100% + 150px); margin-right: -150px;"></div>
               <div style="font-family: var(--font-mono); font-size: 10px; color: #888; letter-spacing: .2em; margin-bottom: 6px;">PROJ_01 · 2005—2016</div>
-              <div style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px;">Early Career Foundation (Multiple Studios)</div>
+              <div onclick="openAboutProfessionalProject('multiplestudios')" style="font-family: var(--font-head); font-size: 18px; font-weight: 700; color: #e7e3d4; margin-bottom: 4px; display: inline-block; cursor: pointer; transition: color .18s;" onmouseover="this.style.color='#c9a961'" onmouseout="this.style.color='#e7e3d4'">Early Career Foundation (Multiple Studios)</div>
               <div style="font-family: var(--font-mono); font-size: 14px; color: #c9a961; margin-bottom: 10px; letter-spacing: .03em;">PC Online / Mobile / Various Titles</div>
               <div style="font-family: var(--font-head); font-size: 12px; color: #888; margin-bottom: 15px; letter-spacing: .04em;">Environment Artist · 3D Modeling · Background Design</div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1247,8 +1343,8 @@
           <div id="prof-filter-bar" style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; gap:10px; align-items:center;">
             <!-- placeholder for symmetry with other headers -->
           </div>
-          <div class="section-desc-ko" style="display:flex; align-items:baseline; gap:6px;"><span style="flex-shrink:0;">🔒</span><span><strong>NDA</strong>로 인해 공개가 제한된 상업 프로젝트는 일부 공개가 제한됩니다. 상세 포트폴리오는 이메일로 문의 주세요. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></span></div>
-          <div class="section-desc-en" style="padding-left:calc(17px + 1.6em);">Some commercial project details are under <strong>NDA</strong> and cannot be fully disclosed. Please contact via email for the complete portfolio. — <a href="mailto:dukgooenv@gmail.com">Email ✉</a></div>
+          <div class="section-desc-ko" style="display:flex; align-items:baseline; gap:6px;"><span style="flex-shrink:0;">🔒</span><span><strong>NDA</strong>로 인해 공개가 제한된 상업 프로젝트는 일부 공개가 제한됩니다. 상세 포트폴리오는 이메일로 문의 주세요. — <a href="#" class="copy-email-link" onclick="copyEmail(); return false;">Email ✉</a></span></div>
+          <div class="section-desc-en" style="padding-left:calc(17px + 1.6em);">Some commercial project details are under <strong>NDA</strong> and cannot be fully disclosed. Please contact via email for the complete portfolio. — <a href="#" class="copy-email-link" onclick="copyEmail(); return false;">Email ✉</a></div>
         </div>
 
         <!-- 카드 그리드: 1행 2개 -->
@@ -1275,6 +1371,23 @@
 
         <!-- 카드 그리드 (JS로 렌더링) -->
         <div class="pw-project-grid" id="pw-project-grid"></div>
+
+        <div class="pw-footer">
+          <div class="pw-footer-links">
+            <a class="pw-footer-link pw-footer-link-back" onclick="scrollToPortfolioTop()">
+              <span class="pw-footer-link-mark">←</span>
+              <span>Back to top</span>
+            </a>
+          </div>
+          <div class="pw-footer-center">
+            <div class="pw-footer-copy">© 2026 DukGoo · All Rights Reserved · Environment Artist</div>
+          </div>
+          <div class="pw-footer-links">
+            <a class="pw-footer-link pw-footer-link-email" onclick="copyEmail()">
+              <span>Email ✉</span>
+            </a>
+          </div>
+        </div>
 
       </div><!-- end personal-works-container -->
 
@@ -1406,7 +1519,7 @@
           <div id="lb-title" style="font-size:20px; font-weight:800; font-family:'Oswald', sans-serif; text-transform:uppercase; color:#fff;">PROJECT TITLE</div>
           <div style="font-size:13px; color:#aaa; font-family:'Noto Sans KR', sans-serif;">DukGoo</div>
           <div style="font-size:12px; color:#FFD700; font-family:'IBM Plex Mono', monospace; margin-top:4px;">// Senior Environment Artist</div>
-          <div style="font-size:12px; color:#aaa; font-family:'IBM Plex Mono', monospace; margin-top:6px;">Contact: <a href="mailto:dukgooenv@gmail.com" style="color:#FFD700; text-decoration:none;">Email ✉</a></div>
+          <div style="font-size:12px; color:#aaa; font-family:'IBM Plex Mono', monospace; margin-top:6px;">Contact: <a href="#" class="copy-email-link" onclick="copyEmail(); return false;" style="color:#FFD700; text-decoration:none;">Email ✉</a></div>
         </div>
       </div>
       <div style="display:flex; gap:15px; align-items:center;">
@@ -2410,7 +2523,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 window.showAboutSection = function() {
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  scrollAppToTop();
   aboutBgLoaded = false;
   document.getElementById('about-container').style.display = 'block';
   document.getElementById('main-grid-top').style.display = 'none';
@@ -2643,6 +2756,21 @@ window.filterData = function(category, btnEl) {
   }
 }
 
+window.openAboutWorksLink = function() {
+  var personalBtn = document.getElementById('channel-pill-personal');
+  filterData('PERSONAL', personalBtn);
+};
+
+window.openAboutProfessionalLink = function() {
+  var proBtn = document.getElementById('channel-pill-pro');
+  filterData('PRO', proBtn);
+};
+
+window.openAboutProfessionalProject = function(key) {
+  returnToAboutOnProfClose = true;
+  openProfLb(key, 0);
+};
+
 // 초기 렌더링
 function initGrid() {
   const mg = document.getElementById('main-grid-top');
@@ -2653,6 +2781,9 @@ function initGrid() {
   requestAnimationFrame(function() {
     ensureBottomGridFilled(3);
     scheduleInfiniteScrollObserver();
+    showAboutSection();
+    var aboutBtn = document.getElementById('channel-pill-about');
+    if (aboutBtn) aboutBtn.classList.add('active');
   });
   console.log('Grid initialized');
 }
@@ -2671,6 +2802,21 @@ function getActiveScrollElement() {
   var scrollSec = document.querySelector('.scroll-section');
   if (scrollSec && scrollSec.scrollHeight > scrollSec.clientHeight + 20) return scrollSec;
   return document.scrollingElement || document.documentElement || document.body;
+}
+
+function scrollAppToTop() {
+  var scroller = getActiveScrollElement();
+  if (
+    scroller &&
+    scroller !== document.body &&
+    scroller !== document.documentElement &&
+    scroller !== document.scrollingElement &&
+    typeof scroller.scrollTo === 'function'
+  ) {
+    scroller.scrollTo({ top: 0, behavior: 'instant' });
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function shouldAppendForWindowScroll() {
@@ -3628,6 +3774,7 @@ if (document.readyState === 'loading') {
 }
 
 var profProjectOrder = ['ncsoft', 'changse', 'nexon', 'xlgames', 'multiplestudios', 'cookapps'];
+var returnToAboutOnProfClose = false;
 
 window.openProfLb = function(key, idx) {
   profCurrent = profProjects[key];
@@ -3664,6 +3811,12 @@ window.closeProfLb = function() {
   main.querySelectorAll('iframe').forEach(function(f) { f.src = ''; });
   var prev = main.querySelector('.prof-lb-video-wrap, .prof-lb-img-el');
   if (prev) prev.remove();
+  if (returnToAboutOnProfClose) {
+    returnToAboutOnProfClose = false;
+    showAboutSection();
+    var aboutBtn = document.getElementById('channel-pill-about');
+    if (aboutBtn) aboutBtn.classList.add('active');
+  }
 };
 
 window.profLbStep = function(dir) {
@@ -4311,17 +4464,46 @@ function loadViewCount(src, cardEl) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+var copyToastTimer = null;
+
+function showCopyToast(message) {
+  var toast = document.getElementById('copy-toast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('visible');
+  if (copyToastTimer) clearTimeout(copyToastTimer);
+  copyToastTimer = setTimeout(function() {
+    toast.classList.remove('visible');
+  }, 1800);
+}
+
+function scrollToPortfolioTop() {
+  var scrollRoot = document.querySelector('.scroll-section') || (typeof getActiveScrollElement === 'function' ? getActiveScrollElement() : null) || document.scrollingElement || document.documentElement || document.body;
+  if (
+    scrollRoot &&
+    scrollRoot !== document.body &&
+    scrollRoot !== document.documentElement &&
+    scrollRoot !== document.scrollingElement &&
+    typeof scrollRoot.scrollTo === 'function'
+  ) {
+    scrollRoot.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // 이메일 복사 함수
 function copyEmail() {
   const email = 'dukgoo.env@gmail.com';
   navigator.clipboard.writeText(email).then(function() {
-    alert(email + ' 복사되었습니다!');
-  }).catch(function(err) {
-    alert('복사에 실패했습니다.');
+    showCopyToast('Email copied.');
+  }).catch(function() {
+    showCopyToast('Copy failed.');
   });
 }
 
 </script>
+<div id="copy-toast" class="copy-toast">Email copied.</div>
 </body>
 </html>
 

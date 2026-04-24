@@ -1,10 +1,15 @@
 window.RANK_SNAPSHOT = {
-  savedAt: "2026-04-24T11:53:57+09:00",
+  savedAt: "2026-04-24T15:31:17+09:00",
   entries: [
-    { key: "ReLighting_20240912_BMW_M4GTS_BMW_M4GTS_01_webp", count: 0 },
-    { key: "Designer_20201025_SD_jpg", count: 0 },
-    { key: "Designer_20210809_SD_jpg", count: 0 },
-    { key: "Personal_20201124_RockStudy_Rock_Final_001_webp", count: 0 },
-    { key: "Personal_20180927_Desert_Rocks_Desert_Rocks_001_webp", count: 0 }
+    { key: "Professional_2021_NCSOFT_2021_NCSOFT_ProjectM_017_webp", count: 1 },
+    { key: "Professional_2021_NCSOFT_2021_NCSOFT_ProjectM_011_webp", count: 1 },
+    { key: "Professional_2021_NCSOFT_2021_NCSOFT_ProjectM_010_webp", count: 1 },
+    { key: "Professional_2021_NCSOFT_2021_NCSOFT_ProjectM_009_webp", count: 1 },
+    { key: "Professional_2018_NexonKorea_2018_Nexon_AscendantOne_042_webp", count: 1 },
+    { key: "Professional_2018_NexonKorea_2018_Nexon_AscendantOne_023_webp", count: 1 },
+    { key: "Professional_2018_NexonKorea_2018_Nexon_AscendantOne_017_webp", count: 1 },
+    { key: "Professional_2017_XLGAMES_2017_XLGAMES_X3_001_webp", count: 1 },
+    { key: "Personal_20150914_Dungeon_2015_Forsaken_Dungeon_001_webp", count: 1 },
+    { key: "Personal_20111008_PPSh-41_2011_PPSH41_001_webp", count: 1 }
   ]
 };

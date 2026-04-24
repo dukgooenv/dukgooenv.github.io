@@ -232,13 +232,13 @@
   .art-card.ranked-size-6 { grid-row: span 2; aspect-ratio: auto; height: 100%; }
   
   .art-card img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s, transform 0.3s; display: block; }
-  .art-card:hover img { filter: brightness(0.45); transform: scale(1.04); }
+  .art-card:hover img { filter: brightness(0.68); transform: scale(1.04); }
 
   /* 상단 날짜 + 카운터 — 호버 시만 보임 */
   .art-top-bar {
-    position: absolute; top: 0; left: 0; width: 100%;
+    position: absolute; top: 0; right: 0;
     padding: 8px 10px;
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: flex-end; align-items: center;
     background: none;
     pointer-events: none;
     opacity: 0; transition: opacity 0.2s;
@@ -277,6 +277,10 @@
     color: #e0dfdf; line-height: 1.2;
     letter-spacing: 0.01em;
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .art-info .art-date {
+    display: block;
+    margin-bottom: 4px;
   }
   .art-author { display: none; }
   .art-likes { display: none; }
@@ -346,7 +350,7 @@
   .prof-card-thumb img {
     width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; transition: transform .35s, filter .3s; pointer-events: none;
   }
-  .prof-card:hover .prof-card-thumb img { transform: scale(1.04); filter: brightness(0.45); }
+  .prof-card:hover .prof-card-thumb img { transform: scale(1.04); filter: brightness(0.68); }
   .prof-card-badge {
     position: absolute; top: 8px; left: 8px;
     font-family: var(--font-mono); font-size: 10px;
@@ -425,7 +429,7 @@
   .pw-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
   .pw-thumb-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
   .pw-thumb { width: 100%; height: 100%; object-fit: cover; transition: filter .3s, transform .3s; display: block; }
-  .pw-card:hover .pw-thumb { filter: brightness(0.45); transform: scale(1.04); }
+  .pw-card:hover .pw-thumb { filter: brightness(0.68); transform: scale(1.04); }
   .pw-count-badge {
     position: absolute; top: 8px; left: 8px;
     font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 9px;
@@ -1701,10 +1705,10 @@ function buildGridHTML(data, startIndex) {
       <div class="art-card" onclick="${action}">
         <img src="${thumb}" onerror="${fallback}" loading="lazy">
         <div class="art-top-bar">
-          <span class="art-date">${dateStr}</span>
           <span class="art-counter" data-is-new="${isNew ? '1' : '0'}" data-count="0" data-rank="0">${initialCounterHtml}</span>
         </div>
         <div class="art-info">
+          <div class="art-date">${dateStr}</div>
           <div class="art-title">${titleStr}</div>
         </div>
       </div>
@@ -2448,6 +2452,17 @@ window.singleImgStep = function(dir) {
   _singleImgShow();
 };
 
+function singleImgStepRandom() {
+  if (!singleImgList.length || singleImgList.length <= 1) return;
+  var candidates = [];
+  for (var i = 0; i < singleImgList.length; i++) {
+    if (i !== singleImgIdx) candidates.push(i);
+  }
+  if (!candidates.length) return;
+  singleImgIdx = candidates[Math.floor(Math.random() * candidates.length)];
+  _singleImgShow();
+}
+
 window.closeSingleImg = function() {
   document.getElementById('single-img-viewer').style.display = 'none';
   document.getElementById('single-img-el').src = '';
@@ -2522,6 +2537,26 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'ArrowRight') singleImgStep(1);
   if (e.key === 'ArrowLeft') singleImgStep(-1);
 });
+
+var singleWheelAcc = 0, singleWheelTimer = null, singleWheelAnimating = false;
+document.addEventListener('wheel', function(e) {
+  var viewer = document.getElementById('single-img-viewer');
+  if (!viewer || viewer.style.display !== 'flex') return;
+  var img = document.getElementById('single-img-el');
+  if (img && e.target === img && singleZoomed) return;
+  e.preventDefault();
+  singleWheelAcc += e.deltaY;
+  clearTimeout(singleWheelTimer);
+  if (Math.abs(singleWheelAcc) > 80) {
+    if (!singleWheelAnimating) {
+      singleWheelAnimating = true;
+      singleImgStepRandom();
+      setTimeout(function() { singleWheelAnimating = false; }, 320);
+    }
+    singleWheelAcc = 0;
+  }
+  singleWheelTimer = setTimeout(function() { singleWheelAcc = 0; }, 240);
+}, { passive: false });
 
 window.showAboutSection = function() {
   scrollAppToTop();
@@ -3476,7 +3511,10 @@ function _pwLbRender() {
     img.src = '';
     img.alt = currentItem.title || proj.title || '';
     videoBox.style.display = 'block';
-    videoBox.innerHTML = '<iframe src="https://www.youtube.com/embed/' + currentItem.videoId + '?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1" style="width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen"></iframe>';
+    videoBox.innerHTML = '<div style="position:relative;width:100%;height:100%;">'
+      + '<iframe src="https://www.youtube.com/embed/' + currentItem.videoId + '?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1" style="width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen"></iframe>'
+      + '<div class="prof-lb-wheel-overlay"></div>'
+      + '</div>';
     badge.classList.remove('visible');
   } else {
     videoBox.style.display = 'none';
@@ -3549,6 +3587,16 @@ function buildPwProjectOrder() {
   pwProjectOrder = pwProjectOrder.filter(function(k) { return pwProjects[k]; });
 }
 
+function getPwCategoryOrder(category) {
+  return pwAllCards.filter(function(card) {
+    return card.cat === category && pwProjects[card.key];
+  }).slice().sort(function(a, b) {
+    return String(b.date || '').replace(/\./g,'') - String(a.date || '').replace(/\./g,'');
+  }).map(function(card) {
+    return card.key;
+  });
+}
+
 window.pwLbNext = function() {
   var card = getPwCardByKey(pwLbCurrentKey);
   if (card && (card.cat === 'SKETCH' || card.cat === 'DESIGNER')) {
@@ -3558,11 +3606,14 @@ window.pwLbNext = function() {
     _pwLbRender();
     return;
   }
-  if (!pwProjectOrder.length) buildPwProjectOrder();
-  var idx = pwProjectOrder.indexOf(pwLbCurrentKey);
+  var categoryOrder = getPwCategoryOrder(card ? card.cat : '');
+  if (!categoryOrder.length) {
+    if (!pwProjectOrder.length) buildPwProjectOrder();
+    categoryOrder = pwProjectOrder;
+  }
+  var idx = categoryOrder.indexOf(pwLbCurrentKey);
   if (idx === -1) return;
-  var nextKey = pwProjectOrder[(idx + 1) % pwProjectOrder.length];
-  openPwLb(nextKey, 0);
+  openPwLb(categoryOrder[(idx + 1) % categoryOrder.length], 0);
 };
 
 window.pwLbPrev = function() {
@@ -3574,11 +3625,14 @@ window.pwLbPrev = function() {
     _pwLbRender();
     return;
   }
-  if (!pwProjectOrder.length) buildPwProjectOrder();
-  var idx = pwProjectOrder.indexOf(pwLbCurrentKey);
+  var categoryOrder = getPwCategoryOrder(card ? card.cat : '');
+  if (!categoryOrder.length) {
+    if (!pwProjectOrder.length) buildPwProjectOrder();
+    categoryOrder = pwProjectOrder;
+  }
+  var idx = categoryOrder.indexOf(pwLbCurrentKey);
   if (idx === -1) return;
-  var prevKey = pwProjectOrder[(idx - 1 + pwProjectOrder.length) % pwProjectOrder.length];
-  openPwLb(prevKey, 0);
+  openPwLb(categoryOrder[(idx - 1 + categoryOrder.length) % categoryOrder.length], 0);
 };
 
 // 줌 & 드래그 — 개인작업 (회사와 완전 동일 구조)
@@ -3940,11 +3994,13 @@ window.profLbStep = function(dir) {
 
 function profLbNextProject() {
   var idx = profProjectOrder.indexOf(currentProfId);
+  if (idx === -1) return;
   var nextId = profProjectOrder[(idx + 1) % profProjectOrder.length];
   openProfLb(nextId, 0);
 }
 function profLbPrevProject() {
   var idx = profProjectOrder.indexOf(currentProfId);
+  if (idx === -1) return;
   var prevId = profProjectOrder[(idx - 1 + profProjectOrder.length) % profProjectOrder.length];
   openProfLb(prevId, 0);
 }

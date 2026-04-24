@@ -1579,16 +1579,16 @@ function buildGridHTML(data, startIndex) {
     let dateStr = '';
     let dateMatch = (p.key || '').match(/^(\d{4})(\d{2})(\d{2})/) || (p.thumb || '').match(/\/(\d{4})(\d{2})(\d{2})_/);
     if (dateMatch) dateStr = `${dateMatch[1]}.${dateMatch[2]}.${dateMatch[3]}`;
-    let counter = realIdx + 1;
     let titleStr = p.title || '';
     let isNew = isPortfolioItemNew(p);
+    let initialCounterHtml = isNew ? '<span class="art-new-badge">NEW</span>' : '';
 
     html += `
       <div class="art-card" onclick="${action}">
         <img src="${thumb}" onerror="${fallback}" loading="lazy">
         <div class="art-top-bar">
           <span class="art-date">${dateStr}</span>
-          <span class="art-counter" data-is-new="${isNew ? '1' : '0'}"><span class="art-counter-check">✓</span>${counter}</span>
+          <span class="art-counter" data-is-new="${isNew ? '1' : '0'}" data-count="0" data-rank="0">${initialCounterHtml}</span>
         </div>
         <div class="art-info">
           <div class="art-title">${titleStr}</div>

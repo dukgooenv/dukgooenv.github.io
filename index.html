@@ -1465,9 +1465,10 @@
       <div style="display:flex; flex:1; overflow:hidden;">
         <!-- 좌측 이미지 영역 -->
         <div class="prof-lb-main" id="pw-lb-main" style="flex:1;">
+          <div id="pw-lb-video" style="display:none; width:100%; height:100%;"></div>
           <img id="pw-lb-img" style="display:block; max-width:100%; max-height:100%; width:100%; height:100%; object-fit:contain; transition:opacity .18s ease; cursor:zoom-in;" src="" alt="">
-          <button class="prof-lb-nav-prev" onclick="pwLbGoTo(Math.max(0, window._pwLbCurrentIdx-1))">‹</button>
-          <button class="prof-lb-nav-next" onclick="pwLbGoTo(Math.min(pwProjects[pwLbCurrentKey].images.length-1, window._pwLbCurrentIdx+1))">›</button>
+          <button class="prof-lb-nav-prev" onclick="pwLbPrev()">‹</button>
+          <button class="prof-lb-nav-next" onclick="pwLbNext()">›</button>
           <div class="prof-lb-dots" id="pw-lb-dots"></div>
           <div class="prof-lb-zoom-badge" id="pw-lb-zoom-badge">🔍 100%</div>
         </div>
@@ -3010,6 +3011,7 @@ var pwAllCards = [
   // ── RELIGHT ──
   { key:'pw-bmwm4',    cat:'RELIGHT',  date:'2024.09.12', title:'BMW M4 GTS Re:Lighting',          sub:'Automotive Lighting',      count:'3 images',      thumb:'images/ReLighting/20240912_BMW_M4GTS/BMW_M4GTS_Thumb.webp' },
   { key:'pw-genesis',  cat:'RELIGHT',  date:'2024.10.27', title:'GENESIS G70 Re:Lighting',         sub:'Automotive Lighting',      count:'5 images',      thumb:'images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_Thumb.webp' },
+  { key:'pw-sk-reel',     cat:'SKETCH', date:'2026.04.24', title:'Sketch Note Reel',               sub:'Sketch Note',              count:'1 video',       thumb:'https://img.youtube.com/vi/pN8D77P5_3A/maxresdefault.jpg', videoId:'pN8D77P5_3A', externalUrl:'https://youtu.be/pN8D77P5_3A' },
   { key:'pw-sk-village',  cat:'SKETCH', date:'2005.04.01', title:'Village Sketch',                 sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20050401_village.webp' },
   { key:'pw-sk-prop',     cat:'SKETCH', date:'2011.07.21', title:'Prop Final Sketch',              sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20110721_Prop_Final.webp' },
   { key:'pw-sk-stone',    cat:'SKETCH', date:'2013.03.15', title:'Stone Final Sketch',             sub:'Sketch Note',              count:'1 image',       thumb:'images/SketchNote/20130315_Stone_final.webp' },
@@ -3118,6 +3120,16 @@ var pwProjects = {
     id: '// RELIGHT · 2024.10.27', title: 'GENESIS G70 Re:Lighting',
     images: Array.from({length: 5}, (_, i) => `images/ReLighting/20241027_GENESIS_G70/GENESIS_G70_${String(i+1).padStart(2,'0')}.webp`)
   },
+  'pw-sk-reel': {
+    id: '// SKETCH · 2026.04.24', title: 'Sketch Note Reel', sub: 'Sketch Note',
+    items: [{ type: 'video', videoId: 'pN8D77P5_3A', thumb: 'https://img.youtube.com/vi/pN8D77P5_3A/maxresdefault.jpg' }]
+  },
+  'pw-sk-village':   { id:'// SKETCH · 2005.04.01', title:'Village Sketch',    sub:'Sketch Note', images:['images/SketchNote/20050401_village.webp'] },
+  'pw-sk-prop':      { id:'// SKETCH · 2011.07.21', title:'Prop Final Sketch', sub:'Sketch Note', images:['images/SketchNote/20110721_Prop_Final.webp'] },
+  'pw-sk-stone':     { id:'// SKETCH · 2013.03.15', title:'Stone Final Sketch',sub:'Sketch Note', images:['images/SketchNote/20130315_Stone_final.webp'] },
+  'pw-sk-jewelry':   { id:'// SKETCH · 2014.09.12', title:'Jewelry Box',       sub:'Sketch Note', images:['images/SketchNote/20140912_Jewelry_Box.gif'] },
+  'pw-sk-lava':      { id:'// SKETCH · 2015.11.29', title:'Lava Field',        sub:'Sketch Note', images:['images/SketchNote/20151129_Lava_Field.gif'] },
+  'pw-sk-box':       { id:'// SKETCH · 2016.06.02', title:'Box Study',         sub:'Sketch Note', images:['images/SketchNote/20160602_Box.gif'] },
   'pw-sd-20190128': { id:'// DESIGNER · 2019.01.28', title:'SD Study 190128',   images:['images/Designer/20190128_SD.jpg'] },
   'pw-sd-20190220': { id:'// DESIGNER · 2019.02.20', title:'SD Study 190220',   images:['images/Designer/20190220_SD.jpg'] },
   'pw-sd-20190301': { id:'// DESIGNER · 2019.03.01', title:'SD Study 190301',   images:['images/Designer/20190301_SD.jpg'] },
@@ -3208,6 +3220,11 @@ function pwRenderGrid(cat) {
     var showHint    = (c.cat !== 'SKETCH' && c.cat !== 'DESIGNER');
     var showBadge   = (c.cat !== 'SKETCH' && c.cat !== 'DESIGNER');
     var showTitle   = (c.cat !== 'DESIGNER');
+    var clickHandler = 'openPwLb(\'' + c.key + '\', 0)';
+    var thumbOnerror = '';
+    if (c.videoId) {
+      thumbOnerror = ' onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + c.videoId + '/hqdefault.jpg\';"';
+    }
     var overlayHTML = '';
     if (c.cat === 'DESIGNER') {
       // 날짜만 표시
@@ -3220,9 +3237,9 @@ function pwRenderGrid(cat) {
         (showTitle ? '<div class="pw-hover-title">' + c.title + '</div>' : '') +
         '</div>';
     }
-    return '<div class="pw-card' + (isSquare ? ' pw-square' : '') + '" onclick="openPwLb(\'' + c.key + '\', 0)">' +
+    return '<div class="pw-card' + (isSquare ? ' pw-square' : '') + '" onclick="' + clickHandler + '">' +
       '<div class="pw-thumb-wrap">' +
-        '<img class="pw-thumb" loading="lazy" src="' + c.thumb + '" alt="' + c.title + '">' +
+        '<img class="pw-thumb" loading="lazy" src="' + c.thumb + '"' + thumbOnerror + ' alt="' + c.title + '">' +
         (showBadge && c.count ? '<div class="pw-count-badge">' + c.count + '</div>' : '') +
         (showHint ? '<div class="pw-media-hint">' + gridIcon + hint + '</div>' : '') +
         overlayHTML +
@@ -3338,17 +3355,67 @@ function pwInit() {
 var pwLbCurrentKey = '';
 var pwLbCurrentIdx = 0;
 var pwLbZoomed = false;
+var pwLbCurrentProject = null;
+
+function getPwProjectItems(proj) {
+  if (!proj) return [];
+  if (Array.isArray(proj.items) && proj.items.length) return proj.items;
+  return (proj.images || []).map(function(src) {
+    return { type: 'image', src: src };
+  });
+}
+
+function getPwCardByKey(key) {
+  return pwAllCards.find(function(card) { return card.key === key; }) || null;
+}
+
+function buildPwGroupedProject(category, activeKey) {
+  var cards = pwAllCards.filter(function(card) { return card.cat === category; }).slice().sort(function(a, b) {
+    return String(b.date || '').replace(/\./g,'') - String(a.date || '').replace(/\./g,'');
+  });
+  var items = cards.map(function(card) {
+    var baseProject = pwProjects[card.key] || {};
+    var baseItems = getPwProjectItems(baseProject);
+    var firstItem = baseItems[0] || {};
+    return {
+      key: card.key,
+      type: card.videoId ? 'video' : (firstItem.type || 'image'),
+      videoId: card.videoId || firstItem.videoId || null,
+      src: firstItem.src || card.thumb,
+      thumb: card.thumb || firstItem.thumb || firstItem.src,
+      title: card.title,
+      sub: card.sub,
+      id: '// ' + category + ' · ' + card.date
+    };
+  });
+  return {
+    id: '// ' + category + ' ARCHIVE',
+    title: category === 'SKETCH' ? 'Sketch Note' : 'Designer',
+    sub: category === 'SKETCH' ? 'Sketch Note Archive' : 'Designer Archive',
+    items: items,
+    startIdx: Math.max(0, items.findIndex(function(item) { return item.key === activeKey; }))
+  };
+}
+
+function resolvePwLightboxProject(key) {
+  var card = getPwCardByKey(key);
+  if (card && (card.cat === 'SKETCH' || card.cat === 'DESIGNER')) {
+    return buildPwGroupedProject(card.cat, key);
+  }
+  var proj = pwProjects[key];
+  if (!proj) return null;
+  return proj;
+}
 
 window.openPwLb = function(key, startIdx) {
-  var proj = pwProjects[key];
+  var proj = resolvePwLightboxProject(key);
   if (!proj) return;
+  var items = getPwProjectItems(proj);
+  if (!items.length) return;
   pwLbCurrentKey = key;
-  pwLbCurrentIdx = startIdx || 0;
+  pwLbCurrentProject = proj;
+  pwLbCurrentIdx = typeof proj.startIdx === 'number' ? proj.startIdx : (startIdx || 0);
   pwLbZoomed = false;
-  document.getElementById('pw-lb-overlay-id').textContent = proj.id;
-  document.getElementById('pw-lb-overlay-title').textContent = proj.title;
-  var subEl = document.getElementById('pw-lb-overlay-sub');
-  if (subEl) subEl.textContent = proj.sub || '';
 
   var tagsEl = document.getElementById('pw-lb-tags-row');
   if (tagsEl) {
@@ -3369,9 +3436,17 @@ window.openPwLb = function(key, startIdx) {
   // 썸네일 패널 빌드 — prof-lb-thumb-item 클래스 재사용
   var thumbsEl = document.getElementById('pw-lb-thumbs');
   if (thumbsEl) {
-    thumbsEl.innerHTML = proj.images.map(function(src, i) {
+    thumbsEl.innerHTML = items.map(function(item, i) {
+      var thumbSrc = item.thumb || (item.type === 'video'
+        ? 'https://img.youtube.com/vi/' + item.videoId + '/hqdefault.jpg'
+        : item.src);
+      var thumbOnerror = item.type === 'video'
+        ? ' onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + item.videoId + '/hqdefault.jpg\';"'
+        : '';
+      var playIcon = item.type === 'video' ? '<div class="prof-lb-thumb-play">▶</div>' : '';
       return '<div class="prof-lb-thumb-item' + (i === 0 ? ' active' : '') + '" onclick="pwLbGoTo(' + i + ')" data-idx="' + i + '">'
-        + '<img src="' + src + '" loading="lazy" alt="">'
+        + '<img src="' + thumbSrc + '"' + thumbOnerror + ' loading="lazy" alt="">'
+        + playIcon
         + '</div>';
     }).join('');
   }
@@ -3381,25 +3456,45 @@ window.openPwLb = function(key, startIdx) {
 };
 
 function _pwLbRender() {
-  var proj = pwProjects[pwLbCurrentKey];
-  var imgs = proj.images;
+  var proj = pwLbCurrentProject || resolvePwLightboxProject(pwLbCurrentKey);
+  var items = getPwProjectItems(proj);
+  if (!items.length) return;
+  var currentItem = items[pwLbCurrentIdx];
+  document.getElementById('pw-lb-overlay-id').textContent = currentItem.id || proj.id || '';
+  document.getElementById('pw-lb-overlay-title').textContent = currentItem.title || proj.title || '';
+  var subEl = document.getElementById('pw-lb-overlay-sub');
+  if (subEl) subEl.textContent = currentItem.sub || proj.sub || '';
   var img = document.getElementById('pw-lb-img');
-  img.src = imgs[pwLbCurrentIdx];
-  img.alt = proj.title;
+  var videoBox = document.getElementById('pw-lb-video');
+  img.alt = currentItem.title || proj.title || '';
   img.classList.remove('zoomed');
   img.style.transform = '';
   pwLbZoomed = false;
   var badge = document.getElementById('pw-lb-zoom-badge');
-  badge.textContent = '🔍 100%';
-  badge.classList.remove('visible');
-  document.getElementById('pw-lb-counter').textContent = (pwLbCurrentIdx + 1) + ' / ' + imgs.length;
+  if (currentItem.type === 'video') {
+    img.style.display = 'none';
+    img.src = '';
+    img.alt = currentItem.title || proj.title || '';
+    videoBox.style.display = 'block';
+    videoBox.innerHTML = '<iframe src="https://www.youtube.com/embed/' + currentItem.videoId + '?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1" style="width:100%;height:100%;border:0;" allow="autoplay; encrypted-media; fullscreen"></iframe>';
+    badge.classList.remove('visible');
+  } else {
+    videoBox.style.display = 'none';
+    videoBox.innerHTML = '';
+    img.style.display = 'block';
+    img.src = currentItem.src;
+    img.alt = proj.title;
+    badge.textContent = '🔍 100%';
+    badge.classList.remove('visible');
+  }
+  document.getElementById('pw-lb-counter').textContent = (pwLbCurrentIdx + 1) + ' / ' + items.length;
   window._pwLbCurrentIdx = pwLbCurrentIdx;
 
   // dots 업데이트
   var dotsEl = document.getElementById('pw-lb-dots');
   if (dotsEl) {
-    var maxDots = Math.min(imgs.length, 20);
-    dotsEl.innerHTML = imgs.slice(0, maxDots).map(function(_, i) {
+    var maxDots = Math.min(items.length, 20);
+    dotsEl.innerHTML = items.slice(0, maxDots).map(function(_, i) {
       return '<div class="prof-lb-dot' + (i === pwLbCurrentIdx ? ' active' : '') +
         '" onclick="pwLbGoTo(' + i + ')"></div>';
     }).join('');
@@ -3431,8 +3526,11 @@ window.pwLbGoTo = function(idx) {
 };
 
 window.closePwLb = function() {
+  var videoBox = document.getElementById('pw-lb-video');
+  if (videoBox) videoBox.innerHTML = '';
   document.getElementById('pw-lb').classList.remove('active');
   pwLbCurrentKey = '';
+  pwLbCurrentProject = null;
 };
 
 // 현재 렌더된 pw 카드 순서 추적
@@ -3452,6 +3550,14 @@ function buildPwProjectOrder() {
 }
 
 window.pwLbNext = function() {
+  var card = getPwCardByKey(pwLbCurrentKey);
+  if (card && (card.cat === 'SKETCH' || card.cat === 'DESIGNER')) {
+    var items = getPwProjectItems(pwLbCurrentProject);
+    if (!items.length) return;
+    pwLbCurrentIdx = (pwLbCurrentIdx + 1) % items.length;
+    _pwLbRender();
+    return;
+  }
   if (!pwProjectOrder.length) buildPwProjectOrder();
   var idx = pwProjectOrder.indexOf(pwLbCurrentKey);
   if (idx === -1) return;
@@ -3460,6 +3566,14 @@ window.pwLbNext = function() {
 };
 
 window.pwLbPrev = function() {
+  var card = getPwCardByKey(pwLbCurrentKey);
+  if (card && (card.cat === 'SKETCH' || card.cat === 'DESIGNER')) {
+    var items = getPwProjectItems(pwLbCurrentProject);
+    if (!items.length) return;
+    pwLbCurrentIdx = (pwLbCurrentIdx - 1 + items.length) % items.length;
+    _pwLbRender();
+    return;
+  }
   if (!pwProjectOrder.length) buildPwProjectOrder();
   var idx = pwProjectOrder.indexOf(pwLbCurrentKey);
   if (idx === -1) return;
@@ -3959,11 +4073,17 @@ document.addEventListener('wheel', function(e) {
   if (Math.abs(pwScrollAcc) > 80) {
     if (!pwIsAnimating) {
       pwIsAnimating = true;
-      var imgs = pwProjects[pwLbCurrentKey] ? pwProjects[pwLbCurrentKey].images : [];
+      var imgs = pwLbCurrentProject ? getPwProjectItems(pwLbCurrentProject) : [];
+      var currentCard = getPwCardByKey(pwLbCurrentKey);
+      var isGrouped = currentCard && (currentCard.cat === 'SKETCH' || currentCard.cat === 'DESIGNER');
       if (pwScrollAcc > 0) {
-        pwLbCurrentIdx = Math.min(pwLbCurrentIdx + 1, imgs.length - 1);
+        pwLbCurrentIdx = isGrouped
+          ? (pwLbCurrentIdx + 1) % imgs.length
+          : Math.min(pwLbCurrentIdx + 1, imgs.length - 1);
       } else {
-        pwLbCurrentIdx = Math.max(pwLbCurrentIdx - 1, 0);
+        pwLbCurrentIdx = isGrouped
+          ? (pwLbCurrentIdx - 1 + imgs.length) % imgs.length
+          : Math.max(pwLbCurrentIdx - 1, 0);
       }
       _pwLbRender();
       setTimeout(function() { pwIsAnimating = false; }, 350);

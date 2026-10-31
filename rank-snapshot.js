@@ -1,5 +1,5 @@
 window.RANK_SNAPSHOT = {
-  savedAt: "2026-10-30T14:16:25+09:00",
+  savedAt: "2026-10-31T13:59:27+09:00",
   entries: [
     { key: "Professional_2021_NCSOFT_2021_NCSOFT_ProjectM_001_webp", count: 10 },
     { key: "Professional_2021_NCSOFT_2021_NCSOFT_ProjectM_017_webp", count: 9 },
